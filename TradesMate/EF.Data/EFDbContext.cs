@@ -25,9 +25,13 @@ namespace EF.Data
        {
          
        }
-       
-       protected override void OnModelCreating(DbModelBuilder modelBuilder)
+
+     
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
        {
+
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             // var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
             //.Where(type => !String.IsNullOrEmpty(type.Namespace))

@@ -8,3 +8,13 @@ C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\bin\Debug\EntityFr
 C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\obj\Debug\EF.Data.csprojResolveAssemblyReference.cache
 C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\obj\Debug\EF.Data.dll
 C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\obj\Debug\EF.Data.pdb
+C:\Tutorial\TradesMate\EF.Data\bin\Debug\EF.Data.dll.config
+C:\Tutorial\TradesMate\EF.Data\bin\Debug\EF.Data.dll
+C:\Tutorial\TradesMate\EF.Data\bin\Debug\EF.Data.pdb
+C:\Tutorial\TradesMate\EF.Data\bin\Debug\EntityFramework.dll
+C:\Tutorial\TradesMate\EF.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Tutorial\TradesMate\EF.Data\bin\Debug\EntityFramework.xml
+C:\Tutorial\TradesMate\EF.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Tutorial\TradesMate\EF.Data\obj\Debug\EF.Data.csprojResolveAssemblyReference.cache
+C:\Tutorial\TradesMate\EF.Data\obj\Debug\EF.Data.dll
+C:\Tutorial\TradesMate\EF.Data\obj\Debug\EF.Data.pdb
