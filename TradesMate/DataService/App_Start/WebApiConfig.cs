@@ -32,8 +32,13 @@ namespace DataService
             builder.EntitySet<Client>("Clients");
             builder.EntitySet<Address>("Addresses");
             builder.EntitySet<Property>("Properties");
-            config.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
+            builder.EntitySet<WorkItem>("WorkItems");
 
+       
+            builder.EntitySet<WorkItemTemplate>("WorkItemTemplates");
+            builder.EntitySet<Section>("Sections");
+            builder.EntitySet<Company>("Companies");
+            config.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
 
 
 
