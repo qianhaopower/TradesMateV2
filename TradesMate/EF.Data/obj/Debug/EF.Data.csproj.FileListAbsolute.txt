@@ -1,0 +1,10 @@
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\bin\Debug\EF.Data.dll.config
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\bin\Debug\EF.Data.dll
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\bin\Debug\EF.Data.pdb
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\bin\Debug\EntityFramework.dll
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\bin\Debug\EntityFramework.xml
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\obj\Debug\EF.Data.csprojResolveAssemblyReference.cache
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\obj\Debug\EF.Data.dll
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.Data\obj\Debug\EF.Data.pdb

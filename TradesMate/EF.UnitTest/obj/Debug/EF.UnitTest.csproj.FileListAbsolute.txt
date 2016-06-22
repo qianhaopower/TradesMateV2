@@ -1,0 +1,14 @@
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\bin\Debug\EF.UnitTest.dll.config
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\bin\Debug\EF.UnitTest.dll
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\bin\Debug\EF.UnitTest.pdb
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\bin\Debug\EF.Data.dll
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\bin\Debug\EntityFramework.dll
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\bin\Debug\EF.Data.pdb
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\bin\Debug\EntityFramework.xml
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\obj\Debug\EF.UnitTest.csprojResolveAssemblyReference.cache
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\obj\Debug\EF.UnitTest.dll
+C:\Users\haoq\Downloads\RelationshipEF\RelationshipEF\EF.UnitTest\obj\Debug\EF.UnitTest.pdb
