@@ -152,7 +152,25 @@ angular
       .state('dashboard.grid',{
        templateUrl:'views/ui-elements/grid.html',
        url:'/grid'
-   })
+      })
+
+   //start from here
+      .state('dashboard.clients', {
+          templateUrl: 'views/clients.html',
+          url: '/clients'
+      })
+       .state('dashboard.properties', {
+           templateUrl: 'views/properties.html',
+           url: '/properties'
+       })
+       .state('dashboard.property-sections', {
+           templateUrl: 'views/property-sections.html',
+           url: '/property-sections'
+       })
+       .state('dashboard.workitems', {
+           templateUrl: 'views/workitems.html',
+           url: '/workitems'
+       })
   }]);
 
     
