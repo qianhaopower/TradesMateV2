@@ -6,8 +6,69 @@
         <!-- /.col-lg-12 -->
     </div>
     <!-- /.row -->
-</div>  
+</div>
 
 <div>
-This page should list all the clients
+    This page should list all the clients
+</div>
+
+<div class="">
+    <form class="form-horizontal">
+
+        <div class="row">
+
+            <div class="row ">
+
+                <div class="col-md-8 com-xs-6">
+                    <div class="input-group">
+                        <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ng-click=""><i class="fa fa-plus-circle "></i> Add new client</button>
+                    </div>
+                </div>
+                <div class="col-md-4 com-xs-6">
+                    <div class="input-group">
+                        <input type="text" placeholder="Search personnel name" class="input-sm form-control" ng-model="searchText">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Address</th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+
+                <tbody>
+
+                    <tr ng-repeat="person in personnelList | filter:searchText">
+
+                        <td class=""
+                                        <i class="fa fa-user"></i>
+                        </td>
+                        <td class="">
+                            <a>{{person.first_name}} {{person.last_name}}</a>
+                            <br />
+
+                            <small>{{person.email}}</small>
+                        </td>
+                        <td class="">
+                            {{person.Address}}
+                        </td>
+                        <td class="">
+                            <a class="btn btn-white btn-sm" ng-click="openClientDetail(person)"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-white btn-sm" ng-click="deletePersonnel(person)"><i class="fa fa-trash-o"></i></a>
+                        </td>
+
+                    </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </form>
 </div>

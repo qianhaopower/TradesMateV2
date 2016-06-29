@@ -82,12 +82,25 @@ angular
           loadMyFiles:function($ocLazyLoad) {
             return $ocLazyLoad.load({
               name:'sbAdminApp',
-              files:[
+              files: [
+              //controllers
               'scripts/controllers/main.js',
+              'scripts/controllers/clientController.js',
+              'scripts/controllers/propertyController.js',
+              'scripts/controllers/propertySectionController.js',
+              'scripts/controllers/workItemController.js',
+
+               //services
+              'scripts/services/clientDataService.js',
+
+
+              //directives
               'scripts/directives/timeline/timeline.js',
               'scripts/directives/notifications/notifications.js',
               'scripts/directives/chat/chat.js',
               'scripts/directives/dashboard/stats/stats.js'
+             
+
               ]
             })
           }
@@ -157,18 +170,33 @@ angular
    //start from here
       .state('dashboard.clients', {
           templateUrl: 'views/clients.html',
-          url: '/clients'
+          controller: 'clientController',
+          url: '/clients',
+          resolve: {
+              loadMyFiles: function ($ocLazyLoad) {
+                  return $ocLazyLoad.load({
+                      name: 'sbAdminApp',
+                      files: [
+                      'scripts/controllers/clientController.js',
+                      'scripts/services/clientDataService.js',
+                      ]
+                  })
+              }
+          }
       })
        .state('dashboard.properties', {
            templateUrl: 'views/properties.html',
+           controller: 'propertyController',
            url: '/properties'
        })
        .state('dashboard.property-sections', {
            templateUrl: 'views/property-sections.html',
+           controller: 'propertySectionController',
            url: '/property-sections'
        })
        .state('dashboard.workitems', {
            templateUrl: 'views/workitems.html',
+           controller: 'workItemController',
            url: '/workitems'
        })
   }]);
