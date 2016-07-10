@@ -15,7 +15,7 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
         getAllClients: function () {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Clients';//Odata is case sensitive
+            var path = baseURL + '/Clients?$expand=address';//Odata is case sensitive
             var error = 'Error happened when getting clients';  
             $http({
                 method: 'GET',
