@@ -27,7 +27,7 @@ function ($scope, clientDataService, Notification, $state, $stateParams) {
 
 
     var init = function () {
-        $scope.client = $stateParams.test;
+        $scope.client = $stateParams.myParam;
         //clientDataService.getAllClients().then(function (result) {
         //    $scope.clientlist = result;
         //}, function (error) { Notification.error({ message: error, delay: 1000 }); });

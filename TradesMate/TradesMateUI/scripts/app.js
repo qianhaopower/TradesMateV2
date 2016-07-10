@@ -193,6 +193,7 @@ angular
                    templateUrl: 'views/clientDetail.html',
                    controller: 'clientDetailController',
                    url: '/client/create',
+                   params: { myParam: null }
                    //resolve: {
                    //    loadMyFiles: function ($ocLazyLoad) {
                    //        return $ocLazyLoad.load({
