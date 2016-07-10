@@ -177,18 +177,34 @@ angular
                 templateUrl: 'views/clients.html',
                 controller: 'clientController',
                 url: '/clients',
-                resolve: {
-                    loadMyFiles: function ($ocLazyLoad) {
-                        return $ocLazyLoad.load({
-                            name: 'sbAdminApp',
-                            files: [
-                            'scripts/controllers/clientController.js',
-                            'scripts/services/clientDataService.js',
-                            ]
-                        })
-                    }
-                }
+                //resolve: {
+                //    loadMyFiles: function ($ocLazyLoad) {
+                //        return $ocLazyLoad.load({
+                //            name: 'sbAdminApp',
+                //            files: [
+                //            'scripts/controllers/clientController.js',
+                //            'scripts/services/clientDataService.js',
+                //            ]
+                //        })
+                //    }
+                //}
             })
+               .state('dashboard.createClient', {
+                   templateUrl: 'views/clientDetail.html',
+                   controller: 'clientDetailController',
+                   url: '/client/create',
+                   //resolve: {
+                   //    loadMyFiles: function ($ocLazyLoad) {
+                   //        return $ocLazyLoad.load({
+                   //            name: 'sbAdminApp',
+                   //            files: [
+                   //            'scripts/controllers/clientDetailController.js',
+                   //            'scripts/services/clientDataService.js',
+                   //            ]
+                   //        })
+                   //    }
+                   //}
+               })
              .state('dashboard.properties', {
                  templateUrl: 'views/properties.html',
                  controller: 'propertyController',

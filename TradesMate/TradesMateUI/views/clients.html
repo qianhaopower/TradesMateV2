@@ -8,9 +8,7 @@
     <!-- /.row -->
 </div>
 
-<div>
-    This page should list all the clients
-</div>
+
 
 <div class="">
     <form class="form-horizontal">
@@ -26,7 +24,7 @@
                 </div>
                 <div class="col-md-4 com-xs-6">
                     <div class="input-group">
-                        <input type="text" placeholder="Search personnel name" class="input-sm form-control" ng-model="searchText">
+                        <input type="text" placeholder="Search personnel name" class="input-sm form-control" ng-model="filterTextModel.searchText">
                     </div>
                 </div>
             </div>
@@ -45,13 +43,13 @@
 
                 <tbody>
 
-                    <tr ng-repeat="client in clientlist | filter:searchText">
+                    <tr ng-repeat="client in clientlist | filter:search">
 
-                        <td class=""
-                                        <i class="fa fa-user"></i>
+                        <td>
+                            <i class="fa fa-user"></i>
                         </td>
                         <td class="">
-                            <a>{{client.firstName}} {{person.surName}}</a>
+                            <a>{{client.firstName}} {{client.surName}}</a>
                             <br />
 
                             <small>{{client.email}}</small>

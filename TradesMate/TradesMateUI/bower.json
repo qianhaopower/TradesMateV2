@@ -2,15 +2,15 @@
   "name": "sb-admin",
   "version": "0.0.0",
   "dependencies": {
-    "angular": "1.2.16",
+    "angular": "1.5.7",
     "json3": "~3.3.1",
     "es5-shim": "~3.1.0",
-    "angular-resource": "1.2.16",
-    "angular-cookies": "1.2.16",
-    "angular-sanitize": "1.2.16",
-    "angular-animate": "1.2.16",
-    "angular-touch": "1.2.16",
-    "angular-route": "1.2.16",
+    "angular-resource": "1.5.7",
+    "angular-cookies": "1.5.7",
+    "angular-sanitize": "1.5.7",
+    "angular-animate": "1.5.7",
+    "angular-touch": "1.5.7",
+    "angular-route": "1.5.7",
     "font-awesome": "4.3.0",
     "angular-bootstrap": "0.12.0",
     "oclazyload": "~0.5.2",
@@ -22,8 +22,8 @@
     "angular-ui-notification": "^0.2.0"
   },
   "devDependencies": {
-    "angular-mocks": "1.2.16",
-    "angular-scenario": "1.2.16"
+    "angular-mocks": "1.5.7",
+    "angular-scenario": "1.5.7"
   },
   "resolutions": {
     "bootstrap": "~3.1.1"
