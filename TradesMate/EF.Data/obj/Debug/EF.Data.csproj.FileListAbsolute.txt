@@ -18,3 +18,12 @@ C:\Tutorial\TradesMate\EF.Data\bin\Debug\EntityFramework.SqlServer.xml
 C:\Tutorial\TradesMate\EF.Data\obj\Debug\EF.Data.csprojResolveAssemblyReference.cache
 C:\Tutorial\TradesMate\EF.Data\obj\Debug\EF.Data.dll
 C:\Tutorial\TradesMate\EF.Data\obj\Debug\EF.Data.pdb
+C:\Tutorial\TradesMateV2\TradesMate\EF.Data\bin\Debug\EF.Data.dll.config
+C:\Tutorial\TradesMateV2\TradesMate\EF.Data\bin\Debug\EF.Data.dll
+C:\Tutorial\TradesMateV2\TradesMate\EF.Data\bin\Debug\EF.Data.pdb
+C:\Tutorial\TradesMateV2\TradesMate\EF.Data\bin\Debug\EntityFramework.dll
+C:\Tutorial\TradesMateV2\TradesMate\EF.Data\bin\Debug\EntityFramework.SqlServer.dll
+C:\Tutorial\TradesMateV2\TradesMate\EF.Data\bin\Debug\EntityFramework.xml
+C:\Tutorial\TradesMateV2\TradesMate\EF.Data\bin\Debug\EntityFramework.SqlServer.xml
+C:\Tutorial\TradesMateV2\TradesMate\EF.Data\obj\Debug\EF.Data.dll
+C:\Tutorial\TradesMateV2\TradesMate\EF.Data\obj\Debug\EF.Data.pdb

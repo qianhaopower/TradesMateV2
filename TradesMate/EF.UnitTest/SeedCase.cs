@@ -17,44 +17,8 @@ namespace EF.UnitTest
 
             using (var context = new EFDbContext())
             {
-
-                //Address address1 = new Address
-                //{
-                //    City = "Melbourne",
-                //    Line1 = "46 Lincoln Drive",
-                //    Line2 = "Cheltenham",
-                //    PostCode = "3192",
-                //    State = "VIC",
-                //    Suburb ="Cheltenham",
-                    
-
-                //    AddedDate = DateTime.Now,
-                //    ModifiedDate = DateTime.Now,
-                //};
-
-                //context.Entry(address1).State = EntityState.Added;
-                ////context.SaveChanges();
-
-
-                //Address address2 = new Address
-                //{
-                //    City = "Melbourne",
-                //    Line1 = "18 Clayton Rd",
-                //    Line2 = "Clayton",
-                //    PostCode = "3168",
-                //    State = "VIC",
-                //    Suburb = "Clayton",
-
-
-                //    AddedDate = DateTime.Now,
-                //    ModifiedDate = DateTime.Now,
-                //};
-
-                //context.Entry(address2).State = EntityState.Added;
-                ////context.SaveChanges();
-
-
-                //client
+                #region client
+                
                 // context.Database.Create();
                 Client client = new Client
                 {
@@ -79,9 +43,120 @@ namespace EF.UnitTest
                 };
 
                 context.Entry(client).State = EntityState.Added;
-                context.SaveChanges();
+               
 
 
+                Client client2 = new Client
+                {
+                    FirstName = "Joe",
+                    SurName = "Smith",
+                    Email = "Smith@gmail.com",
+                    MobileNumber = "0454112547",
+                    Description = "Joe Smith has a lot of protential work at his house",
+                    Address = new Address()
+                    {
+                        City = "Melbourne",
+                        Line1 = "573 North Rd",
+                        Line2 = "Springvale",
+                        PostCode = "3156",
+                        State = "VIC",
+                        Suburb = "Springvale",
+
+
+                        AddedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                    },
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(client2).State = EntityState.Added;
+                
+
+
+
+                Client client3 = new Client
+                {
+                    FirstName = "Lisa",
+                    SurName = "Day",
+                    Email = "lisa@yahoo.com",
+                    Address = new Address()
+                    {
+                        City = "Sydney",
+                        Line1 = "18 Church Rd",
+                        Line2 = "Bellavista",
+                        PostCode = "2154",
+                        State = "NSW",
+                        Suburb = "Bellavista",
+
+
+                        AddedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                    },
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(client3).State = EntityState.Added;
+            
+
+
+                Client client4 = new Client
+                {
+                    FirstName = "Kelly",
+                    SurName = "Hilton",
+                    Email = "Kelly.hilton@mail.com",
+                    MobileNumber = "0454141589",
+                    Address = new Address()
+                    {
+                        City = "Melbourne",
+                        Line1 = "23 Kambrook Drive",
+                        Line2 = "Caulfield",
+                        PostCode = "3151",
+                        State = "VIC",
+                        Suburb = "Caulfield",
+
+
+                        AddedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                    },
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(client4).State = EntityState.Added;
+              
+
+                Client clien5 = new Client
+                {
+                    FirstName = "Simon",
+                    SurName = "Bing",
+                    Email = "simon.bing@gmail.com",
+                    MobileNumber = "0425841235",
+                    Address = new Address()
+                    {
+                        City = "Melbourne",
+                        Line1 = "223 Burke Rd",
+                        Line2 = "Malven",
+                        PostCode = "3152",
+                        State = "VIC",
+                        Suburb = "Malvern",
+                        
+
+
+                        AddedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                    },
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(clien5).State = EntityState.Added;
+              
+                #endregion
+
+
+                #region property
                 // context.Database.Create();
                 Property property = new Property
                 {
@@ -109,7 +184,9 @@ namespace EF.UnitTest
 
                 context.Entry(property).State = EntityState.Added;
                 //context.SaveChanges();
+                #endregion
 
+                #region section
 
                 Section sec = new Section
                 {
@@ -123,10 +200,11 @@ namespace EF.UnitTest
                 };
 
                 context.Entry(sec).State = EntityState.Added;
-               // context.SaveChanges();
+                // context.SaveChanges();
 
+                #endregion
 
-
+                #region company
                 // context.Database.Create();
                 Company company    = new Company
                 {
@@ -138,8 +216,9 @@ namespace EF.UnitTest
 
                 context.Entry(company).State = EntityState.Added;
                 //context.SaveChanges();
+                #endregion
 
-
+                #region workItem template
                 // context.Database.Create();
                 WorkItemTemplate item = new WorkItemTemplate
                 {
@@ -154,6 +233,9 @@ namespace EF.UnitTest
 
                 context.Entry(item).State = EntityState.Added;
                 //context.SaveChanges();
+                #endregion
+
+                #region workItem
 
 
                 WorkItem workItem = new WorkItem
@@ -171,7 +253,7 @@ namespace EF.UnitTest
 
                 context.Entry(workItem).State = EntityState.Added;
 
-
+                #endregion
 
 
 
