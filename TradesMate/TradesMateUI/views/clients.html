@@ -45,23 +45,23 @@
 
                 <tbody>
 
-                    <tr ng-repeat="person in personnelList | filter:searchText">
+                    <tr ng-repeat="client in clientlist | filter:searchText">
 
                         <td class=""
                                         <i class="fa fa-user"></i>
                         </td>
                         <td class="">
-                            <a>{{person.first_name}} {{person.last_name}}</a>
+                            <a>{{client.firstName}} {{person.surName}}</a>
                             <br />
 
-                            <small>{{person.email}}</small>
+                            <small>{{client.email}}</small>
                         </td>
                         <td class="">
-                            {{person.Address}}
+                            {{client.Address}}
                         </td>
                         <td class="">
-                            <a class="btn btn-white btn-sm" ng-click="openClientDetail(person)"><i class="fa fa-pencil"></i></a>
-                            <a class="btn btn-white btn-sm" ng-click="deletePersonnel(person)"><i class="fa fa-trash-o"></i></a>
+                            <a class="btn btn-white btn-sm" ng-click="openClientDetail(client)"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-white btn-sm" ng-click="deleteClient(client)"><i class="fa fa-trash-o"></i></a>
                         </td>
 
                     </tr>

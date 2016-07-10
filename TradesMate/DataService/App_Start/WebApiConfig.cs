@@ -38,7 +38,11 @@ namespace DataService
             builder.EntitySet<WorkItemTemplate>("WorkItemTemplates");
             builder.EntitySet<Section>("Sections");
             builder.EntitySet<Company>("Companies");
+            builder.EnableLowerCamelCase();
             config.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
+
+          
+        
 
 
 
