@@ -17,15 +17,18 @@
 
             <div class="row ">
 
-                <div class="col-md-8 com-xs-6">
-                    <div class="input-group">
-                        <button type="button" id="loading-example-btn" class="btn btn-white btn-sm" ng-click=""><i class="fa fa-plus-circle "></i> Add new client</button>
-                    </div>
+                <div class="col-xs-6 col-md-9">
+
+                    <button type="button" title="Add new client" id="loading-example-btn" class="btn btn-white btn-sm" ng-click="addNewClient()">
+                        <i class="fa fa-plus-circle "></i>
+                    </button>
+
                 </div>
-                <div class="col-md-4 com-xs-6">
-                    <div class="input-group">
-                        <input type="text" placeholder="Search personnel name" class="input-sm form-control" ng-model="filterTextModel.searchText">
-                    </div>
+                <div class="col-xs-6  col-md-3 pull-right">
+
+                    <input type="text" placeholder="Search client.." class="input-sm form-control" ng-model="filterTextModel.searchText">
+                   
+
                 </div>
             </div>
         </div>

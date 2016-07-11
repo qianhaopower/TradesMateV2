@@ -21,6 +21,9 @@ function ($scope, clientDataService, Notification, $state) {
     $scope.openClientDetail = function (client) {
         $state.go('dashboard.createClient', { param: client.id });
     };
+    $scope.addNewClient = function () {
+        $state.go('dashboard.createClient', { param:0 });
+    }
 
 
     var init = function () {

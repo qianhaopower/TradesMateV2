@@ -95,6 +95,11 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
             return deferred.promise;
         },
         createClient: function (newClient) {
+
+            //find out a way allow passing extra to server. 
+            //Or find a pattern to remove all extra property
+            newClient.isNew = undefined;
+
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
             var path = baseURL + '/Clients';
