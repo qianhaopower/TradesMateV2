@@ -32,8 +32,111 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
             });
             return deferred.promise;
         },
+        getClientById: function (clientId) {
+            var deferred = $q.defer();
+            var baseURL = urls.apiUrl;
+            var path = baseURL + '/Clients(' + clientId + ')?$expand=address';
+            var error = 'Error happened when getting client with id ' + clientId;
+            $http({
+                method: 'GET',
+                url: path,
+            }).then(function successCallback(response) {
+                if (response.data && response.status >= 200 && response.status <= 299) {
+                    deferred.resolve(response.data);
+                } else {
+                    deferred.reject(error);
+                }
 
+            }, function errorCallback(response) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        },
+        editClient: function (client) {
+            var deferred = $q.defer();
+            var baseURL = urls.apiUrl;
+            var path = baseURL + '/Clients(' + client.id + ')';
+            var error = 'Error happened when saving client with id ' + client.id;
+            $http({
+                method: 'PATCH',
+                url: path,
+                data:client,
+            }).then(function successCallback(response) {
+                if ( response.status >= 200 && response.status <= 299) {
+                    deferred.resolve(response.data);
+                } else {
+                    deferred.reject(error);
+                }
 
+            }, function errorCallback(response) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        },
+        createClient: function (newClient) {
+            var deferred = $q.defer();
+            var baseURL = urls.apiUrl;
+            var path = baseURL + '/Clients';
+            var error = 'Error happened when creating client';
+            $http({
+                method: 'POST',
+                url: path,
+                data: newClient,
+            }).then(function successCallback(response) {
+                if (response.status >= 200 && response.status <= 299) {
+                    deferred.resolve(response.data);
+                } else {
+                    deferred.reject(error);
+                }
+
+            }, function errorCallback(response) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        },
+        createClient: function (newClient) {
+            var deferred = $q.defer();
+            var baseURL = urls.apiUrl;
+            var path = baseURL + '/Clients';
+            var error = 'Error happened when creating client';
+            $http({
+                method: 'POST',
+                url: path,
+                data: newClient,
+            }).then(function successCallback(response) {
+                if (response.status >= 200 && response.status <= 299) {
+                    deferred.resolve(response.data);
+                } else {
+                    deferred.reject(error);
+                }
+
+            }, function errorCallback(response) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        },
+
+        deleteClient: function (clientId) {
+            var deferred = $q.defer();
+            var baseURL = urls.apiUrl;
+            var path = baseURL + '/Clients';
+            var error = 'Error happened when deleting client';
+            $http({
+                method: 'DELETE',
+                url: path,
+               
+            }).then(function successCallback(response) {
+                if (response.status >= 200 && response.status <= 299) {
+                    deferred.resolve();
+                } else {
+                    deferred.reject(error);
+                }
+
+            }, function errorCallback(response) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        },
         //getFakeClientList: function () {
         //    //call get
         //    return dataModel;

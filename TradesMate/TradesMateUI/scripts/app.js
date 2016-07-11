@@ -14,6 +14,7 @@ angular
     'ui.bootstrap',
     'angular-loading-bar',
     'ui-notification',
+    'ngMessages',
   ])
   .constant('domain', 'http://localhost')
   .constant('api', '/DataService/odata')
@@ -192,8 +193,8 @@ angular
                .state('dashboard.createClient', {
                    templateUrl: 'views/clientDetail.html',
                    controller: 'clientDetailController',
-                   url: '/client/create',
-                   params: { myParam: null }
+                   url: '/client/create/:param',
+                  // params: { myParam: null }
                    //resolve: {
                    //    loadMyFiles: function ($ocLazyLoad) {
                    //        return $ocLazyLoad.load({

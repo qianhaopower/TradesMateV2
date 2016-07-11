@@ -19,7 +19,7 @@ function ($scope, clientDataService, Notification, $state) {
     };
 
     $scope.openClientDetail = function (client) {
-        $state.go('dashboard.createClient', { myParam: client });
+        $state.go('dashboard.createClient', { param: client.id });
     };
 
 
