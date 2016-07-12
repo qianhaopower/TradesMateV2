@@ -124,7 +124,7 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
         deleteClient: function (clientId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Clients';
+            var path = baseURL + '/Clients(' + clientId + ')';
             var error = 'Error happened when deleting client';
             $http({
                 method: 'DELETE',

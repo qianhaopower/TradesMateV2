@@ -15,6 +15,7 @@ angular
     'angular-loading-bar',
     'ui-notification',
     'ngMessages',
+    'angularModalService',
   ])
   .constant('domain', 'http://localhost')
   .constant('api', '/DataService/odata')
