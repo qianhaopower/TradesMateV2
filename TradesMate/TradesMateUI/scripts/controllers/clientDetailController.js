@@ -10,6 +10,7 @@ function ($scope, clientDataService, Notification, $state, $stateParams) {
     };
     $scope.clientId = undefined;
     $scope.client = undefined;
+    $scope.readOnly = $state.current.name == 'dashboard.viewClient';
 
     
 

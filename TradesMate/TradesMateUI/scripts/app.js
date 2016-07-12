@@ -191,22 +191,15 @@ angular
                 //    }
                 //}
             })
-               .state('dashboard.createClient', {
+               .state('dashboard.modifyClient', {
                    templateUrl: 'views/clientDetail.html',
                    controller: 'clientDetailController',
                    url: '/client/create/:param',
-                  // params: { myParam: null }
-                   //resolve: {
-                   //    loadMyFiles: function ($ocLazyLoad) {
-                   //        return $ocLazyLoad.load({
-                   //            name: 'sbAdminApp',
-                   //            files: [
-                   //            'scripts/controllers/clientDetailController.js',
-                   //            'scripts/services/clientDataService.js',
-                   //            ]
-                   //        })
-                   //    }
-                   //}
+               })
+               .state('dashboard.viewClient', {
+                   templateUrl: 'views/clientDetail.html',
+                   controller: 'clientDetailController',
+                   url: '/client/view/:param',
                })
              .state('dashboard.properties', {
                  templateUrl: 'views/properties.html',
