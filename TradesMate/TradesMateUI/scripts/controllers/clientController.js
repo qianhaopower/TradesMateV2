@@ -25,6 +25,7 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
         $state.go('dashboard.createClient', { param:0 });
     }
 
+
     $scope.deleteClient = function (client) {
         var clientRef = client;
         ModalService.showModal({
