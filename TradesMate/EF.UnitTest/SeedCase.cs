@@ -18,32 +18,45 @@ namespace EF.UnitTest
             using (var context = new EFDbContext())
             {
                 #region client
-                
+
                 // context.Database.Create();
-                Client client = new Client
+                Client clientLee = new Client
                 {
                     FirstName = "Lee",
                     SurName = "Pinder",
                     Email = "raviendra@test.com",
-                  Address = new Address()
-                  {
-                      City = "Melbourne",
-                      Line1 = "18 Clayton Rd",
-                      Line2 = "Clayton",
-                      PostCode = "3168",
-                      State = "VIC",
-                      Suburb = "Clayton",
+                    Address = new Address()
+                    {
+                        City = "Melbourne",
+                        Line1 = "18 Clayton Rd",
+                        Line2 = "Clayton",
+                        PostCode = "3168",
+                        State = "VIC",
+                        Suburb = "Clayton",
 
 
-                      AddedDate = DateTime.Now,
-                      ModifiedDate = DateTime.Now,
+                        AddedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                    },
+                    Properties = new List<Property>() {
+                      new Property() {
+                          Comment = "Lee\'s House",
+                          Description = "This property is built in the mid 70s",
+                          Condition = "Normal",
+                          Narrative  = "Lee has not done major work on this house for 10 years",
+                          Name = "Lee\'s House",
+                          AddedDate = DateTime.Now,
+                          ModifiedDate = DateTime.Now,
+                          AddressId = null,
+                      },
+                      
                   },
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                 };
 
-                context.Entry(client).State = EntityState.Added;
-               
+                context.Entry(clientLee).State = EntityState.Added;
+
 
 
                 Client client2 = new Client
@@ -66,12 +79,27 @@ namespace EF.UnitTest
                         AddedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
                     },
+                    Properties = new List<Property>() {
+                      new Property() {
+                          Comment = "Joe\'s House",
+                          Description = "This property is built in the late 80s",
+                          Condition = "Normal",
+                          Narrative  = "The safety switch of the House is old and need to be replaced. ",
+                          Name = "Joe\'s House",
+                          AddedDate = DateTime.Now,
+                          ModifiedDate = DateTime.Now,
+                          AddressId = null,
+                      },
+
+                  },
+
+
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                 };
 
                 context.Entry(client2).State = EntityState.Added;
-                
+
 
 
 
@@ -98,7 +126,7 @@ namespace EF.UnitTest
                 };
 
                 context.Entry(client3).State = EntityState.Added;
-            
+
 
 
                 Client client4 = new Client
@@ -125,7 +153,7 @@ namespace EF.UnitTest
                 };
 
                 context.Entry(client4).State = EntityState.Added;
-              
+
 
                 Client clien5 = new Client
                 {
@@ -141,7 +169,7 @@ namespace EF.UnitTest
                         PostCode = "3152",
                         State = "VIC",
                         Suburb = "Malvern",
-                        
+
 
 
                         AddedDate = DateTime.Now,
@@ -152,7 +180,7 @@ namespace EF.UnitTest
                 };
 
                 context.Entry(clien5).State = EntityState.Added;
-              
+
                 #endregion
 
 
@@ -160,8 +188,9 @@ namespace EF.UnitTest
                 // context.Database.Create();
                 Property property = new Property
                 {
-                    Name = "Hao's house",
-                    Address = new Address() {
+                    Name = "Lee's house",
+                    Address = new Address()
+                    {
                         City = "Melbourne",
                         Line1 = "46 Lincoln Drive",
                         Line2 = "Cheltenham",
@@ -173,11 +202,11 @@ namespace EF.UnitTest
                         AddedDate = DateTime.Now,
                         ModifiedDate = DateTime.Now,
                     },
-                    Description = "Hao Qian's House",
+                    Description = "Lee Pinder's House",
                     Condition = "This house is in good condition",
                     Narrative = "This house hot water service needs update",
                     Comment = "",
-                    ClientId = 1,
+                    Client = clientLee,
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                 };
@@ -206,10 +235,10 @@ namespace EF.UnitTest
 
                 #region company
                 // context.Database.Create();
-                Company company    = new Company
+                Company company = new Company
                 {
-                   Description = "TradesMate Software solutions. Providing best trads software",
-                   Name = "TradesMate Soft",
+                    Description = "TradesMate Software solutions. Providing best trads software",
+                    Name = "TradesMate Soft",
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                 };
@@ -224,9 +253,9 @@ namespace EF.UnitTest
                 {
                     Description = "Install power switch",
                     Name = "Gneral Power Switch Install",
-                  Company = company,
-                   TradeWorkType = TradeType.Electrician,
-                   
+                    Company = company,
+                    TradeWorkType = TradeType.Electrician,
+
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                 };
@@ -242,7 +271,7 @@ namespace EF.UnitTest
                 {
                     Description = "Install power switch",
                     Name = "Gneral Power Switch Install",
-                    Qauntity =4,
+                    Qauntity = 4,
                     Section = sec,
                     TemplateRecord = item,
                     TradeWorkType = TradeType.Electrician,

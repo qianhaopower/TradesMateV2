@@ -18,7 +18,7 @@ namespace EF.Data
         public string Comment { get; set; }
 
 
-        public int AddressId { get; set; }
+        public int? AddressId { get; set; }
         public virtual Address Address { get; set; }
 
         public int ClientId { get; set; }

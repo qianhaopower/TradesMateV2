@@ -49,15 +49,21 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
 
     $scope.proceedDelete = function (clientId) {
         clientDataService.deleteClient(clientId).then(function (result) {
-            Notification.success({ message: 'Deleted', delay: 1000 });
+            Notification.success({ message: 'Deleted', delay: 2000 });
             init();
-        }, function (error) { Notification.error({ message: error, delay: 1000 }); });
+        }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     };
+
+    $scope.ViewClientProperties = function (client) {
+        $state.go('dashboard.clientProperties', { param: client.id });
+
+    }
+
 
     var init = function () {
         clientDataService.getAllClients().then(function (result) {
             $scope.clientlist = result;
-        }, function (error) { Notification.error({ message: error, delay: 1000 }); });
+        }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
 
 

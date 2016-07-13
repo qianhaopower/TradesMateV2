@@ -20,14 +20,14 @@ function ($scope, clientDataService, Notification, $state, $stateParams) {
         if ($scope.client.isNew) {
             var clientCopy= angular.copy($scope.client);
             clientDataService.createClient(clientCopy).then(function (result) {
-                Notification.success({ message: 'Created', delay: 1000 });
+                Notification.success({ message: 'Created', delay: 2000 });
                 $scope.goToClientIndex();
-            }, function (error) { Notification.error({ message: error, delay: 1000 }); });
+            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
         } else {
             clientDataService.editClient($scope.client).then(function (result) {
-                Notification.success({ message: 'Saved', delay: 1000 });
+                Notification.success({ message: 'Saved', delay: 2000 });
                 $scope.goToClientIndex();
-            }, function (error) { Notification.error({ message: error, delay: 1000 }); });
+            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
         }
     
     }
@@ -42,7 +42,7 @@ function ($scope, clientDataService, Notification, $state, $stateParams) {
         if ($scope.clientId && $scope.clientId != '0') {
             clientDataService.getClientById($scope.clientId).then(function (result) {
                 $scope.client = result;
-            }, function (error) { Notification.error({ message: error, delay: 1000 }); });
+            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
         } else if ($scope.clientId == '0') {
             //create new client
             $scope.client = {
@@ -55,7 +55,7 @@ function ($scope, clientDataService, Notification, $state, $stateParams) {
         }
         //clientDataService.getAllClients().then(function (result) {
         //    $scope.clientlist = result;
-        //}, function (error) { Notification.error({ message: error, delay: 1000 }); });
+        //}, function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
 
 

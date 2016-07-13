@@ -46,18 +46,18 @@
 
                 <tbody>
 
-                    <tr ng-repeat="client in clientlist | filter:search">
+                    <tr ng-repeat="client in clientlist | filter:search" >
 
-                        <td>
+                        <td ng-click="ViewClientProperties(client)" >
                             <i class="fa fa-user"></i>
                         </td>
-                        <td class="">
+                        <td class="" ng-click="ViewClientProperties(client)" >
                             <a>{{client.firstName}} {{client.surName}}</a>
                             <br />
 
                             <small>{{client.email}}</small>
                         </td>
-                        <td class="">
+                        <td class="" ng-click="ViewClientProperties(client)">
                             {{client.address.line1}}&nbsp;{{client.address.line2}}&nbsp;{{client.address.line3}}
                         </td>
                         <td class="">

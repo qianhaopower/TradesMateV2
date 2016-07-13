@@ -73,27 +73,7 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
             });
             return deferred.promise;
         },
-        createClient: function (newClient) {
-            var deferred = $q.defer();
-            var baseURL = urls.apiUrl;
-            var path = baseURL + '/Clients';
-            var error = 'Error happened when creating client';
-            $http({
-                method: 'POST',
-                url: path,
-                data: newClient,
-            }).then(function successCallback(response) {
-                if (response.status >= 200 && response.status <= 299) {
-                    deferred.resolve(response.data);
-                } else {
-                    deferred.reject(error);
-                }
-
-            }, function errorCallback(response) {
-                deferred.reject(error);
-            });
-            return deferred.promise;
-        },
+        
         createClient: function (newClient) {
 
             //find out a way allow passing extra to server. 
@@ -142,129 +122,28 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
             });
             return deferred.promise;
         },
-        //getFakeClientList: function () {
-        //    //call get
-        //    return dataModel;
-        //},
-        //getPerson: function (personId) {
-        //    return getPerson(personId);
-        //},
-        //getPersonComponent: function (personId, componentId) {
-        //    for (var i = 0 ; i < dataModel.length; i++) {
-        //        if (dataModel[i].id == personId) {
+        getPropertyForClient : function(clientId){
+            var deferred = $q.defer();
+            var baseURL = urls.apiUrl;
+            var path = baseURL + '/Clients(' + clientId + ')/properties';// property should be lower case, as it is formatted already
+            var error = 'Error happened when getting client\'s properties with id ' + clientId;
+            $http({
+                method: 'GET',
+                url: path,
+            }).then(function successCallback(response) {
+                if (response.data && response.status >= 200 && response.status <= 299) {
+                    deferred.resolve(response.data.value);
+                } else {
+                    deferred.reject(error);
+                }
 
-        //            if (dataModel[i].componentList) {
-        //                for (var j = 0 ; j < dataModel[i].componentList.length; j++) {
-        //                    if (dataModel[i].componentList[j].id == componentId) {
-        //                        return dataModel[i].componentList[j];
-        //                    }
-        //                }
-        //            }
-
-        //        }
-        //    }
-        //},
-        //setClientPropertyComponent: function (personId, componentList) {
-        //    // add the componentList to the dataModel
-        //    for (var i = 0 ; i < dataModel.length; i++) {
-        //        if (dataModel[i].id == personId) {
-        //            dataModel[i].componentList = componentList;
-        //        }
-        //    }
-
-        //},
-        //getClientPropertyComponent: function (personId) {
-        //    for (var i = 0 ; i < dataModel.length; i++) {
-        //        if (dataModel[i].id == personId) {
-        //            return dataModel[i].componentList;
-        //        }
-        //    }
-
-        //},
-        //setClientPropertyComponentItem: function (personId, componentId, items) {
-
-        //    for (var i = 0 ; i < dataModel.length; i++) {
-        //        if (dataModel[i].id == personId) {
-
-        //            if (dataModel[i].componentList) {
-        //                for (var j = 0 ; j < dataModel[i].componentList.length; j++) {
-        //                    if (dataModel[i].componentList[j].id == componentId) {
-        //                        dataModel[i].componentList[j].items = items;
-        //                    }
-        //                }
-        //            }
-
-        //        }
-        //    }
-
-        //},
-        //getClientPropertyComponentItem: function (personId, componentId) {
-
-        //    for (var i = 0 ; i < dataModel.length; i++) {
-        //        if (dataModel[i].id == personId) {
-
-        //            if (dataModel[i].componentList) {
-        //                for (var j = 0 ; j < dataModel[i].componentList.length; j++) {
-        //                    if (dataModel[i].componentList[j].id == componentId) {
-        //                        return dataModel[i].componentList[j].items
-        //                    }
-        //                }
-        //            }
-
-        //        }
-        //    }
-
-        //},
-
-        //generateReport: function (personId) {
-        //    var personDataModel = getPerson(personId);
-        //    if (!personDataModel.componentList || personDataModel.componentList.length == 0) {
-        //        $window.alert('Please at least insert one item to generate a report.');
-        //    } else {
-        //        //do the save;
-        //        $http({
-        //            method: 'POST',
-        //            url: 'http://tradedata.azurewebsites.net/api/reports',
-        //            data: { Id: personId, JsonContent: JSON.stringify(personDataModel) }
-        //        }).then(function successCallback(response) {
-        //            $window.alert('Report generated');
-        //        }, function errorCallback(response) {
-        //            $window.alert('Error happend' + response);
-        //        });
-
-        //    }
-        //},
-        //geReportList: function (callback) {
-
-        //    //do the save;
-        //    $http({
-        //        method: 'GET',
-        //        url: 'http://tradedata.azurewebsites.net/api/reports'
-
-        //    }).then(function successCallback(response) {
-        //        callback(response.data)
-        //    }, function errorCallback(response) {
-        //        $window.alert('Error happend' + response);
-        //    });
+            }, function errorCallback(response) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        }
 
 
-        //},
-        //geReportById: function (id, callback) {
-        //    $window.open('http://tradedata.azurewebsites.net/api/reports/' + id);
-        //    //do the save;
-        //    //$http({
-        //    //    method: 'GET',
-        //    //    url: 'http://tradedata.azurewebsites.net/api/reports/'+id
-
-        //    //}).then(function successCallback(response) {
-        //    //    if(callback)
-        //    //    callback(response.data)
-        //    //}, function errorCallback(response) {
-        //    //    $window.alert('Error happend' + response);
-        //    //});
-
-
-        //}
 
 
     };

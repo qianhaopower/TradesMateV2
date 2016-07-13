@@ -206,6 +206,11 @@ angular
                  controller: 'propertyController',
                  url: '/properties'
              })
+             .state('dashboard.clientProperties', {
+                  templateUrl: 'views/properties.html',
+                  controller: 'propertyController',
+                  url: '/client/:param/properties'
+              })
              .state('dashboard.property-sections', {
                  templateUrl: 'views/property-sections.html',
                  controller: 'propertySectionController',
