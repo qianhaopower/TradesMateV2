@@ -91,6 +91,10 @@ namespace DataService.Controllers
                 return BadRequest(ModelState);
             }
 
+            property.AddedDate = DateTime.Now;
+            property.ModifiedDate = DateTime.Now;
+
+
             db.Properties.Add(property);
             db.SaveChanges();
 

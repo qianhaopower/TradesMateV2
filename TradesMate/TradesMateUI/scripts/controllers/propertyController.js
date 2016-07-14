@@ -26,19 +26,19 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
         if (readonly)
             $state.go('dashboard.viewProperty', { param: property.id });
         else
-            $state.go('dashboard.modifyProperty', { param: property.id });
+            $state.go('dashboard.editProperty', { param: property.id });
 
     };
     $scope.addNewProperty = function () {
-        $state.go('dashboard.modifyProperty', { param: 0 });
+        $state.go('dashboard.createProperty', { clientId:$scope.clientId });
     }
 
 
     $scope.deleteProperty = function (property) {
         var propertyRef = property;
         ModalService.showModal({
-            templateUrl: 'deletepropertymodal.html',
-            controller: "deletepropertyModalController"
+            templateUrl: 'deletePropertymodal.html',
+            controller: "deletePropertyModalController"
         }).then(function (modal) {
             modal.element.modal();
             modal.close.then(function (result) {
@@ -48,6 +48,8 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
             });
         });
     }
+
+
 
 
 

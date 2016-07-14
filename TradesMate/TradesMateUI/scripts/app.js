@@ -201,11 +201,30 @@ angular
                    controller: 'clientDetailController',
                    url: '/client/view/:param',
                })
+
+
+
+
              .state('dashboard.properties', {
                  templateUrl: 'views/properties.html',
                  controller: 'propertyController',
                  url: '/properties'
              })
+              .state('dashboard.createProperty', {
+                  templateUrl: 'views/propertyDetail.html',
+                  controller: 'propertyDetailController',
+                  url: '/property/create/:clientId',
+              })
+               .state('dashboard.editProperty', {
+                   templateUrl: 'views/propertyDetail.html',
+                   controller: 'propertyDetailController',
+                   url: '/property/edit/:param',
+               })
+               .state('dashboard.viewProperty', {
+                   templateUrl: 'views/propertyDetail.html',
+                   controller: 'propertyDetailController',
+                   url: '/property/view/:param',
+               })
              .state('dashboard.clientProperties', {
                   templateUrl: 'views/properties.html',
                   controller: 'propertyController',
