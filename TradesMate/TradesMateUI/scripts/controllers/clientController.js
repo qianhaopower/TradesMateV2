@@ -22,11 +22,11 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
         if (readonly)
             $state.go('dashboard.viewClient', { param: client.id });
         else
-            $state.go('dashboard.modifyClient', { param: client.id });
+            $state.go('dashboard.editClient', { param: client.id });
 
     };
     $scope.addNewClient = function () {
-        $state.go('dashboard.modifyClient', { param:0 });
+        $state.go('dashboard.createClient');
     }
 
 

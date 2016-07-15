@@ -24,9 +24,9 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
 
     $scope.openPropertyDetail = function (property, readonly) {
         if (readonly)
-            $state.go('dashboard.viewProperty', { param: property.id });
+            $state.go('dashboard.viewProperty', { propertyId: property.id });
         else
-            $state.go('dashboard.editProperty', { param: property.id });
+            $state.go('dashboard.editProperty', { propertyId: property.id });
 
     };
     $scope.addNewProperty = function () {

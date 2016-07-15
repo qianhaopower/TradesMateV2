@@ -39,11 +39,13 @@ function ($scope, clientDataService, Notification, $state, $stateParams) {
 
     var init = function () {
         $scope.clientId = $stateParams.param;
-        if ($scope.clientId && $scope.clientId != '0') {
+        if ($scope.clientId &&
+            ($state.current.name == 'dashboard.editClient'
+            || $state.current.name == 'dashboard.viewClient')) {
             clientDataService.getClientById($scope.clientId).then(function (result) {
                 $scope.client = result;
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
-        } else if ($scope.clientId == '0') {
+        } else if ($state.current.name == 'dashboard.createClient') {
             //create new client
             $scope.client = {
                 firstName: undefined,

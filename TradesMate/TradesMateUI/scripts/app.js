@@ -175,6 +175,8 @@ angular
             })
 
          //start from here
+
+              //client
             .state('dashboard.clients', {
                 templateUrl: 'views/clients.html',
                 controller: 'clientController',
@@ -191,10 +193,15 @@ angular
                 //    }
                 //}
             })
-               .state('dashboard.modifyClient', {
+               .state('dashboard.editClient', {
                    templateUrl: 'views/clientDetail.html',
                    controller: 'clientDetailController',
-                   url: '/client/create/:param',
+                   url: '/client/edit/:param',
+               })
+               .state('dashboard.createClient', {
+                   templateUrl: 'views/clientDetail.html',
+                   controller: 'clientDetailController',
+                   url: '/client/create',
                })
                .state('dashboard.viewClient', {
                    templateUrl: 'views/clientDetail.html',
@@ -204,7 +211,7 @@ angular
 
 
 
-
+              //property
              .state('dashboard.properties', {
                  templateUrl: 'views/properties.html',
                  controller: 'propertyController',
@@ -213,23 +220,27 @@ angular
               .state('dashboard.createProperty', {
                   templateUrl: 'views/propertyDetail.html',
                   controller: 'propertyDetailController',
-                  url: '/property/create/:clientId',
+                  url: '/client/:clientId/property/create',
               })
                .state('dashboard.editProperty', {
                    templateUrl: 'views/propertyDetail.html',
                    controller: 'propertyDetailController',
-                   url: '/property/edit/:param',
+                   url: '/property/edit/:propertyId',
                })
                .state('dashboard.viewProperty', {
                    templateUrl: 'views/propertyDetail.html',
                    controller: 'propertyDetailController',
-                   url: '/property/view/:param',
+                   url: '/property/view/:propertyId',
                })
              .state('dashboard.clientProperties', {
                   templateUrl: 'views/properties.html',
                   controller: 'propertyController',
                   url: '/client/:param/properties'
-              })
+             })
+
+
+
+              //propertySection
              .state('dashboard.property-sections', {
                  templateUrl: 'views/property-sections.html',
                  controller: 'propertySectionController',
