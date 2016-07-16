@@ -1,3 +1,4 @@
 1.back to property list view and back to global property view
 2.upload picture
 3.property condition dropdown.
+4.check back button on each page. 

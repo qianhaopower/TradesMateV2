@@ -2,7 +2,7 @@
 
 angular.module('sbAdminApp')
   .controller('propertySectionController', ['$scope', 'propertySectionDataService', 'Notification', '$state', 'ModalService',  '$stateParams',
-function ($scope, sectionDataService, Notification, $state, ModalService, $stateParams) {
+function ($scope, propertySectionDataService, Notification, $state, ModalService, $stateParams) {
 
     $scope.filterTextModel = {
         searchText: undefined,
@@ -20,13 +20,13 @@ function ($scope, sectionDataService, Notification, $state, ModalService, $state
 
     $scope.openSectionDetail = function (section, readonly) {
         if (readonly)
-            $state.go('dashboard.viewPropertySection', { sectionId: section.id });
+            $state.go('dashboard.viewPropertySection', { sectionId: section.id, propertyId: $stateParams.propertyId });
         else
-            $state.go('dashboard.editPropertySection', { sectionId: section.id });
+            $state.go('dashboard.editPropertySection', { sectionId: section.id, propertyId: $stateParams.propertyId });
 
     };
     $scope.addNewSection = function () {
-        $state.go('dashboard.createPropertySection');
+        $state.go('dashboard.createPropertySection', {  propertyId: $stateParams.propertyId });
     }
 
 
@@ -55,7 +55,7 @@ function ($scope, sectionDataService, Notification, $state, ModalService, $state
     };
 
     $scope.viewWorkItems = function (section) {
-        $state.go('dashboard.workItems', { param: section.id });
+        $state.go('dashboard.workItems', { sectionId: section.id });
 
     }
 

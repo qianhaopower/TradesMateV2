@@ -46,7 +46,8 @@ function ($scope, propertySectionDataService, Notification, $state, $stateParams
         } else if ($state.current.name == 'dashboard.createPropertySection') {
             //create new section
             $scope.section = {
-               name:undefined,
+                name: undefined,
+                propertyId: $stateParams.propertyId,
                 isNew: true,
             }
         }

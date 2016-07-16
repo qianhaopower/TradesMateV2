@@ -96,10 +96,10 @@ app.factory('propertySectionDataService', [ '$q', '$http', '$window', 'urls',fun
             return deferred.promise;
         },
 
-        deleteProperty: function (sectionId) {
+        deleteSection: function (sectionId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Properties(' + sectionId + ')';
+            var path = baseURL + '/Sections(' + sectionId + ')';
             var error = 'Error happened when deleting section';
             $http({
                 method: 'DELETE',

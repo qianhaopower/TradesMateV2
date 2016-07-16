@@ -1,11 +1,9 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Clinets</h1>
+            <h1 class="page-header">Property Sections</h1>
         </div>
-        <!-- /.col-lg-12 -->
     </div>
-    <!-- /.row -->
 </div>
 
 
@@ -19,14 +17,14 @@
 
                 <div class="col-xs-6 col-md-9">
 
-                    <button type="button" title="Add new client" id="loading-example-btn" class="btn btn-white btn-sm" ng-click="addNewClient()">
+                    <button type="button" title="Add new section" id="loading-example-btn" class="btn btn-white btn-sm" ng-click="addNewSection()">
                         <i class="fa fa-plus-circle "></i>
                     </button>
 
                 </div>
                 <div class="col-xs-6  col-md-3 pull-right">
 
-                    <input type="text" placeholder="Search client.." class="input-sm form-control" ng-model="filterTextModel.searchText">
+                    <input type="text" placeholder="Search section.." class="input-sm form-control" ng-model="filterTextModel.searchText">
                    
 
                 </div>
@@ -38,7 +36,7 @@
                     <tr>
                         <th></th>
                         <th>Name</th>
-                        <th>Address</th>
+                        <th>Description</th>
                         <th></th>
                     </tr>
                 </thead>
@@ -46,26 +44,22 @@
 
                 <tbody>
 
-                    <tr ng-repeat="client in clientlist | filter:search" >
+                    <tr ng-repeat="section in sectionlist | filter:search" >
 
-                        <td ng-click="viewClientProperties(client)" >
-                            <i class="fa fa-user"></i>
+                        <td ng-click="viewWorkItems(section)" >
+                            <i class="fa fa-bed"></i>
                         </td>
-                        <td class="" ng-click="viewClientProperties(client)" >
-                            <a>{{client.firstName}} {{client.surName}}</a>
-                            <br />
-
-                            <small>{{client.email}}</small>
+                        <td class="" ng-click="viewWorkItems(section)" >
+                            <a>{{section.name}} </a>
                         </td>
-                        <td class="" ng-click="viewClientProperties(client)">
-                            {{client.address.line1}}&nbsp;{{client.address.line2}}&nbsp;{{client.address.line3}}
+                        <td class="" ng-click="viewWorkItems(section)">
+                            {{section.description}}
                         </td>
                         <td class="">
-                            <a class="btn btn-white btn-sm" title="View Detail" ng-click="openClientDetail(client, true)"><i class="fa fa-eye"></i></a>
-                            <a class="btn btn-white btn-sm" title="Edit" ng-click="openClientDetail(client,false)"><i class="fa fa-pencil"></i></a>
-                            <a class="btn btn-white btn-sm" title="Delete" ng-click="deleteClient(client)"><i class="fa fa-trash-o"></i></a>
+                            <a class="btn btn-white btn-sm" title="View Detail" ng-click="openSectionDetail(section, true)"><i class="fa fa-eye"></i></a>
+                            <a class="btn btn-white btn-sm" title="Edit" ng-click="openSectionDetail(section,false)"><i class="fa fa-pencil"></i></a>
+                            <a class="btn btn-white btn-sm" title="Delete" ng-click="deleteSection(section)"><i class="fa fa-trash-o"></i></a>
                         </td>
-
                     </tr>
                 </tbody>
             </table>
@@ -77,7 +71,7 @@
 
 
    <!-- The actual modal template, just a bit o bootstrap -->
-<script type="text/ng-template" id="deleteClientmodal.html">
+<script type="text/ng-template" id="deleteSectionmodal.html">
     <div class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -86,7 +80,7 @@
                     <h4 class="modal-title danger">Warning</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Deleting client will remove all related properties and work records. Proceed?</p>
+                    <p>Deleting section will remove all related  work records. Proceed?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>

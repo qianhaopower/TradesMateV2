@@ -89,6 +89,9 @@ namespace DataService.Controllers
             {
                 return BadRequest(ModelState);
             }
+            section.AddedDate = DateTime.Now;
+            section.ModifiedDate = DateTime.Now;
+
 
             db.Sections.Add(section);
             db.SaveChanges();

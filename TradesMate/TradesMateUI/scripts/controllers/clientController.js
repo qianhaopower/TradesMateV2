@@ -54,7 +54,7 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     };
 
-    $scope.ViewClientProperties = function (client) {
+    $scope.viewClientProperties = function (client) {
         $state.go('dashboard.clientProperties', { param: client.id });
 
     }
