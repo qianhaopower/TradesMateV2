@@ -256,12 +256,12 @@ angular
                 .state('dashboard.editPropertySection', {
                     templateUrl: 'views/PropertySectionDetail.html',
                     controller: 'propertySectionDetailController',
-                    url: '/property/:propertyId/property-section/edit'
+                    url: '/property/:propertyId/property-section/edit/:sectionId'
                 })
                .state('dashboard.viewPropertySection', {
                    templateUrl: 'views/PropertySectionDetail.html',
                    controller: 'propertySectionDetailController',
-                   url: '/property/:propertyId/property-section/view'
+                   url: '/property/:propertyId/property-section/view/:sectionId'
                })
 
 
