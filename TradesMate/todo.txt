@@ -2,3 +2,4 @@
 2.upload picture
 3.property condition dropdown.
 4.check back button on each page. 
+5.Empty page warning messgage.
