@@ -13,6 +13,7 @@ namespace EF.Data.Mapping
 
             Property(t => t.Name).HasMaxLength(100);
             Property(t => t.Description).HasMaxLength(3000);
+            Property(t => t.Type).HasMaxLength(100);
 
 
 

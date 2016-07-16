@@ -1,5 +1,6 @@
 ﻿
-<div class="container-fluid">F
+<div class="container-fluid">
+    
     <div class="row">
         <div class="col-lg-12">
             <h1 class="page-header">Property Section Detail</h1>
@@ -13,11 +14,11 @@
 </div>
 
 
-    <div class="row">
-        <div class="col-lg-12">
-           
-            <form name="sectionForm" class="form-horizontal">
-                <fieldset ng-disabled ="readOnly">
+<div class="row">
+    <div class="col-lg-12">
+
+        <form name="sectionForm" class="form-horizontal">
+            <fieldset ng-disabled="readOnly">
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Name</label>
                     <div class="col-sm-9">
@@ -29,25 +30,51 @@
                     </div>
 
                 </div>
+
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">Type</label>
+                    <div class="col-sm-9">
+
+                        <select name="sectionName"  ng-model="section.type" required>
+                            <option value="Bedroom">Bedroom</option>
+                            <option value="Living room">Living room</option>
+                            <option value="Bathroom">Bathroom</option>
+                            <option value="Kitchen">Kitchen</option>
+                            <option value="Laundry room">Laundry room</option>
+                            <option value="Hall way">Hall way</option>
+                            <option value="Deck">Deck</option>
+                            <option value="Basement">Basement</option>
+                            <option value="Garden">Garden</option>
+                            <option value="Garage">Garage</option>
+                        </select>
+                        <!--<input type="text" name="sectionName" class="form-control" placeholder="--name--" ng-model="section.type" required>-->
+                        <div ng-messages="sectionForm.sectionName.$error">
+                            <div class="text-danger" ng-message="required">This field is required</div>
+                        </div>
+
+                    </div>
+
+                </div>
+
                 <div class="form-group">
                     <label class="col-sm-3 control-label">Description</label>
                     <div class="col-sm-9">
-                        <input type="text" name="sectionDescription" class="form-control" placeholder="--description--" ng-model="section.description" >
-                       
+                        <input type="text" name="sectionDescription" class="form-control" placeholder="--description--" ng-model="section.description">
+
                     </div>
 
                 </div>
 
 
 
-             </fieldset>
-            </form>
-            <div class="" ng-hide="readOnly">
-                
-                <button class="btn btn-primary pull-right" type="button" ng-click="save()" ng-disabled="sectionForm.$invalid">Save</button>
-                <button class="btn btn-danger pull-left" type="button" ng-click="goToSectionIndex()">Cancel</button>
-            </div>
-                
+            </fieldset>
+        </form>
+        <div class="" ng-hide="readOnly">
+
+            <button class="btn btn-primary pull-right" type="button" ng-click="save()" ng-disabled="sectionForm.$invalid">Save</button>
+            <button class="btn btn-danger pull-left" type="button" ng-click="goToSectionIndex()">Cancel</button>
         </div>
- </div>
-  
+
+    </div>
+</div>
+

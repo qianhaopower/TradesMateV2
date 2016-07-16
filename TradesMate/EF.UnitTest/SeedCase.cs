@@ -222,7 +222,7 @@ namespace EF.UnitTest
                     Name = "Main Bedroom",
                     Description = "This is the north-facing main bedroom",
                     Property = property,
-
+                    Type = "Living room",
 
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
