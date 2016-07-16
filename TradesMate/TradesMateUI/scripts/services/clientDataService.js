@@ -122,7 +122,7 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
             });
             return deferred.promise;
         },
-        getPropertyForClient : function(clientId){
+        getClientProperties: function (clientId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
             var path = baseURL + '/Clients(' + clientId + ')/properties';// property should be lower case, as it is formatted already

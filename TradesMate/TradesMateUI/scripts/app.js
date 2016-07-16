@@ -241,11 +241,34 @@ angular
 
 
               //propertySection
-             .state('dashboard.property-sections', {
-                 templateUrl: 'views/property-sections.html',
+             .state('dashboard.propertySections', {
+                 templateUrl: 'views/propertySections.html',
                  controller: 'propertySectionController',
-                 url: '/property-sections'
+                 url: '/property/:propertyId/property-sections'//property section List for a property
              })
+
+              .state('dashboard.createPropertySection', {
+                  templateUrl: 'views/PropertySectionDetail.html',
+                  controller: 'propertySectionDetailController',
+                  url: '/property/:propertyId/property-section/create'
+              })
+
+                .state('dashboard.editPropertySection', {
+                    templateUrl: 'views/PropertySectionDetail.html',
+                    controller: 'propertySectionDetailController',
+                    url: '/property/:propertyId/property-section/edit'
+                })
+               .state('dashboard.viewPropertySection', {
+                   templateUrl: 'views/PropertySectionDetail.html',
+                   controller: 'propertySectionDetailController',
+                   url: '/property/:propertyId/property-section/view'
+               })
+
+
+
+
+
+              //workItems
              .state('dashboard.workitems', {
                  templateUrl: 'views/workitems.html',
                  controller: 'workItemController',

@@ -33,6 +33,9 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
         $state.go('dashboard.createProperty', { clientId:$scope.clientId });
     }
 
+    $scope.viewPropertySections = function (property) {
+        $state.go('dashboard.propertySections', { propertyId: property.id });
+    }
 
     $scope.deleteProperty = function (property) {
         var propertyRef = property;
@@ -48,10 +51,6 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
             });
         });
     }
-
-
-
-
 
     $scope.proceedDelete = function (propertyId) {
         propertyDataService.deleteProperty(propertyId).then(function (result) {
@@ -70,7 +69,7 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
                 $scope.clientName = $scope.client.firstName + ' ' + $scope.client.surName;
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
             //get property for client
-            clientDataService.getPropertyForClient($scope.clientId).then(function (result) {
+            clientDataService.getClientProperties($scope.clientId).then(function (result) {
                 $scope.propertyList = result;
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
 
