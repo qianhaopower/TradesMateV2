@@ -18,6 +18,8 @@ function ($scope, propertySectionDataService, Notification, $state, ModalService
         return false;
     };
 
+    //open section 
+
     $scope.openSectionDetail = function (section, readonly) {
         if (readonly)
             $state.go('dashboard.viewPropertySection', { sectionId: section.id, propertyId: $stateParams.propertyId });
