@@ -57,7 +57,7 @@ function ($scope, propertySectionDataService, Notification, $state, ModalService
     };
 
     $scope.viewWorkItems = function (section) {
-        $state.go('dashboard.workItems', { sectionId: section.id });
+        $state.go('dashboard.workItems', { sectionId: section.id, propertyId: $stateParams.propertyId });
 
     }
 

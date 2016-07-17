@@ -13,7 +13,7 @@ namespace EF.Data.Mapping
 
             Property(t => t.Name).HasMaxLength(100);
             Property(t => t.Description).HasMaxLength(3000);
-            Property(t => t.Qauntity);
+            Property(t => t.Quantity);
             Property(t => t.TradeWorkType).IsRequired();
 
 

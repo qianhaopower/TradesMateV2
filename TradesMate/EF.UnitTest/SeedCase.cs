@@ -271,7 +271,7 @@ namespace EF.UnitTest
                 {
                     Description = "Install power switch",
                     Name = "Gneral Power Switch Install",
-                    Qauntity = 4,
+                    Quantity = 3,
                     Section = sec,
                     TemplateRecord = item,
                     TradeWorkType = TradeType.Electrician,

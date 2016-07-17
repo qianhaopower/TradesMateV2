@@ -265,16 +265,31 @@ angular
                    url: '/property/:propertyId/property-section/view/:sectionId'
                })
 
-
-
-
-
               //workItems
-             .state('dashboard.workitems', {
-                 templateUrl: 'views/workitems.html',
-                 controller: 'workItemController',
-                 url: '/workitems'
-             });
+            
+
+          .state('dashboard.workItems', {
+              templateUrl: 'views/workitems.html',
+              controller: 'workItemController',
+              url: '/property/:propertyId/section/:sectionId/workItems'                    
+          })
+
+            .state('dashboard.createWorkItem', {
+                templateUrl: 'views/workItemDetail.html',
+                controller: 'workItemDetailController',
+                url: '/property/:propertyId/section/:sectionId/workItems/create'
+            })
+
+          .state('dashboard.editWorkItem', {
+              templateUrl: 'views/workItemDetail.html',
+              controller: 'workItemDetailController',
+              url: '/property/:propertyId/section/:sectionId/workItems/edit/:workItemId'
+          })
+         .state('dashboard.viewWorkItem', {
+             templateUrl: 'views/workItemDetail.html',
+             controller: 'workItemDetailController',
+             url: '/property/:propertyId/section/:sectionId/workItems/view/:workItemId'
+         })
 
 
           //NotificationProvider.setOptions({

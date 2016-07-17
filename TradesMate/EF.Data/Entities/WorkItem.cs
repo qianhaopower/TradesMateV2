@@ -8,7 +8,7 @@ namespace EF.Data
 {
     public class WorkItem : BaseEntity
     {
-        public int Qauntity { get; set; }
+        public int Quantity { get; set; }
         public string Description { get; set;  }
 
         public string Name { get; set; }

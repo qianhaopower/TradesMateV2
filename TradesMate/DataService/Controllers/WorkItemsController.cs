@@ -89,6 +89,8 @@ namespace DataService.Controllers
             {
                 return BadRequest(ModelState);
             }
+            workItem.AddedDate = DateTime.Now;
+            workItem.ModifiedDate = DateTime.Now;
 
             db.WorkItems.Add(workItem);
             db.SaveChanges();
