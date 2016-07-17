@@ -18,7 +18,7 @@ function ($scope, propertySectionDataService, Notification, $state, ModalService
         return false;
     };
 
-    //open section 
+    //open section ..
 
     $scope.openSectionDetail = function (section, readonly) {
         if (readonly)
