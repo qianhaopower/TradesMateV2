@@ -81,3 +81,8 @@ body {
 text-decoration: none;
 background-color: #eee;
 }
+
+.form-control.work-item-textarea{
+    height:200px;
+    
+}

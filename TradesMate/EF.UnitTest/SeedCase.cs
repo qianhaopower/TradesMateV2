@@ -261,6 +261,141 @@ namespace EF.UnitTest
                 };
 
                 context.Entry(item).State = EntityState.Added;
+
+
+                WorkItemTemplate item2 = new WorkItemTemplate
+                {
+                  
+                    Name = "Down Lignt Install",
+                    Description =  " Brand name:      \r\n " +
+                                   " Type:            \r\n " +
+                                   " Cut out size:    \r\n " +
+                                   " Globe type:      \r\n " +
+                                   " Globe colour:    \r\n " +
+                                   " Globe Intesity:  \r\n " +
+                                   " Beam angle:      \r\n " ,
+                    Company = company,
+                    TradeWorkType = TradeType.Electrician,
+
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(item2).State = EntityState.Added;
+
+                WorkItemTemplate item3 = new WorkItemTemplate
+                {
+
+                    Name = "Pedant Haning Light Install",
+                    Description =  " Brand name:      \r\n " +
+                                   " Type:            \r\n " +
+                                   " Weight:    \r\n " +
+                                   " Pendant length:      \r\n " +
+                                   " Fixing to the ceiling:    \r\n " +
+                                   " Globe type:  \r\n " +
+                                   " Globe colour:      \r\n ",
+                    Company = company,
+                    TradeWorkType = TradeType.Electrician,
+
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(item3).State = EntityState.Added;
+
+                WorkItemTemplate item4 = new WorkItemTemplate
+                {
+
+                    Name = "Surface Mounted Light Install",
+                    Description = " Brand name:      \r\n " +
+                                   " Type:            \r\n " +
+                                   " Cut out size:    \r\n " +
+                                   " Globe type:      \r\n " +
+                                   " Globe colour:    \r\n " +
+                                   " Globe Intesity:  \r\n " +
+                                   " Beam angle:      \r\n ",
+                    Company = company,
+                    TradeWorkType = TradeType.Electrician,
+
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(item4).State = EntityState.Added;
+
+                WorkItemTemplate item5 = new WorkItemTemplate
+                {
+
+                    Name = "Lighting point Install",
+                    Description = " Brand name:      \r\n " +
+                                   " Switching point:         \r\n " +
+                                   " Type of power point:    \r\n " +
+                                   " Maximum Rating:      \r\n " 
+                                   ,
+                    Company = company,
+                    TradeWorkType = TradeType.Electrician,
+
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(item5).State = EntityState.Added;
+
+
+                WorkItemTemplate item6 = new WorkItemTemplate
+                {
+
+                    Name = "Kitchen sink pipe Install",
+                    Description = " Pipe name:      \r\n " +
+                                   " Joint type:         \r\n " +
+                                   " length:    \r\n " +
+                                   " Rating:      \r\n "
+                                   ,
+                    Company = company,
+                    TradeWorkType = TradeType.Plumber,
+
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(item6).State = EntityState.Added;
+
+                WorkItemTemplate item7 = new WorkItemTemplate
+                {
+
+                    Name = "Tap Install",
+                    Description = " Brand Name:      \r\n " +
+                                   " Tap Type:         \r\n " +
+                                   " Weight:    \r\n " +
+                                   " Rating:      \r\n ",
+                    Company = company,
+                    TradeWorkType = TradeType.Plumber,
+
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(item7).State = EntityState.Added;
+
+
+                WorkItemTemplate item8 = new WorkItemTemplate
+                {
+
+                    Name = "Sliding window fix",
+                    Description = " Brand Name:      \r\n " +
+                                   
+                                   " Parts required:      \r\n ",
+                    Company = company,
+                    TradeWorkType = TradeType.Handyman,
+
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(item8).State = EntityState.Added;
+
+
+
                 //context.SaveChanges();
                 #endregion
 
