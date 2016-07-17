@@ -5,7 +5,9 @@ app.factory('workItemDataService', ['$q', '$http', '$window', 'urls', function (
     
   
     return {
-        //$scope.url = urls.apiUrl;
+
+        //#region work item
+       
         getSectionAllWorkItems: function (sectionId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
@@ -117,8 +119,28 @@ app.factory('workItemDataService', ['$q', '$http', '$window', 'urls', function (
             });
             return deferred.promise;
         },
+        //#endregion
 
+        getAllWorkItemTemplates: function () {//need to filter by type later
+            var deferred = $q.defer();
+            var baseURL = urls.apiUrl;
+            var path = baseURL + '/WorkItemTemplates';//entity property should be lower case, as it is formatted already
+            var error = 'Error happened when getting work item templates';
+            $http({
+                method: 'GET',
+                url: path,
+            }).then(function successCallback(response) {
+                if (response.data && response.status >= 200 && response.status <= 299) {
+                    deferred.resolve(response.data.value);
+                } else {
+                    deferred.reject(error);
+                }
 
+            }, function errorCallback(response) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        },
     };
 }]);
 

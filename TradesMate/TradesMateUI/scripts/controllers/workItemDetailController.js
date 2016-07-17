@@ -13,7 +13,7 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
 
     $scope.readOnly = $state.current.name == 'dashboard.viewWorkItem';
 
-
+    $scope.creatingNew = $state.current.name == 'dashboard.createWorkItem';
 
     $scope.save = function () {
         $scope.workItem.address = undefined;
@@ -24,7 +24,7 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
             workItemCopy.sectionId = $stateParams.sectionId;
 
             //change this workItem TemplateId from UI
-            workItemCopy.workItemTemplateId = 1;
+            //workItemCopy.workItemTemplateId = 1;
 
             workItemDataService.createWorkItem(workItemCopy).then(function (result) {
                 Notification.success({ message: 'Created', delay: 2000 });
@@ -44,7 +44,12 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
             propertyId: $stateParams.propertyId
         });
     };
-
+    $scope.cloneTemplate = function (templateItem) {
+        $scope.workItem.name = templateItem.name;
+        $scope.workItem.description = templateItem.description;
+        $scope.workItem.workItemTemplateId = templateItem.id;
+        $scope.workItem.quantity = 1;
+    }
 
     var init = function () {
 
@@ -69,10 +74,15 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
         } else if ($state.current.name == 'dashboard.createWorkItem') {
             //create new workItem
             $scope.workItem = {
-                quantity: 1,//default
+                quantity: 0,//default
                 isNew: true,
             }
         }
+
+        workItemDataService.getAllWorkItemTemplates().then(function (result) {
+            $scope.templates = result;
+
+        }, function (error) { Notification.error({ message: error, delay: 2000 }); });
         
     }
 
