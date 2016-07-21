@@ -37,6 +37,10 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
         $state.go('dashboard.propertySections', { propertyId: property.id });
     }
 
+    $scope.goBack = function () {
+        $state.go('dashboard.clients');
+    }
+
     $scope.deleteProperty = function (property) {
         var propertyRef = property;
         ModalService.showModal({

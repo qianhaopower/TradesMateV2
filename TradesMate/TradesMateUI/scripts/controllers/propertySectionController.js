@@ -31,6 +31,9 @@ function ($scope, propertySectionDataService, Notification, $state, ModalService
         $state.go('dashboard.createPropertySection', {  propertyId: $stateParams.propertyId });
     }
 
+    $scope.goBack = function () {
+        $state.go('dashboard.properties');
+    }
 
     $scope.deleteSection = function (section) {
         var sectionRef = section;

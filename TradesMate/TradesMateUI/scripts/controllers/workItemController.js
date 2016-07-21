@@ -47,7 +47,13 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
         });
     }
 
-
+    $scope.goBack = function () {
+        $state.go('dashboard.propertySections', {
+          
+            propertyId: $stateParams.propertyId
+           
+        });
+    }
     $scope.deleteWorkItem = function (workItem) {
         var workItemRef = workItem;
         ModalService.showModal({
