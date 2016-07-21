@@ -17,7 +17,7 @@ angular
     'ngMessages',
     'angularModalService',
   ])
-  .constant('domain', 'http://localhost')
+  .constant('domain', 'http://' + window.location.hostname)
   .constant('api', '/DataService/odata')
   .service('urls', function (domain, api) { this.apiUrl = domain + api; })
   .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', 'NotificationProvider',
