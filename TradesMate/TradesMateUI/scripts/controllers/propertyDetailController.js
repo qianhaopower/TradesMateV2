@@ -43,7 +43,7 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
     };
 
 
-    $scope.myInterval = 5000;
+    $scope.myInterval = 500000;
     var slides = $scope.slides = [];
     $scope.addSlide = function () {
         var newWidth = 600 + slides.length + 1;
@@ -53,9 +53,40 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
               ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
         });
     };
-    for (var i = 0; i < 4; i++) {
-        $scope.addSlide();
+    for (var i = 0; i < 2; i++) {
+       // $scope.addSlide();
     }
+    //$scope.previewFile = function() {
+    //    var preview = document.querySelector('img');
+    //    var file = document.querySelector('input[type=file]').files[0];
+    //    var reader = new FileReader();
+
+    //    reader.addEventListener("load", function () {
+           
+    //        $scope.slides.push({ image: reader.result });
+    //        $scope.$apply();
+    //    }, false);
+
+    //    if (file) {
+    //        reader.readAsDataURL(file);
+    //    }
+    //}
+
+    $scope.uploadFile = function () {
+        var file = event.target.files[0];
+      
+        var reader = new FileReader();
+
+        reader.addEventListener("load", function () {
+            $scope.slides.push({ image: reader.result });
+            $scope.$apply();
+        }, false);
+
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    };
+
 
     var init = function () {
 
