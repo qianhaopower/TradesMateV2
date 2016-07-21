@@ -16,6 +16,7 @@ angular
     'ui-notification',
     'ngMessages',
     'angularModalService',
+    'angular-carousel',
   ])
   .constant('domain', 'http://' + window.location.hostname)
   .constant('api', '/DataService/odata')
