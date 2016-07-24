@@ -86,6 +86,10 @@ background-color: #eee;
     height:200px;
     
 }
+.ml20 {
+margin-left:20px;
+}
+
 
 /*required fields label*/
 .form-group.required .control-label:after {
