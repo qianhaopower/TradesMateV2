@@ -252,7 +252,7 @@ namespace EF.UnitTest
                 WorkItemTemplate item = new WorkItemTemplate
                 {
                     Description = "Install power switch",
-                    Name = "Gneral Power Switch Install",
+                    Name = "General Power Switch Install",
                     Company = company,
                     TradeWorkType = TradeType.Electrician,
 
@@ -405,7 +405,7 @@ namespace EF.UnitTest
                 WorkItem workItem = new WorkItem
                 {
                     Description = "Install power switch",
-                    Name = "Gneral Power Switch Install",
+                    Name = "General Power Switch Install",
                     Quantity = 3,
                     Section = sec,
                     TemplateRecord = item,
