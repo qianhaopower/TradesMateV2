@@ -19,64 +19,53 @@
 
         <div class="row">
 
-            <div class="row ">
-
-                <div class="col-xs-6 col-md-9">
-
-                    <button type="button" title="Add new section" id="loading-example-btn" class="btn btn-white btn-sm" ng-click="addNewSection()">
-                        <i class="fa fa-plus-circle "></i>
-                    </button>
-
-                </div>
-                <div class="col-xs-6  col-md-3 pull-right">
-
-                    <input type="text" placeholder="Search section.." class="input-sm form-control" ng-model="filterTextModel.searchText">
-                   
-
-                </div>
+            <div class="col-xs-6 col-md-9">
+                <button type="button" title="Add new section" id="loading-example-btn" class="btn btn-white btn-sm" ng-click="addNewSection()">
+                    <i class="fa fa-plus "></i>
+                </button>
+            </div>
+            <div class="col-xs-6  col-md-3 pull-right">
+                <input type="text" placeholder="Search sections..." class="input-sm form-control" ng-model="filterTextModel.searchText">
             </div>
         </div>
-        <div class="">
-            <table class="table table-hover">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Name</th>
-                        <th>Description</th>
-                        <th></th>
-                    </tr>
-                </thead>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th></th>
+                </tr>
+            </thead>
 
 
-                <tbody>
+            <tbody>
 
-                    <tr ng-repeat="section in sectionlist | filter:search" >
+                <tr ng-repeat="section in sectionlist | filter:search">
 
-                        <td ng-click="viewWorkItems(section)" >
-                            <i class="fa fa-bed"></i>
-                        </td>
-                        <td class="" ng-click="viewWorkItems(section)" >
-                            <a>{{section.name}} </a>
-                        </td>
-                        <td class="" ng-click="viewWorkItems(section)">
-                            {{section.description}}
-                        </td>
-                        <td class="">
-                            <a class="btn btn-white btn-sm" title="View Detail" ng-click="openSectionDetail(section, true)"><i class="fa fa-eye"></i></a>
-                            <a class="btn btn-white btn-sm" title="Edit" ng-click="openSectionDetail(section,false)"><i class="fa fa-pencil"></i></a>
-                            <a class="btn btn-white btn-sm" title="Delete" ng-click="deleteSection(section)"><i class="fa fa-trash-o"></i></a>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-
-        </div>
+                    <td ng-click="viewWorkItems(section)">
+                        <i class="fa fa-bed"></i>
+                    </td>
+                    <td class="" ng-click="viewWorkItems(section)">
+                        <a>{{section.name}} </a>
+                    </td>
+                    <td class="" ng-click="viewWorkItems(section)">
+                        {{section.description}}
+                    </td>
+                    <td class="">
+                        <a class="btn btn-white btn-sm" title="View Detail" ng-click="openSectionDetail(section, true)"><i class="fa fa-eye"></i></a>
+                        <a class="btn btn-white btn-sm" title="Edit" ng-click="openSectionDetail(section,false)"><i class="fa fa-pencil"></i></a>
+                        <a class="btn btn-white btn-sm" title="Delete" ng-click="deleteSection(section)"><i class="fa fa-trash-o"></i></a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
     </form>
 </div>
 
 
-   <!-- The actual modal template, just a bit o bootstrap -->
+<!-- The actual modal template, just a bit o bootstrap -->
 <script type="text/ng-template" id="deleteSectionmodal.html">
     <div class="modal fade">
         <div class="modal-dialog">

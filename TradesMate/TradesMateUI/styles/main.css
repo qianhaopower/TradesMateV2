@@ -86,3 +86,22 @@ background-color: #eee;
     height:200px;
     
 }
+
+/*required fields label*/
+.form-group.required .control-label:after {
+  content:"*";
+  color:red;
+}
+/*place holder italic*/
+::-webkit-input-placeholder {
+   font-style: italic;
+}
+:-moz-placeholder {
+   font-style: italic;  
+}
+::-moz-placeholder {
+   font-style: italic;  
+}
+:-ms-input-placeholder {  
+   font-style: italic; 
+}

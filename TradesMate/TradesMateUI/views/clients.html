@@ -7,32 +7,24 @@
     </div>
     <!-- /.row -->
 </div>
-
-
-
 <div class="">
-    <form class="form-horizontal">
-
-        <div class="row">
+    <div class="form-horizontal">
 
             <div class="row ">
-
                 <div class="col-xs-6 col-md-9">
 
                     <button type="button" title="Add new client" id="loading-example-btn" class="btn btn-white btn-sm" ng-click="addNewClient()">
-                        <i class="fa fa-plus-circle "></i>
+                        <i class="fa fa-plus"></i>
                     </button>
 
                 </div>
                 <div class="col-xs-6  col-md-3 pull-right">
 
-                    <input type="text" placeholder="Search client.." class="input-sm form-control" ng-model="filterTextModel.searchText">
+                    <input type="text" placeholder="Search clients..." class="input-sm form-control" ng-model="filterTextModel.searchText">
                    
 
                 </div>
             </div>
-        </div>
-        <div class="">
             <table class="table table-hover">
                 <thead>
                     <tr>
@@ -42,8 +34,6 @@
                         <th></th>
                     </tr>
                 </thead>
-
-
                 <tbody>
 
                     <tr ng-repeat="client in clientlist | filter:search" >
@@ -70,9 +60,7 @@
                 </tbody>
             </table>
 
-        </div>
-
-    </form>
+    </div>
 </div>
 
 
