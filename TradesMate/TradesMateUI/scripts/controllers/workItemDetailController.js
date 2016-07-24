@@ -49,7 +49,22 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
         $scope.workItem.description = templateItem.description;
         $scope.workItem.workItemTemplateId = templateItem.id;
         $scope.workItem.quantity = 1;
-    }
+    };
+
+    //Electrician 0,
+    //  Handyman 1,
+    //  Plumber 2,
+    $scope.userProfile = {
+        tradeType: 'Electrician',
+    };
+
+    $scope.search = function (item) {
+        if (item.tradeWorkType == $scope.userProfile.tradeType) {
+            return true;
+        }
+        return false;
+    };
+
 
     var init = function () {
 
