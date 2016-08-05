@@ -26,17 +26,4 @@ C:\Tutorial\TradesMate\EF.UnitTest\bin\Debug\Microsoft.VisualStudio.QualityTools
 C:\Tutorial\TradesMate\EF.UnitTest\obj\Debug\EF.UnitTest.csprojResolveAssemblyReference.cache
 C:\Tutorial\TradesMate\EF.UnitTest\obj\Debug\EF.UnitTest.dll
 C:\Tutorial\TradesMate\EF.UnitTest\obj\Debug\EF.UnitTest.pdb
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\bin\Debug\EF.UnitTest.dll.config
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\bin\Debug\EF.UnitTest.dll
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\bin\Debug\EF.UnitTest.pdb
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\bin\Debug\EF.Data.dll
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\bin\Debug\EntityFramework.dll
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\bin\Debug\EntityFramework.SqlServer.dll
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\bin\Debug\EF.Data.pdb
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\bin\Debug\EntityFramework.xml
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\bin\Debug\EntityFramework.SqlServer.xml
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.xml
 C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\obj\Debug\EF.UnitTest.csprojResolveAssemblyReference.cache
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\obj\Debug\EF.UnitTest.dll
-C:\Tutorial\TradesMateV2\TradesMate\EF.UnitTest\obj\Debug\EF.UnitTest.pdb
