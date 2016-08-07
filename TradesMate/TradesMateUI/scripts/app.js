@@ -17,6 +17,8 @@ angular
     'ngMessages',
     'angularModalService',
     'angular-carousel',
+    'LocalStorageModule',
+ 
   ])
   .constant('domain', 'http://' + window.location.hostname)
   .constant('api', '/DataService/odata')
@@ -29,7 +31,7 @@ angular
               events: true,
           });
 
-          $urlRouterProvider.otherwise('/dashboard/home');
+          $urlRouterProvider.otherwise('/home');
 
           $stateProvider
             .state('dashboard', {
@@ -122,10 +124,10 @@ angular
                 templateUrl: 'views/pages/blank.html',
                 url: '/blank'
             })
-            .state('login', {
-                templateUrl: 'views/pages/login.html',
-                url: '/login'
-            })
+            //.state('login', {
+            //    templateUrl: 'views/pages/login.html',
+            //    url: '/login'
+            //})
             .state('dashboard.chart', {
                 templateUrl: 'views/chart.html',
                 url: '/chart',
@@ -175,7 +177,55 @@ angular
                 url: '/grid'
             })
 
-         //start from here
+           //authetication
+          //$routeProvider.when("/home", {
+          //    controller: "homeController",
+          //    templateUrl: "/views/home.html"
+          //});
+
+          .state('home', {
+              controller: "homeController",
+              templateUrl: "/views/home.html",
+              url: '/home'
+          })
+
+          .state("login", {
+              controller: "loginController",
+              templateUrl: "/views/login.html",
+              url: '/login',
+          })
+
+          .state("/signup", {
+              controller: "signupController",
+              templateUrl: "/views/signup.html",
+              url: '/signup'
+          })
+
+          .state("/orders", {
+              controller: "ordersController",
+              templateUrl: "/views/orders.html",
+              url: '/orders'
+          })
+
+          .state("/refresh", {
+              controller: "refreshController",
+              templateUrl: "/views/refresh.html",
+              url: '/refresh'
+          })
+
+          .state("/tokens", {
+              controller: "tokensManagerController",
+              templateUrl: "/views/tokens.html",
+              url: '/tokens'
+          })
+
+          .state("/associate", {
+              controller: "associateController",
+              templateUrl: "/views/associate.html",
+              url: '/associate'
+          })
+
+         //business logic start from here
 
               //client
             .state('dashboard.clients', {
@@ -306,3 +356,19 @@ angular
 
 
 
+//var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar']);
+var app = angular.module('sbAdminApp');
+var serviceBase = 'http://localhost:26264/'; //base for authentication
+//var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
+app.constant('ngAuthSettings', {
+    apiServiceBaseUri: serviceBase,
+    clientId: 'ngAuthApp'
+});
+
+app.config(function ($httpProvider) {
+    $httpProvider.interceptors.push('authInterceptorService');
+});
+
+app.run(['authService', function (authService) {
+    authService.fillAuthData();
+}]);

@@ -5,30 +5,9 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataService", "DataService\DataService.csproj", "{FF7B6F39-0C9D-4A80-965F-D76EE52C712F}"
 EndProject
-Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "TradesMateUI(1)", "TradesMateUI\", "{C268D450-81E0-40E9-B04E-1E397A2D94E5}"
-	ProjectSection(WebsiteProperties) = preProject
-		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
-		Debug.AspNetCompiler.VirtualPath = "/localhost_29831"
-		Debug.AspNetCompiler.PhysicalPath = "TradesMateUI\"
-		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_29831\"
-		Debug.AspNetCompiler.Updateable = "true"
-		Debug.AspNetCompiler.ForceOverwrite = "true"
-		Debug.AspNetCompiler.FixedNames = "false"
-		Debug.AspNetCompiler.Debug = "True"
-		Release.AspNetCompiler.VirtualPath = "/localhost_29831"
-		Release.AspNetCompiler.PhysicalPath = "TradesMateUI\"
-		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_29831\"
-		Release.AspNetCompiler.Updateable = "true"
-		Release.AspNetCompiler.ForceOverwrite = "true"
-		Release.AspNetCompiler.FixedNames = "false"
-		Release.AspNetCompiler.Debug = "False"
-		VWDPort = "29831"
-		SlnRelativePath = "TradesMateUI\"
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService", "AuthenticationService\AuthenticationService.csproj", "{23DFCFD5-B158-4C0D-9C31-5E9CB64C64CF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradesMateUI", "TradeUI\TradesMateUI.csproj", "{E4156422-2684-4222-95C2-4B9AE4CBA7E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradesMateUI", "TradesMateUI\TradesMateUI.csproj", "{E4156422-2684-4222-95C2-4B9AE4CBA7E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,10 +19,6 @@ Global
 		{FF7B6F39-0C9D-4A80-965F-D76EE52C712F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF7B6F39-0C9D-4A80-965F-D76EE52C712F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF7B6F39-0C9D-4A80-965F-D76EE52C712F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C268D450-81E0-40E9-B04E-1E397A2D94E5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C268D450-81E0-40E9-B04E-1E397A2D94E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C268D450-81E0-40E9-B04E-1E397A2D94E5}.Release|Any CPU.ActiveCfg = Debug|Any CPU
-		{C268D450-81E0-40E9-B04E-1E397A2D94E5}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{23DFCFD5-B158-4C0D-9C31-5E9CB64C64CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{23DFCFD5-B158-4C0D-9C31-5E9CB64C64CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{23DFCFD5-B158-4C0D-9C31-5E9CB64C64CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
