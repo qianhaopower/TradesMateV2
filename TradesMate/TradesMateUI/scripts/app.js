@@ -31,7 +31,7 @@ angular
               events: true,
           });
 
-          $urlRouterProvider.otherwise('/home');
+          $urlRouterProvider.otherwise('/dashboard.home');
 
           $stateProvider
             .state('dashboard', {
@@ -185,43 +185,43 @@ angular
 
           .state('home', {
               controller: "homeController",
-              templateUrl: "/views/home.html",
+              templateUrl: "views/home.html",
               url: '/home'
           })
 
           .state("login", {
               controller: "loginController",
-              templateUrl: "/views/login.html",
+              templateUrl: "views/login.html",
               url: '/login',
           })
 
-          .state("/signup", {
+          .state("signup", {
               controller: "signupController",
-              templateUrl: "/views/signup.html",
+              templateUrl: "views/signup.html",
               url: '/signup'
           })
 
-          .state("/orders", {
+          .state("orders", {
               controller: "ordersController",
-              templateUrl: "/views/orders.html",
+              templateUrl: "views/ orders.html",
               url: '/orders'
           })
 
-          .state("/refresh", {
+          .state("refresh", {
               controller: "refreshController",
-              templateUrl: "/views/refresh.html",
+              templateUrl: "views/refresh.html",
               url: '/refresh'
           })
 
-          .state("/tokens", {
+          .state("tokens", {
               controller: "tokensManagerController",
-              templateUrl: "/views/tokens.html",
+              templateUrl: "views/tokens.html",
               url: '/tokens'
           })
 
-          .state("/associate", {
+          .state("associate", {
               controller: "associateController",
-              templateUrl: "/views/associate.html",
+              templateUrl: "views/associate.html",
               url: '/associate'
           })
 
@@ -358,7 +358,7 @@ angular
 
 //var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar']);
 var app = angular.module('sbAdminApp');
-var serviceBase = 'http://localhost:26264/'; //base for authentication
+var serviceBase = 'http://localhost/authenticationservice/'; //base for authentication
 //var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,

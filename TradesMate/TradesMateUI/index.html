@@ -35,10 +35,10 @@
             </div>
             <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
                 <ul class="nav navbar-nav navbar-right">
-                    <li data-ng-hide="!authentication.isAuth"><a ui-sref="">Welcome {{authentication.userName}}</a></li>
+                    <li data-ng-hide="!authentication.isAuth"><a ui-sref="home">Welcome {{authentication.userName}}</a></li>
                     <li data-ng-hide="!authentication.isAuth"><a ui-sref="orders">My Orders</a></li>
                     <li data-ng-hide="!authentication.isAuth"><a ui-sref="refresh">Refresh Token</a></li>
-                    <li data-ng-hide="!authentication.isAuth"><a ui-sref="" data-ng-click="logOut()">Logout</a></li>
+                    <li data-ng-hide="!authentication.isAuth"><a ui-sref="home" data-ng-click="logOut()">Logout</a></li>
                     <li data-ng-hide="authentication.isAuth"> <a ui-sref="login">Login</a></li>
                     <li data-ng-hide="authentication.isAuth"> <a ui-sref="signup">Sign Up</a></li>
                 </ul>
@@ -55,7 +55,7 @@
     </div>
 
     <div class="container">
-        <div data-ng-view="">
+        <div ui-view="">
         </div>
     </div>
 
