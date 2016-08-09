@@ -31,7 +31,7 @@ angular
               events: true,
           });
 
-          $urlRouterProvider.otherwise('/dashboard.home');
+          $urlRouterProvider.otherwise('/');
 
           $stateProvider
             .state('dashboard', {
@@ -201,11 +201,11 @@ angular
               url: '/signup'
           })
 
-          .state("orders", {
-              controller: "ordersController",
-              templateUrl: "views/ orders.html",
-              url: '/orders'
-          })
+          //.state("orders", {
+          //    controller: "ordersController",
+          //    templateUrl: "views/orders.html",
+          //    url: '/orders'
+          //})
 
           .state("refresh", {
               controller: "refreshController",

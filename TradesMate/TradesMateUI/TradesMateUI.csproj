@@ -691,8 +691,8 @@
   <ItemGroup>
     <Content Include="content\fonts\glyphicons-halflings-regular.svg" />
     <Content Include="favicon.ico" />
+    <Content Include="indexAuth.html" />
     <Content Include="index.html" />
-    <Content Include="indexMain.html" />
     <Content Include="js\sb-admin-2.js" />
     <Content Include="scripts\app.js" />
     <Content Include="scripts\controllers\associateController.js" />

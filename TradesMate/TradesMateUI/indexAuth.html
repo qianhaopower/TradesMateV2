@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html data-ng-app="sbAdminApp">
+<head>
+
+    <meta name="keywords" content="angularjs,SPA,Single Page Application,refresh tokens,authentication,bearer token authentication,OWIN,bootstrap,bootstrap ui,tutorial,JS framework,ASP.NET WEB API 2,Taiseer Joudeh" />
+    <meta name="description" content="SPA built using angularjs,authentication is done using bearer token,back end built using Asp.net web api 2 and OWIN Framework,creatd by Taiseer Joudeh" />
+    <meta content="IE=edge, chrome=1" http-equiv="X-UA-Compatible" />
+    <title>AngularJS Authentication</title>
+
+
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="content/css/site.css" rel="stylesheet" />
+    <link href="content/css/loading-bar.css" rel="stylesheet" />
+
+
+
+    <link rel="stylesheet" href="bower_components/angular-ui-notification/dist/angular-ui-notification.min.css" />
+    <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.min.css">
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
+    <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="bower_components/angular-carousel/dist/angular-carousel.css" />
+ 
+    <link href="content/css/social-buttons.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+</head>
+<body>
+
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation" data-ng-controller="indexController">
+        <div class="container">
+            <div class="navbar-header">
+                <button class="btn btn-success navbar-toggle" data-ng-click="navbarExpanded = !navbarExpanded">
+                    <span class="glyphicon glyphicon-chevron-down"></span>
+                </button>
+                <a class="navbar-brand" href="#/">Home</a>
+            </div>
+            <div class="collapse navbar-collapse" data-collapse="!navbarExpanded">
+                <ul class="nav navbar-nav navbar-right">
+                    <li data-ng-hide="!authentication.isAuth"><a ui-sref="home">Welcome {{authentication.userName}}</a></li>
+                    <li data-ng-hide="!authentication.isAuth"><a ui-sref="orders">My Orders</a></li>
+                    <li data-ng-hide="!authentication.isAuth"><a ui-sref="refresh">Refresh Token</a></li>
+                    <li data-ng-hide="!authentication.isAuth"><a ui-sref="home" data-ng-click="logOut()">Logout</a></li>
+                    <li data-ng-hide="authentication.isAuth"> <a ui-sref="login">Login</a></li>
+                    <li data-ng-hide="authentication.isAuth"> <a ui-sref="signup">Sign Up</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="jumbotron">
+        <div class="container">
+            <div class="page-header text-center">
+                <h1>AngularJS Authentication</h1>
+            </div>
+            <p>AngularJS Application which uses OAuth Bearer Token for authentication and implements Refresh Tokens. The backend API is built using ASP.NET Web API 2, OWIN middleware, and ASP.NET Identity.</p>
+        </div>
+    </div>
+
+    <div class="container">
+        <div ui-view="">
+        </div>
+    </div>
+
+    <hr />
+
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p class="text-muted">Created by Taiseer Joudeh. Twitter: <a target="_blank" href="http://twitter.com/tjoudeh">@tjoudeh</a></p>
+                </div>
+                <div class="col-md-6">
+                    <p class="text-muted">Taiseer Joudeh Blog: <a target="_blank" href="http://bitoftech.net">bitoftech.net</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-messages/angular-messages.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+    <script src="bower_components/json3/lib/json3.min.js"></script>
+    <script src="bower_components/oclazyload/dist/ocLazyLoad.min.js"></script>
+    <script src="bower_components/angular-loading-bar/build/loading-bar.min.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.min.js"></script>
+    <script src="bower_components/metisMenu/dist/metisMenu.min.js"></script>
+    <script src="bower_components/Chart.js/Chart.min.js"></script>
+    <script src="bower_components/angular-ui-notification/dist/angular-ui-notification.min.js"></script>
+    <script src="bower_components/angular-modal-service/dst/angular-modal-service.js"></script>
+    <script src="bower_components/angular-touch/angular-touch.js"></script>
+    <script src="bower_components/angular-carousel/dist/angular-carousel.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
+  
+    <!-- Load app main script -->
+    <script src="scripts/app.js?v=2"></script>
+
+    <!-- Load services -->
+    <script src="scripts/services/authInterceptorService.js?v=2"></script>
+    <script src="scripts/services/authService.js?v=2"></script>
+    <script src="scripts/services/ordersService.js?v=2"></script>
+    <script src="scripts/services/tokensManagerService.js?v=2"></script>
+    <!-- Load controllers -->
+    <script src="scripts/controllers/indexController.js?v=2"></script>
+    <script src="scripts/controllers/homeController.js?v=2"></script>
+    <script src="scripts/controllers/loginController.js?v=2"></script>
+    <script src="scripts/controllers/signupController.js?v=2"></script>
+    <script src="scripts/controllers/ordersController.js?v=2"></script>
+    <script src="scripts/controllers/refreshController.js?v=2"></script>
+    <script src="scripts/controllers/tokensManagerController.js?v=2"></script>
+    <script src="scripts/controllers/associateController.js?v=2"></script>
+    <!-- Load custom filters -->
+    <!-- Load custom directives -->
+
+</body>
+</html>

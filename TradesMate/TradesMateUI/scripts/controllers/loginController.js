@@ -1,5 +1,6 @@
 ﻿'use strict';
-app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuthSettings', function ($scope, $location, authService, ngAuthSettings) {
+app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuthSettings', '$state',
+    function ($scope, $location, authService, ngAuthSettings, $state) {
 
     $scope.loginData = {
         userName: "",
@@ -13,7 +14,8 @@ app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuth
 
         authService.login($scope.loginData).then(function (response) {
 
-            $location.path('/orders');
+            //$location.path('/orders');
+            $state.go('dashboard.home');
 
         },
          function (err) {
