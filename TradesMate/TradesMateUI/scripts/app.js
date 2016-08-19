@@ -31,7 +31,7 @@ angular
               events: true,
           });
 
-          $urlRouterProvider.otherwise('/');
+          $urlRouterProvider.otherwise('/dashboard/home');
 
           $stateProvider
             .state('dashboard', {
@@ -372,3 +372,40 @@ app.config(function ($httpProvider) {
 app.run(['authService', function (authService) {
     authService.fillAuthData();
 }]);
+
+// In the run phase of your Angular application  
+app.run(function ($rootScope, authService, $state) {
+
+
+    $rootScope.$on('$stateChangeStart', function (event, toState, toStateParams) {
+              if (authService.authentication && authService.authentication.isAuth) {
+                  //already loggedin
+                  if (toState.name == 'login') {
+                      //already loggedin but try to load the login page. 
+                      //redirect to home page. 
+                      //if the user what to login again, he/she need logout first
+                      $state.go('dashboard.home');
+                  }
+
+              } else {
+                  //not loggedin 
+
+                  if (toState.name != 'login') {
+                      $state.go('login')
+                  }
+                  
+              }
+          });
+
+    // Listen to '$locationChangeSuccess', not '$stateChangeStart'
+    //$rootScope.$on('$locationChangeSuccess', function (event, url, oldUrl, state, oldState) {
+    //    if (authService.authentication && authService.authentication.isAuth) {
+    //        //already loggedin
+
+
+    //    } else {
+    //        //not loggedin 
+    //        $state.go('login')
+    //    }
+    //});
+})
