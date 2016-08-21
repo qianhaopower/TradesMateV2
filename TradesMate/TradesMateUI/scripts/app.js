@@ -31,12 +31,12 @@ angular
               events: true,
           });
 
-          $urlRouterProvider.otherwise('/dashboard/home');
+          $urlRouterProvider.otherwise('/base/home');
 
           $stateProvider
-            .state('dashboard', {
-                url: '/dashboard',
-                templateUrl: 'views/dashboard/main.html',
+            .state('base', {
+                url: '/base',
+                templateUrl: 'views/base/main.html',
                 resolve: {
                     loadMyDirectives: function ($ocLazyLoad) {
                         return $ocLazyLoad.load(
@@ -84,10 +84,10 @@ angular
                     }
                 }
             })
-            .state('dashboard.home', {
+            .state('base.home', {
                 url: '/home',
                 controller: 'MainCtrl',
-                templateUrl: 'views/dashboard/home.html',
+                templateUrl: 'views/base/home.html',
                 resolve: {
                     loadMyFiles: function ($ocLazyLoad) {
                         return $ocLazyLoad.load({
@@ -108,7 +108,7 @@ angular
                             'scripts/directives/timeline/timeline.js',
                             'scripts/directives/notifications/notifications.js',
                             'scripts/directives/chat/chat.js',
-                            'scripts/directives/dashboard/stats/stats.js'
+                            'scripts/directives/base/stats/stats.js'
 
 
                             ]
@@ -116,11 +116,11 @@ angular
                     }
                 }
             })
-            .state('dashboard.form', {
+            .state('base.form', {
                 templateUrl: 'views/form.html',
                 url: '/form'
             })
-            .state('dashboard.blank', {
+            .state('base.blank', {
                 templateUrl: 'views/pages/blank.html',
                 url: '/blank'
             })
@@ -128,7 +128,7 @@ angular
             //    templateUrl: 'views/pages/login.html',
             //    url: '/login'
             //})
-            .state('dashboard.chart', {
+            .state('base.chart', {
                 templateUrl: 'views/chart.html',
                 url: '/chart',
                 controller: 'ChartCtrl',
@@ -148,31 +148,31 @@ angular
                     }
                 }
             })
-            .state('dashboard.table', {
+            .state('base.table', {
                 templateUrl: 'views/table.html',
                 url: '/table'
             })
-            .state('dashboard.panels-wells', {
+            .state('base.panels-wells', {
                 templateUrl: 'views/ui-elements/panels-wells.html',
                 url: '/panels-wells'
             })
-            .state('dashboard.buttons', {
+            .state('base.buttons', {
                 templateUrl: 'views/ui-elements/buttons.html',
                 url: '/buttons'
             })
-            .state('dashboard.notifications', {
+            .state('base.notifications', {
                 templateUrl: 'views/ui-elements/notifications.html',
                 url: '/notifications'
             })
-            .state('dashboard.typography', {
+            .state('base.typography', {
                 templateUrl: 'views/ui-elements/typography.html',
                 url: '/typography'
             })
-            .state('dashboard.icons', {
+            .state('base.icons', {
                 templateUrl: 'views/ui-elements/icons.html',
                 url: '/icons'
             })
-            .state('dashboard.grid', {
+            .state('base.grid', {
                 templateUrl: 'views/ui-elements/grid.html',
                 url: '/grid'
             })
@@ -183,10 +183,10 @@ angular
           //    templateUrl: "/views/home.html"
           //});
 
-          .state('home', {
-              controller: "homeController",
-              templateUrl: "views/home.html",
-              url: '/home'
+          .state('noAccess', {
+              controller: "noAccessController",
+              templateUrl: "views/noAccess.html",
+              url: '/noAccess'
           })
 
           .state("login", {
@@ -228,7 +228,7 @@ angular
          //business logic start from here
 
               //client
-            .state('dashboard.clients', {
+            .state('base.clients', {
                 templateUrl: 'views/clients.html',
                 controller: 'clientController',
                 url: '/clients',
@@ -244,17 +244,17 @@ angular
                 //    }
                 //}
             })
-               .state('dashboard.editClient', {
+               .state('base.editClient', {
                    templateUrl: 'views/clientDetail.html',
                    controller: 'clientDetailController',
                    url: '/client/edit/:param',
                })
-               .state('dashboard.createClient', {
+               .state('base.createClient', {
                    templateUrl: 'views/clientDetail.html',
                    controller: 'clientDetailController',
                    url: '/client/create',
                })
-               .state('dashboard.viewClient', {
+               .state('base.viewClient', {
                    templateUrl: 'views/clientDetail.html',
                    controller: 'clientDetailController',
                    url: '/client/view/:param',
@@ -263,27 +263,27 @@ angular
 
 
               //property
-             .state('dashboard.properties', {
+             .state('base.properties', {
                  templateUrl: 'views/properties.html',
                  controller: 'propertyController',
                  url: '/properties'
              })
-              .state('dashboard.createProperty', {
+              .state('base.createProperty', {
                   templateUrl: 'views/propertyDetail.html',
                   controller: 'propertyDetailController',
                   url: '/client/:clientId/property/create',
               })
-               .state('dashboard.editProperty', {
+               .state('base.editProperty', {
                    templateUrl: 'views/propertyDetail.html',
                    controller: 'propertyDetailController',
                    url: '/property/edit/:propertyId',
                })
-               .state('dashboard.viewProperty', {
+               .state('base.viewProperty', {
                    templateUrl: 'views/propertyDetail.html',
                    controller: 'propertyDetailController',
                    url: '/property/view/:propertyId',
                })
-             .state('dashboard.clientProperties', {
+             .state('base.clientProperties', {
                   templateUrl: 'views/properties.html',
                   controller: 'propertyController',
                   url: '/client/:param/properties'
@@ -292,25 +292,25 @@ angular
 
 
               //propertySection
-             .state('dashboard.propertySections', {
+             .state('base.propertySections', {
                  templateUrl: 'views/sections.html',
                  controller: 'propertySectionController',
                  url: '/property/:propertyId/property-sections'//property section List for a property
                                   
              })
 
-              .state('dashboard.createPropertySection', {
+              .state('base.createPropertySection', {
                   templateUrl: 'views/sectionDetail.html',
                   controller: 'propertySectionDetailController',
                   url: '/property/:propertyId/property-section/create'
               })
 
-                .state('dashboard.editPropertySection', {
+                .state('base.editPropertySection', {
                     templateUrl: 'views/sectionDetail.html',
                     controller: 'propertySectionDetailController',
                     url: '/property/:propertyId/property-section/edit/:sectionId'
                 })
-               .state('dashboard.viewPropertySection', {
+               .state('base.viewPropertySection', {
                    templateUrl: 'views/sectionDetail.html',
                    controller: 'propertySectionDetailController',
                    url: '/property/:propertyId/property-section/view/:sectionId'
@@ -319,24 +319,24 @@ angular
               //workItems
             
 
-          .state('dashboard.workItems', {
+          .state('base.workItems', {
               templateUrl: 'views/workitems.html',
               controller: 'workItemController',
               url: '/property/:propertyId/section/:sectionId/workItems'                    
           })
 
-            .state('dashboard.createWorkItem', {
+            .state('base.createWorkItem', {
                 templateUrl: 'views/workItemDetail.html',
                 controller: 'workItemDetailController',
                 url: '/property/:propertyId/section/:sectionId/workItems/create'
             })
 
-          .state('dashboard.editWorkItem', {
+          .state('base.editWorkItem', {
               templateUrl: 'views/workItemDetail.html',
               controller: 'workItemDetailController',
               url: '/property/:propertyId/section/:sectionId/workItems/edit/:workItemId'
           })
-         .state('dashboard.viewWorkItem', {
+         .state('base.viewWorkItem', {
              templateUrl: 'views/workItemDetail.html',
              controller: 'workItemDetailController',
              url: '/property/:propertyId/section/:sectionId/workItems/view/:workItemId'
@@ -384,14 +384,17 @@ app.run(function ($rootScope, authService, $state) {
                       //already loggedin but try to load the login page. 
                       //redirect to home page. 
                       //if the user what to login again, he/she need logout first
-                      $state.go('dashboard.home');
+                    
+                      $state.go('base.home');
                   }
 
               } else {
                   //not loggedin 
 
                   if (toState.name != 'login') {
-                      $state.go('login')
+                     
+                      event.preventDefault();
+                      $state.go('login');
                   }
                   
               }

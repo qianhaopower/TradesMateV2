@@ -716,8 +716,8 @@
     <Content Include="scripts\controllers\workItemDetailController.js" />
     <Content Include="scripts\directives\chat\chat.html" />
     <Content Include="scripts\directives\chat\chat.js" />
-    <Content Include="scripts\directives\dashboard\stats\stats.html" />
-    <Content Include="scripts\directives\dashboard\stats\stats.js" />
+    <Content Include="scripts\directives\base\stats\stats.html" />
+    <Content Include="scripts\directives\base\stats\stats.js" />
     <Content Include="scripts\directives\fileUploadOnChange.js" />
     <Content Include="scripts\directives\header\header-notification\header-notification.html" />
     <Content Include="scripts\directives\header\header-notification\header-notification.js" />
@@ -744,10 +744,10 @@
     <Content Include="views\chart.html" />
     <Content Include="views\clientDetail.html" />
     <Content Include="views\clients.html" />
-    <Content Include="views\dashboard\home.html" />
-    <Content Include="views\dashboard\main.html" />
+    <Content Include="views\base\home.html" />
+    <Content Include="views\base\main.html" />
     <Content Include="views\form.html" />
-    <Content Include="views\home.html" />
+    <Content Include="views\noAccess.html" />
     <Content Include="views\login.html" />
     <Content Include="views\orders.html" />
     <Content Include="views\pages\blank.html" />

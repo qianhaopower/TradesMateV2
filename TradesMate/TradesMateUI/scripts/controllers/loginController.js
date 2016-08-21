@@ -15,7 +15,7 @@ app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuth
         authService.login($scope.loginData).then(function (response) {
 
             //$location.path('/orders');
-            $state.go('dashboard.home');
+            $state.go('base.home');
 
         },
          function (err) {
