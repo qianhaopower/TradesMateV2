@@ -384,14 +384,16 @@ app.run(function ($rootScope, authService, $state) {
                       //already loggedin but try to load the login page. 
                       //redirect to home page. 
                       //if the user what to login again, he/she need logout first
-                    
+                      event.preventDefault();
                       $state.go('base.home');
                   }
 
               } else {
                   //not loggedin 
-
-                  if (toState.name != 'login') {
+                  if (toState.name == 'signup') {
+                      //allow go to sign up when not signed in 
+                  }
+                  else if (toState.name != 'login') {
                      
                       event.preventDefault();
                       $state.go('login');

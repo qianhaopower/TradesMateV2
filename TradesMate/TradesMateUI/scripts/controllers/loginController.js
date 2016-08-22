@@ -23,6 +23,10 @@ app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuth
          });
     };
 
+    $scope.signup = function () {
+        $state.go('signup');
+    }
+
     $scope.authExternalProvider = function (provider) {
 
         var redirectUri = location.protocol + '//' + location.host + '/authcomplete.html';

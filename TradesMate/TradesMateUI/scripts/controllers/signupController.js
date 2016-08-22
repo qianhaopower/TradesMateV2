@@ -1,5 +1,6 @@
 ﻿'use strict';
-app.controller('signupController', ['$scope', '$location', '$timeout', 'authService', function ($scope, $location, $timeout, authService) {
+app.controller('signupController', ['$scope', '$location', '$timeout', '$state', 'authService',
+    function ($scope, $location, $timeout, $state, authService) {
 
     $scope.savedSuccessfully = false;
     $scope.message = "";
@@ -15,7 +16,7 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
         authService.saveRegistration($scope.registration).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "User has been registered successfully, you will be redicted to login page in 2 seconds.";
+            $scope.message = "Sign up successfully";
             startTimer();
 
         },
@@ -33,7 +34,25 @@ app.controller('signupController', ['$scope', '$location', '$timeout', 'authServ
     var startTimer = function () {
         var timer = $timeout(function () {
             $timeout.cancel(timer);
-            $location.path('/login');
+            // $location.path('/login');
+            // then automatically log the user in.
+
+            authService.login({
+                userName: $scope.registration.userName,
+                password: $scope.registration.password,
+                useRefreshTokens: false,
+            }).then(function (response) {
+
+                //$location.path('/orders');
+                $state.go('base.home');
+
+            },
+        function (err) {
+            $scope.message = err.error_description;
+        });
+
+
+
         }, 2000);
     }
 
