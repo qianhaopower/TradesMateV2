@@ -46,6 +46,12 @@ body {
 
 .navbar-top-links .dropdown-menu li {
     display: block;
+    cursor:pointer;
+
+}
+.navbar-top-links .dropdown-menu li:hover {
+
+    background-color:#eee;
 }
 
 .navbar-top-links .dropdown-menu li:last-child {
