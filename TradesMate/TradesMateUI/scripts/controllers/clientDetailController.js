@@ -10,10 +10,12 @@ function ($scope, clientDataService, Notification, $state, $stateParams) {
     };
     $scope.clientId = undefined;
     $scope.client = undefined;
-    $scope.readOnly = $state.current.name == 'dashboard.viewClient';
+    $scope.readOnly = $state.current.name == 'base.viewClient';
 
     
-
+    $scope.goBack = function () {
+        $state.go('base.clients');
+    }
     $scope.save = function () {
         $scope.client.address = undefined;
 
@@ -33,19 +35,19 @@ function ($scope, clientDataService, Notification, $state, $stateParams) {
     }
     $scope.goToClientIndex = function () {
 
-        $state.go('dashboard.clients');
+        $state.go('base.clients');
     };
 
 
     var init = function () {
         $scope.clientId = $stateParams.param;
         if ($scope.clientId &&
-            ($state.current.name == 'dashboard.editClient'
-            || $state.current.name == 'dashboard.viewClient')) {
+            ($state.current.name == 'base.editClient'
+            || $state.current.name == 'base.viewClient')) {
             clientDataService.getClientById($scope.clientId).then(function (result) {
                 $scope.client = result;
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
-        } else if ($state.current.name == 'dashboard.createClient') {
+        } else if ($state.current.name == 'base.createClient') {
             //create new client
             $scope.client = {
                 firstName: undefined,

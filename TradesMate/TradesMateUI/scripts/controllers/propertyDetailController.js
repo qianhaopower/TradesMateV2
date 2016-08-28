@@ -13,7 +13,7 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
     $scope.clientId = undefined;
     $scope.client = undefined;
 
-    $scope.readOnly = $state.current.name == 'dashboard.viewProperty';
+    $scope.readOnly = $state.current.name == 'base.viewProperty';
 
     
 
@@ -37,9 +37,9 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
     }
     $scope.goToPropertyIndex = function () {
         if ($scope.property.clientId)
-            $state.go('dashboard.clientProperties', { param: $scope.property.clientId });
+            $state.go('base.clientProperties', { param: $scope.property.clientId });
         else
-            $state.go('dashboard.properties');
+            $state.go('base.properties');
     };
 
 
@@ -90,13 +90,13 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
 
     var init = function () {
 
-        if ($state.current.name == 'dashboard.createProperty') {
+        if ($state.current.name == 'base.createProperty') {
             $scope.clientId = $stateParams.clientId;
         } else {
             $scope.propertyId = $stateParams.propertyId;
         }
        
-        if ($state.current.name == 'dashboard.editProperty' || $state.current.name == 'dashboard.viewProperty') {
+        if ($state.current.name == 'base.editProperty' || $state.current.name == 'base.viewProperty') {
             propertyDataService.getPropertyById($scope.propertyId).then(function (result) {
                 $scope.property = result;
                 $scope.clientId = result.clientId;
@@ -109,7 +109,7 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
                 }
 
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
-        } else if ($state.current.name == 'dashboard.createProperty') {
+        } else if ($state.current.name == 'base.createProperty') {
             //create new property
             $scope.property = {
                 condition:'Normal',//default
