@@ -224,6 +224,9 @@ angular
               templateUrl: "views/associate.html",
               url: '/associate'
           })
+          
+
+
 
          //business logic start from here
 
@@ -392,6 +395,9 @@ app.run(function ($rootScope, authService, $state) {
                   //not loggedin 
                   if (toState.name == 'signup') {
                       //allow go to sign up when not signed in 
+                  }
+                  else if (toState.name == 'associate') {
+                      //allow go to associate, no auth info yet
                   }
                   else if (toState.name != 'login') {
                      

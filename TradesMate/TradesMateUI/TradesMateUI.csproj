@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
+    <Content Include="scripts\controllers\authCompleteController.js" />
     <Content Include="authComplete.html" />
     <Content Include="bower_components\angular-animate\angular-animate.js" />
     <Content Include="bower_components\angular-animate\angular-animate.min.js" />
@@ -695,6 +696,7 @@
     <Content Include="index.html" />
     <Content Include="js\sb-admin-2.js" />
     <Content Include="scripts\app.js" />
+    <Content Include="scripts\authComplete.js" />
     <Content Include="scripts\controllers\associateController.js" />
     <Content Include="scripts\controllers\chartContoller.js" />
     <Content Include="scripts\controllers\clientController.js" />

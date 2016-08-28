@@ -5,6 +5,8 @@ using System.Data.Entity;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using EF.Data;
+using AuthenticationService.API.Entities;
+using AuthenticationService.API;
 
 namespace EF.UnitTest
 {
@@ -419,6 +421,33 @@ namespace EF.UnitTest
                 context.Entry(workItem).State = EntityState.Added;
 
                 #endregion
+
+
+                //ClientApplicaiton app1 = new ClientApplicaiton
+                //{
+                //    Id = "ngAuthApp",
+                //    Secret = Helper.GetHash("abc@123"),
+                //    Name = "AngularJS front-end Application",
+                //    ApplicationType = AuthenticationService.API.Models.ApplicationTypes.JavaScript,
+                //    Active = true,
+                //    RefreshTokenLifeTime = 7200,
+                //    AllowedOrigin = "*"
+                //};
+
+                //context.Entry(app1).State = EntityState.Added;
+
+                //ClientApplicaiton app2 = new ClientApplicaiton
+                //{
+                //    Id = "consoleApp",
+                //    Secret = Helper.GetHash("123@abc"),
+                //    Name = "Console Application",
+                //    ApplicationType = AuthenticationService.API.Models.ApplicationTypes.NativeConfidential,
+                //    Active = true,
+                //    RefreshTokenLifeTime = 14400,
+                //    AllowedOrigin = "*"
+                //};
+
+               // context.Entry(app2).State = EntityState.Added;
 
 
 

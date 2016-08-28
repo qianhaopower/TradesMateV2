@@ -15,7 +15,7 @@ app.controller('associateController', ['$scope', '$location','$timeout','authSer
         authService.registerExternal($scope.registerData).then(function (response) {
 
             $scope.savedSuccessfully = true;
-            $scope.message = "User has been registered successfully, you will be redicted to orders page in 2 seconds.";
+            $scope.message = "User has been registered successfully, you will be redicted to home page in 2 seconds.";
             startTimer();
 
         },
