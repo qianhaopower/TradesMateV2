@@ -28,6 +28,9 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
     $scope.addNewClient = function () {
         $state.go('dashboard.createClient');
     }
+    //$scope.addNewClient = function () {
+    //    $state.go('login');
+    //}
 
 
     $scope.deleteClient = function (client) {

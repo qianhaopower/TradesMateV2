@@ -263,15 +263,15 @@ namespace AuthenticationService.API.Controllers
 
             var client = _repo.FindClient(clientId);
 
-            if (client == null)
-            {
-                return string.Format("Client_id '{0}' is not registered in the system.", clientId);
-            }
+            //if (client == null)
+            //{
+            //    return string.Format("Client_id '{0}' is not registered in the system.", clientId);
+            //}
 
-            if (!string.Equals(client.AllowedOrigin, redirectUri.GetLeftPart(UriPartial.Authority), StringComparison.OrdinalIgnoreCase))
-            {
-                return string.Format("The given URL is not allowed by Client_id '{0}' configuration.", clientId);
-            }
+            //if (!string.Equals(client.AllowedOrigin, redirectUri.GetLeftPart(UriPartial.Authority), StringComparison.OrdinalIgnoreCase))
+            //{
+            //    return string.Format("The given URL is not allowed by Client_id '{0}' configuration.", clientId);
+            //}
 
             redirectUriOutput = redirectUri.AbsoluteUri;
 
@@ -302,7 +302,7 @@ namespace AuthenticationService.API.Controllers
             {
                 //You can get it from here: https://developers.facebook.com/tools/accesstoken/
                 //More about debug_tokn here: http://stackoverflow.com/questions/16641083/how-does-one-get-the-app-access-token-for-debug-token-inspection-on-facebook
-                var appToken = "xxxxxx";
+                var appToken = "202526469786564|6sQLNFUBejgj95o8JIlDG2PCa3w";
                 verifyTokenEndPoint = string.Format("https://graph.facebook.com/debug_token?input_token={0}&access_token={1}", accessToken, appToken);
             }
             else if (provider == "Google")

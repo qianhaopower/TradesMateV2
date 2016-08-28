@@ -12,15 +12,22 @@
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:css(.tmp) styles/main.css -->
-    <link rel="stylesheet" href="styles/main.css">
-    <link rel="stylesheet" href="styles/sb-admin-2.css">
-    <link rel="stylesheet" href="styles/timeline.css">
+    <link rel="stylesheet" href="content/css/main.css">
+    <link rel="stylesheet" href="content/css/sb-admin-2.css">
+    <link rel="stylesheet" href="content/css/timeline.css">
+
 
     <link rel="stylesheet" href="bower_components/angular-ui-notification/dist/angular-ui-notification.min.css" />
     <link rel="stylesheet" href="bower_components/metisMenu/dist/metisMenu.min.css">
     <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.min.css">
     <link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="bower_components/angular-carousel/dist/angular-carousel.css" />
+
+    <link href="content/css/site.css" rel="stylesheet" />
+    <link href="content/css/social-buttons.css" rel="stylesheet" />
+
+
+
     <!-- endbuild -->
     <!-- build:js(.) scripts/vendor.js -->
     <!-- bower:js -->
@@ -39,6 +46,7 @@
     <script src="bower_components/angular-modal-service/dst/angular-modal-service.js"></script>
     <script src="bower_components/angular-touch/angular-touch.js"></script>
     <script src="bower_components/angular-carousel/dist/angular-carousel.js"></script>
+    <script src="bower_components/angular-local-storage/dist/angular-local-storage.js"></script>
     <!-- endbower -->
     <!-- endbuild -->
     <!-- build:js({.tmp,app}) scripts/scripts.js -->
@@ -57,11 +65,25 @@
     <script src="scripts/controllers/propertySectionDetailController.js"></script>
     <script src="scripts/controllers/workItemDetailController.js"></script>
 
+    <script src="scripts/controllers/indexController.js?v=2"></script>
+    <script src="scripts/controllers/homeController.js?v=2"></script>
+    <script src="scripts/controllers/loginController.js?v=2"></script>
+    <script src="scripts/controllers/signupController.js?v=2"></script>
+    <script src="scripts/controllers/ordersController.js?v=2"></script>
+    <script src="scripts/controllers/refreshController.js?v=2"></script>
+    <script src="scripts/controllers/tokensManagerController.js?v=2"></script>
+    <script src="scripts/controllers/associateController.js?v=2"></script>
+
     <!-- Services -->
     <script src="scripts/services/clientDataService.js"></script>
     <script src="scripts/services/propertyDataService.js"></script>
     <script src="scripts/services/propertySectionDataService.js"></script>
     <script src="scripts/services/workItemDataService.js"></script>
+
+    <script src="scripts/services/authInterceptorService.js?v=2"></script>
+    <script src="scripts/services/authService.js?v=2"></script>
+    <script src="scripts/services/ordersService.js?v=2"></script>
+    <script src="scripts/services/tokensManagerService.js?v=2"></script>
 
     <!-- Directives -->
     <script src="scripts/directives/fileUploadOnChange.js"></script>

@@ -56,8 +56,8 @@ namespace AuthenticationService.API
             //Configure Google External Login
             googleAuthOptions = new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "xxxxxx",
-                ClientSecret = "xxxxxx",
+                ClientId = "154249831186-0ieu1cvimgqnbbu7h7ul2d5cmc0ldun9.apps.googleusercontent.com",
+                ClientSecret = "Qd9Yh5ch2gdARXkw5JPMXm02",
                 Provider = new GoogleAuthProvider()
             };
             app.UseGoogleAuthentication(googleAuthOptions);
@@ -65,8 +65,8 @@ namespace AuthenticationService.API
             //Configure Facebook External Login
             facebookAuthOptions = new FacebookAuthenticationOptions()
             {
-                AppId = "xxxxxx",
-                AppSecret = "xxxxxx",
+                AppId = "202526469786564",
+                AppSecret = "bd798ef4d55ee25365b9a28e23ac9f00",
                 Provider = new FacebookAuthProvider()
             };
             app.UseFacebookAuthentication(facebookAuthOptions);
