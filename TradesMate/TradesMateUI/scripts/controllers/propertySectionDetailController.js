@@ -10,7 +10,7 @@ function ($scope, propertySectionDataService, Notification, $state, $stateParams
     };
     $scope.sectionId = undefined;
     $scope.section = undefined;
-    $scope.readOnly = $state.current.name == 'dashboard.viewPropertySection';
+    $scope.readOnly = $state.current.name == 'base.viewPropertySection';
 
     
 
@@ -31,19 +31,19 @@ function ($scope, propertySectionDataService, Notification, $state, $stateParams
     
     }
     $scope.goToSectionIndex = function () {
-        $state.go('dashboard.propertySections', { propertyId: $stateParams.propertyId });
+        $state.go('base.propertySections', { propertyId: $stateParams.propertyId });
     };
 
 
     var init = function () {
         $scope.sectionId = $stateParams.sectionId;
         if ($scope.sectionId &&
-            ($state.current.name == 'dashboard.editPropertySection'
-            || $state.current.name == 'dashboard.viewPropertySection')) {
+            ($state.current.name == 'base.editPropertySection'
+            || $state.current.name == 'base.viewPropertySection')) {
             propertySectionDataService.getSectionById($scope.sectionId).then(function (result) {
                 $scope.section = result;
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
-        } else if ($state.current.name == 'dashboard.createPropertySection') {
+        } else if ($state.current.name == 'base.createPropertySection') {
             //create new section
             $scope.section = {
                 name: undefined,

@@ -22,17 +22,17 @@ function ($scope, propertySectionDataService, Notification, $state, ModalService
 
     $scope.openSectionDetail = function (section, readonly) {
         if (readonly)
-            $state.go('dashboard.viewPropertySection', { sectionId: section.id, propertyId: $stateParams.propertyId });
+            $state.go('base.viewPropertySection', { sectionId: section.id, propertyId: $stateParams.propertyId });
         else
-            $state.go('dashboard.editPropertySection', { sectionId: section.id, propertyId: $stateParams.propertyId });
+            $state.go('base.editPropertySection', { sectionId: section.id, propertyId: $stateParams.propertyId });
 
     };
     $scope.addNewSection = function () {
-        $state.go('dashboard.createPropertySection', {  propertyId: $stateParams.propertyId });
+        $state.go('base.createPropertySection', {  propertyId: $stateParams.propertyId });
     }
 
     $scope.goBack = function () {
-        $state.go('dashboard.properties');
+        $state.go('base.properties');
     }
 
     $scope.deleteSection = function (section) {
@@ -60,7 +60,7 @@ function ($scope, propertySectionDataService, Notification, $state, ModalService
     };
 
     $scope.viewWorkItems = function (section) {
-        $state.go('dashboard.workItems', { sectionId: section.id, propertyId: $stateParams.propertyId });
+        $state.go('base.workItems', { sectionId: section.id, propertyId: $stateParams.propertyId });
 
     }
 

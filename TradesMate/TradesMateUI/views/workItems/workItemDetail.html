@@ -1,0 +1,126 @@
+﻿
+<div class="form-horizontal">
+  
+    <br />
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <a class="btn btn-default" ng-click="goBack()">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Go Back
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">Work Item Detail</h2>
+        </div>
+    </div>
+
+
+    <div ng-show="creatingNew">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <label>
+                    <input type="radio" ng-model="userProfile.tradeType" value="Electrician">
+                    Electrician
+                </label><br />
+                <label>
+                    <input type="radio" ng-model="userProfile.tradeType" value="Handyman">
+                    Handyman
+                </label><br />
+                <label>
+                    <input type="radio" ng-model="userProfile.tradeType" value="Plumber">
+                    Plumber
+                </label><br />
+            </div>
+        </div>
+        <span>Please select from work item template below.</span>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+
+                    <th>Work template Item Name</th>
+                    <!--<th>Description</th>-->
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="templateItem in templates | filter:search">
+                    <td>
+                        <a>{{templateItem.name}}</a>
+                    </td>
+                    <!--<td class="work-item-textarea">
+                       <textarea disabled> {{templateItem.description}}</textarea>
+                    </td>-->
+
+                    <td class="">
+                        <a class="btn btn-white btn-sm" title="Add a work item from this template"
+                           ng-click="cloneTemplate(templateItem)"><i class="fa fa-copy"></i></a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-lg-12">
+
+            <form name="workItemForm" class="form-horizontal">
+                <fieldset ng-disabled="readOnly || (workItem && !workItem.workItemTemplateId)">
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">WorkItem Name</label>
+                        <div class="col-sm-9">
+                            <input type="text" name="WorkItemName" class="form-control" placeholder="--workItem name--" ng-model="workItem.name" required>
+                            <div ng-messages="workItemForm.WorkItemName.$error">
+                                <div class="text-danger" ng-message="required">This field is required</div>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">Description</label>
+                        <div class="col-sm-9">
+                            <textarea type="text" name="workItemDescription" class="form-control work-item-textarea" placeholder="--description--" ng-model="workItem.description"></textarea>
+                            <div ng-messages="workItemForm.workItemDescription.$error">
+                                <div class="text-danger" ng-message="required">This field is required</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+
+
+                    <div class="form-group">
+                        <label class="col-sm-3 control-label">quantity</label>
+                        <div class="col-sm-9">
+                            <input type="number" placeholder="--quantity--" class="form-control" name="workItemQuantity"
+                                   ng-model="workItem.quantity" required>
+                            <div ng-messages="workItemForm.workItemQuantity.$error">
+                                <div class="text-danger" ng-message="required">This field is required</div>
+                                <div class="text-danger" ng-message="number">You did not enter a valid number</div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </fieldset>
+            </form>
+            <div class="" ng-hide="readOnly">
+
+                <button class="btn btn-primary pull-right" type="button" ng-click="save()" ng-disabled="workItemForm.$invalid || (workItem && !workItem.workItemTemplateId)">Save</button>
+                <button class="btn btn-danger pull-left" type="button" ng-click="goToWorkItemIndex()">Cancel</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+

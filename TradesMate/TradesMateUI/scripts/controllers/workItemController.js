@@ -26,13 +26,13 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
 
     $scope.openWorkItemDetail = function (workItem, readonly) {
         if (readonly)
-            $state.go('dashboard.viewWorkItem', {
+            $state.go('base.viewWorkItem', {
                 workItemId: workItem.id,
                 propertyId: $stateParams.propertyId,
                 sectionId: $stateParams.sectionId,
             });
         else
-            $state.go('dashboard.editWorkItem', {
+            $state.go('base.editWorkItem', {
                 workItemId: workItem.id,
                 propertyId: $stateParams.propertyId,
                 sectionId: $stateParams.sectionId,
@@ -40,7 +40,7 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
 
     };
     $scope.addNewWorkItem = function () {
-        $state.go('dashboard.createWorkItem', {
+        $state.go('base.createWorkItem', {
           
             propertyId: $stateParams.propertyId,
             sectionId: $stateParams.sectionId,
@@ -48,7 +48,7 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
     }
 
     $scope.goBack = function () {
-        $state.go('dashboard.propertySections', {
+        $state.go('base.propertySections', {
           
             propertyId: $stateParams.propertyId
            
@@ -77,7 +77,7 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
     };
 
     $scope.viewWorkItems = function (workItem) {
-        $state.go('dashboard.workItems', {
+        $state.go('base.workItems', {
             workItemId: workItem.id,
             propertyId: $stateParams.propertyId,
             sectionId: $stateParams.sectionId,

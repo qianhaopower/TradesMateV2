@@ -24,21 +24,21 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
 
     $scope.openPropertyDetail = function (property, readonly) {
         if (readonly)
-            $state.go('dashboard.viewProperty', { propertyId: property.id });
+            $state.go('base.viewProperty', { propertyId: property.id });
         else
-            $state.go('dashboard.editProperty', { propertyId: property.id });
+            $state.go('base.editProperty', { propertyId: property.id });
 
     };
     $scope.addNewProperty = function () {
-        $state.go('dashboard.createProperty', { clientId:$scope.clientId });
+        $state.go('base.createProperty', { clientId:$scope.clientId });
     }
 
     $scope.viewPropertySections = function (property) {
-        $state.go('dashboard.propertySections', { propertyId: property.id });
+        $state.go('base.propertySections', { propertyId: property.id });
     }
 
     $scope.goBack = function () {
-        $state.go('dashboard.clients');
+        $state.go('base.clients');
     }
 
     $scope.deleteProperty = function (property) {
