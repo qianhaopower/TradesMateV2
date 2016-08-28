@@ -116,14 +116,14 @@ angular
                     }
                 }
             })
-            .state('base.form', {
-                templateUrl: 'views/form.html',
-                url: '/form'
-            })
-            .state('base.blank', {
-                templateUrl: 'views/pages/blank.html',
-                url: '/blank'
-            })
+            //.state('base.form', {
+            //    templateUrl: 'views/pages/form.html',
+            //    url: '/form'
+            //})
+            //.state('base.blank', {
+            //    templateUrl: 'views/pages/blank.html',
+            //    url: '/blank'
+            //})
             //.state('login', {
             //    templateUrl: 'views/pages/login.html',
             //    url: '/login'
@@ -185,19 +185,19 @@ angular
 
           .state('noAccess', {
               controller: "noAccessController",
-              templateUrl: "views/noAccess.html",
+              templateUrl: "views/authentication/noAccess.html",
               url: '/noAccess'
           })
 
           .state("login", {
               controller: "loginController",
-              templateUrl: "views/login.html",
+              templateUrl: "views/authentication/login.html",
               url: '/login',
           })
 
           .state("signup", {
               controller: "signupController",
-              templateUrl: "views/signup.html",
+              templateUrl: "views/authentication/signup.html",
               url: '/signup'
           })
 
@@ -209,19 +209,19 @@ angular
 
           .state("refresh", {
               controller: "refreshController",
-              templateUrl: "views/refresh.html",
+              templateUrl: "views/authentication/refresh.html",
               url: '/refresh'
           })
 
           .state("tokens", {
               controller: "tokensManagerController",
-              templateUrl: "views/tokens.html",
+              templateUrl: "views/authentication/tokens.html",
               url: '/tokens'
           })
 
           .state("associate", {
               controller: "associateController",
-              templateUrl: "views/associate.html",
+              templateUrl: "views/authentication/associate.html",
               url: '/associate'
           })
           
@@ -232,7 +232,7 @@ angular
 
               //client
             .state('base.clients', {
-                templateUrl: 'views/clients.html',
+                templateUrl: 'views/clients/clients.html',
                 controller: 'clientController',
                 url: '/clients',
                 //resolve: {
@@ -248,17 +248,17 @@ angular
                 //}
             })
                .state('base.editClient', {
-                   templateUrl: 'views/clientDetail.html',
+                   templateUrl: 'views/clients/clientDetail.html',
                    controller: 'clientDetailController',
                    url: '/client/edit/:param',
                })
                .state('base.createClient', {
-                   templateUrl: 'views/clientDetail.html',
+                   templateUrl: 'views/clients/clientDetail.html',
                    controller: 'clientDetailController',
                    url: '/client/create',
                })
                .state('base.viewClient', {
-                   templateUrl: 'views/clientDetail.html',
+                   templateUrl: 'views/clients/clientDetail.html',
                    controller: 'clientDetailController',
                    url: '/client/view/:param',
                })
@@ -267,27 +267,27 @@ angular
 
               //property
              .state('base.properties', {
-                 templateUrl: 'views/properties.html',
+                 templateUrl: 'views/properties/properties.html',
                  controller: 'propertyController',
                  url: '/properties'
              })
               .state('base.createProperty', {
-                  templateUrl: 'views/propertyDetail.html',
+                  templateUrl: 'views/properties/propertyDetail.html',
                   controller: 'propertyDetailController',
                   url: '/client/:clientId/property/create',
               })
                .state('base.editProperty', {
-                   templateUrl: 'views/propertyDetail.html',
+                   templateUrl: 'views/properties/propertyDetail.html',
                    controller: 'propertyDetailController',
                    url: '/property/edit/:propertyId',
                })
                .state('base.viewProperty', {
-                   templateUrl: 'views/propertyDetail.html',
+                   templateUrl: 'views/properties/propertyDetail.html',
                    controller: 'propertyDetailController',
                    url: '/property/view/:propertyId',
                })
              .state('base.clientProperties', {
-                  templateUrl: 'views/properties.html',
+                  templateUrl: 'views/properties/properties.html',
                   controller: 'propertyController',
                   url: '/client/:param/properties'
              })
@@ -296,25 +296,25 @@ angular
 
               //propertySection
              .state('base.propertySections', {
-                 templateUrl: 'views/sections.html',
+                 templateUrl: 'views/sections/sections.html',
                  controller: 'propertySectionController',
                  url: '/property/:propertyId/property-sections'//property section List for a property
                                   
              })
 
               .state('base.createPropertySection', {
-                  templateUrl: 'views/sectionDetail.html',
+                  templateUrl: 'views/sections/sectionDetail.html',
                   controller: 'propertySectionDetailController',
                   url: '/property/:propertyId/property-section/create'
               })
 
                 .state('base.editPropertySection', {
-                    templateUrl: 'views/sectionDetail.html',
+                    templateUrl: 'views/sections/sectionDetail.html',
                     controller: 'propertySectionDetailController',
                     url: '/property/:propertyId/property-section/edit/:sectionId'
                 })
                .state('base.viewPropertySection', {
-                   templateUrl: 'views/sectionDetail.html',
+                   templateUrl: 'views/sections/sectionDetail.html',
                    controller: 'propertySectionDetailController',
                    url: '/property/:propertyId/property-section/view/:sectionId'
                })
@@ -323,27 +323,41 @@ angular
             
 
           .state('base.workItems', {
-              templateUrl: 'views/workitems.html',
+              templateUrl: 'views/workItems/workItems.html',
               controller: 'workItemController',
               url: '/property/:propertyId/section/:sectionId/workItems'                    
           })
 
             .state('base.createWorkItem', {
-                templateUrl: 'views/workItemDetail.html',
+                templateUrl: 'views/workItems/workItemDetail.html',
                 controller: 'workItemDetailController',
                 url: '/property/:propertyId/section/:sectionId/workItems/create'
             })
 
           .state('base.editWorkItem', {
-              templateUrl: 'views/workItemDetail.html',
+              templateUrl: 'views/workItems/workItemDetail.html',
               controller: 'workItemDetailController',
               url: '/property/:propertyId/section/:sectionId/workItems/edit/:workItemId'
           })
          .state('base.viewWorkItem', {
-             templateUrl: 'views/workItemDetail.html',
+             templateUrl: 'views/workItems/workItemDetail.html',
              controller: 'workItemDetailController',
              url: '/property/:propertyId/section/:sectionId/workItems/view/:workItemId'
          })
+
+          //profile
+          .state(
+          'base.profile', {
+              templateUrl: 'views/profile/userProfile.html',
+              controller: 'userProfileController',
+              url: '/profile/'
+          })
+          .state(
+          'base.personalSetting', {
+              templateUrl: 'views/profile/personalSettings.html',
+              controller: 'peronalSettingController',
+              url: '/profile/settings'
+          })
 
 
           //NotificationProvider.setOptions({

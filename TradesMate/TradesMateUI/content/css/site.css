@@ -8,8 +8,8 @@ html {
 body {
     /* Margin bottom by footer height */
     margin-bottom: 60px;
-      padding-top: 40px;
-  xpadding-bottom: 10px;
+    padding-top: 40px;
+    xpadding-bottom: 10px;
 }
 
 
@@ -52,9 +52,13 @@ body {
         }
 
     .form-login input[type="password"] {
-        margin-top:5px;
+        margin-top: 5px;
         margin-bottom: 5px;
         border-top-left-radius: 0;
         border-top-right-radius: 0;
     }
 
+a:hover,
+a:focus {
+    cursor: pointer;
+}

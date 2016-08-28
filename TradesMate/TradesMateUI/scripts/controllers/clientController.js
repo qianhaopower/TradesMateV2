@@ -20,13 +20,13 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
 
     $scope.openClientDetail = function (client, readonly) {
         if (readonly)
-            $state.go('dashboard.viewClient', { param: client.id });
+            $state.go('base.viewClient', { param: client.id });
         else
-            $state.go('dashboard.editClient', { param: client.id });
+            $state.go('base.editClient', { param: client.id });
 
     };
     $scope.addNewClient = function () {
-        $state.go('dashboard.createClient');
+        $state.go('base.createClient');
     }
     //$scope.addNewClient = function () {
     //    $state.go('login');
@@ -58,7 +58,7 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
     };
 
     $scope.viewClientProperties = function (client) {
-        $state.go('dashboard.clientProperties', { param: client.id });
+        $state.go('base.clientProperties', { param: client.id });
 
     }
 

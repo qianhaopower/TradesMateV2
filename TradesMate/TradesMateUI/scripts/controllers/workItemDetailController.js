@@ -11,9 +11,9 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
 
 
 
-    $scope.readOnly = $state.current.name == 'dashboard.viewWorkItem';
+    $scope.readOnly = $state.current.name == 'base.viewWorkItem';
 
-    $scope.creatingNew = $state.current.name == 'dashboard.createWorkItem';
+    $scope.creatingNew = $state.current.name == 'base.createWorkItem';
 
     $scope.save = function () {
         $scope.workItem.address = undefined;
@@ -39,7 +39,7 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
 
     }
     $scope.goToWorkItemIndex = function () {
-        $state.go('dashboard.workItems', {
+        $state.go('base.workItems', {
             sectionId: $stateParams.sectionId,
             propertyId: $stateParams.propertyId
         });
@@ -68,12 +68,12 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
 
     var init = function () {
 
-        if ($state.current.name != 'dashboard.createWorkItem') {
+        if ($state.current.name != 'base.createWorkItem') {
             $scope.workItemId = $stateParams.workItemId;
         }
 
-        if ($state.current.name == 'dashboard.editWorkItem'
-            || $state.current.name == 'dashboard.viewWorkItem') {
+        if ($state.current.name == 'base.editWorkItem'
+            || $state.current.name == 'base.viewWorkItem') {
             workItemDataService.getWorkItemById($scope.workItemId).then(function (result) {
                 $scope.workItem = result;
                 $scope.propertyId = result.propertyId;
@@ -86,7 +86,7 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
                 }
 
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
-        } else if ($state.current.name == 'dashboard.createWorkItem') {
+        } else if ($state.current.name == 'base.createWorkItem') {
             //create new workItem
             $scope.workItem = {
                 quantity: 0,//default
