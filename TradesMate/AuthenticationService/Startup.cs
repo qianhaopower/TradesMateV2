@@ -11,7 +11,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 
-[assembly: OwinStartup(typeof(AuthenticationService.API.Startup))]
+[assembly: OwinStartup("AuthenticationService", typeof(AuthenticationService.API.Startup))]
 
 namespace AuthenticationService.API
 {
