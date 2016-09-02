@@ -5,8 +5,7 @@ using System.Data.Entity;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using EF.Data;
-using AuthenticationService.API.Entities;
-using AuthenticationService.API;
+
 
 namespace EF.UnitTest
 {
