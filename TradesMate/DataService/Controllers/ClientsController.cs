@@ -27,6 +27,7 @@ namespace DataService.Controllers
     builder.EntitySet<Property>("Properties"); 
     config.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
     */
+    [Authorize]
     public class ClientsController : ODataController
     {
         private EFDbContext db = new EFDbContext();

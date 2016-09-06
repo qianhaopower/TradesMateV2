@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography;
 using System.Web;
 
-namespace AuthenticationService.API
+namespace AuthenticationService
 {
     public class Helper
     {

@@ -1,5 +1,5 @@
-﻿using AuthenticationService.API.Models;
-using AuthenticationService.API.Results;
+﻿using AuthenticationService.Models;
+using AuthenticationService.Results;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -16,7 +16,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
-namespace AuthenticationService.API.Controllers
+namespace AuthenticationService.Controllers
 {
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController

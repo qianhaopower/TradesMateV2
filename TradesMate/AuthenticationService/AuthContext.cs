@@ -1,4 +1,4 @@
-﻿using AuthenticationService.API.Entities;
+﻿using AuthenticationService.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 
-namespace AuthenticationService.API
+namespace AuthenticationService
 {
     public class AuthContext : IdentityDbContext<IdentityUser>
     {

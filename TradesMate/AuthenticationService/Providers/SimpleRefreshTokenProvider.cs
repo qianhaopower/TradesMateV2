@@ -1,4 +1,4 @@
-﻿using AuthenticationService.API.Entities;
+﻿using AuthenticationService.Entities;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
 using System;
@@ -8,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace AuthenticationService.API.Providers
+namespace AuthenticationService.Providers
 {
     public class SimpleRefreshTokenProvider : IAuthenticationTokenProvider
     {

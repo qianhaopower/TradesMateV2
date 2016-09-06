@@ -5,7 +5,7 @@ using System.Linq;
 using System.Net.Http.Formatting;
 using System.Web.Http;
 
-namespace AuthenticationService.API
+namespace AuthenticationService
 {
     public static class WebApiConfig
     {

@@ -1,4 +1,4 @@
-﻿using AuthenticationService.API.Providers;
+﻿using AuthenticationService.Providers;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
@@ -11,9 +11,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 
-[assembly: OwinStartup("AuthenticationService", typeof(AuthenticationService.API.Startup))]
+[assembly: OwinStartup(typeof(AuthenticationService.Startup))]
 
-namespace AuthenticationService.API
+namespace AuthenticationService
 {
     public class Startup
     {

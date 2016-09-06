@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
-namespace AuthenticationService.API.Models
+namespace AuthenticationService.Models
 {
     public class UserModel
     {

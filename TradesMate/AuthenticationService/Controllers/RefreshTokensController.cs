@@ -6,7 +6,7 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web.Http;
 
-namespace AuthenticationService.API.Controllers
+namespace AuthenticationService.Controllers
 {
     [RoutePrefix("api/RefreshTokens")]
     public class RefreshTokensController : ApiController

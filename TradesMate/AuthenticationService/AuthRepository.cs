@@ -1,5 +1,5 @@
-﻿using AuthenticationService.API.Entities;
-using AuthenticationService.API.Models;
+﻿using AuthenticationService.Entities;
+using AuthenticationService.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
@@ -10,7 +10,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace AuthenticationService.API
+namespace AuthenticationService
 {
 
     public class AuthRepository : IDisposable
