@@ -3,3 +3,16 @@
 3.property condition dropdown.
 4.check back button on each page. 
 5.Empty page warning messgage.
+
+
+
+
+1) Register page: Client/Trades people
+2)If Client, compnay Id = null, if trades people, Admin, create company. 
+
+3) User can update profile. Admin trade people can input credit card for company. 
+4) Trades Admin can Create/Read/Update/Delete User from the same company.
+
+5)Trade people can only view Clients/Property belongs to his/her company.
+
+Other business logic to continue
