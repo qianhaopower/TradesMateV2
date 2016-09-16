@@ -6,6 +6,14 @@
 
 
 
+1) allow user view/edit profile
+2) allow user change password
+3) allow user verify email after sign up
+4) allow user attach email after social login/associate. 
+5) allow add user into group, first company user will be admin. 
+6) allow admin user create other user. 
+7) allow user/role information fetched from server.
+
 
 1) Register page: Client/Trades people
 2)If Client, compnay Id = null, if trades people, Admin, create company. 
