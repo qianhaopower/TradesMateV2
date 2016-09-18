@@ -75,7 +75,7 @@ namespace AuthenticationService.Controllers
         public async Task<IHttpActionResult> GetUser()
         {
             //Only SuperAdmin or Admin can delete users (Later when implement roles)
-            var user = await this._repo.GetUserById(User.Identity.GetUserId());
+            var user = await this._repo.GetUserByUserName(User.Identity.Name);
 
             if (user != null)
             {
@@ -96,7 +96,7 @@ namespace AuthenticationService.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await this._repo.UpdateUser(User.Identity.GetUserId(),model);
+            IdentityResult result = await this._repo.UpdateUser(User.Identity.Name, model);
 
             if (!result.Succeeded)
             {

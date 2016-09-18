@@ -17,19 +17,9 @@ angular.module('sbAdminApp').controller('userProfileController', ['$scope', '$lo
 
         authService.updateUser($scope.userInfo).then(function (response) {
 
-            $scope.savedSuccessfully = true;
-            $scope.message = "User profile updated successfully";
+            Notification.success({ message: "Saved", delay: 2000 });
            
-        },
-         function (response) {
-             var errors = [];
-             for (var key in response.data.modelState) {
-                 for (var i = 0; i < response.data.modelState[key].length; i++) {
-                     errors.push(response.data.modelState[key][i]);
-                 }
-             }
-            // $scope.message = "Failed to update user due to:" + errors.join(' ');
-         });
+        }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     };
 
     var getUserDetail = function () {

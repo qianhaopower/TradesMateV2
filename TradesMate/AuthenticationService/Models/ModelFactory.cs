@@ -25,9 +25,12 @@ namespace AuthenticationService.Models
         {
             return new UserReturnModel
             {
-                Url = _UrlHelper.Link("GetUserById", new { id = appUser.Id }),
+               // Url = _UrlHelper.Link("GetUserById", new { id = appUser.Id }),
                 Id = appUser.Id,
                 UserName = appUser.UserName,
+                FirstName = appUser.FirstName,
+                LastName = appUser.LastName,
+
 
                 //FullName = string.Format("{0} {1}", appUser.FirstName, appUser.LastName),
                 Email = appUser.Email,

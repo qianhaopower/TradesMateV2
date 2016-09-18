@@ -33,13 +33,31 @@ namespace AuthenticationService.Infrastructure
 
         public async Task<ApplicationUser> GetUserById(string userId)
         {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new Exception("UserId cannot by empty");
+            }
             var user = await _userManager.FindByIdAsync(userId);
             return user;
         }
 
-        public async Task<IdentityResult> UpdateUser(string userId, UserModel userModel)
+        public async Task<ApplicationUser> GetUserByUserName(string userName)
         {
-            var user = _userManager.FindById(userId);
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new Exception("User name cannot by empty");
+            }
+            var user = await _userManager.FindByNameAsync(userName);
+            return user;
+        }
+
+        public async Task<IdentityResult> UpdateUser(string userName, UserModel userModel)
+        {
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new Exception("User name cannot by empty");
+            }
+            var user = await _userManager.FindByNameAsync(userName);
 
             //put all the updatable field here. Interestingly we can update user name. 
             user.UserName = userModel.UserName;
