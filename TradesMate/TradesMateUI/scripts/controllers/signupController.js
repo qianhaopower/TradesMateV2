@@ -1,17 +1,28 @@
 ﻿'use strict';
-app.controller('signupController', ['$scope', '$location', '$timeout', '$state', 'authService',
-    function ($scope, $location, $timeout, $state, authService) {
+app.controller('signupController', ['$scope', '$location', '$timeout', '$state', 'authService','constants',
+function ($scope, $location, $timeout, $state, authService,constants) {
 
     $scope.savedSuccessfully = false;
     $scope.message = "";
 
+
+
     $scope.registration = {
         userName: "",
         password: "",
-        confirmPassword: ""
+        confirmPassword: "",
+        firstName:undefined,
+        lastName:undefined,
+
+        //to do: put all enum into global constant.
+        userType: constants.userType.client , //by defual 0 is client,
+        companyName: undefined,
+        isTrade: false,
     };
 
     $scope.signUp = function () {
+
+        $scope.registration.userType = $scope.registration.isTrade ? constants.userType.trade : constants.userType.client  ;
 
         authService.saveRegistration($scope.registration).then(function (response) {
 

@@ -36,7 +36,6 @@ namespace AuthenticationService.Models
         [Display(Name = "User Type")]
         public int UserType { get; set; }
 
-  
         [Display(Name = "Company Name")]
         public String CompanyName { get; set; }
 

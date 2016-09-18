@@ -21,12 +21,14 @@ namespace AuthenticationService.Infrastructure
         private EFDbContext _applicationContext;
 
         private UserManager<ApplicationUser> _userManager;
+        private RoleManager<IdentityRole> _roleManager;
 
         public AuthRepository()
         {
             _ctx = new AuthContext();
             _applicationContext = new EFDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
+            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new AuthContext()));
         }
 
         public async Task<IdentityResult> RegisterUser(UserModel userModel)
@@ -42,7 +44,10 @@ namespace AuthenticationService.Infrastructure
             //Check if the user is client or trademan.
             if (userModel.UserType == (int)UserType.Client)
             {
-                
+                var result = await _userManager.CreateAsync(user, userModel.Password);
+
+                return result;
+
             }
             else if(userModel.UserType == (int)UserType.Trade)
             {
@@ -55,7 +60,6 @@ namespace AuthenticationService.Infrastructure
                 else
                 {
 
-                  
                     //we create a new company and set the user to be the admin of the company
                     var company = new Company()
                     {
@@ -72,8 +76,13 @@ namespace AuthenticationService.Infrastructure
                     //set the user company id to the user.
                     user.CompanyId  = _applicationContext.Companies.Where(p => p.Name == userModel.CompanyName ).First().Id;
 
-                    //add the user to the Admin role
+                    var result = await _userManager.CreateAsync(user, userModel.Password);
 
+                    //add the user to the Admin role
+                    if (result.Succeeded)
+                        result = _userManager.AddToRole(user.Id, "Admin");
+
+                    return result;
                 }
 
             }
@@ -84,9 +93,7 @@ namespace AuthenticationService.Infrastructure
 
 
 
-            var result = await _userManager.CreateAsync(user, userModel.Password);
-
-            return result;
+         
         }
 
         public async Task<ApplicationUser> FindUser(string userName, string password)
