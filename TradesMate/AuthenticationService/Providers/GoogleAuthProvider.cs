@@ -10,7 +10,7 @@ using Owin;
 using System.Threading.Tasks;
 using System.Security.Claims;
 
-namespace AuthenticationService.API.Providers
+namespace AuthenticationService.Providers
 {
     public class GoogleAuthProvider : IGoogleOAuth2AuthenticationProvider
     {

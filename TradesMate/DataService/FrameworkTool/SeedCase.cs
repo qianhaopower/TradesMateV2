@@ -5,8 +5,7 @@ using System.Data.Entity;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using EF.Data;
-using AuthenticationService.API.Entities;
-using AuthenticationService.API;
+
 
 namespace EF.UnitTest
 {
@@ -14,7 +13,7 @@ namespace EF.UnitTest
     public class SeedCase
     {
         [TestMethod]
-        public void ClientTestTest()
+        public void ApplicationSeed()
         {
             Database.SetInitializer<EFDbContext>(new CreateDatabaseIfNotExists<EFDbContext>());
 

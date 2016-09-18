@@ -9,8 +9,6 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
         searchText: undefined,
     };
 
-
-
     $scope.readOnly = $state.current.name == 'base.viewWorkItem';
 
     $scope.creatingNew = $state.current.name == 'base.createWorkItem';

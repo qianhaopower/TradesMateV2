@@ -1,5 +1,6 @@
-﻿using AuthenticationService.API.Models;
-using AuthenticationService.API.Results;
+﻿using AuthenticationService.Infrastructure;
+using AuthenticationService.Models;
+using AuthenticationService.Results;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
@@ -16,11 +17,25 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
-namespace AuthenticationService.API.Controllers
+namespace AuthenticationService.Controllers
 {
+  
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+
+        private ModelFactory _modelFactory;
+        protected ModelFactory TheModelFactory
+        {
+            get
+            {
+                if (_modelFactory == null)
+                {
+                    _modelFactory = new ModelFactory(this.Request);
+                }
+                return _modelFactory;
+            }
+        }
         private AuthRepository _repo = null;
 
         private IAuthenticationManager Authentication
@@ -53,6 +68,42 @@ namespace AuthenticationService.API.Controllers
              }
 
              return Ok();
+        }
+
+        //GET api/Account/GetCurrentUser   
+        [Route("getcurrentuser")]
+        public async Task<IHttpActionResult> GetUser()
+        {
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var user = await this._repo.GetUserByUserName(User.Identity.Name);
+
+            if (user != null)
+            {
+                return Ok(this.TheModelFactory.Create(user));
+            }
+
+            return NotFound();
+
+        }
+
+        // POST api/Account/updateUser
+        [Authorize]
+        [Route("UpdateUser")]
+        public async Task<IHttpActionResult> UpdateUser(UserModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await this._repo.UpdateUser(User.Identity.Name, model);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
         }
 
         // GET api/Account/ExternalLogin
@@ -94,7 +145,7 @@ namespace AuthenticationService.API.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            IdentityUser user = await _repo.FindAsync(new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
+            ApplicationUser user = await _repo.FindAsync(new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
 
             bool hasRegistered = user != null;
 
@@ -126,7 +177,7 @@ namespace AuthenticationService.API.Controllers
                 return BadRequest("Invalid Provider or External Access Token");
             }
 
-            IdentityUser user = await _repo.FindAsync(new UserLoginInfo(model.Provider, verifiedAccessToken.user_id));
+            ApplicationUser user = await _repo.FindAsync(new UserLoginInfo(model.Provider, verifiedAccessToken.user_id));
 
             bool hasRegistered = user != null;
 
@@ -135,7 +186,7 @@ namespace AuthenticationService.API.Controllers
                 return BadRequest("External user is already registered");
             }
 
-            user = new IdentityUser() { UserName = model.UserName };
+            user = new ApplicationUser() { UserName = model.UserName };
 
             IdentityResult result = await _repo.CreateAsync(user);
             if (!result.Succeeded)
@@ -178,7 +229,7 @@ namespace AuthenticationService.API.Controllers
                 return BadRequest("Invalid Provider or External Access Token");
             }
 
-            IdentityUser user = await _repo.FindAsync(new UserLoginInfo(provider, verifiedAccessToken.user_id));
+            ApplicationUser user = await _repo.FindAsync(new UserLoginInfo(provider, verifiedAccessToken.user_id));
 
             bool hasRegistered = user != null;
 

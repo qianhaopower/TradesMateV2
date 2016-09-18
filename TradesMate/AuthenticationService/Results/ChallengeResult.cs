@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 using System.Web;
 using System.Web.Http;
 
-namespace AuthenticationService.API.Results
+namespace AuthenticationService.Results
 {
     public class ChallengeResult : IHttpActionResult
     {        

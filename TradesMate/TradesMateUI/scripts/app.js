@@ -22,6 +22,10 @@ angular
   ])
   .constant('domain', 'http://' + window.location.hostname)
   .constant('api', '/DataService/odata')
+  .constant("constants", {
+      "userType": {client:0, trade:1},
+        
+    })
   .service('urls', function (domain, api) { this.apiUrl = domain + api; })
   .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', 'NotificationProvider',
       function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, NotificationProvider) {

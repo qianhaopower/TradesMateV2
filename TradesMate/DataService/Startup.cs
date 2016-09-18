@@ -7,8 +7,7 @@ using System.Data.Entity;
 using Microsoft.Owin.Security.OAuth;
 using System.Web.Http;
 
-[assembly: OwinStartup(typeof(DataService.Startup))]
-
+[assembly: OwinStartup("DataService",typeof(DataService.Startup))]
 namespace DataService
 {
     public class Startup

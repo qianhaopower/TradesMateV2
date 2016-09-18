@@ -1,4 +1,5 @@
-﻿using AuthenticationService.API.Providers;
+﻿using AuthenticationService.Infrastructure;
+using AuthenticationService.Providers;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Facebook;
 using Microsoft.Owin.Security.Google;
@@ -11,9 +12,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 
-[assembly: OwinStartup(typeof(AuthenticationService.API.Startup))]
+[assembly: OwinStartup("AuthenticationService",typeof(AuthenticationService.Startup))]
 
-namespace AuthenticationService.API
+namespace AuthenticationService
 {
     public class Startup
     {
@@ -36,6 +37,12 @@ namespace AuthenticationService.API
 
         public void ConfigureOAuth(IAppBuilder app)
         {
+               // Configure the db context and user manager to use a single instance per request
+            app.CreatePerOwinContext(AuthContext.Create);
+            app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
+            app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
+
+
             //use a cookie to temporarily store information about a user logging in with a third party login provider
             app.UseExternalSignInCookie(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalCookie);
             OAuthBearerOptions = new OAuthBearerAuthenticationOptions();

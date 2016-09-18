@@ -1,72 +1,67 @@
 
 <form class="form-horizontal">
-    <br />
-    <div class="row">
+    <!--<div class="row">
         <div class="col-lg-12 col-sm-12">
             <a class="btn btn-default" ng-click="goBack()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Go Back
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Navigate to Clients
             </a>
+        </div>
+    </div>-->
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header"> Properties</h2>
         </div>
     </div>
     <div class="row">
-        <div class="col-lg-12">
-            <h2 ng-show="!clientName" class="page-header">
-                Properties
-            </h2>
+        <div class="col-lg-12 col-sm-12 ">
+            <div class="well">
+                Client: {{clientName}} 
+            </div>
         </div>
-        <div ng-show="clientName" class="col-lg-12">
-            <h1 class="page-header">Properties for {{clientName}}</h1>
-        </div>
-        <!-- /.col-lg-12 -->
     </div>
     <div class="row">
         <div class="col-xs-6 col-md-9">
-
-            <button type="button" title="Add new property"
-                    id="loading-example-btn" ng-show="clientId"
-                    class="btn btn-white btn-sm" ng-click="addNewProperty()">
+            <button type="button" title="Add new property" ng-show="clientId"
+                    class="btn btn-default btn-sm" ng-click="addNewProperty()">
                 <i class="fa fa-plus "></i> Add Property
             </button>
-
         </div>
         <div class="col-xs-6  col-md-3 pull-right">
-
             <input type="text" placeholder="Search properties..." class="input-sm form-control" ng-model="filterTextModel.searchText">
-
-
         </div>
     </div>
     <table class="table table-hover">
         <thead>
             <tr>
-                <th></th>
                 <th>Name</th>
-                <th>Description</th>
+                <th>Address</th>
+                <th></th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
-
-
         <tbody>
-
             <tr ng-repeat="property in propertyList | filter:search">
-
-                <td ng-click="viewPropertySections(property)">
+                <!--<td >
                     <i class="fa fa-home"></i>
-                </td>
-                <td class="" ng-click="viewPropertySections(property)">
+                </td>-->
+                <td class="col-md-3 col-xs-2" ng-click="openPropertyDetail(property, true)">
                     <a>{{property.name}}</a>
                     <br />
-
                     <small>{{property.condition}}</small>
                 </td>
-                <td class="" ng-click="viewPropertySections(property)">
-                    {{property.Description}}
+                <td class="col-md-6 col-xs-4">
+                   {{property.address}}
+
                 </td>
-                <td class="">
-                    <a class="btn btn-white btn-sm" title="View Detail" ng-click="openPropertyDetail(property, true)"><i class="fa fa-eye"></i></a>
-                    <a class="btn btn-white btn-sm" title="Edit" ng-click="openPropertyDetail(property,false)"><i class="fa fa-pencil"></i></a>
-                    <a class="btn btn-white btn-sm" title="Delete" ng-click="deleteProperty(property)"><i class="fa fa-trash-o"></i></a>
+                <td class="col-md-1 col-xs-2">
+                    <button class="btn btn-default btn-sm" value="View Sections" title="Manage Sections" type="button" ng-click="viewPropertySections(property)">Sections</button>
+                </td>
+                <td class="col-md-1 col-xs-2">
+                    <button class="btn btn-primary btn-sm" type="button" value="Edit" title="Edit Property" ng-click="openPropertyDetail(property,false)">Edit </button>
+                </td>
+                <td class="col-md-1 col-xs-2">
+                    <button class="btn btn-danger btn-sm" value="Delete" title="Delete Property" type="button" ng-click="deleteProperty(property)">Delete</button>
                 </td>
 
             </tr>
@@ -83,11 +78,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title danger">Warning</h4>
+                    <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title danger">Delete Property</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Deleting property will remove all related work records. Proceed?</p>
+                    <p>This will also remove all the related sections. Proceed?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>
