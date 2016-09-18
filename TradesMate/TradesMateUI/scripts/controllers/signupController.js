@@ -22,6 +22,8 @@ function ($scope, $location, $timeout, $state, authService,constants) {
 
     $scope.signUp = function () {
 
+        if ($scope.registerForm.$invalid) return;
+
         $scope.registration.userType = $scope.registration.isTrade ? constants.userType.trade : constants.userType.client  ;
 
         authService.saveRegistration($scope.registration).then(function (response) {
