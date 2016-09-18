@@ -13,7 +13,7 @@ namespace EF.UnitTest
     public class SeedCase
     {
         [TestMethod]
-        public void ClientTestTest()
+        public void ApplicationSeed()
         {
             Database.SetInitializer<EFDbContext>(new CreateDatabaseIfNotExists<EFDbContext>());
 

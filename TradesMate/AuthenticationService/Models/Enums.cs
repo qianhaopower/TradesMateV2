@@ -10,5 +10,11 @@ namespace AuthenticationService.Models
         JavaScript = 0,
         NativeConfidential = 1
     };
+
+    public enum UserType
+    {
+        Client = 0,
+        Trade=1
+    }
     
 }

@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService", "Au
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradesMateUI", "TradesMateUI\TradesMateUI.csproj", "{E4156422-2684-4222-95C2-4B9AE4CBA7E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeedUnitTest", "SeedUnitTest\SeedUnitTest.csproj", "{8367E5A6-7F3E-491A-BA02-668FB534BEF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{E4156422-2684-4222-95C2-4B9AE4CBA7E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4156422-2684-4222-95C2-4B9AE4CBA7E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E4156422-2684-4222-95C2-4B9AE4CBA7E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8367E5A6-7F3E-491A-BA02-668FB534BEF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8367E5A6-7F3E-491A-BA02-668FB534BEF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8367E5A6-7F3E-491A-BA02-668FB534BEF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8367E5A6-7F3E-491A-BA02-668FB534BEF8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,4 +1,5 @@
 ﻿using AuthenticationService.Entities;
+using AuthenticationService.Infrastructure;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
 using System;
