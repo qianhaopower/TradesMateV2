@@ -26,6 +26,29 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
 
     };
 
+    var _updateUser = function (userInfo) {
+
+        return $http.post(serviceBase + 'api/account/updateuser', userInfo).then(function (response) {
+            return response;
+        });
+
+    };
+    
+
+    var _getCurrentUser = function () {
+
+        var deferred = $q.defer();
+
+        $http.get(serviceBase + 'api/account/getcurrentuser').success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
+
+    };
+
     var _login = function (loginData) {
 
         var data = "grant_type=password&username=" + loginData.userName + "&password=" + loginData.password;
@@ -165,6 +188,8 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     authServiceFactory.obtainAccessToken = _obtainAccessToken;
     authServiceFactory.externalAuthData = _externalAuthData;
     authServiceFactory.registerExternal = _registerExternal;
+    authServiceFactory.updateUser = _updateUser;
+    authServiceFactory.getCurrentUser = _getCurrentUser;
 
     return authServiceFactory;
 }]);

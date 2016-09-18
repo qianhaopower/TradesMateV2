@@ -31,6 +31,27 @@ namespace AuthenticationService.Infrastructure
             _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new AuthContext()));
         }
 
+        public async Task<ApplicationUser> GetUserById(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            return user;
+        }
+
+        public async Task<IdentityResult> UpdateUser(string userId, UserModel userModel)
+        {
+            var user = _userManager.FindById(userId);
+
+            //put all the updatable field here. Interestingly we can update user name. 
+            user.UserName = userModel.UserName;
+            user.Email = userModel.Email;
+            user.FirstName = userModel.FirstName;
+            user.LastName = userModel.LastName;
+           
+          
+            var result = await _userManager.UpdateAsync(user);
+            return result;
+        }
+
         public async Task<IdentityResult> RegisterUser(UserModel userModel)
         {
             ApplicationUser user = new ApplicationUser

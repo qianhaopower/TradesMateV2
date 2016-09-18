@@ -21,7 +21,7 @@ namespace AuthenticationService.Models
         [Display(Name = "Last name")]
         public string LastName { get; set; }
 
-        [Required]
+       //[Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -38,6 +38,10 @@ namespace AuthenticationService.Models
 
         [Display(Name = "Company Name")]
         public String CompanyName { get; set; }
+
+        [Display(Name = "Email")]
+        [DataType(DataType.EmailAddress)]
+        public String Email { get; set; }
 
 
 

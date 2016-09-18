@@ -19,9 +19,23 @@ using System.Web.Http;
 
 namespace AuthenticationService.Controllers
 {
+  
     [RoutePrefix("api/Account")]
     public class AccountController : ApiController
     {
+
+        private ModelFactory _modelFactory;
+        protected ModelFactory TheModelFactory
+        {
+            get
+            {
+                if (_modelFactory == null)
+                {
+                    _modelFactory = new ModelFactory(this.Request);
+                }
+                return _modelFactory;
+            }
+        }
         private AuthRepository _repo = null;
 
         private IAuthenticationManager Authentication
@@ -54,6 +68,42 @@ namespace AuthenticationService.Controllers
              }
 
              return Ok();
+        }
+
+        //GET api/Account/GetCurrentUser   
+        [Route("getcurrentuser")]
+        public async Task<IHttpActionResult> GetUser()
+        {
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var user = await this._repo.GetUserById(User.Identity.GetUserId());
+
+            if (user != null)
+            {
+                return Ok(this.TheModelFactory.Create(user));
+            }
+
+            return NotFound();
+
+        }
+
+        // POST api/Account/updateUser
+        [Authorize]
+        [Route("UpdateUser")]
+        public async Task<IHttpActionResult> UpdateUser(UserModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await this._repo.UpdateUser(User.Identity.GetUserId(),model);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
         }
 
         // GET api/Account/ExternalLogin

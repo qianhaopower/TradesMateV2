@@ -5,7 +5,23 @@
         </div>
     </div>
     <div class="form-group">
-      
+        <form class="form-login" role="form" name="userInfoForm">
+            <h2 class="form-login-heading">Profile</h2>
+            <input type="text" class="form-control" placeholder="Username" data-ng-model="userInfo.userName" required autofocus>
+
+            <input type="text" class="form-control" placeholder="First name" data-ng-model="userInfo.firstName" required>
+
+            <input type="text" class="form-control" placeholder="Last name" data-ng-model="userInfo.lastName" required>
+
+            <input type="email" class="form-control" placeholder="Email Address" data-ng-model="userInfo.emailAddress"  >
+
+            
+    
+            <button class="btn btn-lg btn-info btn-block" type="submit" data-ng-click="updateUser()" ng-disabled="userInfoForm.$invalid">Save</button>
+            <!--<div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
+                {{message}}
+            </div>-->
+        </form>
         
     </div>
  </div>
