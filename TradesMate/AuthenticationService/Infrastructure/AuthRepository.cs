@@ -39,6 +39,7 @@ namespace AuthenticationService.Infrastructure
                 FirstName = userModel.FirstName,
                   LastName = userModel.LastName,
                   UserType = userModel.UserType,
+                  JoinDate = DateTime.Now,
 
              };
             //Check if the user is client or trademan.
