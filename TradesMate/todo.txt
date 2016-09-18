@@ -4,7 +4,10 @@
 4.check back button on each page. 
 5.Empty page warning messgage.
 
-
+6. Taotao - properties/property details page - add property.address
+add search for address
+workItems page - add propertyAddress
+well class for properties; sections and work items page - data
 
 1) allow user view/edit profile
 2) allow user change password
@@ -24,3 +27,4 @@
 5)Trade people can only view Clients/Property belongs to his/her company.
 
 Other business logic to continue
+

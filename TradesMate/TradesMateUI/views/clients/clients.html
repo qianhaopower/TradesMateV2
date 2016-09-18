@@ -23,9 +23,10 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th></th>
                 <th>Name</th>
                 <th>Address</th>
+                <th></th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -33,30 +34,29 @@
 
             <tr ng-repeat="client in clientlist | filter:search">
 
-                <td ng-click="openClientDetail(client, true)">
-                    <i class="fa fa-user"></i>
-                </td>
-                <td class="" ng-click="openClientDetail(client, true)">
+                <td class="col-md-3 col-xs-2" ng-click="openClientDetail(client,true)">
                     <a>{{client.firstName}} {{client.surName}}</a>
                     <br />
-
                     <small>{{client.email}}</small>
                 </td>
-                <td class="" ng-click="viewClientProperties(client)">
+                <td class="col-md-6 col-xs-4">
                     {{client.address.line1}}&nbsp;{{client.address.line2}}&nbsp;{{client.address.line3}}
                 </td>
-                <td class="">
-                    
-                    <a class="btn btn-primary btn-sm" title="Edit" ng-click="openClientDetail(client,false)"><i class="fa fa-pencil"></i></a>
-                    <a class="btn btn-info btn-sm" title="View Properties" ng-click="viewClientProperties(client)"><i class="fa fa-home"></i></a>
-                    <a class="btn btn-danger btn-sm" title="Delete" ng-click="deleteClient(client)"><i class="fa fa-trash-o"></i></a>
+                <td class="col-md-1 col-xs-2">
+                    <a class="btn btn-default btn-sm" title="Manage Properties" ng-click="viewClientProperties(client)">Properties</a>
+                </td>
+                <td class="col-md-1 col-xs-2">
+
+                    <a class="btn btn-primary btn-sm" title="Edit Client" ng-click="openClientDetail(client,false)">Edit</a>
+                </td>
+                <td class="col-md-1 col-xs-2">
+                    <a class="btn btn-danger btn-sm" title="Delete Client" ng-click="deleteClient(client)">Delete</a>
                 </td>
 
             </tr>
         </tbody>
     </table>
 
-</div>
 </div>
 
 
@@ -66,11 +66,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title danger">Warning</h4>
+                    <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title danger">Delete Client</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Deleting client will remove all related properties and work records. Proceed?</p>
+                    <p>This will also remove all the related properties. Proceed?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>

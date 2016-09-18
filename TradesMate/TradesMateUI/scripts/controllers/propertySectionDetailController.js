@@ -13,7 +13,6 @@ function ($scope, propertySectionDataService, Notification, $state, $stateParams
     $scope.readOnly = $state.current.name == 'base.viewPropertySection';
 
     
-
     $scope.save = function () {
 
         if ($scope.section.isNew) {

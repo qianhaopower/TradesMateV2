@@ -15,6 +15,9 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
 
     $scope.readOnly = $state.current.name == 'base.viewProperty';
 
+    $scope.goBack = function () {
+        $state.go('base.properties');
+    }
     
 
     $scope.save = function () {
