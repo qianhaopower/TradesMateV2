@@ -12,18 +12,23 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12">
             <h2 class="page-header">Work Items </h2>
-            <small>Property : {{propertyName}}</small><br />
-            <small>Section : {{sectionName}}</small>
         </div>
     </div>
-
-
+    <div class="row">
+        <div class="col-lg-12 col-sm-12 ">
+            <div class="well">
+                Client: {{clientName}}<br/>
+                Property : {{propertyName}} - {{propertyAddress}}<br />
+                Section : {{sectionName}}
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-xs-6 col-md-9">
 
             <button type="button" title="Add new workItem"
                     id="loading-example-btn"
-                    class="btn btn-white btn-sm" ng-click="addNewWorkItem()">
+                    class="btn btn-default btn-sm" ng-click="addNewWorkItem()">
                 <i class="fa fa-plus"></i> Add Work Item
             </button>
 
@@ -36,10 +41,10 @@
     <table class="table table-hover">
         <thead>
             <tr>
-                <th></th>
                 <th>Name</th>
-                <th>Description</th>
-                <th>Quantity</th>
+                <th>Desc.</th>
+                <th>Qty.</th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
@@ -49,23 +54,24 @@
 
             <tr ng-repeat="workItem in workItemList | filter:search">
 
-                <td ng-click="viewWorkItemSections(workItem)">
-                    <i class="fa fa-flash"></i>
-                </td>
-                <td class="" ng-click="viewWorkItemSections(workItem)">
+                <td class="col-md-2 col-xs-2" ng-click="openWorkItemDetail(workItem, true)">
                     <a>{{workItem.name}}</a>
-
                 </td>
-                <td class="" ng-click="viewWorkItemSections(workItem)">
+                <td class="col-md-6 col-xs-3">
                     {{workItem.description}}
                 </td>
-                <td class="" ng-click="viewWorkItemSections(workItem)">
+                <td class="col-md-2 col-xs-3">
                     {{workItem.quantity}}
                 </td>
-                <td class="">
-                    <a class="btn btn-white btn-sm" title="View Detail" ng-click="openWorkItemDetail(workItem, true)"><i class="fa fa-eye"></i></a>
-                    <a class="btn btn-white btn-sm" title="Edit" ng-click="openWorkItemDetail(workItem,false)"><i class="fa fa-pencil"></i></a>
-                    <a class="btn btn-white btn-sm" title="Delete" ng-click="deleteWorkItem(workItem)"><i class="fa fa-trash-o"></i></a>
+                <!--<td class="col-md-1 col-xs-2">
+                    <a class="btn btn-default btn-sm" title="Extra" ng-click="openWorkItemDetail(workItem,false)">Extra</a>
+                 
+                </td>-->
+                <td class="col-md-1 col-xs-2">
+                    <a class="btn btn-primary btn-sm" title="Edit Work Item" ng-click="openWorkItemDetail(workItem,false)">Edit</a>
+                </td>
+                <td class="col-md-1 col-xs-2">
+                    <a class="btn btn-danger btn-sm" title="Delete Work Item" ng-click="deleteWorkItem(workItem)">Delete</a>
                 </td>
 
             </tr>
@@ -80,11 +86,11 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <button type="button" class="close" ng-click="close('Cancel')" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title danger">Warning</h4>
+                    <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title danger">Delete Work Item</h4>
                 </div>
                 <div class="modal-body">
-                    <p>Deleting workItem cannot be undone. Proceed?</p>
+                    <p>Delete action can not be undone. Proceed?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>

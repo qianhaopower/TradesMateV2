@@ -4,17 +4,16 @@
     <br />
     <div class="row">
         <div class="col-lg-12 col-sm-12">
-            <a class="btn btn-default" ng-click="goBack()">
+            <a class="btn btn-default" ng-click="goToWorkItemIndex()">
                 <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Go Back
             </a>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-12">
-            <h2 class="page-header">Work Item Detail</h2>
+            <h2 class="page-header">{{workItemId? 'Work Item Detail' : 'Add Work Item'}}</h2>
         </div>
     </div>
-
 
     <div ng-show="creatingNew">
 
