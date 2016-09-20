@@ -234,6 +234,20 @@ angular
 
          //business logic start from here
 
+
+              //manage company
+              .state('base.manageCompany', {
+                  templateUrl: 'views/company/manageCompany.html',
+                  controller: 'manageCompanyController',
+                  url: '/managecompany'
+              })
+
+              .state('base.companyUser', {
+                  templateUrl: 'views/company/companyUser.html',
+                  controller: 'companyUserController',
+                  url: '/companyuser'
+              })
+
               //client
             .state('base.clients', {
                 templateUrl: 'views/clients/clients.html',
