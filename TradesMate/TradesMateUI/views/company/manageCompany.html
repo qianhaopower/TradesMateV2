@@ -4,6 +4,14 @@
             <h2 class="page-header">Company Profile</h2>
         </div>
 
+        <div class="col-lg-12">
+            <button type="button" title="Manage company User" class="btn btn-default btn-sm" ng-click="gotoManagerCompanyUser()">
+                <i class="fa fa-user"></i> Manage company user
+            </button>
+        </div>
+
+        
+
     </div>
     <div class="form-group">
         <form class="form-login" role="form" name="companyInfoForm">
@@ -12,10 +20,18 @@
 
             <div>
                 Company name
-                <input type="text" class="form-control" placeholder="Companyname" data-ng-model="companyInfo.companyName" required ng-disabled="true" autofocus>
+                <input type="text" class="form-control" placeholder="Companyname" data-ng-model="companyInfo.companyName" required ng-disabled="!editMode" autofocus>
             </div>
 
+            <div>
+                Company name
+                <textarea type="text" class="form-control" placeholder="Description" data-ng-model="companyInfo.description" ng-disabled="!editMode" autofocus></textarea>
+            </div>
 
+            <div>
+                Company name
+                <input type="text" class="form-control" placeholder="Credit card number" data-ng-model="companyInfo.creditCard"  ng-disabled="!editMode" autofocus>
+            </div>
 
             <button class="btn btn-lg btn-info btn-block" type="submit" data-ng-click="updateCompany()" ng-disabled="companyInfoForm.$invalid" ng-show="editMode">Save</button>
             <button class="btn btn-lg btn-info btn-block" ng-click="cancelEdit()" ng-show="editMode">Cancel</button>

@@ -706,6 +706,7 @@
     <Content Include="scripts\controllers\indexController.js" />
     <Content Include="scripts\controllers\loginController.js" />
     <Content Include="scripts\controllers\main.js" />
+    <Content Include="scripts\controllers\companyUserController.js" />
     <Content Include="scripts\controllers\ordersController.js" />
     <Content Include="scripts\controllers\peronalSettingController.js" />
     <Content Include="scripts\controllers\propertyController.js" />
@@ -715,6 +716,7 @@
     <Content Include="scripts\controllers\refreshController.js" />
     <Content Include="scripts\controllers\signupController.js" />
     <Content Include="scripts\controllers\tokensManagerController.js" />
+    <Content Include="scripts\controllers\manageCompanyController.js" />
     <Content Include="scripts\controllers\userProfileController.js" />
     <Content Include="scripts\controllers\workItemController.js" />
     <Content Include="scripts\controllers\workItemDetailController.js" />
@@ -736,6 +738,7 @@
     <Content Include="scripts\directives\timeline\timeline.html" />
     <Content Include="scripts\directives\timeline\timeline.js" />
     <Content Include="scripts\services\authInterceptorService.js" />
+    <Content Include="scripts\services\companyService.js" />
     <Content Include="scripts\services\authService.js" />
     <Content Include="scripts\services\clientDataService.js" />
     <Content Include="scripts\services\ordersService.js" />
