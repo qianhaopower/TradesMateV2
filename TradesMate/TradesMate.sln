@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataService", "DataService\DataService.csproj", "{FF7B6F39-0C9D-4A80-965F-D76EE52C712F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AuthenticationService", "AuthenticationService\AuthenticationService.csproj", "{23DFCFD5-B158-4C0D-9C31-5E9CB64C64CF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TradesMateUI", "TradesMateUI\TradesMateUI.csproj", "{E4156422-2684-4222-95C2-4B9AE4CBA7E3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SeedUnitTest", "SeedUnitTest\SeedUnitTest.csproj", "{8367E5A6-7F3E-491A-BA02-668FB534BEF8}"
@@ -21,10 +19,6 @@ Global
 		{FF7B6F39-0C9D-4A80-965F-D76EE52C712F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FF7B6F39-0C9D-4A80-965F-D76EE52C712F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FF7B6F39-0C9D-4A80-965F-D76EE52C712F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{23DFCFD5-B158-4C0D-9C31-5E9CB64C64CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{23DFCFD5-B158-4C0D-9C31-5E9CB64C64CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{23DFCFD5-B158-4C0D-9C31-5E9CB64C64CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{23DFCFD5-B158-4C0D-9C31-5E9CB64C64CF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E4156422-2684-4222-95C2-4B9AE4CBA7E3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E4156422-2684-4222-95C2-4B9AE4CBA7E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E4156422-2684-4222-95C2-4B9AE4CBA7E3}.Release|Any CPU.ActiveCfg = Release|Any CPU

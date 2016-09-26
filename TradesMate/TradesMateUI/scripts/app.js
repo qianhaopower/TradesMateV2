@@ -234,6 +234,9 @@ angular
 
          //business logic start from here
 
+
+         
+
               //client
             .state('base.clients', {
                 templateUrl: 'views/clients/clients.html',
@@ -362,6 +365,19 @@ angular
               controller: 'peronalSettingController',
               url: '/profile/settings'
           })
+           //manage company
+          .state('base.manageCompany', {
+                  templateUrl: 'views/company/manageCompany.html',
+                  controller: 'manageCompanyController',
+                  url: '/managecompany'
+          })
+
+          //manage company user
+          .state('base.companyUser', {
+                  templateUrl: 'views/company/companyUser.html',
+                  controller: 'companyUserController',
+                  url: '/companyuser'
+          })
 
 
           //NotificationProvider.setOptions({
@@ -379,7 +395,7 @@ angular
 
 //var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar']);
 var app = angular.module('sbAdminApp');
-var serviceBase = 'http://localhost/authenticationservice/'; //base for authentication
+var serviceBase = 'http://localhost/DataService/'; //base for authentication
 //var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
 app.constant('ngAuthSettings', {
     apiServiceBaseUri: serviceBase,

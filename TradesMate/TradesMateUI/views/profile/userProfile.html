@@ -3,26 +3,44 @@
         <div class="col-lg-12">
             <h2 class="page-header">My Profile</h2>
         </div>
+        
     </div>
     <div class="form-group">
         <form class="form-login" role="form" name="userInfoForm">
             <h2 class="form-login-heading">Profile</h2>
-            <input type="text" class="form-control" placeholder="Username" data-ng-model="userInfo.userName" required autofocus>
+            <div ng-click="editMode = true" ng-show="!editMode" title="Edit"> <i class="fa fa-pencil fa-2x" aria-hidden="true"></i></div>
+          
+            <div>
+                User name
+                <input type="text" class="form-control" placeholder="Username" data-ng-model="userInfo.userName" required ng-disabled="true" autofocus>
+            </div>
 
-            <input type="text" class="form-control" placeholder="First name" data-ng-model="userInfo.firstName" required>
 
-            <input type="text" class="form-control" placeholder="Last name" data-ng-model="userInfo.lastName" required>
+            <div>
+               First Name
+                <input type="text" class="form-control" placeholder="First name" data-ng-model="userInfo.firstName" required ng-disabled="!editMode">
+            </div>
 
-            <input type="email" class="form-control" placeholder="Email Address" data-ng-model="userInfo.emailAddress"  >
+            <div>
+              Last Name
 
-            
-    
-            <button class="btn btn-lg btn-info btn-block" type="submit" data-ng-click="updateUser()" ng-disabled="userInfoForm.$invalid">Save</button>
-            <!--<div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
-                {{message}}
-            </div>-->
+                <input type="text" class="form-control" placeholder="Last name" data-ng-model="userInfo.lastName" required ng-disabled="!editMode">
+            </div>
+
+            <div>
+              Email
+                <input type="email" class="form-control" placeholder="Email Address" data-ng-model="userInfo.emailAddress" ng-disabled="!editMode">
+
+            </div>
+
+            <button class="btn btn-lg btn-info btn-block" type="submit" data-ng-click="updateUser()" ng-disabled="userInfoForm.$invalid" ng-show="editMode">Save</button>
+            <button class="btn btn-lg btn-info btn-block" ng-click="cancelEdit()" ng-show="editMode"  >Cancel</button>
+
+         
         </form>
+
         
+
     </div>
- </div>
+</div>
 

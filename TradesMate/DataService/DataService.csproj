@@ -45,6 +45,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=5.1.1.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.5.1.1\lib\net45\AutoMapper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.0.1011, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.0\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -268,12 +272,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\PropertiesController.cs" />
     <Compile Include="Controllers\ProtectedController.cs" />
+    <Compile Include="Controllers\RefreshTokensController.cs" />
     <Compile Include="Controllers\SectionsController.cs" />
     <Compile Include="Controllers\WorkItemsController.cs" />
     <Compile Include="Controllers\WorkItemTemplatesController.cs" />
@@ -281,8 +288,10 @@
     <Compile Include="DataLayer\Entities\Address.cs" />
     <Compile Include="DataLayer\Entities\BaseEntity.cs" />
     <Compile Include="DataLayer\Entities\Client.cs" />
+    <Compile Include="DataLayer\Entities\ClientApplicaiton.cs" />
     <Compile Include="DataLayer\Entities\Company.cs" />
     <Compile Include="DataLayer\Entities\Property.cs" />
+    <Compile Include="DataLayer\Entities\RefreshToken.cs" />
     <Compile Include="DataLayer\Entities\Section.cs" />
     <Compile Include="DataLayer\Entities\SectionTemplate.cs" />
     <Compile Include="DataLayer\Entities\SubSection.cs" />
@@ -300,8 +309,28 @@
     <Compile Include="DataLayer\Mapping\SubSectionTemplateMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemTemplateMap.cs" />
-    <Compile Include="FrameworkTool\SeedCase.cs" />
+    <Compile Include="Helper.cs" />
+    <Compile Include="Infrastructure\ApplicationRole.cs" />
+    <Compile Include="Infrastructure\ApplicationRoleManager.cs" />
+    <Compile Include="Infrastructure\ApplicationUser.cs" />
+    <Compile Include="Infrastructure\ApplicationUserManager.cs" />
+    <Compile Include="Infrastructure\AuthContext.cs" />
+    <Compile Include="Infrastructure\AuthRepository.cs" />
+    <Compile Include="Infrastructure\ClaimsAuthorizationAttribute.cs" />
+    <Compile Include="Infrastructure\ExtendedClaimsProvider.cs" />
+    <Compile Include="Infrastructure\RolesFromClaims.cs" />
+    <Compile Include="Models\Enums.cs" />
+    <Compile Include="Models\ExternalLoginModels.cs" />
+    <Compile Include="Models\ModelFactory.cs" />
+    <Compile Include="Models\CompanyModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Providers\FacebookAuthProvider.cs" />
+    <Compile Include="Providers\GoogleAuthProvider.cs" />
+    <Compile Include="Providers\SimpleAuthorizationServerProvider.cs" />
+    <Compile Include="Providers\SimpleRefreshTokenProvider.cs" />
+    <Compile Include="Results\ChallengeResult.cs" />
+    <Compile Include="Services\EmailService.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>

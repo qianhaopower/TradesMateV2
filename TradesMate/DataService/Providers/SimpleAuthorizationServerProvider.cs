@@ -1,6 +1,6 @@
-﻿using AuthenticationService.Entities;
-using AuthenticationService.Infrastructure;
-using DataService;
+﻿using DataService.Entities;
+using DataService.Infrastructure;
+using DataService.Entities;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
@@ -11,7 +11,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace AuthenticationService.Providers
+namespace DataService.Providers
 {
     public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {

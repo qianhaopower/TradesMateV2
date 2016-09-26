@@ -13,7 +13,8 @@ namespace EF.Data.Mapping
 
             Property(t => t.Name).HasMaxLength(100);
             Property(t => t.Description).HasMaxLength(3000);
-           
+            Property(t => t.CreditCard).HasMaxLength(50);
+
 
 
             Property(t => t.AddedDate).IsRequired();
