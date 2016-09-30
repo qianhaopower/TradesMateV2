@@ -7,7 +7,7 @@ angular.module('sbAdminApp').controller('companyUserController', ['$scope', '$lo
         $scope.editMode = false;
 
         $scope.gotoEditCompanyUser = function () {
-            $state.go('base.editCompanyUser');
+            $state.go('base.createCompanyUser');
         }
 
 
@@ -37,7 +37,7 @@ angular.module('sbAdminApp').controller('companyUserController', ['$scope', '$lo
 
         $scope.addNewUser = function () {
             
-            $state.go("editCompanyUser");
+            $state.go("base.createCompanyUser");
 
         }
 

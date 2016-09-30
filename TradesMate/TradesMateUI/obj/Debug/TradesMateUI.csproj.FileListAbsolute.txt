@@ -10,3 +10,9 @@ C:\Porjects\TradesMateV2\TradesMate\TradeUI\bin\AngularJSAuthentication.Web.pdb
 C:\Porjects\TradesMateV2\TradesMate\TradeUI\obj\Debug\TradesMateUI.csprojResolveAssemblyReference.cache
 C:\Porjects\TradesMateV2\TradesMate\TradeUI\obj\Debug\AngularJSAuthentication.Web.dll
 C:\Porjects\TradesMateV2\TradesMate\TradeUI\obj\Debug\AngularJSAuthentication.Web.pdb
+C:\Porjects\TradesMateV2\TradesMate\TradesMateUI\bin\TradesMateUI.dll.config
+C:\Porjects\TradesMateV2\TradesMate\TradesMateUI\bin\TradesMateUI.dll
+C:\Porjects\TradesMateV2\TradesMate\TradesMateUI\bin\TradesMateUI.pdb
+C:\Porjects\TradesMateV2\TradesMate\TradesMateUI\obj\Debug\TradesMateUI.csprojResolveAssemblyReference.cache
+C:\Porjects\TradesMateV2\TradesMate\TradesMateUI\obj\Debug\TradesMateUI.dll
+C:\Porjects\TradesMateV2\TradesMate\TradesMateUI\obj\Debug\TradesMateUI.pdb

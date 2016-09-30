@@ -89,26 +89,29 @@ namespace DataService.Infrastructure
             return result;
         }
 
-        public async Task<IdentityResult> RegisterUser(UserModel userModel)
+        public async Task<IdentityResult> RegisterUser(UserModel userModel, int? companyId = null)
         {
             ApplicationUser user = new ApplicationUser
             {
                 UserName = userModel.UserName,
                 FirstName = userModel.FirstName,
-                  LastName = userModel.LastName,
-                  UserType = userModel.UserType,
-                  JoinDate = DateTime.Now,
+                LastName = userModel.LastName,
+                UserType = userModel.UserType,
+                JoinDate = DateTime.Now,
+                CompanyId = companyId.HasValue ? companyId.Value : 0,
+                Email = userModel.Email,
 
-             };
+            };
             //Check if the user is client or trademan.
-            if (userModel.UserType == (int)UserType.Client)
+            if (userModel.UserType == (int)UserType.Client
+                ||( userModel.UserType == (int)UserType.Trade && companyId.HasValue))
             {
                 var result = await _userManager.CreateAsync(user, userModel.Password);
 
                 return result;
 
             }
-            else if(userModel.UserType == (int)UserType.Trade)
+            else if(userModel.UserType == (int)UserType.Trade && !companyId.HasValue)
             {
                 // a company name should be provided, 
 

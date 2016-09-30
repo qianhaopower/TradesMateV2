@@ -5,7 +5,7 @@ using System.Data.Entity;
 
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using EF.Data;
-using AuthenticationService.Infrastructure;
+using DataService.Infrastructure;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using System.Linq;

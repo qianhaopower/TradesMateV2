@@ -378,6 +378,23 @@ angular
                   controller: 'companyUserController',
                   url: '/companyuser'
           })
+           .state('base.editCompanyUser', {
+               templateUrl: 'views/company/companyUserDetail.html',
+               controller: 'companyUserDetailController',
+               url: '/companyuser/edit/:userId',
+           })
+              .state('base.createCompanyUser', {
+                  templateUrl: 'views/company/companyUserDetail.html',
+                  controller: 'companyUserDetailController',
+                  url: '/companyuser/create/:userId',
+          })
+          .state('base.viewCompanyUser', {
+              templateUrl: 'views/company/companyUserDetail.html',
+              controller: 'companyUserDetailController',
+              url: '/companyuser/view/:userId',
+          })
+
+          
 
 
           //NotificationProvider.setOptions({

@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using DataService.Infrastructure;
 using DataService.Models;
 using DataService.Results;
@@ -71,6 +72,55 @@ namespace DataService.Controllers
              return Ok();
         }
 
+
+        public async Task<IHttpActionResult> RegisterCompanyUser(UserModel userModel)
+        {
+            //Company user must be the type of Trade;
+            userModel.UserType = (int)UserType.Trade;
+           
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //admin user can only register user for its company
+          
+            var user = await _repo.GetUserByUserName(User.Identity.Name);
+            if (user != null)
+            {
+                //user must be admin to create user
+                if (_repo.IsUserInRole(user.Id, "Admin"))
+                {  
+                    IdentityResult result = await _repo.RegisterUser(userModel, user.CompanyId);
+
+                    IHttpActionResult errorResult = GetErrorResult(result);
+
+                    if (errorResult != null)
+                    {
+                        return errorResult;
+                    }
+
+                    return Ok();
+
+                }
+                else
+                {
+                    throw new Exception("Only admin user can manager company user");
+                }
+            }
+            else
+            {
+                throw new Exception("User cannot be found");
+            }
+
+
+
+
+
+
+          
+        }
+
         //GET api/Account/GetCurrentUser   
         //[Route("getcurrentuser")]
         public async Task<IHttpActionResult> GetCurrentUser()
@@ -85,6 +135,20 @@ namespace DataService.Controllers
 
             return NotFound();
 
+        }
+
+        //GET api/Account/GetUserById   
+
+        public async Task<IHttpActionResult> GetUserById(string userId)
+        {
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            var user = await this._repo.GetUserById(userId.ToString());
+
+            if (user != null)
+            {
+                return Ok(this.TheModelFactory.Create(user));
+            }
+            return NotFound();
         }
 
         // POST api/Account/updateUser

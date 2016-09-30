@@ -233,11 +233,12 @@ namespace DataService.Controllers
 
                 if (repo.IsUserInRole(user.Id, "Admin"))
                 {
-                    var userlist = repo.GetUserByCompanyId(user.CompanyId).Where(u => u.Id != user.Id).FirstOrDefault();
+                    var userlist = repo.GetUserByCompanyId(user.CompanyId).Where(u => u.Id != user.Id).ToList();
                     
-                   return Ok(Mapper.Map<ApplicationUser, UserModel>(userlist));
-                    
-                   
+                  
+                    var modelList = userlist.Select(Mapper.Map<ApplicationUser, UserModel>);
+                    return (Ok(modelList));
+
                 }
                 else
                 {

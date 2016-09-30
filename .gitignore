@@ -565,3 +565,5 @@ TradesMate/TradesMateUI/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 TradesMate/TradesMateUI/obj/Debug/TradesMateUI.csproj.FileListAbsolute.txt
 TradesMate/packages
 TradesMate/DataService/bin/
+TradesMate/AuthenticationService/obj/Debug/
+.suo
