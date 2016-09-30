@@ -156,6 +156,33 @@ namespace DataService.Controllers
             return NotFound();
         }
 
+
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteUserById(string id)
+        {
+
+            if (await _repo.isUserAdmin(User.Identity.Name))
+            {
+                var user = await this._repo.GetUserById(id);
+
+                if (user != null)
+                {
+                    if (_repo.IsUserInRole(user.Id, "Admin"))
+                    {
+                        throw new Exception("Cannot delete Admin user");
+                    }
+                    else
+                    {
+                       await _repo.DeleteUser(id);
+                        return Ok();
+                    }
+                }
+
+            }
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            return NotFound();
+        }
+
         // POST api/Account/updateUser
         [Authorize]
         //[Route("UpdateUser")]

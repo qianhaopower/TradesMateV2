@@ -59,6 +59,22 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     };
 
+    var _deleteUserById = function (userId) {
+
+        var deferred = $q.defer();
+
+        $http.delete(serviceBase + 'api/account/deleteUserById/' + userId).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
+
+    };
+
+
+
     var _createCompanyUser = function (userInfo) {
         var deferred = $q.defer();
         $http.post(serviceBase + 'api/account/registerCompanyUser', userInfo).success(function (response) {
@@ -94,6 +110,9 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     companyServiceFactory.updateCompanyUser = _updateCompanyUser;
     companyServiceFactory.getUserById = _getUserById;
+    companyServiceFactory.deleteUserById = _deleteUserById;
  
+    
+
     return companyServiceFactory;
 }]);

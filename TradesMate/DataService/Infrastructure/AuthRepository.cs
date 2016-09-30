@@ -105,6 +105,17 @@ namespace DataService.Infrastructure
             return result;
         }
 
+        public async Task<IdentityResult> DeleteUser(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new Exception("User name cannot by empty");
+            }
+            var user = await _userManager.FindByIdAsync(userId);     
+            var result = await _userManager.DeleteAsync(user);
+            return result;
+        }
+
         public async Task<IdentityResult> RegisterUser(UserModel userModel, int? companyId = null)
         {
             ApplicationUser user = new ApplicationUser
