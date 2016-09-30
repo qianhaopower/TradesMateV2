@@ -17,8 +17,10 @@ function ($scope, companyService, authService, Notification, $state, $stateParam
         $state.go('base.companyUser');
     }
     $scope.save = function () {
+
+        $scope.user.confirmPassword = $scope.user.password;
         if ($scope.user.isNew) {
-            $scope.user.confirmPassword = $scope.user.password;
+           
           //  var clientCopy= angular.copy($scope.client);
             companyService.createCompanyUser($scope.user).then(function (result) {
                 Notification.success({ message: 'User Created', delay: 2000 });
@@ -27,7 +29,7 @@ function ($scope, companyService, authService, Notification, $state, $stateParam
                 Notification.error({ message: error.message, delay: 2000 });
             });
         } else {
-            companyService.editCompanyUser($scope.client).then(function (result) {
+            companyService.updateCompanyUser($scope.user).then(function (result) {
                 Notification.success({ message: 'User saved', delay: 2000 });
                 $scope.goBack();
             }, function (error) {

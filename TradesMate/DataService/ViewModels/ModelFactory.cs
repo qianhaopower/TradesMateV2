@@ -25,7 +25,7 @@ namespace DataService.Models
         {
             return new UserReturnModel
             {
-               // Url = _UrlHelper.Link("GetUserById", new { id = appUser.Id }),
+                // Url = _UrlHelper.Link("GetUserById", new { id = appUser.Id }),
                 Id = appUser.Id,
                 UserName = appUser.UserName,
                 FirstName = appUser.FirstName,
@@ -37,6 +37,7 @@ namespace DataService.Models
                 //EmailConfirmed = appUser.EmailConfirmed,
                 //Level = appUser.Level,
                 JoinDate = appUser.JoinDate,
+              
                 //Roles = _AppUserManager.GetRolesAsync(appUser.Id).Result,
                 //Claims = _AppUserManager.GetClaimsAsync(appUser.Id).Result
             };
@@ -66,6 +67,7 @@ namespace DataService.Models
         public string LastName { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
+      
         public bool EmailConfirmed { get; set; }
         public int Level { get; set; }
         public DateTime JoinDate { get; set; }

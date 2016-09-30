@@ -193,62 +193,47 @@ namespace DataService.Controllers
 
         public async Task<IHttpActionResult> GetCompanyForCurrentUser()
         {
-            var repo = new AuthRepository();
+            var _repo = new AuthRepository();
 
-            var user = await repo.GetUserByUserName(User.Identity.Name);
-            if (user != null)
+
+            if (await _repo.isUserAdmin(User.Identity.Name))
             {
-
-                if (repo.IsUserInRole(user.Id, "Admin"))
+                var user = await _repo.GetUserByUserName(User.Identity.Name);
+                var company = db.Companies.Where(c => c.Id == user.CompanyId).FirstOrDefault();
+                if (company != null)
                 {
-                    var company = db.Companies.Where(c => c.Id == user.CompanyId).FirstOrDefault();
-                    if (company != null)
-                    {
-                        return Ok(Mapper.Map<Company, CompanyModel>(company));
-                    }
-                    else
-                    {
-                        throw new Exception("Cannot find company for user");
-                    }
+                    return Ok(Mapper.Map<Company, CompanyModel>(company));
                 }
                 else
                 {
-                    throw new Exception("Only admin user can manager company");
+                    throw new Exception("Cannot find company for user");
                 }
-            }
-            else
+            }else
             {
-                throw new Exception("User cannot be found");
+                throw new Exception("Only admin user can manager company");
+
             }
+
         }
 
 
         public async Task<IHttpActionResult> GetCurrentCompanyUsers()
         {
-            var repo = new AuthRepository();
+            var _repo = new AuthRepository();
 
-            var user = await repo.GetUserByUserName(User.Identity.Name);
-            if (user != null)
+
+            if (await _repo.isUserAdmin(User.Identity.Name))
             {
-
-                if (repo.IsUserInRole(user.Id, "Admin"))
-                {
-                    var userlist = repo.GetUserByCompanyId(user.CompanyId).Where(u => u.Id != user.Id).ToList();
-                    
-                  
-                    var modelList = userlist.Select(Mapper.Map<ApplicationUser, UserModel>);
-                    return (Ok(modelList));
-
-                }
-                else
-                {
-                    throw new Exception("Only admin user can manager company user");
-                }
+                var user = await _repo.GetUserByUserName(User.Identity.Name);
+                var userlist = _repo.GetUserByCompanyId(user.CompanyId).Where(u => u.Id != user.Id).ToList();
+                var modelList = userlist.Select(Mapper.Map<ApplicationUser, UserModel>);
+                return (Ok(modelList));
             }
-            else
             {
-                throw new Exception("User cannot be found");
+                throw new Exception("Only admin user can manager company user");
             }
+
+           
         }
 
 

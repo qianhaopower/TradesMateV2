@@ -70,6 +70,22 @@ namespace DataService.Infrastructure
             return user;
         }
 
+        public async Task<bool> isUserAdmin(string userName)
+        {
+            var user = await this.GetUserByUserName(userName);
+            if (user != null)
+            {
+
+                if (this.IsUserInRole(user.Id, "Admin"))
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+
         public async Task<IdentityResult> UpdateUser(string userName, UserModel userModel)
         {
             if (string.IsNullOrEmpty(userName))

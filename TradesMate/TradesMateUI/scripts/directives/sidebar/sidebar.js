@@ -8,7 +8,7 @@
  */
 
 angular.module('sbAdminApp')
-  .directive('sidebar',['$location',function() {
+  .directive('sidebar', ['authService', function (authService) {
     return {
       templateUrl:'scripts/directives/sidebar/sidebar.html',
       restrict: 'E',
@@ -20,6 +20,9 @@ angular.module('sbAdminApp')
         $scope.collapseVar = 0;
         $scope.multiCollapseVar = 0;
         
+        $scope.currentUser = authService.authentication;
+        $scope.showManage = authService.authentication.userRole == 'Admin';
+
         $scope.check = function(x){
           
           if(x==$scope.collapseVar)

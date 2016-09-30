@@ -86,20 +86,25 @@ namespace DataService.Providers
 
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
+            var userRole = "user";
             using (AuthRepository _repo = new AuthRepository())
             {
                 ApplicationUser user = await _repo.FindUser(context.UserName, context.Password);
+              
 
                 if (user == null)
                 {
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
+                var isUserAdmin = await _repo.isUserAdmin(user.UserName);
+                if (isUserAdmin)
+                    userRole = "Admin";
             }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));
-            identity.AddClaim(new Claim(ClaimTypes.Role, "user"));
+            identity.AddClaim(new Claim(ClaimTypes.Role, userRole));
             identity.AddClaim(new Claim("sub", context.UserName));
 
             var props = new AuthenticationProperties(new Dictionary<string, string>
@@ -109,6 +114,9 @@ namespace DataService.Providers
                     },
                     { 
                         "userName", context.UserName
+                    },
+                    {
+                        "userRole", userRole
                     }
                 });
 

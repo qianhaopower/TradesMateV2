@@ -22,7 +22,7 @@ using System.Web.Http;
 namespace DataService.Controllers
 {
 
-    //[RoutePrefix("api/Account")]
+  
     public class AccountController : ApiController
     {
 
@@ -138,16 +138,21 @@ namespace DataService.Controllers
         }
 
         //GET api/Account/GetUserById   
-
-        public async Task<IHttpActionResult> GetUserById(string userId)
+        [HttpGet]
+        public async Task<IHttpActionResult> GetUserById(string id)
         {
-            //Only SuperAdmin or Admin can delete users (Later when implement roles)
-            var user = await this._repo.GetUserById(userId.ToString());
 
-            if (user != null)
+            if (await _repo.isUserAdmin(User.Identity.Name))
             {
-                return Ok(this.TheModelFactory.Create(user));
+                var user = await this._repo.GetUserById(id);
+
+                if (user != null)
+                {
+                    return Ok(this.TheModelFactory.Create(user));
+                }
+                
             }
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
             return NotFound();
         }
 
@@ -162,6 +167,24 @@ namespace DataService.Controllers
             }
 
             IdentityResult result = await this._repo.UpdateUser(User.Identity.Name, model);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+        // POST api/Account/UpdateCompanyUser
+        [Authorize]
+        public async Task<IHttpActionResult> UpdateCompanyUser(UserModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await this._repo.UpdateUser(model.UserName, model);
 
             if (!result.Succeeded)
             {

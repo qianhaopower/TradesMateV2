@@ -15,7 +15,7 @@
         <div class="form-group required">
             <label class="col-sm-3 control-label">Username</label>
             <div class="col-sm-9">
-                <input type="text" name="userName" class="form-control" placeholder="Username" ng-model="user.username" required>
+                <input type="text" name="userName" class="form-control" placeholder="Username" ng-model="user.userName" required ng-disabled="!user.isNew">
                 <div ng-messages="userForm.userName.$error">
                     <div class="text-danger" ng-message="required">Username is required</div>
                 </div>
@@ -56,9 +56,15 @@
         <div class="form-group required">
             <label class="col-sm-3 control-label">Password</label>
             <div class="col-sm-9">
-                <input type="text" name="userPassword" class="form-control" placeholder="password" ng-model="user.password" required>
+                <input type="text" name="userPassword" class="form-control" placeholder="password" ng-model="user.password" ng-minlength="6" ng-maxlength="100" ng-required="user.isNew">
                 <div ng-messages="userForm.userPassword.$error">
                     <div class="text-danger" ng-message="required">Password is required</div>
+                    <div class="text-danger" ng-message="minlength">The Password must be at least 6 characters long</div>
+                    <div class="text-danger" ng-message="maxlength">Your field is too long</div>
+                </div>
+
+                <div >
+                    <div ng-show="!user.isNew">If you provide a new password, the old password will be replaced.</div>
                 </div>
             </div>
 

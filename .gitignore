@@ -567,3 +567,4 @@ TradesMate/packages
 TradesMate/DataService/bin/
 TradesMate/AuthenticationService/obj/Debug/
 .suo
+TradesMate/DataService/obj/

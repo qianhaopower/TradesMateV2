@@ -41,6 +41,15 @@ angular.module('sbAdminApp').controller('companyUserController', ['$scope', '$lo
 
         }
 
+        
+
+        $scope.editUserDetail = function (user) {
+
+            $state.go("base.editCompanyUser", {
+                userId: user.userId
+            });
+
+        }
    
 
     var getUsersInCompany = function () {

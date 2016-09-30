@@ -45,11 +45,11 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
 
 
-    var _getUserById = function () {
+    var _getUserById = function (userId) {
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/account/getUserById').success(function (response) {
+        $http.get(serviceBase + 'api/account/getUserById/' + userId).success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
@@ -73,7 +73,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     var _updateCompanyUser = function (userInfo) {
         var deferred = $q.defer();
-         $http.post(serviceBase + 'api/account/updateuser', userInfo).success(function (response) {
+         $http.post(serviceBase + 'api/account/updatecompanyuser', userInfo).success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
@@ -93,7 +93,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     companyServiceFactory.createCompanyUser = _createCompanyUser;
 
     companyServiceFactory.updateCompanyUser = _updateCompanyUser;
-    companyServiceFactory._getUserById = _getUserById;
+    companyServiceFactory.getUserById = _getUserById;
  
     return companyServiceFactory;
 }]);
