@@ -70,6 +70,22 @@ namespace DataService.Infrastructure
             return user;
         }
 
+        public async Task<bool> isUserAdmin(string userName)
+        {
+            var user = await this.GetUserByUserName(userName);
+            if (user != null)
+            {
+
+                if (this.IsUserInRole(user.Id, "Admin"))
+                {
+                    return true;
+                }
+                return false;
+            }
+            return false;
+        }
+
+
         public async Task<IdentityResult> UpdateUser(string userName, UserModel userModel)
         {
             if (string.IsNullOrEmpty(userName))
@@ -89,26 +105,40 @@ namespace DataService.Infrastructure
             return result;
         }
 
-        public async Task<IdentityResult> RegisterUser(UserModel userModel)
+        public async Task<IdentityResult> DeleteUser(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new Exception("User name cannot by empty");
+            }
+            var user = await _userManager.FindByIdAsync(userId);     
+            var result = await _userManager.DeleteAsync(user);
+            return result;
+        }
+
+        public async Task<IdentityResult> RegisterUser(UserModel userModel, int? companyId = null)
         {
             ApplicationUser user = new ApplicationUser
             {
                 UserName = userModel.UserName,
                 FirstName = userModel.FirstName,
-                  LastName = userModel.LastName,
-                  UserType = userModel.UserType,
-                  JoinDate = DateTime.Now,
+                LastName = userModel.LastName,
+                UserType = userModel.UserType,
+                JoinDate = DateTime.Now,
+                CompanyId = companyId.HasValue ? companyId.Value : 0,
+                Email = userModel.Email,
 
-             };
+            };
             //Check if the user is client or trademan.
-            if (userModel.UserType == (int)UserType.Client)
+            if (userModel.UserType == (int)UserType.Client
+                ||( userModel.UserType == (int)UserType.Trade && companyId.HasValue))
             {
                 var result = await _userManager.CreateAsync(user, userModel.Password);
 
                 return result;
 
             }
-            else if(userModel.UserType == (int)UserType.Trade)
+            else if(userModel.UserType == (int)UserType.Trade && !companyId.HasValue)
             {
                 // a company name should be provided, 
 

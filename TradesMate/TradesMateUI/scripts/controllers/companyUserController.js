@@ -7,7 +7,7 @@ angular.module('sbAdminApp').controller('companyUserController', ['$scope', '$lo
         $scope.editMode = false;
 
         $scope.gotoEditCompanyUser = function () {
-            $state.go('base.editCompanyUser');
+            $state.go('base.createCompanyUser');
         }
 
 
@@ -37,10 +37,32 @@ angular.module('sbAdminApp').controller('companyUserController', ['$scope', '$lo
 
         $scope.addNewUser = function () {
             
-            $state.go("editCompanyUser");
+            $state.go("base.createCompanyUser");
 
         }
 
+        
+
+        $scope.deleteUser = function (user) {
+
+            companyService.deleteUserById(user.userId).then(function () {
+                Notification.success({ message: 'Deleted', delay: 2000 });
+                getUsersInCompany();
+
+
+
+            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+        }
+
+
+
+        $scope.editUserDetail = function (user) {
+
+            $state.go("base.editCompanyUser", {
+                userId: user.userId
+            });
+
+        }
    
 
     var getUsersInCompany = function () {

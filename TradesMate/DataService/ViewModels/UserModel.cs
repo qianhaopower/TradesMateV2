@@ -43,6 +43,12 @@ namespace DataService.Models
         [DataType(DataType.EmailAddress)]
         public String Email { get; set; }
 
+        public string UserId { get; set; }
+
+
+
+
+
 
 
     }

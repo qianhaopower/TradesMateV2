@@ -700,6 +700,7 @@
     <Content Include="scripts\controllers\associateController.js" />
     <Content Include="scripts\controllers\chartContoller.js" />
     <Content Include="scripts\controllers\clientController.js" />
+    <Content Include="scripts\controllers\companyUserDetailController.js" />
     <Content Include="scripts\controllers\clientDetailController.js" />
     <Content Include="scripts\controllers\form.js" />
     <Content Include="scripts\controllers\homeController.js" />
@@ -747,6 +748,7 @@
     <Content Include="scripts\services\tokensManagerService.js" />
     <Content Include="scripts\services\workItemDataService.js" />
     <Content Include="views\authentication\associate.html" />
+    <Content Include="views\company\companyUserDetail.html" />
     <Content Include="views\company\companyUser.html" />
     <Content Include="views\company\manageCompany.html" />
     <Content Include="views\pages\chart.html" />

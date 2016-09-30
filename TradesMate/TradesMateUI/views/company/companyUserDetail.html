@@ -1,0 +1,81 @@
+﻿<form name="userForm" class="form-horizontal">
+
+    <br />
+    <div class="form-group">
+        <div class="col-lg-12 col-sm-12">
+            <a class="btn btn-default" ng-click="goBack()">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Go Back
+            </a>
+        </div>
+    </div>
+    <br />
+    <fieldset ng-disabled="readOnly">
+        <legend>{{userId ? 'User details' : 'Add user'}}</legend>
+
+        <div class="form-group required">
+            <label class="col-sm-3 control-label">Username</label>
+            <div class="col-sm-9">
+                <input type="text" name="userName" class="form-control" placeholder="Username" ng-model="user.userName" required ng-disabled="!user.isNew">
+                <div ng-messages="userForm.userName.$error">
+                    <div class="text-danger" ng-message="required">Username is required</div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="form-group required">
+            <label class="col-sm-3 control-label">First Name</label>
+            <div class="col-sm-9">
+                <input type="text" name="userFirstName" class="form-control" placeholder="First name" ng-model="user.firstName" required>
+                <div ng-messages="userForm.userFirstName.$error">
+                    <div class="text-danger" ng-message="required">First Name is required</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label">Last Name</label>
+            <div class="col-sm-9">
+                <input type="text" name="userLastName" class="form-control" placeholder="Last name" ng-model="user.lastName" required>
+                <div ng-messages="userForm.userLastName.$error">
+                    <div class="text-danger" ng-message="required">Last Name is required</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Email</label>
+            <div class="col-sm-9">
+                <input type="email" name="userEmail" placeholder="email" class="form-control" ng-model="user.email">
+                <div ng-messages="userForm.userEmail.$error">
+                    <div class="text-danger" ng-message="email">Your email address is invalid</div>
+                </div>
+            </div>
+
+        </div>
+        <div class="form-group required">
+            <label class="col-sm-3 control-label">Password</label>
+            <div class="col-sm-9">
+                <input type="text" name="userPassword" class="form-control" placeholder="password" ng-model="user.password" ng-minlength="6" ng-maxlength="100" ng-required="user.isNew">
+                <div ng-messages="userForm.userPassword.$error">
+                    <div class="text-danger" ng-message="required">Password is required</div>
+                    <div class="text-danger" ng-message="minlength">The Password must be at least 6 characters long</div>
+                    <div class="text-danger" ng-message="maxlength">Your field is too long</div>
+                </div>
+
+                <div >
+                    <div ng-show="!user.isNew">If you provide a new password, the old password will be replaced.</div>
+                </div>
+            </div>
+
+        </div>
+    </fieldset>
+</form>
+<div class="" ng-hide="readOnly">
+
+    <button class="btn btn-primary pull-right" type="button" ng-click="save()" ng-disabled="userForm.$invalid">Save</button>
+    <button class="btn btn-danger pull-left" type="button" ng-click="goBack()">Cancel</button>
+</div>
+
+
+

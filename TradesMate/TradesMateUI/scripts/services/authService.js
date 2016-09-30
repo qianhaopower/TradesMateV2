@@ -68,8 +68,9 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
                 localStorageService.set('authorizationData', { token: response.access_token, userName: loginData.userName, refreshToken: "", useRefreshTokens: false });
             }
             _authentication.isAuth = true;
-            _authentication.userName = loginData.userName;
+            _authentication.userName = loginData.userName;  
             _authentication.useRefreshTokens = loginData.useRefreshTokens;
+            _authentication.userRole = response.userRole;
 
             deferred.resolve(response);
 
@@ -89,6 +90,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         _authentication.isAuth = false;
         _authentication.userName = "";
         _authentication.useRefreshTokens = false;
+        _authentication.userRole = undefined;
 
     };
 
@@ -99,6 +101,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
             _authentication.isAuth = true;
             _authentication.userName = authData.userName;
             _authentication.useRefreshTokens = authData.useRefreshTokens;
+            _authentication.userRole = authData.userRole;
         }
 
     };
@@ -143,7 +146,8 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
             _authentication.isAuth = true;
             _authentication.userName = response.userName;
             _authentication.useRefreshTokens = false;
-
+            _authentication.userRole = response.userRole; 
+          
             deferred.resolve(response);
 
         }).error(function (err, status) {
@@ -166,6 +170,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
             _authentication.isAuth = true;
             _authentication.userName = response.userName;
             _authentication.useRefreshTokens = false;
+            _authentication.userRole = response.userRole;
 
             deferred.resolve(response);
 

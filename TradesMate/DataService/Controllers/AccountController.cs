@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using DataService.Infrastructure;
 using DataService.Models;
 using DataService.Results;
@@ -21,7 +22,7 @@ using System.Web.Http;
 namespace DataService.Controllers
 {
 
-    //[RoutePrefix("api/Account")]
+  
     public class AccountController : ApiController
     {
 
@@ -71,6 +72,55 @@ namespace DataService.Controllers
              return Ok();
         }
 
+
+        public async Task<IHttpActionResult> RegisterCompanyUser(UserModel userModel)
+        {
+            //Company user must be the type of Trade;
+            userModel.UserType = (int)UserType.Trade;
+           
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            //admin user can only register user for its company
+          
+            var user = await _repo.GetUserByUserName(User.Identity.Name);
+            if (user != null)
+            {
+                //user must be admin to create user
+                if (_repo.IsUserInRole(user.Id, "Admin"))
+                {  
+                    IdentityResult result = await _repo.RegisterUser(userModel, user.CompanyId);
+
+                    IHttpActionResult errorResult = GetErrorResult(result);
+
+                    if (errorResult != null)
+                    {
+                        return errorResult;
+                    }
+
+                    return Ok();
+
+                }
+                else
+                {
+                    throw new Exception("Only admin user can manager company user");
+                }
+            }
+            else
+            {
+                throw new Exception("User cannot be found");
+            }
+
+
+
+
+
+
+          
+        }
+
         //GET api/Account/GetCurrentUser   
         //[Route("getcurrentuser")]
         public async Task<IHttpActionResult> GetCurrentUser()
@@ -87,6 +137,52 @@ namespace DataService.Controllers
 
         }
 
+        //GET api/Account/GetUserById   
+        [HttpGet]
+        public async Task<IHttpActionResult> GetUserById(string id)
+        {
+
+            if (await _repo.isUserAdmin(User.Identity.Name))
+            {
+                var user = await this._repo.GetUserById(id);
+
+                if (user != null)
+                {
+                    return Ok(this.TheModelFactory.Create(user));
+                }
+                
+            }
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            return NotFound();
+        }
+
+
+        [HttpDelete]
+        public async Task<IHttpActionResult> DeleteUserById(string id)
+        {
+
+            if (await _repo.isUserAdmin(User.Identity.Name))
+            {
+                var user = await this._repo.GetUserById(id);
+
+                if (user != null)
+                {
+                    if (_repo.IsUserInRole(user.Id, "Admin"))
+                    {
+                        throw new Exception("Cannot delete Admin user");
+                    }
+                    else
+                    {
+                       await _repo.DeleteUser(id);
+                        return Ok();
+                    }
+                }
+
+            }
+            //Only SuperAdmin or Admin can delete users (Later when implement roles)
+            return NotFound();
+        }
+
         // POST api/Account/updateUser
         [Authorize]
         //[Route("UpdateUser")]
@@ -98,6 +194,24 @@ namespace DataService.Controllers
             }
 
             IdentityResult result = await this._repo.UpdateUser(User.Identity.Name, model);
+
+            if (!result.Succeeded)
+            {
+                return GetErrorResult(result);
+            }
+
+            return Ok();
+        }
+        // POST api/Account/UpdateCompanyUser
+        [Authorize]
+        public async Task<IHttpActionResult> UpdateCompanyUser(UserModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await this._repo.UpdateUser(model.UserName, model);
 
             if (!result.Succeeded)
             {
