@@ -1,30 +1,18 @@
-1.back to property list view and back to global property view
-2.upload picture
-3.property condition dropdown.
-4.check back button on each page. 
-5.Empty page warning messgage.
+
 
 6. Taotao - properties/property details page - add property.address
 add search for address
 workItems page - add propertyAddress
 well class for properties; sections and work items page - data
 
-1) allow user view/edit profile
+
 2) allow user change password
+
 3) allow user verify email after sign up
+
 4) allow user attach email after social login/associate. 
-5) allow add user into group, first company user will be admin. 
-6) allow admin user create other user. 
-7) allow user/role information fetched from server.
 
 
-1) Register page: Client/Trades people
-2)If Client, compnay Id = null, if trades people, Admin, create company. 
 
-3) User can update profile. Admin trade people can input credit card for company. 
-4) Trades Admin can Create/Read/Update/Delete User from the same company.
-
-5)Trade people can only view Clients/Property belongs to his/her company.
-
-Other business logic to continue
+ 
 
