@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using EF.Data;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -31,8 +33,14 @@ namespace DataService.Infrastructure
         [Required]
         public int CompanyId { get; set; }
 
+      
+
 
         public DateTime JoinDate { get; set; }
+
+
+        //[ForeignKey("UserId")]
+        public virtual Client Client { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {

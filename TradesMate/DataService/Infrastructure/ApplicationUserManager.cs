@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using EF.Data;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -18,7 +19,7 @@ namespace DataService.Infrastructure
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
         {
-            var appDbContext = context.Get<AuthContext>();
+            var appDbContext = context.Get<EFDbContext>();
             var appUserManager = new ApplicationUserManager(new UserStore<ApplicationUser>(appDbContext));
 
             // Configure validation logic for usernames

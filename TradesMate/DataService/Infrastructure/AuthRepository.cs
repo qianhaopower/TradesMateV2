@@ -18,7 +18,7 @@ namespace DataService.Infrastructure
 
     public class AuthRepository : IDisposable
     {
-        private AuthContext _ctx;
+        private EFDbContext _ctx;
         private EFDbContext _applicationContext;
 
         private UserManager<ApplicationUser> _userManager;
@@ -26,10 +26,10 @@ namespace DataService.Infrastructure
 
         public AuthRepository()
         {
-            _ctx = new AuthContext();
+            _ctx = new EFDbContext();
             _applicationContext = new EFDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
-            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new AuthContext()));
+            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
 
         public async Task<ApplicationUser> GetUserById(string userId)

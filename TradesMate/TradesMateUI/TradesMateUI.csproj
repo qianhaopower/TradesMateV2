@@ -59,6 +59,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
+    <Content Include="content\images\google_icon.png" />
+    <Content Include="content\images\google_icon15.png" />
     <Content Include="scripts\controllers\authCompleteController.js" />
     <Content Include="authComplete.html" />
     <Content Include="bower_components\angular-animate\angular-animate.js" />

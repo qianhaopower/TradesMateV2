@@ -109,3 +109,27 @@ margin-left:20px;
 :-ms-input-placeholder {  
    font-style: italic; 
 }
+/*signup-or-separator {
+    background: none;
+    height: 34px;
+    position: relative;
+    text-align: center;
+}
+.signup-or-separator hr {
+    margin: -16px auto 10px;
+    width: 100%;
+}
+.signup-or-separator-text {
+    background-color: #fff;
+    display: inline-block;
+    padding: 8px;
+}*/
+.icon-google{
+
+    background-image: url(../images/google_icon15.png);
+    background-position: center center;
+    width:15px;
+    height:15px;
+    display:inline-block;
+
+}

@@ -6,38 +6,46 @@
         
     </div>
     <div class="form-group">
-        <form class="form-login" role="form" name="userInfoForm">
-            <h2 class="form-login-heading">Profile</h2>
-            <div ng-click="editMode = true" ng-show="!editMode" title="Edit"> <i class="fa fa-pencil fa-2x" aria-hidden="true"></i></div>
-          
-            <div>
-                User name
-                <input type="text" class="form-control" placeholder="Username" data-ng-model="userInfo.userName" required ng-disabled="true" autofocus>
-            </div>
+
+        <div class="col-xs-1 col-lg-3"></div>
+        <div class="col-xs-10 col-lg-6">
+            <form role="form" name="userInfoForm">
+                <div class="form-group">
+                    <div class="col-xs-10 col-lg-10"><!--<h2 class="form-login-heading text-center">Profile</h2>--></div>
+                    <div class="col-xs-2 col-lg-2 ">
+                        <div class="pull-right" style="margin-top:30px;" ng-click="editMode = true" ng-show="!editMode" title="Edit"> <i class="fa fa-pencil" aria-hidden="true"></i></div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label">User name</label>
+                    <input type="text" class="form-control" placeholder="Username" data-ng-model="userInfo.userName" required ng-disabled="true" autofocus>
+                </div>
 
 
-            <div>
-               First Name
-                <input type="text" class="form-control" placeholder="First name" data-ng-model="userInfo.firstName" required ng-disabled="!editMode">
-            </div>
+                <div class="form-group">
+                   <label class="control-label"> First Name</label>
+                    <input type="text" class="form-control" placeholder="First name" data-ng-model="userInfo.firstName" required ng-disabled="!editMode">
+                </div>
 
-            <div>
-              Last Name
+                <div class="form-group">
+                    <label class="control-label">Last Name</label>
+                    <input type="text" class="form-control" placeholder="Last name" data-ng-model="userInfo.lastName" required ng-disabled="!editMode">
+                </div>
 
-                <input type="text" class="form-control" placeholder="Last name" data-ng-model="userInfo.lastName" required ng-disabled="!editMode">
-            </div>
+                <div class="form-group">
+                    <label class="control-label">Email</label>
+                    <input type="email" class="form-control" placeholder="Email Address" data-ng-model="userInfo.emailAddress" ng-disabled="!editMode">
 
-            <div>
-              Email
-                <input type="email" class="form-control" placeholder="Email Address" data-ng-model="userInfo.emailAddress" ng-disabled="!editMode">
-
-            </div>
-
-            <button class="btn btn-lg btn-info btn-block" type="submit" data-ng-click="updateUser()" ng-disabled="userInfoForm.$invalid" ng-show="editMode">Save</button>
-            <button class="btn btn-lg btn-info btn-block" ng-click="cancelEdit()" ng-show="editMode"  >Cancel</button>
-
-         
-        </form>
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-md btn-primary btn-block" type="submit" data-ng-click="updateUser()" ng-disabled="userInfoForm.$invalid" ng-show="editMode">Save</button>
+                    <button class="btn btn-md btn-info btn-block" ng-click="cancelEdit()" ng-show="editMode">Cancel</button>
+                </div> 
+            </form>
+        </div>
+        <div class="col-xs-1 col-lg-3"></div>
+     
 
         
 

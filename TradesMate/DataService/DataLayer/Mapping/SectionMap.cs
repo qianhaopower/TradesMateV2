@@ -8,6 +8,8 @@ namespace EF.Data.Mapping
     {
         public SectionMap()
         {
+
+            this.HasKey(p => p.Id);
             //property
             Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 

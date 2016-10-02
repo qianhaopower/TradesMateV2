@@ -11,6 +11,7 @@ using Microsoft.Owin.Security.Facebook;
 using DataService.Infrastructure;
 using DataService.Providers;
 using AutoMapper;
+using EF.Data;
 
 [assembly: OwinStartup("DataService",typeof(DataService.Startup))]
 namespace DataService
@@ -76,7 +77,7 @@ namespace DataService
         public void ConfigureOAuth(IAppBuilder app)
         {
             // Configure the db context and user manager to use a single instance per request
-            app.CreatePerOwinContext(AuthContext.Create);
+            app.CreatePerOwinContext(EFDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
 
