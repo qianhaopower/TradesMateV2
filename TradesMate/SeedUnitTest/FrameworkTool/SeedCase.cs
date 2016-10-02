@@ -9,12 +9,15 @@ using DataService.Infrastructure;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using System.Linq;
+using DataService.Models;
 
 namespace EF.UnitTest
 {
     [TestClass]
     public class SeedCase
     {
+        const string Password123456 = "ADcrdCgS8Tnt1swRafCDcve2m68OwMHwOBUViq8BD516Fk+WYtDkNCptN19ZvoAlHQ==";
+
         [TestMethod]
         public void ApplicationSeed()
         {
@@ -160,7 +163,7 @@ namespace EF.UnitTest
                 context.Entry(client4).State = EntityState.Added;
 
 
-                Client clien5 = new Client
+                Client client5 = new Client
                 {
                     FirstName = "Simon",
                     SurName = "Bing",
@@ -184,10 +187,32 @@ namespace EF.UnitTest
                     ModifiedDate = DateTime.Now,
                 };
 
-                context.Entry(clien5).State = EntityState.Added;
+                context.Entry(client5).State = EntityState.Added;
 
                 #endregion
 
+                #region User for clients
+
+
+
+                //ApplicationUser userLee = new ApplicationUser
+                //{
+                //    FirstName = clientLee.FirstName,
+                //    LastName = clientLee.SurName,
+                //    Email = clientLee.Email,
+                //    UserName = clientLee.FirstName.ToLower(),
+                //    JoinDate = DateTime.Now,
+                //    PasswordHash = Password123456,//123456
+                //    UserType =(int)UserType.Client,
+
+                //};
+                //context.Entry(userLee).State = EntityState.Added;
+
+                //clientLee.User = userLee;
+                //context.Entry(userLee).State = EntityState.Modified;
+
+
+                #endregion
 
                 #region property
                 // context.Database.Create();

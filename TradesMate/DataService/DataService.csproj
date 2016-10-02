@@ -287,6 +287,7 @@
     <Compile Include="DataLayer\EFDbContext.cs" />
     <Compile Include="DataLayer\Entities\Address.cs" />
     <Compile Include="DataLayer\Entities\BaseEntity.cs" />
+    <Compile Include="DataLayer\Entities\ClientProperty.cs" />
     <Compile Include="DataLayer\Entities\Client.cs" />
     <Compile Include="DataLayer\Entities\ClientApplicaiton.cs" />
     <Compile Include="DataLayer\Entities\Company.cs" />
@@ -302,6 +303,7 @@
     <Compile Include="DataLayer\Mapping\AddressMapping.cs" />
     <Compile Include="DataLayer\Mapping\ClientMapping.cs" />
     <Compile Include="DataLayer\Mapping\CompanyMapping.cs" />
+    <Compile Include="DataLayer\Mapping\ClientCompanyMap.cs" />
     <Compile Include="DataLayer\Mapping\PropertyMap.cs" />
     <Compile Include="DataLayer\Mapping\SectionMap.cs" />
     <Compile Include="DataLayer\Mapping\SectionTemplateMap.cs" />

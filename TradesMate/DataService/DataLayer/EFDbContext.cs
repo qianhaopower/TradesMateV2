@@ -1,4 +1,8 @@
-﻿using System;
+﻿using DataService.Entities;
+using DataService.Infrastructure;
+using EF.Data.Mapping;
+using Microsoft.AspNet.Identity.EntityFramework;
+using System;
 using System.Data.Entity;
 using System.Data.Entity.ModelConfiguration;
 using System.Data.Entity.ModelConfiguration.Conventions;
@@ -20,17 +24,24 @@ namespace EF.Data
         //public DbSet<SubSectionTemplate> SubSectionTemplates { get; set; }
         public DbSet<WorkItem> WorkItems { get; set; }
         public DbSet<WorkItemTemplate> WorkItemTemplates { get; set; }
+
+        public DbSet<ClientApplicaiton> ClientApplications { get; set; }
+        public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
         public EFDbContext()
            : base("name=DbConnectionString")
        {
-         
-       }
+            Configuration.ProxyCreationEnabled = false;
+            Configuration.LazyLoadingEnabled = false;
+        }
 
      
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
        {
-
+            
+ 
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             // var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
@@ -43,23 +54,48 @@ namespace EF.Data
             //    modelBuilder.Configurations.Add(configurationInstance);
 
             //}
+
             modelBuilder.Entity<Client>();
+            modelBuilder.Entity<ApplicationUser>();
+            modelBuilder.Entity<ClientCompany>();
             modelBuilder.Entity<Address>();
             modelBuilder.Entity<Company>();
             modelBuilder.Entity<Property>();
             modelBuilder.Entity<Section>();
+            modelBuilder.Entity<WorkItem>();
+            modelBuilder.Entity<WorkItemTemplate>();
+
+            modelBuilder.Configurations.Add(new ClientMap());
+
+
             //modelBuilder.Entity<SectionTemplate>();
             //modelBuilder.Entity<SubSection>();
             //modelBuilder.Entity<SubSectionTemplate>();
-            modelBuilder.Entity<WorkItem>();
-            modelBuilder.Entity<WorkItemTemplate>();
-            
+
+            //modelBuilder.Entity<ApplicationUser>();
+
+            //modelBuilder.Entity<IdentityUserLogin>();
+            //modelBuilder.Entity<IdentityRole>();
+            //modelBuilder.Entity<IdentityUserRole>();
+
+
 
 
             //turn off cascade delete globally
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+
+
+          //  modelBuilder.Entity<ApplicationUser>()
+          //.HasOptional(c => c.Client)
+          //.WithRequired(d => d.User);
+
+            modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
+            modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
+            modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
+
             base.OnModelCreating(modelBuilder);
-       }
+
+        }
     }
 }

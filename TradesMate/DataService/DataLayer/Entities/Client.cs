@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using DataService.Infrastructure;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EF.Data
 {
@@ -8,6 +10,7 @@ namespace EF.Data
         public Client()
         {
             Properties = new List<Property>();
+            ClientCompanies = new List<ClientCompany>();
         }
         public string FirstName { get; set; }
         public string  MiddleName{ get; set; }
@@ -21,7 +24,15 @@ namespace EF.Data
         public virtual ICollection<Property> Properties { get; set; }
 
 
+
+        public string UserId { get; set; }
+
+        //[ForeignKey("UserId")]
+        public virtual ApplicationUser User { get; set; }
+
         public int? AddressId { get; set; }
         public virtual Address Address { get; set; }
+
+        public virtual ICollection<ClientCompany> ClientCompanies { get; set; }
     }
 }
