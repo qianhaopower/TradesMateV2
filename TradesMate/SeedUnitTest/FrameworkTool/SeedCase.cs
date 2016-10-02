@@ -21,7 +21,7 @@ namespace EF.UnitTest
         [TestMethod]
         public void ApplicationSeed()
         {
-            Database.SetInitializer<EFDbContext>(new CreateDatabaseIfNotExists<EFDbContext>());
+            Database.SetInitializer<EFDbContext>(new DropCreateDatabaseIfModelChanges<EFDbContext>());
 
             using (var context = new EFDbContext())
             {
@@ -195,21 +195,28 @@ namespace EF.UnitTest
 
 
 
-                //ApplicationUser userLee = new ApplicationUser
-                //{
-                //    FirstName = clientLee.FirstName,
-                //    LastName = clientLee.SurName,
-                //    Email = clientLee.Email,
-                //    UserName = clientLee.FirstName.ToLower(),
-                //    JoinDate = DateTime.Now,
-                //    PasswordHash = Password123456,//123456
-                //    UserType =(int)UserType.Client,
+                
+                foreach(var clientInst in context.Clients)
+                {
+                    ApplicationUser userIns = new ApplicationUser
+                    {
+                        FirstName = clientInst.FirstName,
+                        LastName = clientInst.SurName,
+                        Email = clientInst.Email,
+                        UserName = clientInst.FirstName.ToLower(),
+                        JoinDate = DateTime.Now,
+                        PasswordHash = Password123456,//123456
+                        UserType = (int)UserType.Client,
+                        Client = clientInst,
 
-                //};
-                //context.Entry(userLee).State = EntityState.Added;
+                    };
 
-                //clientLee.User = userLee;
-                //context.Entry(userLee).State = EntityState.Modified;
+                    context.Entry(userIns).State = EntityState.Added;
+                }
+
+
+
+                // context.Entry(userLee).State = EntityState.Modified;
 
 
                 #endregion

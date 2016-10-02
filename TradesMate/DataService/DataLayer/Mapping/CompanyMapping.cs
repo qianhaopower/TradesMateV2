@@ -8,6 +8,8 @@ namespace EF.Data.Mapping
     {
         public CompanyMap()
         {
+            
+             this.HasKey(p => p.Id);
             //property
             Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
@@ -27,9 +29,9 @@ namespace EF.Data.Mapping
                 .HasForeignKey(p => p.CompanyId);
 
 
-            this.HasMany(c => c.ClientCompanies)
-           .WithRequired()
-           .HasForeignKey(c => c.CompanyId);
+           // this.HasMany(c => c.ClientCompanies)
+           //.WithRequired()
+           //.HasForeignKey(c => c.CompanyId);
 
             //table
             ToTable("Compnany");

@@ -8,6 +8,7 @@ namespace EF.Data.Mapping
     {
         public WorkItemMap()
         {
+            this.HasKey(p => p.Id);
             //property
             Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 

@@ -10,7 +10,7 @@ namespace EF.Data
         public Client()
         {
             Properties = new List<Property>();
-            ClientCompanies = new List<ClientCompany>();
+           // ClientCompanies = new List<ClientCompany>();
         }
         public string FirstName { get; set; }
         public string  MiddleName{ get; set; }
@@ -25,14 +25,13 @@ namespace EF.Data
 
 
 
+        //[ForeignKey("User")]
         public string UserId { get; set; }
-
-        //[ForeignKey("UserId")]
         public virtual ApplicationUser User { get; set; }
 
         public int? AddressId { get; set; }
         public virtual Address Address { get; set; }
 
-        public virtual ICollection<ClientCompany> ClientCompanies { get; set; }
+      //  public virtual ICollection<ClientCompany> ClientCompanies { get; set; }
     }
 }

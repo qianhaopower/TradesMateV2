@@ -11,7 +11,7 @@ namespace EF.Data
         public Company()
         {
             WorkItemTemplateList = new List<WorkItemTemplate>();
-            ClientCompanies = new List<ClientCompany>();
+          //  ClientCompanies = new List<ClientCompany>();
         }
 
         public string Name { get; set; }
@@ -21,7 +21,7 @@ namespace EF.Data
 
         public ICollection<WorkItemTemplate> WorkItemTemplateList {get;set;}
 
-        public virtual ICollection<ClientCompany> ClientCompanies { get; set; }
+       // public virtual ICollection<ClientCompany> ClientCompanies { get; set; }
 
         public int? AddressId { get; set; }
         public virtual Address Address {get;set;}

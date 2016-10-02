@@ -33,6 +33,8 @@ namespace DataService.Infrastructure
         [Required]
         public int CompanyId { get; set; }
 
+      
+
 
         public DateTime JoinDate { get; set; }
 

@@ -8,6 +8,8 @@ namespace EF.Data.Mapping
     {
         public AddressMap()
         {
+
+            this.HasKey(p => p.Id);
             //property
             Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
@@ -30,7 +32,7 @@ namespace EF.Data.Mapping
                 .HasForeignKey(p => p.AddressId);
 
             this.HasMany<Property>(p => p.PropertyList)
-              .WithRequired(p => p.Address)
+              .WithOptional(p => p.Address)
               .HasForeignKey(p => p.AddressId);
 
             this.HasMany<Client>(p => p.ClientList)

@@ -8,6 +8,8 @@ namespace EF.Data.Mapping
     {
         public Propertymap()
         {
+
+            this.HasKey(p => p.Id);
             //property
             Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
 
@@ -16,6 +18,7 @@ namespace EF.Data.Mapping
             Property(t => t.Narrative).HasMaxLength(3000);
             Property(t => t.Condition).HasMaxLength(3000);
             Property(t => t.Comment).HasMaxLength(3000);
+            Property(t => t.AddressId).IsOptional();
 
 
             Property(t => t.AddedDate).IsRequired();

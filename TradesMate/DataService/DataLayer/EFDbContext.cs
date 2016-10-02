@@ -44,28 +44,28 @@ namespace EF.Data
  
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
-            // var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
-            //.Where(type => !String.IsNullOrEmpty(type.Namespace))
-            //.Where(type => type.BaseType != null && type.BaseType.IsGenericType
-            //     && type.BaseType.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>));
-            //foreach (var type in typesToRegister)
-            //{
-            //    dynamic configurationInstance = Activator.CreateInstance(type);
-            //    modelBuilder.Configurations.Add(configurationInstance);
+            var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
+           .Where(type => !String.IsNullOrEmpty(type.Namespace))
+           .Where(type => type.BaseType != null && type.BaseType.IsGenericType
+                && type.BaseType.GetGenericTypeDefinition() == typeof(EntityTypeConfiguration<>));
+            foreach (var type in typesToRegister)
+            {
+                dynamic configurationInstance = Activator.CreateInstance(type);
+                modelBuilder.Configurations.Add(configurationInstance);
 
-            //}
+            }
 
-            modelBuilder.Entity<Client>();
-            modelBuilder.Entity<ApplicationUser>();
-            modelBuilder.Entity<ClientCompany>();
-            modelBuilder.Entity<Address>();
-            modelBuilder.Entity<Company>();
-            modelBuilder.Entity<Property>();
-            modelBuilder.Entity<Section>();
-            modelBuilder.Entity<WorkItem>();
-            modelBuilder.Entity<WorkItemTemplate>();
+            //modelBuilder.Entity<Client>();
+            //modelBuilder.Entity<ApplicationUser>();
+            //modelBuilder.Entity<ClientCompany>();
+            //modelBuilder.Entity<Address>();
+            //modelBuilder.Entity<Company>();
+            //modelBuilder.Entity<Property>();
+            //modelBuilder.Entity<Section>();
+            //modelBuilder.Entity<WorkItem>();
+            //modelBuilder.Entity<WorkItemTemplate>();
 
-            modelBuilder.Configurations.Add(new ClientMap());
+         //   modelBuilder.Configurations.Add(new ClientMap());
 
 
             //modelBuilder.Entity<SectionTemplate>();
@@ -86,9 +86,9 @@ namespace EF.Data
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
 
 
-          //  modelBuilder.Entity<ApplicationUser>()
-          //.HasOptional(c => c.Client)
-          //.WithRequired(d => d.User);
+            modelBuilder.Entity<ApplicationUser>()
+          .HasOptional(c => c.Client)
+          .WithOptionalDependent(d => d.User);
 
             modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
             modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
