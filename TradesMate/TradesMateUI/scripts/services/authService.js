@@ -13,7 +13,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     var _externalAuthData = {
         provider: "",
         userName: "",
-        externalAccessToken: ""
+        externalAccessToken: "" 
     };
 
     var _saveRegistration = function (registration) {
