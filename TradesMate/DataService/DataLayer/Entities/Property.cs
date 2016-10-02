@@ -7,6 +7,7 @@ namespace EF.Data
         public Property()
         {
             SectionList = new List<Section>();
+            Companies = new List<Company>();
         }
 
         public string Name { get; set; }
@@ -28,5 +29,7 @@ namespace EF.Data
 
 
         public virtual ICollection<Section> SectionList {get;set;}
+
+        public virtual ICollection<Company> Companies { get; set; }
     }
 }

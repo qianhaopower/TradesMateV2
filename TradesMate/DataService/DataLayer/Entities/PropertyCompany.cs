@@ -2,19 +2,19 @@
 
 //namespace EF.Data
 //{
-//    public class ClientCompany : BaseEntity
+//    public class PropertyCompany : BaseEntity
 //    {
 
-//        public ClientCompany()
+//        public PropertyCompany()
 //        {
 //            Companies = new List<Company>();
-//            Clients = new List<Client>();
+//            Clients = new List<Property>();
 //        }
 
 
-//        public virtual ICollection<Client> Clients { get; set; }
+//        public virtual ICollection<Property> Propertyies { get; set; }
 //        public virtual ICollection<Company> Companies { get; set; }
-//        public int ClientId { get; set; }
+//        public int PropertyId { get; set; }
 //        public int CompanyId { get; set; }
 
 

@@ -11,7 +11,7 @@ using System.Reflection;
 
 namespace EF.Data
 {
-   public class EFDbContext : DbContext
+   public class EFDbContext :  IdentityDbContext<ApplicationUser>
     {
 
         public DbSet<Client> Clients { get; set; }
@@ -28,7 +28,8 @@ namespace EF.Data
         public DbSet<ClientApplicaiton> ClientApplications { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
 
-        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+
         public EFDbContext()
            : base("name=DbConnectionString")
        {
@@ -36,7 +37,11 @@ namespace EF.Data
             Configuration.LazyLoadingEnabled = false;
         }
 
-     
+        public static EFDbContext Create()
+        {
+            return new EFDbContext();
+        }
+
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
        {
@@ -55,6 +60,9 @@ namespace EF.Data
 
             }
 
+
+            //modelBuilder.Entity<IdentityUser>()
+            //     .ToTable("ApplicationUser");
             //modelBuilder.Entity<Client>();
             //modelBuilder.Entity<ApplicationUser>();
             //modelBuilder.Entity<ClientCompany>();
@@ -65,7 +73,7 @@ namespace EF.Data
             //modelBuilder.Entity<WorkItem>();
             //modelBuilder.Entity<WorkItemTemplate>();
 
-         //   modelBuilder.Configurations.Add(new ClientMap());
+            //   modelBuilder.Configurations.Add(new ClientMap());
 
 
             //modelBuilder.Entity<SectionTemplate>();
@@ -90,9 +98,9 @@ namespace EF.Data
           .HasOptional(c => c.Client)
           .WithOptionalDependent(d => d.User);
 
-            modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
-            modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
-            modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
+            //modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
+            //modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
+            //modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
 
             base.OnModelCreating(modelBuilder);
 

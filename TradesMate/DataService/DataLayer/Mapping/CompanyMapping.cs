@@ -29,9 +29,21 @@ namespace EF.Data.Mapping
                 .HasForeignKey(p => p.CompanyId);
 
 
-           // this.HasMany(c => c.ClientCompanies)
-           //.WithRequired()
-           //.HasForeignKey(c => c.CompanyId);
+            // this.HasMany(c => c.ClientCompanies)
+            //.WithRequired()
+            //.HasForeignKey(c => c.CompanyId);
+
+
+         this
+              .HasMany<Property>(s => s.Properties)
+              .WithMany(c => c.Companies)
+              .Map(cs =>
+              {
+                  cs.MapLeftKey("CompanyId");
+                  cs.MapRightKey("PropertyId");
+                  cs.ToTable("CompanyProperty");
+              });
+
 
             //table
             ToTable("Compnany");

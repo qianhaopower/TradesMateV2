@@ -287,7 +287,7 @@
     <Compile Include="DataLayer\EFDbContext.cs" />
     <Compile Include="DataLayer\Entities\Address.cs" />
     <Compile Include="DataLayer\Entities\BaseEntity.cs" />
-    <Compile Include="DataLayer\Entities\ClientCompany.cs" />
+    <Compile Include="DataLayer\Entities\PropertyCompany.cs" />
     <Compile Include="DataLayer\Entities\Client.cs" />
     <Compile Include="DataLayer\Entities\ClientApplicaiton.cs" />
     <Compile Include="DataLayer\Entities\Company.cs" />

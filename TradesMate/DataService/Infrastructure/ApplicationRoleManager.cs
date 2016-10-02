@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using EF.Data;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
@@ -18,7 +19,7 @@ namespace DataService.Infrastructure
 
         public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
         {
-            var appRoleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<AuthContext>()));
+            var appRoleManager = new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<EFDbContext>()));
 
             return appRoleManager;
         }
