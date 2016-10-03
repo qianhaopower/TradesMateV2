@@ -36,14 +36,18 @@ namespace DataService.Controllers
         [EnableQuery]
         public IQueryable<Property> GetProperties()
         {
-            return db.Properties;
+            var repo = new PropertyRepository();
+            return repo.GetPropertyForUser(User.Identity.Name);
+
+           // return db.Properties;
         }
 
         // GET: odata/Properties(5)
         [EnableQuery]
         public SingleResult<Property> GetProperty([FromODataUri] int key)
         {
-            return SingleResult.Create(db.Properties.Where(property => property.Id == key));
+            var repo = new PropertyRepository();
+            return SingleResult.Create(repo.GetPropertyForUser(User.Identity.Name).Where(property => property.Id == key));
         }
 
         // PUT: odata/Properties(5)

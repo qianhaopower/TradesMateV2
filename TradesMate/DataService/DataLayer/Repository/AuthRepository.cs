@@ -1,7 +1,8 @@
 ﻿
 using DataService.Entities;
+using DataService.Infrastructure;
 using DataService.Models;
-using EF.Data;
+
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
@@ -13,7 +14,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 
-namespace DataService.Infrastructure
+namespace EF.Data
 {
 
     public class AuthRepository : IDisposable

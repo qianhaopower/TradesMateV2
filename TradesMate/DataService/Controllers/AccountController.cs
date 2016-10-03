@@ -3,6 +3,7 @@ using AutoMapper;
 using DataService.Infrastructure;
 using DataService.Models;
 using DataService.Results;
+using EF.Data;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;

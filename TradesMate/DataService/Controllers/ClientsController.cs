@@ -36,14 +36,16 @@ namespace DataService.Controllers
         [EnableQuery]
         public IQueryable<Client> GetClients()
         {
-            return db.Clients;
+            var repo = new ClientRepository();
+            return repo.GetClientForUser(User.Identity.Name);
         }
 
         // GET: odata/Clients(5)
         [EnableQuery]
         public SingleResult<Client> GetClient([FromODataUri] int key)
         {
-            return SingleResult.Create(db.Clients.Where(client => client.Id == key));
+            var repo = new ClientRepository();
+            return SingleResult.Create(repo.GetClientForUser(User.Identity.Name).Where(property => property.Id == key));
         }
 
         // PUT: odata/Clients(5)

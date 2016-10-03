@@ -367,6 +367,7 @@ namespace EF.UnitTest
                 };
 
                 companyBilly.Properties.Add(propertyLisa);
+                companyBilly.Properties.Add(propertyLee);
                 context.Entry(companyBilly).State = EntityState.Added;
 
 
