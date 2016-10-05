@@ -10,6 +10,8 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -138,14 +140,15 @@ namespace EF.Data
 
                 //need create client entity here
 
-
+              
 
                 if (result.Succeeded)
                 {
                     string code = await appUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     code = HttpUtility.UrlEncode(code);
+                    var ip = GetLocalIPAddress();
                     // var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
-                    var callbackUrl = string.Format("localhost/DataService/api/account/ConfirmEmail?userId={0}&code={1}", user.Id, code);
+                    var callbackUrl = string.Format("{2}/DataService/api/account/ConfirmEmail?userId={0}&code={1}", user.Id, code, ip);
 
                    
                     await appUserManager.SendEmailAsync(user.Id,
@@ -288,6 +291,18 @@ namespace EF.Data
             return result;
         }
 
+        public static string GetLocalIPAddress()
+        {
+            var host = Dns.GetHostEntry(Dns.GetHostName());
+            foreach (var ip in host.AddressList)
+            {
+                if (ip.AddressFamily == AddressFamily.InterNetwork)
+                {
+                    return ip.ToString();
+                }
+            }
+            throw new Exception("Local IP Address Not Found!");
+        }
         public void Dispose()
         {
             _ctx.Dispose();
