@@ -117,7 +117,7 @@ namespace EF.Data
             return result;
         }
 
-        public async Task<IdentityResult> RegisterUser(UserModel userModel, int? companyId = null)
+        public async Task<IdentityResult> RegisterUser(UserModel userModel, ApplicationUserManager appUserManager, int? companyId = null)
         {
             ApplicationUser user = new ApplicationUser
             {
@@ -135,6 +135,23 @@ namespace EF.Data
                 ||( userModel.UserType == (int)UserType.Trade && companyId.HasValue))
             {
                 var result = await _userManager.CreateAsync(user, userModel.Password);
+
+                //need create client entity here
+
+
+
+                if (result.Succeeded)
+                {
+                    string code = await appUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                    code = HttpUtility.UrlEncode(code);
+                    // var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
+                    var callbackUrl = string.Format("localhost/DataService/api/account/ConfirmEmail?userId={0}&code={1}", user.Id, code);
+
+                   
+                    await appUserManager.SendEmailAsync(user.Id,
+                                                            "Confirm your account",
+                                                            "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                }
 
                 return result;
 
@@ -170,7 +187,12 @@ namespace EF.Data
 
                     //add the user to the Admin role
                     if (result.Succeeded)
+                    {
                         result = _userManager.AddToRole(user.Id, "Admin");
+                       
+
+                    }
+                        
 
                     return result;
                 }

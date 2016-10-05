@@ -27,6 +27,27 @@ namespace DataService.Controllers
     public class AccountController : ApiController
     {
 
+
+        private ApplicationUserManager _AppUserManager = null;
+        private ApplicationRoleManager _AppRoleManager = null;
+
+        protected ApplicationUserManager AppUserManager
+        {
+            get
+            {
+                return _AppUserManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            }
+        }
+
+        protected ApplicationRoleManager AppRoleManager
+        {
+            get
+            {
+                return _AppRoleManager ?? Request.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+            }
+        }
+
+
         private ModelFactory _modelFactory;
         protected ModelFactory TheModelFactory
         {
@@ -51,6 +72,30 @@ namespace DataService.Controllers
             _repo = new AuthRepository();
         }
 
+
+        [AllowAnonymous]
+        [HttpGet]
+      
+        public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
+        {
+            if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
+            {
+                ModelState.AddModelError("", "User Id and Code are required");
+                return BadRequest(ModelState);
+            }
+
+            IdentityResult result = await this.AppUserManager.ConfirmEmailAsync(userId, code);
+
+            if (result.Succeeded)
+            {
+                return Ok("Your email has been confirmed");
+            }
+            else
+            {
+                return GetErrorResult(result);
+            }
+        }
+
         // POST api/Account/Register
         [AllowAnonymous]
         //[Route("Register")]
@@ -61,9 +106,9 @@ namespace DataService.Controllers
                 return BadRequest(ModelState);
             }
 
-             IdentityResult result = await _repo.RegisterUser(userModel);
+             IdentityResult result = await _repo.RegisterUser(userModel, AppUserManager);
 
-             IHttpActionResult errorResult = GetErrorResult(result);
+            IHttpActionResult errorResult = GetErrorResult(result);
 
              if (errorResult != null)
              {
@@ -92,7 +137,7 @@ namespace DataService.Controllers
                 //user must be admin to create user
                 if (_repo.IsUserInRole(user.Id, "Admin"))
                 {  
-                    IdentityResult result = await _repo.RegisterUser(userModel, user.CompanyId);
+                    IdentityResult result = await _repo.RegisterUser(userModel, AppUserManager, user.CompanyId);
 
                     IHttpActionResult errorResult = GetErrorResult(result);
 

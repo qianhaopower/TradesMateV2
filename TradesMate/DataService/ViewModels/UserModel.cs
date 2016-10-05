@@ -41,6 +41,7 @@ namespace DataService.Models
 
         [Display(Name = "Email")]
         [DataType(DataType.EmailAddress)]
+        [Required]
         public String Email { get; set; }
 
         public string UserId { get; set; }
