@@ -18,23 +18,24 @@
                 Client: {{clientName}} 
             </div>
         </div>
-    </div>
+    </div>-->
     <div class="row">
         <div class="col-xs-6 col-md-9">
-            <button type="button" title="Add new property" ng-show="clientId"
-                    class="btn btn-default btn-sm" ng-click="addNewProperty()">
-                <i class="fa fa-plus "></i> Add Property
+            <button type="button" title="Request new work for your property" 
+                    class="btn btn-default btn-sm" >
+                <i class="fa fa-plus "></i> Request Work
             </button>
         </div>
-        <div class="col-xs-6  col-md-3 pull-right">
+        <!--<div class="col-xs-6  col-md-3 pull-right">
             <input type="text" placeholder="Search properties..." class="input-sm form-control" ng-model="filterTextModel.searchText">
-        </div>
-    </div>-->
+        </div>-->
+    </div>
     <table class="table table-hover">
         <thead>
             <tr>
                 <th>Name</th>
                 <th>Description</th>
+
             </tr>
         </thead>
         <tbody>
@@ -47,15 +48,11 @@
                    {{company.description}}
 
                 </td>
-                <!--<td class="col-md-1 col-xs-2">
-                    <button class="btn btn-default btn-sm" value="View Sections" title="Manage Sections" type="button" ng-click="viewPropertySections(property)">Sections</button>
-                </td>
                 <td class="col-md-1 col-xs-2">
-                    <button class="btn btn-primary btn-sm" type="button" value="Edit" title="Edit Property" ng-click="openPropertyDetail(property,false)">Edit </button>
+                    <button class="btn btn-default btn-sm" value="View work items" title="View Company" type="button" ng-click="">View work items</button>
                 </td>
-                <td class="col-md-1 col-xs-2">
-                    <button class="btn btn-danger btn-sm" value="Delete" title="Delete Property" type="button" ng-click="deleteProperty(property)">Delete</button>
-                </td>-->
+              
+                
 
             </tr>
         </tbody>
