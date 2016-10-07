@@ -298,7 +298,12 @@ angular
                   controller: 'propertyController',
                   url: '/client/:param/properties'
              })
-
+         
+                 .state('base.propertyCompanies', {
+                     templateUrl: 'views/properties/propertyCompanies.html',
+                     controller: 'propertyCompaniesController',
+                     url: '/property/:propertyId/propertycompanies'
+                 })
 
 
               //propertySection

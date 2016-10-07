@@ -78,6 +78,16 @@ namespace EF.Data
         }
 
 
+        public IQueryable<Company> GetCompanyForProperty(int propertyID)
+        {
+            // get the company that this property has been assigned to.
+            IQueryable<Company> companies =   _ctx.Properties.Where(p => p.Id == propertyID).SelectMany(p => p.Companies);
+            return companies;
+
+
+        }
+
+
         public void Dispose()
         {
             _ctx.Dispose();

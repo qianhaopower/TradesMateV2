@@ -18,6 +18,10 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
     $scope.goBack = function () {
         $state.go('base.properties');
     }
+
+    $scope.gotoViewPropertyCompany = function () {
+        $state.go('base.propertyCompanies', { propertyId: $scope.propertyId });
+    }
     
 
     $scope.save = function () {

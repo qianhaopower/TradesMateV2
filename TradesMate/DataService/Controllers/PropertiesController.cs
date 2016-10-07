@@ -12,6 +12,8 @@ using System.Web.OData;
 using System.Web.OData.Query;
 using System.Web.OData.Routing;
 using EF.Data;
+using AutoMapper;
+using DataService.Models;
 
 namespace DataService.Controllers
 {
@@ -41,6 +43,36 @@ namespace DataService.Controllers
 
            // return db.Properties;
         }
+
+        //[HttpGet]
+        //http://localhost/DataService/odata/GetPropertyCompanies(propertyId=1)
+        //[ODataRoute("GetPropertyCompanies(propertyId={propertyId})")]
+        //public List<CompanyModel> GetPropertyCompanies([FromODataUri]int propertyId)
+        //{
+        //    var repo = new PropertyRepository();
+        //    var compnayModels = repo.GetCompanyForProperty(propertyId).Select( Mapper.Map<Company, CompanyModel>).ToList();
+        //    //no need for the credit card field
+        //    compnayModels.ForEach(p => p.CreditCard = null);
+        //    return compnayModels;
+        //}
+
+        [HttpGet]
+        //  http://localhost/DataService/odata/Properties(1)/SomeFunction
+        public IHttpActionResult SomeFunction()
+        {
+            return Ok("Some");
+        }
+        //  http://localhost/DataService/odata/Properties(1)/GetCompanies
+        [HttpGet]
+        public IHttpActionResult GetCompanies([FromODataUri]  int key)
+        {
+            var repo = new PropertyRepository();
+            var compnayModels = repo.GetCompanyForProperty(key).Select(Mapper.Map<Company, CompanyModel>).ToList();
+            //no need for the credit card field
+            compnayModels.ForEach(p => p.CreditCard = null);
+            return Ok(compnayModels);
+        }
+
 
         // GET: odata/Properties(5)
         [EnableQuery]

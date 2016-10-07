@@ -10,6 +10,7 @@ using System.Web.OData.Builder;
 using System.Web.OData.Extensions;
 using EF.Data;
 using System.Net.Http.Formatting;
+using DataService.Models;
 
 namespace DataService
 {
@@ -37,7 +38,7 @@ namespace DataService
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
+            config.EnableUnqualifiedNameCall(unqualifiedNameCall: true);
             var jsonFormatter = config.Formatters.OfType<JsonMediaTypeFormatter>().First();
             jsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
 
@@ -45,14 +46,44 @@ namespace DataService
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<Client>("Clients");
             builder.EntitySet<Address>("Addresses");
+
+
             builder.EntitySet<Property>("Properties");
+
+            //builder.Namespace = "PropertyExtension";
+            //builder.EntityType<Property>()
+            //    .Function("GetCompanies")
+            //    .ReturnsCollection<CompanyModel>();
+
+
+            //FunctionConfiguration function = builder.EntityType<Property>().Function("GetCompanies").Returns<bool>();
+            //function.Parameter<int>("ptX");
+            //function.Parameter<int>("ptY");
+
+            // bound to entity and return the related entity
+            FunctionConfiguration function = builder.EntityType<Property>().Function("GetCompanies").ReturnsCollection<CompanyModel>(); ;
+           // function.Parameter<double>("area");
+           // function.IsComposable = true;
+
+
+            ////universal function
+           // GET / DataService / odata / GetPropertyCompanies(propertyId = 1) HTTP / 1.1
+            //builder.Function("GetPropertyCompanies")
+            //    .ReturnsCollection<CompanyModel>()
+            //    .Parameter<int>("propertyId");
+
+
+            builder.EntityType<Property>().Function("SomeFunction").Returns<string>();
+
+
             builder.EntitySet<WorkItem>("WorkItems");
-
-
             builder.EntitySet<WorkItemTemplate>("WorkItemTemplates");
             builder.EntitySet<Section>("Sections");
             builder.EntitySet<Company>("Companies");
             builder.EnableLowerCamelCase();
+
+
+
             config.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
 
 
