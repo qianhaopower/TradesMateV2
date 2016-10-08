@@ -13,7 +13,7 @@ function ($scope, $location, $timeout, $state, authService,constants) {
         confirmPassword: "",
         firstName:undefined,
         lastName:undefined,
-
+        email:undefined,
         //to do: put all enum into global constant.
         userType: constants.userType.client , //by defual 0 is client,
         companyName: undefined,

@@ -12,7 +12,24 @@
             </div>
             <div class="col-md-6">
                 <div class="form-group">
-                    <input type="text" class="form-control" placeholder="Username" data-ng-model="registerData.userName" required autofocus>
+                    <input type="text" class="form-control" placeholder="Username" ng-model="registerData.userName" required autofocus>
+
+
+                    <input type="text" class="form-control" placeholder="First name" data-ng-model="registerData.firstName" required>
+
+                    <input type="text" class="form-control" placeholder="Last name" data-ng-model="registerData.lastName" required>
+
+                    <!--<input type="email" class="form-control" placeholder="Email" data-ng-model="registration.email" required>
+
+                    <input type="password" class="form-control" placeholder="Password" data-ng-model="registration.password" required>
+                    <input type="password" class="form-control" placeholder="Confirm Password" data-ng-model="registration.confirmPassword" required>-->
+
+                    <div class="">
+                        <input type="checkbox" data-ng-model="registerData.isTrade"> Tick this if you are tradespeople.
+                    </div>
+
+
+                    <input type="text" class="form-control" placeholder="Company name" data-ng-model="registerData.companyName" ng-show="registerData.isTrade" ng-required="registerData.isTrade">
                     <button class="btn btn-sm btn-info btn-block" type="button" style="margin-top:10px;" data-ng-click="registerExternal()">Register</button>
                 </div>
                 <div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">

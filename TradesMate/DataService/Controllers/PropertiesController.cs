@@ -12,6 +12,8 @@ using System.Web.OData;
 using System.Web.OData.Query;
 using System.Web.OData.Routing;
 using EF.Data;
+using AutoMapper;
+using DataService.Models;
 
 namespace DataService.Controllers
 {
@@ -36,14 +38,48 @@ namespace DataService.Controllers
         [EnableQuery]
         public IQueryable<Property> GetProperties()
         {
-            return db.Properties;
+            var repo = new PropertyRepository();
+            return repo.GetPropertyForUser(User.Identity.Name);
+
+           // return db.Properties;
         }
+
+        //[HttpGet]
+        //http://localhost/DataService/odata/GetPropertyCompanies(propertyId=1)
+        //[ODataRoute("GetPropertyCompanies(propertyId={propertyId})")]
+        //public List<CompanyModel> GetPropertyCompanies([FromODataUri]int propertyId)
+        //{
+        //    var repo = new PropertyRepository();
+        //    var compnayModels = repo.GetCompanyForProperty(propertyId).Select( Mapper.Map<Company, CompanyModel>).ToList();
+        //    //no need for the credit card field
+        //    compnayModels.ForEach(p => p.CreditCard = null);
+        //    return compnayModels;
+        //}
+
+        [HttpGet]
+        //  http://localhost/DataService/odata/Properties(1)/SomeFunction
+        public IHttpActionResult SomeFunction()
+        {
+            return Ok("Some");
+        }
+        //  http://localhost/DataService/odata/Properties(1)/GetCompanies
+        [HttpGet]
+        public IHttpActionResult GetCompanies([FromODataUri]  int key)
+        {
+            var repo = new PropertyRepository();
+            var compnayModels = repo.GetCompanyForProperty(key).Select(Mapper.Map<Company, CompanyModel>).ToList();
+            //no need for the credit card field
+            compnayModels.ForEach(p => p.CreditCard = null);
+            return Ok(compnayModels);
+        }
+
 
         // GET: odata/Properties(5)
         [EnableQuery]
         public SingleResult<Property> GetProperty([FromODataUri] int key)
         {
-            return SingleResult.Create(db.Properties.Where(property => property.Id == key));
+            var repo = new PropertyRepository();
+            return SingleResult.Create(repo.GetPropertyForUser(User.Identity.Name).Where(property => property.Id == key));
         }
 
         // PUT: odata/Properties(5)

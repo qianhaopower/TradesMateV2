@@ -22,6 +22,9 @@ angular.module('sbAdminApp')
         
         $scope.currentUser = authService.authentication;
         $scope.showManage = authService.authentication.userRole == 'Admin';
+        $scope.showClients = authService.authentication.userType == '1'; // 0 client , 1 trade
+
+
 
         $scope.check = function(x){
           

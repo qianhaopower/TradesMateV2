@@ -298,7 +298,12 @@ angular
                   controller: 'propertyController',
                   url: '/client/:param/properties'
              })
-
+         
+                 .state('base.propertyCompanies', {
+                     templateUrl: 'views/properties/propertyCompanies.html',
+                     controller: 'propertyCompaniesController',
+                     url: '/property/:propertyId/propertycompanies'
+                 })
 
 
               //propertySection
@@ -471,3 +476,17 @@ app.run(function ($rootScope, authService, $state) {
     //    }
     //});
 })
+
+
+//global scripts outside angular, like polyfill
+if (!String.prototype.format) {
+    String.prototype.format = function () {
+        var args = arguments;
+        return this.replace(/{(\d+)}/g, function (match, number) {
+            return typeof args[number] != 'undefined'
+              ? args[number]
+              : match
+            ;
+        });
+    };
+}

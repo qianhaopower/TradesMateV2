@@ -10,6 +10,8 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
+using EF.Data;
+using DataService.Models;
 
 namespace DataService.Providers
 {
@@ -87,6 +89,7 @@ namespace DataService.Providers
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
             var userRole = "user";
+            int userType = (int)UserType.Client;
             using (AuthRepository _repo = new AuthRepository())
             {
                 ApplicationUser user = await _repo.FindUser(context.UserName, context.Password);
@@ -100,6 +103,8 @@ namespace DataService.Providers
                 var isUserAdmin = await _repo.isUserAdmin(user.UserName);
                 if (isUserAdmin)
                     userRole = "Admin";
+
+                userType = user.UserType;
             }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
@@ -117,6 +122,10 @@ namespace DataService.Providers
                     },
                     {
                         "userRole", userRole
+                    },
+
+                    {
+                          "userType", userType.ToString()
                     }
                 });
 

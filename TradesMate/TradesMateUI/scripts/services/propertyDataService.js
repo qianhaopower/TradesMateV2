@@ -5,7 +5,7 @@ app.factory('propertyDataService', [ '$q', '$http', '$window', 'urls',function (
     
   
     return {
-        //$scope.url = urls.apiUrl;
+        //$scope.url = urls.apiUrl;    
         getAllProperties: function () {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
@@ -26,10 +26,30 @@ app.factory('propertyDataService', [ '$q', '$http', '$window', 'urls',function (
             });
             return deferred.promise;
         },
+        getPropertyCompanies: function (propertyId) {
+            var deferred = $q.defer();
+            var baseURL = urls.apiUrl;
+            var path = baseURL + '/Properties(' + propertyId + ')/GetCompanies' ; 
+            var error = 'Error happened when getting property companies';
+            $http({
+                method: 'GET',
+                url: path,
+            }).then(function successCallback(response) {
+                if (response.data && response.status >= 200 && response.status <= 299) {
+                    deferred.resolve(response.data.value);
+                } else {
+                    deferred.reject(error);
+                }
+
+            }, function errorCallback(response) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        },
         getPropertyById: function (propertyId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Properties(' + propertyId + ')';
+            var path = baseURL + '/Properties(' + propertyId + ')?$expand=address';
             var error = 'Error happened when getting property with id ' + propertyId;
             $http({
                 method: 'GET',

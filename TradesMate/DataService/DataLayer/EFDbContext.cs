@@ -34,7 +34,7 @@ namespace EF.Data
            : base("name=DbConnectionString")
        {
             Configuration.ProxyCreationEnabled = false;
-            Configuration.LazyLoadingEnabled = false;
+            Configuration.LazyLoadingEnabled = true;
         }
 
         public static EFDbContext Create()

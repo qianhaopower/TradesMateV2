@@ -1,5 +1,6 @@
 ﻿using DataService.Entities;
 using DataService.Infrastructure;
+using EF.Data;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
 using System;

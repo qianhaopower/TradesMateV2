@@ -8,7 +8,7 @@ angular.module('sbAdminApp').controller('userProfileController', ['$scope', '$lo
 
     $scope.userInfo = {
         userName: undefined,
-        emailAddress: undefined,
+        email: undefined,
         firstName: undefined,
         lastName: undefined,
     };
@@ -34,7 +34,7 @@ angular.module('sbAdminApp').controller('userProfileController', ['$scope', '$lo
     var getUserDetail = function () {
         authService.getCurrentUser().then(function (currentUser) {
             $scope.userInfo.firstName = currentUser.firstName;
-            $scope.userInfo.emailAddress = currentUser.emailAddress;
+            $scope.userInfo.email = currentUser.email;
             $scope.userInfo.userName = currentUser.userName;
             $scope.userInfo.lastName = currentUser.lastName;
             $scope.userInfoClone =  JSON.parse(JSON.stringify($scope.userInfo));

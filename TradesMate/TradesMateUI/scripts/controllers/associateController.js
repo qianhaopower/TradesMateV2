@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.controller('associateController', ['$scope', '$location','$timeout','authService', function ($scope, $location,$timeout, authService) {
+app.controller('associateController', ['$scope', '$location', '$timeout', 'authService', 'constants', function ($scope, $location, $timeout, authService, constants) {
 
     $scope.savedSuccessfully = false;
     $scope.message = "";
@@ -11,6 +11,7 @@ app.controller('associateController', ['$scope', '$location','$timeout','authSer
     };
 
     $scope.registerExternal = function () {
+        $scope.registerData.userType = $scope.registerData.isTrade ? constants.userType.trade : constants.userType.client;
 
         authService.registerExternal($scope.registerData).then(function (response) {
 

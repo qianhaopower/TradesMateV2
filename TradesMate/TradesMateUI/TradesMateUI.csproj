@@ -714,6 +714,7 @@
     <Content Include="scripts\controllers\peronalSettingController.js" />
     <Content Include="scripts\controllers\propertyController.js" />
     <Content Include="scripts\controllers\propertyDetailController.js" />
+    <Content Include="scripts\controllers\propertyCompaniesController.js" />
     <Content Include="scripts\controllers\propertySectionController.js" />
     <Content Include="scripts\controllers\propertySectionDetailController.js" />
     <Content Include="scripts\controllers\refreshController.js" />
@@ -766,6 +767,7 @@
     <Content Include="views\pages\login.html" />
     <Content Include="views\profile\personalSettings.html" />
     <Content Include="views\profile\userProfile.html" />
+    <Content Include="views\properties\propertyCompanies.html" />
     <Content Include="views\properties\properties.html" />
     <Content Include="views\properties\propertyDetail.html" />
     <Content Include="views\authentication\refresh.html" />
