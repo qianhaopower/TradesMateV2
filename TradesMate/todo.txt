@@ -14,5 +14,43 @@ well class for properties; sections and work items page - data
 
 
 
+1) Allow company have multiple servcie type: Electrician, plumber, handyman, builder, air conditioning.
+
+2) Add client company field. For user.
+   Add Client type: Indivadual or company client
+
+
+3) Add new user type, contractor, who can only see allocated property by the administrator. 
+A contractor can work for multiple companies.
+If a user is a contractor in one company, all company set him/her as contractor and loose permission. Need Assign permmisison back
+
+
+If a user is contracting in other company, if settingn him back to normal user, need to send him/her an email asking"Oleg is making you a user of XXX, if you accept, you will loose company for all other company"
+
+Allow user email persist in the system, when adding company user, if the user is there, send email asking him to confirm. 
+
+
+4)
+Client send request, service type, description, prefered compnay, or select new compnay.
+Company admin receive the request.
+Company create property, create setion, create workitem. 
+ Mark it as read. Client see it is read.
+
+only admin can see the request for now. 
+
+
+5) Property section -> allow one phone.
+    work item -> up to four phones.
+
+
+
+
+
+
+
+
+
+
+
  
 
