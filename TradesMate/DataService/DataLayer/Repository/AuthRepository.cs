@@ -203,14 +203,96 @@ namespace EF.Data
             else
             {
                 throw new Exception("User type cannot be recognized");
-            }
-
-
-
-         
+            }        
         }
 
+        //external login with no password required
+        public async Task<IdentityResult> RegisterUserWithExternalLogin(RegisterExternalBindingModel userModel, ApplicationUserManager appUserManager, int? companyId = null)
+        {
+            ApplicationUser user = new ApplicationUser
+            {
+                UserName = userModel.UserName,
+                FirstName = userModel.FirstName,
+                LastName = userModel.LastName,
+                UserType = userModel.UserType,
+                JoinDate = DateTime.Now,
+                CompanyId = companyId.HasValue ? companyId.Value : 0,
+               
 
+            };
+            //Check if the user is client or trademan.
+            if (userModel.UserType == (int)UserType.Client
+                || (userModel.UserType == (int)UserType.Trade && companyId.HasValue))
+            {
+                var result = await _userManager.CreateAsync(user);
+
+                //need create client entity here
+                Client newClient = new Client
+                {
+                    FirstName = user.FirstName,
+                    SurName = user.LastName,
+                    Email = user.Email,
+                    UserId = user.Id,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                _ctx.Entry(newClient).State = EntityState.Added;
+                _ctx.Clients.Add(newClient);
+                _ctx.SaveChanges();
+
+                user.Client = newClient;
+                result = await _userManager.UpdateAsync(user);
+
+                // no need to wait for this let it send. 
+                await SendConfirmEmail(result, appUserManager, user);
+                return result;
+
+            }
+            else if (userModel.UserType == (int)UserType.Trade && !companyId.HasValue)
+            {
+                // a company name should be provided, 
+
+                if (string.IsNullOrEmpty(userModel.CompanyName))
+                {
+                    throw new Exception("Please provide a company name when registering as tradespeople");
+                }
+                else
+                {
+
+                    //we create a new company and set the user to be the admin of the company
+                    var company = new Company()
+                    {
+                        Name = userModel.CompanyName,
+                        AddedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                        Description = string.Format("A company created by user {0} {1}", userModel.FirstName, userModel.LastName)
+                    };
+
+                    _applicationContext.Entry(company).State = EntityState.Added;
+                    _applicationContext.SaveChanges();
+
+                    //set the user company id to the user.
+                    user.CompanyId = _applicationContext.Companies.Where(p => p.Name == userModel.CompanyName).First().Id;
+
+                    var result = await _userManager.CreateAsync(user);
+
+                    //add the user to the Admin role
+                    if (result.Succeeded)
+                    {
+                        result = _userManager.AddToRole(user.Id, "Admin");
+                    }
+                    await SendConfirmEmail(result, appUserManager, user);
+                    return result;
+                }
+
+            }
+            else
+            {
+                throw new Exception("User type cannot be recognized");
+            }
+
+        }
 
         private async Task SendConfirmEmail(IdentityResult result, ApplicationUserManager appUserManager , ApplicationUser user)
         {

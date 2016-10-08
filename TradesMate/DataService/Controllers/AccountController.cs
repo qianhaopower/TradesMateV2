@@ -271,8 +271,9 @@ namespace DataService.Controllers
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
-        [Route("ExternalLogin", Name = "ExternalLogin")]
-        public async Task<IHttpActionResult> GetExternalLogin(string provider, string error = null)
+        [HttpGet]
+       // [Route("ExternalLogin", Name = "ExternalLogin")]
+        public async Task<IHttpActionResult> ExternalLogin(string provider, string error = null)
         {
             string redirectUri = string.Empty;
 
@@ -347,9 +348,12 @@ namespace DataService.Controllers
                 return BadRequest("External user is already registered");
             }
 
-            user = new ApplicationUser() { UserName = model.UserName };
+            //user = new ApplicationUser() { UserName = model.UserName };
+  
+            IdentityResult result = await _repo.RegisterUserWithExternalLogin(model, AppUserManager);
 
-            IdentityResult result = await _repo.CreateAsync(user);
+            //IdentityResult result = await _repo.CreateAsync(user);
+            user = await _repo.GetUserByUserName(model.UserName);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
