@@ -107,6 +107,17 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
             propertyDataService.getPropertyById($scope.propertyId).then(function (result) {
                 $scope.property = result;
                 $scope.clientId = result.clientId;
+                if (result.address)
+                {
+                    $scope.property.addressDisplay = "{0} {1} {2} {3} {4} {5}".format(
+                        result.address.line1,
+                           result.address.line2,
+                              '',//result.address.line3,
+                                 result.address.suburb,
+                                    result.address. state,
+                                       result.address.postCode
+                        )
+                }
 
                 if ($scope.clientId) {
                     clientDataService.getClientById($scope.clientId).then(function (result) {

@@ -49,7 +49,7 @@ app.factory('propertyDataService', [ '$q', '$http', '$window', 'urls',function (
         getPropertyById: function (propertyId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Properties(' + propertyId + ')';
+            var path = baseURL + '/Properties(' + propertyId + ')?$expand=address';
             var error = 'Error happened when getting property with id ' + propertyId;
             $http({
                 method: 'GET',

@@ -139,23 +139,26 @@ namespace EF.Data
                 var result = await _userManager.CreateAsync(user, userModel.Password);
 
                 //need create client entity here
-
-              
-
-                if (result.Succeeded)
+                Client newClient = new Client
                 {
-                    string code = await appUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    code = HttpUtility.UrlEncode(code);
-                    var ip = GetLocalIPAddress();
-                    // var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
-                    var callbackUrl = string.Format("{2}/DataService/api/account/ConfirmEmail?userId={0}&code={1}", user.Id, code, ip);
+                    FirstName = user.FirstName,
+                    SurName = user.LastName,
+                    Email = user.Email,
+                    UserId =  user.Id,
+                  
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
 
-                   
-                    await appUserManager.SendEmailAsync(user.Id,
-                                                            "Confirm your account",
-                                                            "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                }
+                _ctx.Entry(newClient).State = EntityState.Added;
+                _ctx.Clients.Add(newClient);
+                _ctx.SaveChanges();
 
+                user.Client = newClient;
+                 result = await _userManager.UpdateAsync(user);
+
+                // no need to wait for this let it send. 
+                await SendConfirmEmail(result, appUserManager, user);
                 return result;
 
             }
@@ -179,7 +182,6 @@ namespace EF.Data
                         Description = string.Format("A company created by user {0} {1}", userModel.FirstName, userModel.LastName)
                     };
 
-
                     _applicationContext.Entry(company).State = EntityState.Added;
                     _applicationContext.SaveChanges();
 
@@ -192,11 +194,8 @@ namespace EF.Data
                     if (result.Succeeded)
                     {
                         result = _userManager.AddToRole(user.Id, "Admin");
-                       
-
                     }
-                        
-
+                    await SendConfirmEmail(result, appUserManager, user);
                     return result;
                 }
 
@@ -209,6 +208,28 @@ namespace EF.Data
 
 
          
+        }
+
+
+
+        private async Task SendConfirmEmail(IdentityResult result, ApplicationUserManager appUserManager , ApplicationUser user)
+        {
+
+            if (result.Succeeded)
+            {
+                string code = await appUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                code = HttpUtility.UrlEncode(code);
+                var ip = GetLocalIPAddress();
+                // var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
+                var callbackUrl = string.Format("{2}/DataService/api/account/ConfirmEmail?userId={0}&code={1}", user.Id, code, ip);
+
+
+                await appUserManager.SendEmailAsync(user.Id,
+                                                        "Confirm your account",
+                                                        "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a> <br/> <br/>"
+                                                        + "If the link cannot be open, please copy and past the following url to you browser.Thanks. <br/> <br/>"
+                                                        + callbackUrl);
+            }
         }
 
         public async Task<ApplicationUser> FindUser(string userName, string password)
