@@ -51,7 +51,7 @@ function ($scope, clientDataService, Notification, $state, $stateParams) {
             //create new client
             $scope.client = {
                 firstName: undefined,
-                surName: undefined,
+                lastName: undefined,
                 mobileNumber: undefined,
                 email: undefined,
                 isNew: true,

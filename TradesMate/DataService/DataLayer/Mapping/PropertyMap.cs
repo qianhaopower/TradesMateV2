@@ -30,6 +30,22 @@ namespace EF.Data.Mapping
                 .WithRequired(p => p.Property)
                 .HasForeignKey(p => p.PropertyId);
 
+
+
+            this.HasMany<PropertyAllocation>(p => p.PropertyAllocations)
+                .WithOptional(p => p.Property)
+                .HasForeignKey(p => p.PropertyId);
+
+
+
+            this.HasMany<ClientProperty>(p => p.ClientProperties)
+                .WithRequired(p => p.Property)
+                .HasForeignKey(p => p.PropertyId);
+
+            this.HasMany<PropertyCompany>(p => p.PropertyCompanies)
+           .WithRequired(p => p.Property)
+           .HasForeignKey(p => p.PropertyId);
+
             //table
             ToTable("Property");
         }

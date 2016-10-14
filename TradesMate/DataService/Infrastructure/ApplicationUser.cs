@@ -42,6 +42,8 @@ namespace DataService.Infrastructure
         //[ForeignKey("UserId")]
         public virtual Client Client { get; set; }
 
+        public virtual Member Member { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {
             var userIdentity = await manager.CreateIdentityAsync(this, authenticationType);

@@ -1,5 +1,5 @@
 ﻿
-using DataService.Models;
+using EF.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

@@ -279,6 +279,10 @@
     <Compile Include="DataLayer\EFDbContext.cs" />
     <Compile Include="DataLayer\Entities\Address.cs" />
     <Compile Include="DataLayer\Entities\BaseEntity.cs" />
+    <Compile Include="DataLayer\Entities\PropertyAllocation.cs" />
+    <Compile Include="DataLayer\Entities\Member.cs" />
+    <Compile Include="DataLayer\Entities\CompanyMember.cs" />
+    <Compile Include="DataLayer\Entities\ClientProperty.cs" />
     <Compile Include="DataLayer\Entities\PropertyCompany.cs" />
     <Compile Include="DataLayer\Entities\Client.cs" />
     <Compile Include="DataLayer\Entities\ClientApplicaiton.cs" />
@@ -291,11 +295,14 @@
     <Compile Include="DataLayer\Entities\SubSectionTemplate.cs" />
     <Compile Include="DataLayer\Entities\WorkItem.cs" />
     <Compile Include="DataLayer\Entities\WorkItemTemplate.cs" />
-    <Compile Include="DataLayer\Enum\TradeType.cs" />
+    <Compile Include="DataLayer\Enum\Enums.cs" />
     <Compile Include="DataLayer\Mapping\AddressMapping.cs" />
+    <Compile Include="DataLayer\Mapping\PropertyAllocationMap.cs" />
+    <Compile Include="DataLayer\Mapping\MemberMap.cs" />
     <Compile Include="DataLayer\Mapping\ClientMapping.cs" />
+    <Compile Include="DataLayer\Mapping\CompanyMemberMap.cs" />
     <Compile Include="DataLayer\Mapping\CompanyMapping.cs" />
-    <Compile Include="DataLayer\Mapping\ClientCompanyMap.cs" />
+    <Compile Include="DataLayer\Mapping\ClientPropertyMap.cs" />
     <Compile Include="DataLayer\Mapping\PropertyMap.cs" />
     <Compile Include="DataLayer\Mapping\SectionMap.cs" />
     <Compile Include="DataLayer\Mapping\SectionTemplateMap.cs" />
@@ -315,7 +322,6 @@
     <Compile Include="Infrastructure\ClaimsAuthorizationAttribute.cs" />
     <Compile Include="Infrastructure\ExtendedClaimsProvider.cs" />
     <Compile Include="Infrastructure\RolesFromClaims.cs" />
-    <Compile Include="ViewModels\Enums.cs" />
     <Compile Include="ViewModels\ExternalLoginModels.cs" />
     <Compile Include="ViewModels\ModelFactory.cs" />
     <Compile Include="ViewModels\CompanyModel.cs" />

@@ -31,7 +31,7 @@ namespace EF.UnitTest
                 Client clientLee = new Client
                 {
                     FirstName = "Lee",
-                    SurName = "Pinder",
+                    LastName = "Pinder",
                     Email = "raviendra@test.com",
                     Address = new Address()
                     {
@@ -72,7 +72,7 @@ namespace EF.UnitTest
                 Client clientJoe = new Client
                 {
                     FirstName = "Joe",
-                    SurName = "Smith",
+                    LastName = "Smith",
                     Email = "Smith@gmail.com",
                     MobileNumber = "0454112547",
                     Description = "Joe Smith has a lot of protential work at his house",
@@ -116,7 +116,7 @@ namespace EF.UnitTest
                 Client clientLisa = new Client
                 {
                     FirstName = "Lisa",
-                    SurName = "Day",
+                    LastName = "Day",
                     Email = "lisa@yahoo.com",
                     Address = new Address()
                     {
@@ -142,7 +142,7 @@ namespace EF.UnitTest
                 Client client4 = new Client
                 {
                     FirstName = "Kelly",
-                    SurName = "Hilton",
+                    LastName = "Hilton",
                     Email = "Kelly.hilton@mail.com",
                     MobileNumber = "0454141589",
                     Address = new Address()
@@ -168,7 +168,7 @@ namespace EF.UnitTest
                 Client client5 = new Client
                 {
                     FirstName = "Simon",
-                    SurName = "Bing",
+                    LastName = "Bing",
                     Email = "simon.bing@gmail.com",
                     MobileNumber = "0425841235",
                     Address = new Address()
@@ -204,7 +204,7 @@ namespace EF.UnitTest
                     ApplicationUser userIns = new ApplicationUser
                     {
                         FirstName = clientInst.FirstName,
-                        LastName = clientInst.SurName,
+                        LastName = clientInst.LastName,
                         Email = clientInst.Email,
                         UserName = clientInst.FirstName.ToLower(),
                         JoinDate = DateTime.Now,

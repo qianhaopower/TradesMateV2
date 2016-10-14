@@ -11,7 +11,7 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
     $scope.search = function (item) {
         if (!$scope.filterTextModel.searchText
             || (item.firstName && (item.firstName.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
-            || (item.surName && (item.surName.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
+            || (item.lastName && (item.lastName.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
             ) {
             return true;
         }

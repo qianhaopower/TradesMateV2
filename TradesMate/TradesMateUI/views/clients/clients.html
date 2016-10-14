@@ -35,7 +35,7 @@
             <tr ng-repeat="client in clientlist | filter:search">
 
                 <td class="col-md-3 col-xs-2" ng-click="openClientDetail(client,true)">
-                    <a>{{client.firstName}} {{client.surName}}</a>
+                    <a>{{client.firstName}} {{client.lastName}}</a>
                     <br />
                     <small>{{client.email}}</small>
                 </td>

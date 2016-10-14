@@ -142,7 +142,7 @@ namespace EF.Data
                 Client newClient = new Client
                 {
                     FirstName = user.FirstName,
-                    SurName = user.LastName,
+                    LastName = user.LastName,
                     Email = user.Email,
                     UserId =  user.Id,
                   
@@ -230,7 +230,7 @@ namespace EF.Data
                 Client newClient = new Client
                 {
                     FirstName = user.FirstName,
-                    SurName = user.LastName,
+                    LastName = user.LastName,
                     Email = user.Email,
                     UserId = user.Id,
                     AddedDate = DateTime.Now,

@@ -4,14 +4,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace EF.Data
 {
-    public class Client : BaseEntity
+    public class Member : BaseEntity
     {
 
-        public Client()
+        public Member()
         {
-            Properties = new List<Property>();
-            ClientProperties = new List<ClientProperty>();
-
+            //Properties = new List<Property>();
+            // ClientCompanies = new List<ClientCompany>();
+            CompanyMembers = new List<CompanyMember>();
         }
         public string FirstName { get; set; }
         public string  MiddleName{ get; set; }
@@ -21,8 +21,9 @@ namespace EF.Data
 
         public string MobileNumber { get; set; }
         public string Email { get; set; }
-       
-        public virtual ICollection<Property> Properties { get; set; }
+
+        //public virtual ICollection<Property> Properties { get; set; }
+        public virtual ICollection<CompanyMember> CompanyMembers { get; set; }
 
 
 
@@ -30,9 +31,8 @@ namespace EF.Data
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
 
-        public int? AddressId { get; set; }
-        public virtual Address Address { get; set; }
+   
 
-        public virtual ICollection<ClientProperty> ClientProperties { get; set; }
+      //  public virtual ICollection<ClientCompany> ClientCompanies { get; set; }
     }
 }

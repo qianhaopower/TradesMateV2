@@ -11,7 +11,9 @@ namespace EF.Data
         public Company()
         {
             WorkItemTemplateList = new List<WorkItemTemplate>();
-            Properties = new List<Property>();
+            //Properties = new List<Property>();
+            PropertyCompanies = new List<PropertyCompany>();
+            CompanyMembers = new List<CompanyMember>();
         }
 
         public string Name { get; set; }
@@ -22,7 +24,9 @@ namespace EF.Data
         public ICollection<WorkItemTemplate> WorkItemTemplateList {get;set;}
 
 
-        public ICollection<Property> Properties { get; set; }
+        public ICollection<PropertyCompany> PropertyCompanies { get; set; }
+
+        public ICollection<CompanyMember> CompanyMembers { get; set; }
 
         // public virtual ICollection<ClientCompany> ClientCompanies { get; set; }
 

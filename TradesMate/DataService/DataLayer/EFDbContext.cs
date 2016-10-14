@@ -24,9 +24,15 @@ namespace EF.Data
         //public DbSet<SubSectionTemplate> SubSectionTemplates { get; set; }
         public DbSet<WorkItem> WorkItems { get; set; }
         public DbSet<WorkItemTemplate> WorkItemTemplates { get; set; }
-
         public DbSet<ClientApplicaiton> ClientApplications { get; set; }
         public DbSet<RefreshToken> RefreshTokens { get; set; }
+
+
+        public DbSet<ClientProperty> ClientProperties { get; set; }
+        public DbSet<CompanyMember> CompanyMembers { get; set; }
+        public DbSet<Member> Members { get; set; }
+        public DbSet<PropertyAllocation> PropertyAllocations { get; set; }
+      
 
         //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
@@ -44,9 +50,9 @@ namespace EF.Data
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
-       {
-            
- 
+        {
+
+
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
@@ -95,8 +101,14 @@ namespace EF.Data
 
 
             modelBuilder.Entity<ApplicationUser>()
-          .HasOptional(c => c.Client)
-          .WithOptionalDependent(d => d.User);
+              .HasOptional(c => c.Client)
+              .WithOptionalDependent(d => d.User);
+
+
+            modelBuilder.Entity<ApplicationUser>()
+           .HasOptional(c => c.Member)
+           .WithOptionalDependent(d => d.User);
+
 
             //modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
             //modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);

@@ -201,7 +201,9 @@ namespace DataService.Controllers
         [EnableQuery]
         public SingleResult<Client> GetClient([FromODataUri] int key)
         {
-            return SingleResult.Create(db.Properties.Where(m => m.Id == key).Select(m => m.Client));
+            //By defualt get the owner client, display the owner client name
+            var ownerClient = db.Properties.Where(m => m.Id == key).Select(m => m.ClientProperties).SelectMany(p => p.)
+            return SingleResult.Create();
         }
 
         // GET: odata/Properties(5)/SectionList
