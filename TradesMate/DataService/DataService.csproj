@@ -311,6 +311,7 @@
     <Compile Include="DataLayer\Mapping\WorkItemMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemTemplateMap.cs" />
     <Compile Include="DataLayer\Repository\ClientRepository.cs" />
+    <Compile Include="DataLayer\Repository\CompanyRepository.cs" />
     <Compile Include="DataLayer\Repository\PropertyRepository.cs" />
     <Compile Include="Helper.cs" />
     <Compile Include="Infrastructure\ApplicationRole.cs" />

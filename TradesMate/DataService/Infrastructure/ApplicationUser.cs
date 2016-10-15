@@ -27,11 +27,11 @@ namespace DataService.Infrastructure
         /// 1 TradeMan
         /// </summary>
         [Required]
-        public int UserType { get; set; }
+        public UserType UserType { get; set; }
 
 
-        [Required]
-        public int CompanyId { get; set; }
+        //[Required]
+        //public int CompanyId { get; set; }
 
       
 

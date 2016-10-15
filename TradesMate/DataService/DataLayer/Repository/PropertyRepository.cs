@@ -51,14 +51,15 @@ namespace EF.Data
                     //load the client
                     _ctx.Entry(user).Reference(s => s.Client).Load();
 
-                    properties = _ctx.Properties.Where(p => p.ClientId == user.Client.Id);
+                    properties = GetClientProperties(user.Client.Id);
 
-                }else if (user.UserType == (int)UserType.Trade)
+                }
+                else if (user.UserType == (int)UserType.Trade)
                 {
-                    var currentUserCompany = user.CompanyId;//should not be zero.
+                    _ctx.Entry(user).Reference(s => s.Member).Load();
 
-                   
-                    properties = _ctx.Properties.Where(p => p.Companies.Select(z => z.Id).Contains(currentUserCompany));
+                    properties = GetMemberProperties(user.Member.Id);
+
                 }
                 else
                 {
@@ -78,10 +79,73 @@ namespace EF.Data
         }
 
 
+
+        private IQueryable<Property> GetClientProperties(int clientId)
+        {
+            var property = from client in _ctx.Clients
+                           join cp in _ctx.ClientProperties on client.Id equals cp.ClientId
+                           join p in _ctx.Properties on cp.PropertyId equals p.Id
+                           where client.Id == clientId
+                           select p;
+            return property;
+
+
+        }
+
+        private IQueryable<Property> GetMemberProperties(int memberId)
+        {
+            var propertyViaAllocation = GetMemberPropertyViaAllocation(memberId);
+            var propertyViaCompany = GetMemberPropertyViaCompany(memberId);
+            return propertyViaAllocation.Union(propertyViaCompany);
+
+        }
+
+
+        //this is for company role -> contractor only
+        private IQueryable<Property> GetMemberPropertyViaAllocation(int memberId)
+        {
+
+            var properties = _ctx.Members.Where(p => p.Id == memberId).SelectMany(p => p.CompanyMembers)
+                .Where(p => p.Role == CompanyRole.Contractor).SelectMany(p => p.PropertyAllocations).Select(p => p.Property);
+            return properties;
+
+        }
+
+        //this is for company role -> admin and  defualt
+        private IQueryable<Property> GetMemberPropertyViaCompany(int memberId)
+        {
+            var properties = from m in _ctx.Members
+                             join cm in _ctx.CompanyMembers on m.Id equals cm.MemberId
+                             join company in _ctx.Companies on cm.CompanyId equals company.Id
+                             join cp in _ctx.PropertyCompanies on company.Id equals cp.CompanyId
+                             join p in _ctx.Properties on cp.PropertyId equals p.Id
+                             where (cm.Role == CompanyRole.Admin || cm.Role ==CompanyRole.Default)
+                             && m.Id == memberId
+                             
+                             select p;
+            return properties;
+
+        }
+
+
+
+
+        public IQueryable<Client> GetPropertyOwnerClinet(int propertyId)
+        {
+           var ownerClient = _ctx.Properties.Where(p => p.Id == propertyId)
+                .SelectMany(p => p.ClientProperties)
+                .Where(p => p.Role == ClientRole.Owner).Select(p => p.Client);//there should be only one owner client for each property
+
+            return ownerClient;
+
+
+        }
+
+
         public IQueryable<Company> GetCompanyForProperty(int propertyID)
         {
             // get the company that this property has been assigned to.
-            IQueryable<Company> companies =   _ctx.Properties.Where(p => p.Id == propertyID).SelectMany(p => p.Companies);
+            IQueryable<Company> companies =   _ctx.Properties.Where(p => p.Id == propertyID).SelectMany(p => p.PropertyCompanies).Select(p => p.Company);
             return companies;
 
 

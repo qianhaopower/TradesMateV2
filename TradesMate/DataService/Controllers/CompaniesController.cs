@@ -217,16 +217,24 @@ namespace DataService.Controllers
         }
 
 
-        public async Task<IHttpActionResult> GetCurrentCompanyUsers()
+        public async Task<IHttpActionResult> GetCurrentCompanyMembers()
         {
             var _repo = new AuthRepository();
 
+            //get the current user's company members
 
+            // the user must be of type trades, also the user need to be Admin. 
             if (await _repo.isUserAdmin(User.Identity.Name))
             {
                 var user = await _repo.GetUserByUserName(User.Identity.Name);
-                var userlist = _repo.GetUserByCompanyId(user.CompanyId).Where(u => u.Id != user.Id).ToList();
+                if(user.UserType != UserType.Trade)
+                    throw new Exception("Only member can view company members");
+
+
+                var memberList = _repo.GetUserByCompanyId(user.CompanyId).Where(u => u.Id != user.Id).ToList();
+
                 var modelList = userlist.Select(Mapper.Map<ApplicationUser, UserModel>);
+
                 return (Ok(modelList));
             }
             {

@@ -32,7 +32,8 @@ namespace EF.Data
         public DbSet<CompanyMember> CompanyMembers { get; set; }
         public DbSet<Member> Members { get; set; }
         public DbSet<PropertyAllocation> PropertyAllocations { get; set; }
-      
+        public DbSet<PropertyCompany> PropertyCompanies { get; set; }
+
 
         //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 

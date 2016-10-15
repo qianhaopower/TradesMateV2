@@ -33,7 +33,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/companies/getcurrentcompanyusers').success(function (response) {
+        $http.get(serviceBase + 'api/companies/GetCurrentCompanyMembers').success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
