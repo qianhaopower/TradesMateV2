@@ -191,28 +191,10 @@ namespace DataService.Controllers
     {
         private EFDbContext db = new EFDbContext();
 
-        public async Task<IHttpActionResult> GetCompanyForCurrentUser()
+        public IHttpActionResult GetCompanyForCurrentUser()
         {
-            var _repo = new AuthRepository();
-
-
-            if (await _repo.isUserAdmin(User.Identity.Name))
-            {
-                var user = await _repo.GetUserByUserName(User.Identity.Name);
-                var company = db.Companies.Where(c => c.Id == user.CompanyId).FirstOrDefault();
-                if (company != null)
-                {
-                    return Ok(Mapper.Map<Company, CompanyModel>(company));
-                }
-                else
-                {
-                    throw new Exception("Cannot find company for user");
-                }
-            }else
-            {
-                throw new Exception("Only admin user can manager company");
-
-            }
+            var company = new CompanyRepository().GetCompanyForCurrentUser(User.Identity.Name);
+            return Ok(Mapper.Map<Company, CompanyModel>(company));
 
         }
 
@@ -223,23 +205,14 @@ namespace DataService.Controllers
 
             //get the current user's company members
 
-            // the user must be of type trades, also the user need to be Admin. 
-            if (await _repo.isUserAdmin(User.Identity.Name))
-            {
-                var user = await _repo.GetUserByUserName(User.Identity.Name);
-                if(user.UserType != UserType.Trade)
-                    throw new Exception("Only member can view company members");
+                // the user must be of type trades, also the user need to be Admin. The check is in GetMemberByUserName
+                var memberList = await new CompanyRepository().GetMemberByUserName(User.Identity.Name);
 
-
-                var memberList = _repo.GetUserByCompanyId(user.CompanyId).Where(u => u.Id != user.Id).ToList();
-
-                var modelList = userlist.Select(Mapper.Map<ApplicationUser, UserModel>);
+                var modelList = memberList.ToList().Select(Mapper.Map<Member, UserModel>);
 
                 return (Ok(modelList));
-            }
-            {
-                throw new Exception("Only admin user can manager company user");
-            }
+           
+           
 
            
         }

@@ -23,14 +23,14 @@ namespace EF.Data
         private EFDbContext _applicationContext;
 
         private UserManager<ApplicationUser> _userManager;
-        private RoleManager<IdentityRole> _roleManager;
+        //private RoleManager<IdentityRole> _roleManager;
 
         public ClientRepository()
         {
             _ctx = new EFDbContext();
             _applicationContext = new EFDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
-            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
+            //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
 
 
@@ -62,7 +62,7 @@ namespace EF.Data
                     clients = _ctx.Clients.Where(p => p.Id == user.Client.Id);
 
                 }
-                else if (user.UserType == (int)UserType.Trade)
+                else if (user.UserType == UserType.Trade)
                 {
                     var properties = new PropertyRepository().GetPropertyForUser(userName);
 

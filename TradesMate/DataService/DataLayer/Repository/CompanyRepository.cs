@@ -28,8 +28,51 @@ namespace EF.Data
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
         }
 
-        
 
+        private  Company GetCompanyFoAdminUser(string userName)
+        {
+            var _repo = new AuthRepository();
+
+            //user must be admin.
+            var userTask =  _repo.GetUserByUserName(userName);
+            var user = userTask.Result;//happy to wait here.
+            if (user.UserType != UserType.Trade)
+                throw new Exception("Only member can view company members");
+
+
+            _ctx.Entry(user).Reference(s => s.Member).Load();
+            if (user.Member == null)
+                throw new Exception("Only member can view company members");
+
+            var company = user.Member.CompanyMembers.FirstOrDefault(p => p.Role == CompanyRole.Admin);
+
+            if (company == null)
+                throw new Exception("Only admin member can view company members");
+
+            return company.Company;
+        }
+
+        public IQueryable<Member> GetMemberByUserName(string userName)
+        {
+            var companyId = GetCompanyFoAdminUser(userName).Id;
+
+
+            var members = from com in _ctx.Companies
+                          join cm in _ctx.CompanyMembers on com.Id equals cm.CompanyId
+                          join mem in _ctx.Members on cm.MemberId equals mem.Id
+                          where com.Id == companyId
+                          select mem;
+
+            return members;
+        }
+
+
+
+        public Company GetCompanyForCurrentUser(string userName) {
+            var company = GetCompanyFoAdminUser(userName);
+            return company;
+
+        }
 
         public IQueryable<Property> GetCompanyProperties(int companyId)
         {

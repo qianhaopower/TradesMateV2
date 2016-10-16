@@ -89,7 +89,7 @@ namespace DataService.Providers
             context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
             var userRole = "user";
-            int userType = (int)UserType.Client;
+            UserType userType = UserType.Client;
             using (AuthRepository _repo = new AuthRepository())
             {
                 ApplicationUser user = await _repo.FindUser(context.UserName, context.Password);

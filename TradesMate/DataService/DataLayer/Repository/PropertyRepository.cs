@@ -23,14 +23,14 @@ namespace EF.Data
         private EFDbContext _applicationContext;
 
         private UserManager<ApplicationUser> _userManager;
-        private RoleManager<IdentityRole> _roleManager;
+       // private RoleManager<IdentityRole> _roleManager;
 
         public PropertyRepository()
         {
             _ctx = new EFDbContext();
             _applicationContext = new EFDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
-            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
+            //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
 
         public   IQueryable<Property> GetPropertyForUser(string userName)
@@ -54,7 +54,7 @@ namespace EF.Data
                     properties = GetClientProperties(user.Client.Id);
 
                 }
-                else if (user.UserType == (int)UserType.Trade)
+                else if (user.UserType == UserType.Trade)
                 {
                     _ctx.Entry(user).Reference(s => s.Member).Load();
 

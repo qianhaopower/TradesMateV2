@@ -22,17 +22,17 @@ namespace EF.Data
     public class AuthRepository : IDisposable
     {
         private EFDbContext _ctx;
-        private EFDbContext _applicationContext;
+       // private EFDbContext _applicationContext;
 
         private UserManager<ApplicationUser> _userManager;
-        private RoleManager<IdentityRole> _roleManager;
+        //private RoleManager<IdentityRole> _roleManager;
 
         public AuthRepository()
         {
             _ctx = new EFDbContext();
-            _applicationContext = new EFDbContext();
+            _ctx = new EFDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
-            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
+            //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
 
         public async Task<ApplicationUser> GetUserById(string userId)
@@ -45,23 +45,9 @@ namespace EF.Data
             return user;
         }
 
-        public  List<ApplicationUser> GetUserByCompanyId(int companyId)
-        {
+     
 
-            var usersByCompanyId =  _ctx.Users.Where(user => user.CompanyId == companyId).ToList();
-            return usersByCompanyId;
-        }
-
-        public  bool IsUserInRole(string userId,string roleName)
-        {
-            if (string.IsNullOrEmpty(userId))
-            {
-                throw new Exception("UserId cannot by empty");
-            }
-            var isInRole =  _userManager.IsInRole(userId, roleName);
-
-            return isInRole;
-        }
+       
 
         public async Task<ApplicationUser> GetUserByUserName(string userName)
         {
@@ -75,15 +61,30 @@ namespace EF.Data
 
         public async Task<bool> isUserAdmin(string userName)
         {
-            var user = await this.GetUserByUserName(userName);
-            if (user != null)
-            {
 
-                if (this.IsUserInRole(user.Id, "Admin"))
+            var user = await this.GetUserByUserName(userName);
+
+            _ctx.Entry(user).Reference(s => s.Member).Load();
+            if (user != null && user.Member != null)
+            {
+                //user can only be admin for one company
+
+                var compnay = from m in _ctx.Members
+                             join cm in _ctx.CompanyMembers on m.Id equals cm.MemberId
+                             join c in _ctx.Companies on cm.CompanyId equals c.Id
+                             where cm.Role == CompanyRole.Admin && m.Id == user.Member.Id
+                             select c;
+                if(compnay.Count() == 1)
                 {
                     return true;
                 }
-                return false;
+                else if(compnay.Count() > 0)
+                {
+                    throw new Exception("Member can be admin for one company");
+                }else if (compnay.Count() == 0)
+                {
+                    return false;
+                }
             }
             return false;
         }
@@ -126,15 +127,15 @@ namespace EF.Data
                 UserName = userModel.UserName,
                 FirstName = userModel.FirstName,
                 LastName = userModel.LastName,
-                UserType = userModel.UserType,
+                UserType = (UserType) userModel.UserType,
                 JoinDate = DateTime.Now,
-                CompanyId = companyId.HasValue ? companyId.Value : 0,
+              //  CompanyId = companyId.HasValue ? companyId.Value : 0,
                 Email = userModel.Email,
 
             };
-            //Check if the user is client or trademan.
-            if (userModel.UserType == (int)UserType.Client
-                ||( userModel.UserType == (int)UserType.Trade && companyId.HasValue))
+
+            // 1) new user is a client
+            if (userModel.UserType == (int)UserType.Client)
             {
                 var result = await _userManager.CreateAsync(user, userModel.Password);
 
@@ -144,95 +145,8 @@ namespace EF.Data
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
-                    UserId =  user.Id,
-                  
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
-                };
-
-                _ctx.Entry(newClient).State = EntityState.Added;
-                _ctx.Clients.Add(newClient);
-                _ctx.SaveChanges();
-
-                user.Client = newClient;
-                 result = await _userManager.UpdateAsync(user);
-
-                // no need to wait for this let it send. 
-                await SendConfirmEmail(result, appUserManager, user);
-                return result;
-
-            }
-            else if(userModel.UserType == (int)UserType.Trade && !companyId.HasValue)
-            {
-                // a company name should be provided, 
-
-                if (string.IsNullOrEmpty(userModel.CompanyName))
-                {
-                    throw new Exception("Please provide a company name when registering as tradespeople");
-                }
-                else
-                {
-
-                    //we create a new company and set the user to be the admin of the company
-                    var company = new Company()
-                    {
-                        Name = userModel.CompanyName,
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
-                        Description = string.Format("A company created by user {0} {1}", userModel.FirstName, userModel.LastName)
-                    };
-
-                    _applicationContext.Entry(company).State = EntityState.Added;
-                    _applicationContext.SaveChanges();
-
-                    //set the user company id to the user.
-                    user.CompanyId  = _applicationContext.Companies.Where(p => p.Name == userModel.CompanyName ).First().Id;
-
-                    var result = await _userManager.CreateAsync(user, userModel.Password);
-
-                    //add the user to the Admin role
-                    if (result.Succeeded)
-                    {
-                        result = _userManager.AddToRole(user.Id, "Admin");
-                    }
-                    await SendConfirmEmail(result, appUserManager, user);
-                    return result;
-                }
-
-            }
-            else
-            {
-                throw new Exception("User type cannot be recognized");
-            }        
-        }
-
-        //external login with no password required
-        public async Task<IdentityResult> RegisterUserWithExternalLogin(RegisterExternalBindingModel userModel, ApplicationUserManager appUserManager, int? companyId = null)
-        {
-            ApplicationUser user = new ApplicationUser
-            {
-                UserName = userModel.UserName,
-                FirstName = userModel.FirstName,
-                LastName = userModel.LastName,
-                UserType = userModel.UserType,
-                JoinDate = DateTime.Now,
-                CompanyId = companyId.HasValue ? companyId.Value : 0,
-               
-
-            };
-            //Check if the user is client or trademan.
-            if (userModel.UserType == (int)UserType.Client
-                || (userModel.UserType == (int)UserType.Trade && companyId.HasValue))
-            {
-                var result = await _userManager.CreateAsync(user);
-
-                //need create client entity here
-                Client newClient = new Client
-                {
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Email = user.Email,
                     UserId = user.Id,
+
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                 };
@@ -247,21 +161,14 @@ namespace EF.Data
                 // no need to wait for this let it send. 
                 await SendConfirmEmail(result, appUserManager, user);
                 return result;
-
-            }
-            else if (userModel.UserType == (int)UserType.Trade && !companyId.HasValue)
+            }else if(userModel.UserType == (int)UserType.Trade)
             {
-                // a company name should be provided, 
-
-                if (string.IsNullOrEmpty(userModel.CompanyName))
+                Company company = null;
+                //check if we need create the company first. if there is no company id, we need create a new company first
+                if (!companyId.HasValue)
                 {
-                    throw new Exception("Please provide a company name when registering as tradespeople");
-                }
-                else
-                {
-
-                    //we create a new company and set the user to be the admin of the company
-                    var company = new Company()
+                    // create company
+                     company = new Company()
                     {
                         Name = userModel.CompanyName,
                         AddedDate = DateTime.Now,
@@ -269,28 +176,78 @@ namespace EF.Data
                         Description = string.Format("A company created by user {0} {1}", userModel.FirstName, userModel.LastName)
                     };
 
-                    _applicationContext.Entry(company).State = EntityState.Added;
-                    _applicationContext.SaveChanges();
-
-                    //set the user company id to the user.
-                    user.CompanyId = _applicationContext.Companies.Where(p => p.Name == userModel.CompanyName).First().Id;
-
-                    var result = await _userManager.CreateAsync(user);
-
-                    //add the user to the Admin role
-                    if (result.Succeeded)
-                    {
-                        result = _userManager.AddToRole(user.Id, "Admin");
-                    }
-                    await SendConfirmEmail(result, appUserManager, user);
-                    return result;
+                    _ctx.Entry(company).State = EntityState.Added;
+                    _ctx.SaveChanges();
                 }
+
+
+                //create new member entry, create join between company and new member
+                var result = await _userManager.CreateAsync(user, userModel.Password);
+
+                //need create client entity here
+                Member newMember = new Member
+                {
+                    FirstName = user.FirstName,
+                    LastName = user.LastName,
+                    Email = user.Email,
+                    UserId = user.Id,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    
+                };
+
+                _ctx.Entry(newMember).State = EntityState.Added;
+                _ctx.Members.Add(newMember);
+
+                if(company == null)//compnayId is provided, need to get the old compnay record
+                    company = _ctx.Companies.First(p=> p.Id == companyId);
+
+                //create join entry
+                CompanyMember cm = new CompanyMember
+                {
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                    Role = companyId.HasValue ? CompanyRole.Default : CompanyRole.Admin,// if there is no company id provided, we are creating new company, so admin
+                    Member = newMember,
+                    Company = company,
+                    Confirmed = false
+                };
+                _ctx.Entry(cm).State = EntityState.Added;
+                _ctx.CompanyMembers.Add(cm);
+
+                
+                _ctx.SaveChanges();
+
+                user.Member = newMember;
+                result = await _userManager.UpdateAsync(user);
+
+                // no need to wait for this let it send. 
+                await SendConfirmEmail(result, appUserManager, user);
+                return result;
+
 
             }
             else
             {
                 throw new Exception("User type cannot be recognized");
             }
+     
+        }
+
+        //external login with no password required
+        public async Task<IdentityResult> RegisterUserWithExternalLogin(RegisterExternalBindingModel userModel, ApplicationUserManager appUserManager, int? companyId = null)
+        {
+            var convertedUserModel = new UserModel()
+            {
+                UserName = userModel.UserName,
+                FirstName = userModel.FirstName,
+                LastName = userModel.LastName,
+                UserType = userModel.UserType,
+                CompanyName = userModel.CompanyName,
+            };
+
+
+            return await RegisterUser(convertedUserModel, appUserManager, companyId);
 
         }
 
