@@ -199,14 +199,14 @@ namespace DataService.Controllers
         }
 
 
-        public async Task<IHttpActionResult> GetCurrentCompanyMembers()
+        public  IHttpActionResult GetCurrentCompanyMembers()
         {
             var _repo = new AuthRepository();
 
             //get the current user's company members
 
                 // the user must be of type trades, also the user need to be Admin. The check is in GetMemberByUserName
-                var memberList = await new CompanyRepository().GetMemberByUserName(User.Identity.Name);
+                var memberList =  new CompanyRepository().GetMemberByUserName(User.Identity.Name);
 
                 var modelList = memberList.ToList().Select(Mapper.Map<Member, UserModel>);
 

@@ -139,7 +139,7 @@ namespace EF.UnitTest
                 context.Clients.Add(clientLisa);
 
 
-                Client client4 = new Client
+                Client clientKelly = new Client
                 {
                     FirstName = "Kelly",
                     LastName = "Hilton",
@@ -162,10 +162,10 @@ namespace EF.UnitTest
                     ModifiedDate = DateTime.Now,
                 };
 
-                context.Entry(client4).State = EntityState.Added;
-                context.Clients.Add(client4);
+                context.Entry(clientKelly).State = EntityState.Added;
+                context.Clients.Add(clientKelly);
 
-                Client client5 = new Client
+                Client clientSimon = new Client
                 {
                     FirstName = "Simon",
                     LastName = "Bing",
@@ -189,8 +189,8 @@ namespace EF.UnitTest
                     ModifiedDate = DateTime.Now,
                 };
 
-                context.Entry(client5).State = EntityState.Added;
-                context.Clients.Add(client5);
+                context.Entry(clientSimon).State = EntityState.Added;
+                context.Clients.Add(clientSimon);
 
                 #endregion
 
@@ -245,16 +245,36 @@ namespace EF.UnitTest
                     Description = "Lee Pinder's House",
                     Condition = "This house is in good condition",
                     Narrative = "This house hot water service needs update",
-                    Comment = "",
-                    Client = clientLee,
+                    Comment = "",                
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
                     
                 };
-
-                
-
                 context.Entry(propertyLee).State = EntityState.Added;
+
+                ClientProperty clientPropertyLee = new ClientProperty
+                {
+                    Client = clientLee,
+                    Property = propertyLee,
+                    Confirmed = true,
+                    Role = ClientRole.Owner,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(clientPropertyLee).State = EntityState.Added;
+
+                ClientProperty clientPropertyKelly = new ClientProperty
+                {
+                    Client = clientKelly,
+                    Property = propertyLee,
+                    Confirmed = true,
+                    Role = ClientRole.CoOwner,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(clientPropertyKelly).State = EntityState.Added;
 
 
 
@@ -278,15 +298,24 @@ namespace EF.UnitTest
                     Condition = "This house is in good condition",
                     Narrative = "This house hot water service needs update",
                     Comment = "",
-                    Client = clientJoe,
+                   
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
 
                 };
-
-
-
                 context.Entry(propertyLee).State = EntityState.Added;
+
+                ClientProperty clientPropertyJoe = new ClientProperty
+                {
+                    Client = clientJoe,
+                    Property = propertyJoe,
+                    Confirmed = true,
+                    Role = ClientRole.Owner,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(clientPropertyJoe).State = EntityState.Added;
 
 
 
@@ -311,16 +340,65 @@ namespace EF.UnitTest
                     Condition = "This house is in good condition",
                     Narrative = "This house hot water service needs update",
                     Comment = "",
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                 
+
+                };
+                context.Entry(propertyLee).State = EntityState.Added;
+
+                ClientProperty clientPropertyLisa = new ClientProperty
+                {
                     Client = clientLisa,
+                    Property = propertyLisa,
+                    Confirmed = true,
+                    Role = ClientRole.Owner,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+
+                context.Entry(clientPropertyLisa).State = EntityState.Added;
+
+
+
+                Property propertySimon = new Property
+                {
+                    Name = "Simon's house",
+                    Address = new Address()
+                    {
+                        City = "Bayswater",
+                        Line1 = "64 Kings St",
+                        Line2 = "Bayswater",
+                        PostCode = "3159",
+                        State = "VIC",
+                        Suburb = "Bayswater",
+
+
+                        AddedDate = DateTime.Now,
+                        ModifiedDate = DateTime.Now,
+                    },
+                    Description = "Simon Bing's House",
+                    Condition = "This house is in good condition",
+                    Narrative = "This house hot water service needs update",
+                    Comment = "",
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
 
                 };
+                context.Entry(propertySimon).State = EntityState.Added;
 
+                ClientProperty clientPropertySimon = new ClientProperty
+                {
+                    Client = clientSimon,
+                    Property = propertySimon,
+                    Confirmed = true,
+                    Role = ClientRole.Owner,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
 
+                context.Entry(clientPropertyLisa).State = EntityState.Added;
 
-                context.Entry(propertyLee).State = EntityState.Added;
-        
                 #endregion
 
                 #region section
@@ -351,11 +429,34 @@ namespace EF.UnitTest
                     ModifiedDate = DateTime.Now,
                 };
 
-                companyTradesMate.Properties.Add(propertyLee);
-                companyTradesMate.Properties.Add(propertyJoe);
-
                 context.Entry(companyTradesMate).State = EntityState.Added;
 
+                PropertyCompany propertyCompanyJoe = new PropertyCompany
+                {
+                    Property = propertyJoe,
+                    Company = companyTradesMate,
+                     AddedDate = DateTime.Now,
+                      ModifiedDate = DateTime.Now,
+                };
+                context.Entry(propertyCompanyJoe).State = EntityState.Added;
+
+                PropertyCompany propertyCompanyLee = new PropertyCompany
+                {
+                    Property = propertyLee,
+                    Company = companyTradesMate,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(propertyCompanyLee).State = EntityState.Added;
+
+                PropertyCompany propertyCompanySimon = new PropertyCompany
+                {
+                    Property = propertySimon,
+                    Company = companyTradesMate,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(propertyCompanySimon).State = EntityState.Added;
 
 
                 Company companyBilly = new Company
@@ -364,11 +465,26 @@ namespace EF.UnitTest
                     Name = "Billy's trade",
                     AddedDate = DateTime.Now,
                     ModifiedDate = DateTime.Now,
-                };
-
-                companyBilly.Properties.Add(propertyLisa);
-                companyBilly.Properties.Add(propertyLee);
+                };          
                 context.Entry(companyBilly).State = EntityState.Added;
+
+                PropertyCompany propertyCompanyLisa = new PropertyCompany
+                {
+                    Property = propertyLisa,
+                    Company = companyBilly,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(propertyCompanyLisa).State = EntityState.Added;
+
+                PropertyCompany propertyCompanyLeeNo2 = new PropertyCompany
+                {
+                    Property = propertyLee,
+                    Company = companyBilly,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(propertyCompanyLeeNo2).State = EntityState.Added;
 
 
                 //context.SaveChanges();
@@ -376,79 +492,252 @@ namespace EF.UnitTest
 
                 #region company users
 
-                ApplicationUser userOleg = new ApplicationUser
+                Member memberOleg = new Member
                 {
                     FirstName = "Oleg",
                     LastName = "Lien",
                     Email = "oleg.lien@tradsmate.com",
-                    UserName = "Oleg".ToLower(),
-                    JoinDate = DateTime.Now,
-                    PasswordHash = Password123456,//123456
-                    UserType = (int)UserType.Trade,
+                    ModifiedDate = DateTime.Now,
+                    AddedDate = DateTime.Now,
                     
                 };
 
-                context.Entry(userOleg).State = EntityState.Added;
+                context.Entry(memberOleg).State = EntityState.Added;
+                CompanyMember cmOleg = new CompanyMember
+                {
+                    Member = memberOleg,
+                    Company = companyTradesMate,
+                    Role = CompanyRole.Admin,
+                    Confirmed = true,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(cmOleg).State = EntityState.Added;
 
-                ApplicationUser userRoger = new ApplicationUser
+
+
+                Member memberRoger = new Member
                 {
                     FirstName = "Roger",
                     LastName = "Yearwood",
                     Email = "roger.yearwood@tradsmate.com",
-                    UserName = "Roger".ToLower(),
-                    JoinDate = DateTime.Now,
-                    PasswordHash = Password123456,//123456
-                    UserType = (int)UserType.Trade,
+                    ModifiedDate = DateTime.Now,
+                    AddedDate = DateTime.Now,
+
+
 
                 };
+                context.Entry(memberRoger).State = EntityState.Added;
+                CompanyMember cmRoger = new CompanyMember
+                {
+                    Member = memberRoger,
+                    Company = companyTradesMate,
+                    Role = CompanyRole.Default,
+                    Confirmed = true,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(cmRoger).State = EntityState.Added;
 
-                context.Entry(userRoger).State = EntityState.Added;
 
-                ApplicationUser userRalph = new ApplicationUser
+
+
+
+
+
+
+                Member memberRalph = new Member
                 {
                     FirstName = "Ralph",
                     LastName = "Carrow",
                     Email = "ralph.carrow@tradsmate.com",
-                    UserName = "Ralph".ToLower(),
-                    JoinDate = DateTime.Now,
-                    PasswordHash = Password123456,//123456
-                    UserType = (int)UserType.Trade,
+                    ModifiedDate = DateTime.Now,
+                    AddedDate = DateTime.Now,
+
 
                 };
+                context.Entry(memberRalph).State = EntityState.Added;
+                CompanyMember cmRalph = new CompanyMember
+                {
+                    Member = memberRalph,
+                    Company = companyTradesMate,
+                    Role = CompanyRole.Default,
+                    Confirmed = true,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(memberRalph).State = EntityState.Added;
 
-                context.Entry(userRalph).State = EntityState.Added;
 
-                ApplicationUser userBilly = new ApplicationUser
+
+
+
+                Member memberSonny = new Member
+                {
+                    FirstName = "Stonny",
+                    LastName = "Getchell",
+                    Email = "Stonny.Getchell@tradsmate.com",
+                    ModifiedDate = DateTime.Now,
+                    AddedDate = DateTime.Now,
+
+
+                };
+                context.Entry(memberSonny).State = EntityState.Added;
+                CompanyMember cmStonny = new CompanyMember
+                {
+                    Member = memberSonny,
+                    Company = companyTradesMate,
+                    Role = CompanyRole.Contractor,
+                    Confirmed = true,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(cmStonny).State = EntityState.Added;
+
+
+
+                Member memberTaylor = new Member
+                {
+                    FirstName = "Taylor",
+                    LastName = "Diniz",
+                    Email = "Taylor.Diniz@tradsmate.com",
+                    ModifiedDate = DateTime.Now,
+                    AddedDate = DateTime.Now,
+
+
+                };
+                context.Entry(memberTaylor).State = EntityState.Added;
+                CompanyMember cmTaylor = new CompanyMember
+                {
+                    Member = memberTaylor,
+                    Company = companyTradesMate,
+                    Role = CompanyRole.Contractor,
+                    Confirmed = true,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(cmTaylor).State = EntityState.Added;
+
+
+
+
+                Member membberBilly = new Member
                 {
                     FirstName = "Billy",
                     LastName = "Bowen",
                     Email = "billy.bowen@billy.com",
-                    UserName = "Billy".ToLower(),
-                    JoinDate = DateTime.Now,
-                    PasswordHash = Password123456,//123456
-                    UserType = (int)UserType.Trade,
+                    ModifiedDate = DateTime.Now,
+                    AddedDate = DateTime.Now,
+
+
 
                 };
+                context.Entry(membberBilly).State = EntityState.Added;
+                CompanyMember cmBilly = new CompanyMember
+                {
+                    Member = membberBilly,
+                    Company = companyBilly,
+                    Role = CompanyRole.Admin,
+                    Confirmed = true,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(cmBilly).State = EntityState.Added;
 
-                context.Entry(userBilly).State = EntityState.Added;
 
-                ApplicationUser userElwood = new ApplicationUser
+
+
+                Member memberElwood = new Member
                 {
                     FirstName = "Elwood",
                     LastName = "Olin",
                     Email = "elwood.olin@billy.com",
-                    UserName = "Elwood".ToLower(),
-                    JoinDate = DateTime.Now,
-                    PasswordHash = Password123456,//123456
-                    UserType = (int)UserType.Trade,
+                    ModifiedDate = DateTime.Now,
+                    AddedDate = DateTime.Now,
 
                 };
+                context.Entry(memberElwood).State = EntityState.Added;
+                CompanyMember cmElwood = new CompanyMember
+                {
+                    Member = memberElwood,
+                    Company = companyBilly,
+                    Role = CompanyRole.Default,
+                    Confirmed = true,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(cmElwood).State = EntityState.Added;
 
-                context.Entry(userElwood).State = EntityState.Added;
 
-                //set up companyId and Role
+
+                CompanyMember cmTaylorNo2 = new CompanyMember
+                {
+                    Member = memberTaylor,
+                    Company = companyBilly,
+                    Role = CompanyRole.Contractor,
+                    Confirmed = true,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(cmTaylorNo2).State = EntityState.Added;
+
+
+
+
                 #endregion
 
+                #region member for companies
+
+                foreach (var memberInst in context.Members.Local.ToList())
+                {
+                    ApplicationUser userIns = new ApplicationUser
+                    {
+                        FirstName = memberInst.FirstName,
+                        LastName = memberInst.LastName,
+                        Email = memberInst.Email,
+                        UserName = memberInst.FirstName.ToLower(),
+                        JoinDate = DateTime.Now,
+                        PasswordHash = Password123456,//123456
+                        UserType = UserType.Trade,
+                        Member = memberInst,
+
+                    };
+
+                    context.Entry(userIns).State = EntityState.Added;
+                }
+
+
+                #endregion
+
+                #region property allocation
+
+                PropertyAllocation allocationSonnyTradesMate = new PropertyAllocation
+                {
+                    Property = propertySimon,
+                    CompanyMember = cmStonny,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(allocationSonnyTradesMate).State = EntityState.Added;
+                PropertyAllocation allocationTayloyBilly = new PropertyAllocation
+                {
+                    Property = propertyLee,
+                    CompanyMember = cmTaylorNo2,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+
+
+                };
+                context.Entry(allocationTayloyBilly).State = EntityState.Added;
+                PropertyAllocation allocationTayloyTradesMate = new PropertyAllocation
+                {
+                    Property = propertyJoe,
+                    CompanyMember = cmTaylor,
+                    AddedDate = DateTime.Now,
+                    ModifiedDate = DateTime.Now,
+                };
+                context.Entry(allocationTayloyTradesMate).State = EntityState.Added;
+                #endregion
 
                 #region workItem template
                 // context.Database.Create();
@@ -623,128 +912,52 @@ namespace EF.UnitTest
                 #endregion
 
 
-                //ClientApplicaiton app1 = new ClientApplicaiton
-                //{
-                //    Id = "ngAuthApp",
-                //    Secret = Helper.GetHash("abc@123"),
-                //    Name = "AngularJS front-end Application",
-                //    ApplicationType = AuthenticationService.API.Models.ApplicationTypes.JavaScript,
-                //    Active = true,
-                //    RefreshTokenLifeTime = 7200,
-                //    AllowedOrigin = "*"
-                //};
-
-                //context.Entry(app1).State = EntityState.Added;
-
-                //ClientApplicaiton app2 = new ClientApplicaiton
-                //{
-                //    Id = "consoleApp",
-                //    Secret = Helper.GetHash("123@abc"),
-                //    Name = "Console Application",
-                //    ApplicationType = AuthenticationService.API.Models.ApplicationTypes.NativeConfidential,
-                //    Active = true,
-                //    RefreshTokenLifeTime = 14400,
-                //    AllowedOrigin = "*"
-                //};
-
-               // context.Entry(app2).State = EntityState.Added;
-
-                context.SaveChanges();
-
-                userBilly.CompanyId = context.Companies.First(p => p.Name == "Billy's trade").Id;
-                userElwood.CompanyId = context.Companies.First(p => p.Name == "Billy's trade").Id;
-
-                userOleg.CompanyId = context.Companies.First(p => p.Name == "TradesMate Soft").Id;
-                userRoger.CompanyId = context.Companies.First(p => p.Name == "TradesMate Soft").Id;
-                userRalph.CompanyId = context.Companies.First(p => p.Name == "TradesMate Soft").Id;
-
-
                 context.SaveChanges();
 
           
-                var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
+                //var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(context));
 
 
-                var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+                //var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
 
-                var user = new ApplicationUser()
-                {
-                    UserName = "SuperUser",
-                    Email = "haoqian@tradesmate.com",
-                    EmailConfirmed = true,
-                    FirstName = "Hao",
-                    LastName = "Qian",
+                //var user = new ApplicationUser()
+                //{
+                //    UserName = "SuperUser",
+                //    Email = "haoqian@tradesmate.com",
+                //    EmailConfirmed = true,
+                //    FirstName = "Hao",
+                //    LastName = "Qian",
 
-                    JoinDate = DateTime.Now.AddYears(-3)//fake that I joined 3 years ago
-                };
+                //    JoinDate = DateTime.Now.AddYears(-3)//fake that I joined 3 years ago
+                //};
 
-                manager.Create(user, "123456");
+                //manager.Create(user, "123456");
 
-                if (roleManager.Roles.Count() == 0)
-                {
-                    roleManager.Create(new IdentityRole { Name = "SuperAdmin" });
-                    roleManager.Create(new IdentityRole { Name = "Admin" });
-                    roleManager.Create(new IdentityRole { Name = "User" });
-                }
+                //if (roleManager.Roles.Count() == 0)
+                //{
+                //    roleManager.Create(new IdentityRole { Name = "SuperAdmin" });
+                //    roleManager.Create(new IdentityRole { Name = "Admin" });
+                //    roleManager.Create(new IdentityRole { Name = "User" });
+                //}
 
-                var adminUser = manager.FindByName("SuperUser");
+                //var adminUser = manager.FindByName("SuperUser");
 
-                manager.AddToRoles(adminUser.Id, new string[] { "SuperAdmin", "Admin" });
-
-
-                var userOlegNew = manager.FindByName("oleg");
-
-                manager.AddToRoles(userOlegNew.Id, new string[] { "Admin" });
+                //manager.AddToRoles(adminUser.Id, new string[] { "SuperAdmin", "Admin" });
 
 
-                var userBillyNew = manager.FindByName("billy");
+                //var userOlegNew = manager.FindByName("oleg");
 
-                manager.AddToRoles(userBillyNew.Id, new string[] { "Admin" });
+                //manager.AddToRoles(userOlegNew.Id, new string[] { "Admin" });
 
-                context.SaveChanges();
+
+                //var userBillyNew = manager.FindByName("billy");
+
+                //manager.AddToRoles(userBillyNew.Id, new string[] { "Admin" });
+
+               // context.SaveChanges();
             }
         }
 
-        //[TestMethod]
-        //public void AuthSeed()
-        //{
-        //    Database.SetInitializer<AuthContext>(new CreateDatabaseIfNotExists<AuthContext>());
-
-        //    using (var context = new AuthContext())
-        //    {
-
-        //        var manager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(new AuthContext()));
-
-        //        var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new AuthContext()));
-
-        //        var user = new ApplicationUser()
-        //        {
-        //            UserName = "SuperUser",
-        //            Email = "haoqian@tradesmate.com",
-        //            EmailConfirmed = true,
-        //            FirstName = "Hao",
-        //            LastName = "Qian",
-
-        //            JoinDate = DateTime.Now.AddYears(-3)//fake that I joined 3 years ago
-        //        };
-
-        //        manager.Create(user, "123456");
-
-        //        if (roleManager.Roles.Count() == 0)
-        //        {
-        //            roleManager.Create(new IdentityRole { Name = "SuperAdmin" });
-        //            roleManager.Create(new IdentityRole { Name = "Admin" });
-        //            roleManager.Create(new IdentityRole { Name = "User" });
-        //        }
-
-        //        var adminUser = manager.FindByName("SuperUser");
-
-        //        manager.AddToRoles(adminUser.Id, new string[] { "SuperAdmin", "Admin" });
-
-
-
-        //        context.SaveChanges();
-        //    }
-        //}
+      
     }
 }

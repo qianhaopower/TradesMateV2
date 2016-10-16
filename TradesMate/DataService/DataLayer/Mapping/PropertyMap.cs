@@ -33,7 +33,7 @@ namespace EF.Data.Mapping
 
 
             this.HasMany<PropertyAllocation>(p => p.PropertyAllocations)
-                .WithOptional(p => p.Property)
+                .WithRequired(p => p.Property)
                 .HasForeignKey(p => p.PropertyId);
 
 
