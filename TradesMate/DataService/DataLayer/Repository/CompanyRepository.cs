@@ -29,26 +29,30 @@ namespace EF.Data
         }
 
 
-        private  Company GetCompanyFoAdminUser(string userName)
+        private   Company GetCompanyFoAdminUser(string userName)
         {
-            var _repo = new AuthRepository();
+            var _repo = new AuthRepository(_ctx);
 
             //user must be admin.
-            var userTask =  _repo.GetUserByUserName(userName);
-            var user = userTask.Result;//happy to wait here.
+            var user =    _repo.GetUserByUserName(userName);
+           
             if (user.UserType != UserType.Trade)
                 throw new Exception("Only member can view company members");
 
 
             _ctx.Entry(user).Reference(s => s.Member).Load();
+           
             if (user.Member == null)
                 throw new Exception("Only member can view company members");
 
-            var company = user.Member.CompanyMembers.FirstOrDefault(p => p.Role == CompanyRole.Admin);
+            _ctx.Entry(user.Member).Collection(s => s.CompanyMembers).Load();
+            var company = user.Member.CompanyMembers.ToList().FirstOrDefault(p => p.Role == CompanyRole.Admin);
 
             if (company == null)
                 throw new Exception("Only admin member can view company members");
 
+
+            _ctx.Entry(company).Reference(s => s.Company).Load();
             return company.Company;
         }
 

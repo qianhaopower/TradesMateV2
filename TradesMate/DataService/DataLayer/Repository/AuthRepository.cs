@@ -27,10 +27,17 @@ namespace EF.Data
         private UserManager<ApplicationUser> _userManager;
         //private RoleManager<IdentityRole> _roleManager;
 
-        public AuthRepository()
+        public AuthRepository(EFDbContext ctx = null)
         {
-            _ctx = new EFDbContext();
-            _ctx = new EFDbContext();
+           
+            if(ctx != null)
+            {
+                _ctx = ctx;
+            }
+            else
+            {
+                _ctx = new EFDbContext();
+            }
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
             //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
@@ -45,11 +52,21 @@ namespace EF.Data
             return user;
         }
 
-     
 
-       
 
-        public async Task<ApplicationUser> GetUserByUserName(string userName)
+        public  ApplicationUser GetUserByUserName(string userName)
+        {
+            if (string.IsNullOrEmpty(userName))
+            {
+                throw new Exception("User name cannot by empty");
+            }
+            var user =  _userManager.FindByName(userName);
+            return user;
+        }
+
+
+
+        public async Task<ApplicationUser> GetUserByUserNameAsync(string userName)
         {
             if (string.IsNullOrEmpty(userName))
             {
@@ -62,7 +79,7 @@ namespace EF.Data
         public async Task<bool> isUserAdmin(string userName)
         {
 
-            var user = await this.GetUserByUserName(userName);
+            var user = await this.GetUserByUserNameAsync(userName);
 
             _ctx.Entry(user).Reference(s => s.Member).Load();
             if (user != null && user.Member != null)

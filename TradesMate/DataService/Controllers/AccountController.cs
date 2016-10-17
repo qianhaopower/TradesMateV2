@@ -131,7 +131,7 @@ namespace DataService.Controllers
 
             //admin user can only register user for its company
           
-            var user = await _repo.GetUserByUserName(User.Identity.Name);
+            var user = await _repo.GetUserByUserNameAsync(User.Identity.Name);
             if (user != null)
             {
                 //user must be admin to create user, the check is in GetCompanyForCurrentUser
@@ -166,7 +166,7 @@ namespace DataService.Controllers
         public async Task<IHttpActionResult> GetCurrentUser()
         {
             //Only SuperAdmin or Admin can delete users (Later when implement roles)
-            var user = await this._repo.GetUserByUserName(User.Identity.Name);
+            var user = await this._repo.GetUserByUserNameAsync(User.Identity.Name);
 
             if (user != null)
             {
@@ -347,7 +347,7 @@ namespace DataService.Controllers
             IdentityResult result = await _repo.RegisterUserWithExternalLogin(model, AppUserManager);
 
             //IdentityResult result = await _repo.CreateAsync(user);
-            user = await _repo.GetUserByUserName(model.UserName);
+            user = await _repo.GetUserByUserNameAsync(model.UserName);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);

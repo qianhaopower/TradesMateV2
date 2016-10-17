@@ -208,7 +208,7 @@ namespace DataService.Controllers
                 // the user must be of type trades, also the user need to be Admin. The check is in GetMemberByUserName
                 var memberList =  new CompanyRepository().GetMemberByUserName(User.Identity.Name);
 
-                var modelList = memberList.ToList().Select(Mapper.Map<Member, UserModel>);
+                var modelList = memberList.ToList().Select(Mapper.Map<Member, MemberModel>);
 
                 return (Ok(modelList));
            
