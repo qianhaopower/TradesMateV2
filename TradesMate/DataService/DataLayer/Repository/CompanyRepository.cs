@@ -56,7 +56,7 @@ namespace EF.Data
             return company.Company;
         }
 
-        public IQueryable<Member> GetMemberByUserName(string userName)
+        public IQueryable<MemberWIthRole> GetMemberByUserNameQuery(string userName, int? memberId = null)
         {
             var companyId = GetCompanyFoAdminUser(userName).Id;
 
@@ -64,12 +64,31 @@ namespace EF.Data
             var members = from com in _ctx.Companies
                           join cm in _ctx.CompanyMembers on com.Id equals cm.CompanyId
                           join mem in _ctx.Members on cm.MemberId equals mem.Id
-                          where com.Id == companyId
-                          select mem;
+                          where com.Id == companyId && ( memberId.HasValue ? mem.Id == memberId : true)
+                          select new MemberWIthRole
+                          {
+                             Member =  mem,//member record
+                            CompanyMember =  cm,//join record
+                            Company = com,
+                           
+                          };
 
             return members;
         }
-
+        public IQueryable<MemberModel> GetMemberByUserName(string userName, int? memberId = null)
+        {
+            var result = GetMemberByUserNameQuery(userName, memberId);
+            return result.Select(p => new MemberModel
+            {
+                FirstName = p.Member.FirstName,
+                LastName = p.Member.LastName,
+                Email = p.Member.Email,
+                MemberRole = p.CompanyMember.Role.ToString(),
+                MemberId = p.Member.Id,
+                
+            });
+                
+        }
 
 
         public Company GetCompanyForCurrentUser(string userName) {

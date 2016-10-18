@@ -208,13 +208,26 @@ namespace DataService.Controllers
                 // the user must be of type trades, also the user need to be Admin. The check is in GetMemberByUserName
                 var memberList =  new CompanyRepository().GetMemberByUserName(User.Identity.Name);
 
-                var modelList = memberList.ToList().Select(Mapper.Map<Member, MemberModel>);
+               // var modelList = memberList.ToList().Select(Mapper.Map<Member, MemberModel>);
 
-                return (Ok(modelList));
-           
+                return (Ok(memberList));
+
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetCurrentCompanyMember(int memberId)
+        {
+            var _repo = new AuthRepository();
+
+            //get the current user's company members
+
+            // the user must be of type trades, also the user need to be Admin. The check is in GetMemberByUserName
+            var member = new CompanyRepository().GetMemberByUserName(User.Identity.Name, memberId).First();
+
+            // var modelList = memberList.ToList().Select(Mapper.Map<Member, MemberModel>);
+            return Ok(member);
            
 
-           
         }
 
 

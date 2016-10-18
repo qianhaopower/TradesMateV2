@@ -8,9 +8,9 @@ namespace DataService.Models
 {
     public class MemberModel
     {
-        [Required]
-        [Display(Name = "User name")]
-        public string UserName { get; set; }
+        //[Required]
+        //[Display(Name = "User name")]
+        //public string UserName { get; set; }
 
 
         [Required]
@@ -25,14 +25,16 @@ namespace DataService.Models
         [Display(Name = "Email")]
         [DataType(DataType.EmailAddress)]
         [Required]
-        public String Email { get; set; }
+        public string Email { get; set; }
 
-        
+        public string MemberRole { get; set; }
 
-
-
+        public int MemberId { get; set; }
 
     }
+
+   
+
 
 
 }

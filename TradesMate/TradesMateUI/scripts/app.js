@@ -377,26 +377,26 @@ angular
                   url: '/managecompany'
           })
 
-          //manage company user
-          .state('base.companyUser', {
-                  templateUrl: 'views/company/companyUser.html',
-                  controller: 'companyUserController',
-                  url: '/companyuser'
+          //manage company member
+          .state('base.companyMember', {
+                  templateUrl: 'views/company/companyMember.html',
+                  controller: 'companyMemberController',
+                  url: '/companymember'
           })
-           .state('base.editCompanyUser', {
-               templateUrl: 'views/company/companyUserDetail.html',
-               controller: 'companyUserDetailController',
-               url: '/companyuser/edit/:userId',
+           .state('base.editCompanyMember', {
+               templateUrl: 'views/company/companyMemberDetail.html',
+               controller: 'companyMemberDetailController',
+               url: '/companymember/edit/:memberId',
            })
-              .state('base.createCompanyUser', {
-                  templateUrl: 'views/company/companyUserDetail.html',
-                  controller: 'companyUserDetailController',
-                  url: '/companyuser/create/:userId',
+              .state('base.createCompanyMember', {
+                  templateUrl: 'views/company/companyMemberDetail.html',
+                  controller: 'companyMemberDetailController',
+                  url: '/companymember/create/:memberId',
           })
-          .state('base.viewCompanyUser', {
-              templateUrl: 'views/company/companyUserDetail.html',
-              controller: 'companyUserDetailController',
-              url: '/companyuser/view/:userId',
+          .state('base.viewCompanyMember', {
+              templateUrl: 'views/company/companyMemberDetail.html',
+              controller: 'companyMemberDetailController',
+              url: '/companymember/view/:memberId',
           })
 
           

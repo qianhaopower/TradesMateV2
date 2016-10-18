@@ -1,14 +1,12 @@
 ﻿'use strict';
 
 
-angular.module('sbAdminApp').controller('companyUserController', ['$scope', '$location', '$timeout', '$state', 'Notification', 'companyService',
+angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$location', '$timeout', '$state', 'Notification', 'companyService',
     function ($scope, $location, $timeout, $state, Notification, companyService) {
 
         $scope.editMode = false;
 
-        $scope.gotoEditCompanyUser = function () {
-            $state.go('base.createCompanyUser');
-        }
+      
 
 
         $scope.filterTextModel = {
@@ -25,7 +23,7 @@ angular.module('sbAdminApp').controller('companyUserController', ['$scope', '$lo
             return false;
         };
 
-        $scope.userList = [];
+        $scope.memberList = [];
     
         $scope.companyInfo = {
             companyName: "Company",
@@ -35,19 +33,19 @@ angular.module('sbAdminApp').controller('companyUserController', ['$scope', '$lo
 
         };
 
-        $scope.addNewUser = function () {
+        $scope.addNewMember = function () {
             
-            $state.go("base.createCompanyUser");
+            $state.go("base.createCompanyMember");
 
         }
 
         
 
-        $scope.deleteUser = function (user) {
+        $scope.deleteMember = function (member) {
 
-            companyService.deleteUserById(user.userId).then(function () {
+            companyService.deleteMemberById(member.memberId).then(function () {
                 Notification.success({ message: 'Deleted', delay: 2000 });
-                getUsersInCompany();
+                getMembersInCompany();
 
 
 
@@ -56,19 +54,19 @@ angular.module('sbAdminApp').controller('companyUserController', ['$scope', '$lo
 
 
 
-        $scope.editUserDetail = function (user) {
+        $scope.editMemberDetail = function (member) {
 
-            $state.go("base.editCompanyUser", {
-                userId: user.userId
+            $state.go("base.editCompanyMember", {
+                memberId: member.memberId
             });
 
         }
    
 
-    var getUsersInCompany = function () {
-        companyService.getCompanyUsers().then(function (users) {
+    var getMembersInCompany = function () {
+        companyService.getCompanyMembers().then(function (members) {
 
-            $scope.userList = users;
+            $scope.memberList = members;
         },function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
     var getCompanyDetail = function () {
@@ -85,8 +83,8 @@ angular.module('sbAdminApp').controller('companyUserController', ['$scope', '$lo
     // get the company info for display
     getCompanyDetail();
         
-    //get user list for the current company
-    getUsersInCompany();
+    //get member list for the current company
+    getMembersInCompany();
 
 
     }

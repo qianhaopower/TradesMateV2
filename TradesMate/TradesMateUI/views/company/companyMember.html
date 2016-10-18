@@ -1,20 +1,20 @@
 ﻿<div class="form-horizontal">
     <div class="row">
         <div class="col-lg-12">
-            <h2 class="page-header">Users in {{companyInfo.companyName}}</h2>
+            <h2 class="page-header">Members in {{companyInfo.companyName}}</h2>
         </div>
     </div>
     <div class="row ">
         <div class="col-xs-6 col-md-9">
 
-            <button type="button" title="Add new user" class="btn btn-default btn-sm" ng-click="addNewUser()">
-                <i class="fa fa-plus"></i> Add User
+            <button type="button" title="Add new member" class="btn btn-default btn-sm" ng-click="addNewMember()">
+                <i class="fa fa-plus"></i> Add Member
             </button>
 
         </div>
         <div class="col-xs-6  col-md-3 pull-right">
 
-            <input type="text" placeholder="Search users..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+            <input type="text" placeholder="Search members..." class="input-sm form-control" ng-model="filterTextModel.searchText">
 
 
         </div>
@@ -23,27 +23,27 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Email</th>
+                <th>Role</th>
                 <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
 
-            <tr ng-repeat="user in userList | filter:search">
+            <tr ng-repeat="member in memberList | filter:search">
 
-                <td class="col-md-3 col-xs-2" ng-click="openUserDetail(user)">
-                    <a>{{user.firstName}} {{user.lastName}}</a>
+                <td class="col-md-3 col-xs-2" ng-click="openMemberDetail(member)">
+                    <a>{{member.firstName}} {{member.lastName}}</a>
                 </td>
                 <td class="col-md-6 col-xs-4">
-                   {{user.email}}
+                   {{member.memberRole}}
                 </td>
             
                 <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-primary btn-sm" title="Edit user" ng-click="editUserDetail(user)">Edit</a>
+                    <a class="btn btn-primary btn-sm" title="Edit member" ng-click="editMemberDetail(member)">Edit</a>
                 </td>
                 <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-danger btn-sm" title="Delete user" ng-click="deleteUser(user)">Delete</a>
+                    <a class="btn btn-danger btn-sm" title="Delete member" ng-click="deleteMember(member)">Delete</a>
                 </td>
 
             </tr>
@@ -54,16 +54,16 @@
 
 
 <!-- The actual modal template, just a bit o bootstrap -->
-<script type="text/ng-template" id="deleteUsermodal.html">
+<script type="text/ng-template" id="deleteMembermodal.html">
     <div class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title danger">Delete user</h4>
+                    <h4 class="modal-title danger">Delete member</h4>
                 </div>
                 <div class="modal-body">
-                    <p>This will also remove the user from current company. Proceed?</p>
+                    <p>This will also remove the member from current company. Proceed?</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>

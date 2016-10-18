@@ -63,7 +63,8 @@ namespace DataService
             CreateMap<Member, MemberModel>()
               .ForMember(dest => dest.FirstName, opts => opts.MapFrom(src => src.FirstName))
                         .ForMember(dest => dest.LastName, opts => opts.MapFrom(src => src.LastName))
-                        
+                         .ForMember(dest => dest.MemberId, opts => opts.MapFrom(src => src.Id))
+
                         .ForMember(dest => dest.Email, opts => opts.MapFrom(src => src.Email))
                           ;
         }
