@@ -214,6 +214,14 @@ namespace DataService.Controllers
 
         }
 
+
+        public IHttpActionResult UpdateCompanyMemberRole(int memberId, string role)
+        {
+            string newRole = new CompanyRepository().UpdateCompanyMemberRole(User.Identity.Name, memberId, role).ToString();
+            return (Ok(newRole));
+
+        }
+
         [HttpGet]
         public IHttpActionResult GetCurrentCompanyMember(int memberId)
         {

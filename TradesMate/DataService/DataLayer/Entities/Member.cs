@@ -36,13 +36,15 @@ namespace EF.Data
       //  public virtual ICollection<ClientCompany> ClientCompanies { get; set; }
     }
 
-    public class MemberWIthRole
+    public class MemberInfo
     {
         public Member Member { get; set; }
 
         public Company Company { get; set; }
 
         public CompanyMember CompanyMember { get; set; }
+
+        public ApplicationUser User { get; set; }
     }
 
 }

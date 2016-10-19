@@ -49,7 +49,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/companies/GetCurrentCompanyMember?memberId=' + memberId).success(function (response) {//broken
+        $http.get(serviceBase + 'api/companies/GetCurrentCompanyMember?memberId=' + memberId).success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
@@ -87,16 +87,16 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     };
 
 
-    var _updateCompanyMember = function (memberInfo) {
-        var deferred = $q.defer();
-        $http.post(serviceBase + 'api/account/updatecompanyUser', memberInfo).success(function (response) {//broken
-            deferred.resolve(response);
-        }).error(function (err, status) {
-            deferred.reject(err);
-        });
-         return deferred.promise;
+    //var _updateCompanyMember = function (memberInfo) {
+    //    var deferred = $q.defer();
+    //    $http.post(serviceBase + 'api/account/updatecompanyUser', memberInfo).success(function (response) {//broken
+    //        deferred.resolve(response);
+    //    }).error(function (err, status) {
+    //        deferred.reject(err);
+    //    });
+    //     return deferred.promise;
 
-    };
+    //};
  
 
    
@@ -108,7 +108,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     companyServiceFactory.getCompanyMembers = _getCompanyMembers;
     companyServiceFactory.createCompanyUser = _createCompanyUser;
 
-    companyServiceFactory.updateCompanyMember = _updateCompanyMember;
+    //companyServiceFactory.updateCompanyMember = _updateCompanyMember;
     companyServiceFactory.getMemberById = _getMemberById;
     companyServiceFactory.deleteMemberById = _deleteMemberById;
  

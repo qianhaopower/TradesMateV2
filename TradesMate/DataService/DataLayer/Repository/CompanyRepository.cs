@@ -9,6 +9,7 @@ using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
@@ -29,6 +30,107 @@ namespace EF.Data
         }
 
 
+        internal  CompanyRole UpdateCompanyMemberRole(string userName ,int memberId, string role)
+        {
+            CompanyRole roleParsed;
+            bool roleValid = Enum.TryParse<CompanyRole>(role, out roleParsed);
+            if (roleValid ==false)
+            {
+                throw new Exception(string.Format("{0} is not a valid role name", role));
+            }
+
+            if(roleParsed == CompanyRole.Admin)
+            {
+                throw new Exception("Cannot assign Admin role");
+            }
+            if (roleParsed == CompanyRole.Contractor)
+            {
+                //business logic
+                //nothing to do here, automaticly lost permission on property via compnay
+            }
+            var _repo = new AuthRepository(_ctx);
+            var isUserAdminTask = _repo.isUserAdmin(userName);
+
+            // For Task (not Task<T>): will block until the task is completed...
+            isUserAdminTask.RunSynchronously();
+            if (isUserAdminTask.Result == false)
+            {
+                throw new Exception("Only admin can update compnay members role");
+            }
+
+         
+
+            //start from here.
+            if (roleParsed == CompanyRole.Default)
+            {
+                var companyId = GetCompanyFoAdminUser(userName).Id;
+                var otherCompanyInfo = GetMemberInfoOutsideCompany(companyId, memberId);
+                var inOtherCompanyAsAdmin = otherCompanyInfo.Any(p=> p.CompanyMember.Role == CompanyRole.Admin);
+                if (inOtherCompanyAsAdmin)
+                {
+                    throw new Exception("Member is the admin of other company, cannot assign role in this company.");
+                }
+
+                var inOtherCompanyAsDefault = otherCompanyInfo.Any(p => p.CompanyMember.Role == CompanyRole.Default);//lost default role in other company
+
+
+
+                //business logic
+                //need to check if the member being set is member of any other compnay
+                //if yes, mark him/her as contractor for all other company, ask first. 
+
+                //if no, mark him/her as default for this compnay, delete all property allocation for this company.
+            }
+
+
+         
+           return  UpdateCompanyMemberRole(userName, memberId, role);
+
+
+
+        }
+
+
+        public IQueryable<MemberInfo> GetMemberInfoOutsideCompany(int companyId, int memberId )
+        {
+           // get all the memberInfo 
+
+
+            var members = from com in _ctx.Companies
+                          join cm in _ctx.CompanyMembers on com.Id equals cm.CompanyId
+                          join mem in _ctx.Members on cm.MemberId equals mem.Id
+                          join user in _ctx.Users on mem equals user.Member
+                          where com.Id != companyId && mem.Id == memberId 
+                          select new MemberInfo
+                          {
+                              Member = mem,//member record
+                              CompanyMember = cm,//join record
+                              Company = com,
+                              User = user,
+                          };
+
+            return members;
+        }
+
+        private CompanyRole UpdateCompanyMemberRole(string userName,  int memberId, CompanyRole role)
+        {
+            var memberInfo = GetMemberByUserNameQuery(userName, memberId);
+
+            if (memberInfo.Count() > 1)
+            {
+                throw new Exception("Multiple member found with ID" + memberId);
+            }
+           var cmRecord =  _ctx.CompanyMembers.Where(p => p.Company == memberInfo.First().Company && p.Member == memberInfo.First().Member).First();
+            cmRecord.Role = role;
+
+            _ctx.Entry(cmRecord).State = EntityState.Modified;
+
+            _ctx.SaveChanges();
+            return role;
+
+        } 
+
+      
         private   Company GetCompanyFoAdminUser(string userName)
         {
             var _repo = new AuthRepository(_ctx);
@@ -56,7 +158,7 @@ namespace EF.Data
             return company.Company;
         }
 
-        public IQueryable<MemberWIthRole> GetMemberByUserNameQuery(string userName, int? memberId = null)
+        public IQueryable<MemberInfo> GetMemberByUserNameQuery(string userName, int? memberId = null)
         {
             var companyId = GetCompanyFoAdminUser(userName).Id;
 
@@ -64,12 +166,14 @@ namespace EF.Data
             var members = from com in _ctx.Companies
                           join cm in _ctx.CompanyMembers on com.Id equals cm.CompanyId
                           join mem in _ctx.Members on cm.MemberId equals mem.Id
+                          join user in  _ctx.Users on mem equals user.Member
                           where com.Id == companyId && ( memberId.HasValue ? mem.Id == memberId : true)
-                          select new MemberWIthRole
+                          select new MemberInfo
                           {
                              Member =  mem,//member record
                             CompanyMember =  cm,//join record
                             Company = com,
+                            User = user,
                            
                           };
 
@@ -85,7 +189,8 @@ namespace EF.Data
                 Email = p.Member.Email,
                 MemberRole = p.CompanyMember.Role.ToString(),
                 MemberId = p.Member.Id,
-                
+                Username = p.User.UserName,
+
             });
                 
         }
@@ -113,5 +218,6 @@ namespace EF.Data
             _userManager.Dispose();
 
         }
+
     }
 }

@@ -12,10 +12,10 @@
     <fieldset ng-disabled="readOnly">
         <legend>{{memberId ? 'Member details' : 'Add member'}}</legend>
 
-        <div class="form-group required">
-            <label class="col-sm-3 control-label">Membername</label>
+        <div class="form-group required"  >
+            <label class="col-sm-3 control-label">Username</label>
             <div class="col-sm-9">
-                <input type="text" name="memberName" class="form-control" placeholder="Membername" ng-model="member.memberName" required ng-disabled="!member.isNew">
+                <input type="text" name="memberName" class="form-control" placeholder="Membername" ng-model="member.username" required ng-disabled="!member.isNew" >
                 <div ng-messages="memberForm.memberName.$error">
                     <div class="text-danger" ng-message="required">Membername is required</div>
                 </div>
@@ -53,7 +53,7 @@
             </div>
 
         </div>
-        <div class="form-group required">
+        <div class="form-group required" ng-hide="readOnly">
             <label class="col-sm-3 control-label">Password</label>
             <div class="col-sm-9">
                 <input type="text" name="memberPassword" class="form-control" placeholder="password" ng-model="member.password" ng-minlength="6" ng-maxlength="100" ng-required="member.isNew">

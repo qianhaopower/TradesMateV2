@@ -32,6 +32,13 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
            // companyId: undefined,
 
         };
+        $scope.openMemberDetail = function (member) {
+            $state.go("base.viewCompanyMember", {
+                memberId: member.memberId
+            });
+           
+        }
+
 
         $scope.addNewMember = function () {
             
@@ -54,13 +61,13 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
 
 
 
-        $scope.editMemberDetail = function (member) {
+        //$scope.editMemberDetail = function (member) {
 
-            $state.go("base.editCompanyMember", {
-                memberId: member.memberId
-            });
+        //    $state.go("base.editCompanyMember", {
+        //        memberId: member.memberId
+        //    });
 
-        }
+        //}
    
 
     var getMembersInCompany = function () {
