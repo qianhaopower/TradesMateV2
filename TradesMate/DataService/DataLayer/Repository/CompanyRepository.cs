@@ -182,8 +182,9 @@ namespace EF.Data
             {
                 throw new Exception("Multiple member found with ID" + memberId);
             }
-            var cmRecord = _ctx.CompanyMembers.Where(p => p.Company == memberInfo.FirstOrDefault().Company && p.Member == memberInfo.FirstOrDefault().Member).FirstOrDefault();
-            if (role == CompanyRole.Contractor)
+            var cmRecord = _ctx.CompanyMembers.Where(p =>p.CompanyId == companyId && p.MemberId == memberId).ToList().FirstOrDefault();
+
+            if (role == CompanyRole.Default)
             {
                 //up have passed all validation so here we can do the update.
                 //here we directly mark this guy as contractor in all other companies. 
