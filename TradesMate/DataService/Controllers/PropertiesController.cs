@@ -50,10 +50,10 @@ namespace DataService.Controllers
         //public List<CompanyModel> GetPropertyCompanies([FromODataUri]int propertyId)
         //{
         //    var repo = new PropertyRepository();
-        //    var compnayModels = repo.GetCompanyForProperty(propertyId).Select( Mapper.Map<Company, CompanyModel>).ToList();
+        //    var companyModels = repo.GetCompanyForProperty(propertyId).Select( Mapper.Map<Company, CompanyModel>).ToList();
         //    //no need for the credit card field
-        //    compnayModels.ForEach(p => p.CreditCard = null);
-        //    return compnayModels;
+        //    companyModels.ForEach(p => p.CreditCard = null);
+        //    return companyModels;
         //}
 
         [HttpGet]
@@ -67,10 +67,10 @@ namespace DataService.Controllers
         public IHttpActionResult GetCompanies([FromODataUri]  int key)
         {
             var repo = new PropertyRepository();
-            var compnayModels = repo.GetCompanyForProperty(key).Select(Mapper.Map<Company, CompanyModel>).ToList();
+            var companyModels = repo.GetCompanyForProperty(key).Select(Mapper.Map<Company, CompanyModel>).ToList();
             //no need for the credit card field
-            compnayModels.ForEach(p => p.CreditCard = null);
-            return Ok(compnayModels);
+            companyModels.ForEach(p => p.CreditCard = null);
+            return Ok(companyModels);
         }
 
 

@@ -2,7 +2,7 @@
 using DataService.Entities;
 using DataService.Infrastructure;
 using DataService.Models;
-
+using EntityFramework.Extensions;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
@@ -29,69 +29,123 @@ namespace EF.Data
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
         }
 
-
-        internal  CompanyRole UpdateCompanyMemberRole(string userName ,int memberId, string role)
+        public IQueryable<MemberModel> GetMemberByUserName(string userName, int? memberId = null)
         {
-            CompanyRole roleParsed;
-            bool roleValid = Enum.TryParse<CompanyRole>(role, out roleParsed);
-            if (roleValid ==false)
+            var result = GetMemberByUserNameQuery(userName, memberId);
+            return result.Select(p => new MemberModel
             {
-                throw new Exception(string.Format("{0} is not a valid role name", role));
-            }
+                FirstName = p.Member.FirstName,
+                LastName = p.Member.LastName,
+                Email = p.Member.Email,
+                MemberRole = p.CompanyMember.Role.ToString(),
+                MemberId = p.Member.Id,
+                Username = p.User.UserName,
 
-            if(roleParsed == CompanyRole.Admin)
-            {
-                throw new Exception("Cannot assign Admin role");
-            }
-            if (roleParsed == CompanyRole.Contractor)
-            {
-                //business logic
-                //nothing to do here, automaticly lost permission on property via compnay
-            }
-            var _repo = new AuthRepository(_ctx);
-            var isUserAdminTask = _repo.isUserAdmin(userName);
-
-            // For Task (not Task<T>): will block until the task is completed...
-            isUserAdminTask.RunSynchronously();
-            if (isUserAdminTask.Result == false)
-            {
-                throw new Exception("Only admin can update compnay members role");
-            }
-
-         
-
-            //start from here.
-            if (roleParsed == CompanyRole.Default)
-            {
-                var companyId = GetCompanyFoAdminUser(userName).Id;
-                var otherCompanyInfo = GetMemberInfoOutsideCompany(companyId, memberId);
-                var inOtherCompanyAsAdmin = otherCompanyInfo.Any(p=> p.CompanyMember.Role == CompanyRole.Admin);
-                if (inOtherCompanyAsAdmin)
-                {
-                    throw new Exception("Member is the admin of other company, cannot assign role in this company.");
-                }
-
-                var inOtherCompanyAsDefault = otherCompanyInfo.Any(p => p.CompanyMember.Role == CompanyRole.Default);//lost default role in other company
-
-
-
-                //business logic
-                //need to check if the member being set is member of any other compnay
-                //if yes, mark him/her as contractor for all other company, ask first. 
-
-                //if no, mark him/her as default for this compnay, delete all property allocation for this company.
-            }
-
-
-         
-           return  UpdateCompanyMemberRole(userName, memberId, role);
-
-
+            });
 
         }
 
 
-        public IQueryable<MemberInfo> GetMemberInfoOutsideCompany(int companyId, int memberId )
+        public Company GetCompanyForCurrentUser(string userName)
+        {
+            var company = GetCompanyFoAdminUser(userName);
+            return company;
+
+        }
+
+        public IQueryable<Property> GetCompanyProperties(int companyId)
+        {
+            // get the company that this property has been assigned to.
+            IQueryable<Property> properties = _ctx.Companies.Where(p => p.Id == companyId).SelectMany(p => p.PropertyCompanies).Select(p => p.Property);
+            return properties;
+
+
+        }
+
+        public async Task<CompanyRole> UpdateCompanyMemberRole(string userName ,int memberId, string role)
+        {
+            var error = await UpdateRoleValidation(userName, memberId, role);
+            if ( string.IsNullOrEmpty(error))
+            {
+                CompanyRole roleParsed;
+                bool roleValid = Enum.TryParse<CompanyRole>(role, out roleParsed);
+                return DoUpdateCompanyMemberRole(userName, memberId, roleParsed);
+            }
+            else
+            {
+                throw new Exception(error);
+            }
+          
+        }
+
+        private async Task<string> UpdateRoleValidation(string userName, int memberId, string role)
+        {
+            var _repo = new AuthRepository(_ctx);
+            var isUserAdminTask = await _repo.isUserAdmin(userName);
+
+            // For Task (not Task<T>): will block until the task is completed...
+           //isUserAdminTask.RunSynchronously();
+            if (isUserAdminTask == false)
+            {
+                return "Only admin can update company members role";
+
+            }
+
+            CompanyRole roleParsed;
+            bool roleValid = Enum.TryParse<CompanyRole>(role, out roleParsed);
+            if (roleValid == false)
+            {
+                return string.Format("{0} is not a valid role name", role); 
+            }
+
+            if (roleParsed == CompanyRole.Admin)
+            {
+                return string.Format("Cannot assign Admin role");
+            }
+
+            var companyId = GetCompanyFoAdminUser(userName).Id;
+            var oldRole = _ctx.CompanyMembers.Where(p => p.CompanyId == companyId && p.MemberId == memberId).First().Role;
+
+            if(oldRole == CompanyRole.Admin)
+            {
+                return string.Format("Admin role cannot change");
+            }
+
+            if(oldRole == roleParsed)
+            {
+                return string.Format("Already have role {0}", oldRole);
+            }
+            //up to here can only be default -> contractor or contractor -> default
+            if(roleParsed == CompanyRole.Contractor)
+            {
+                //default -> contractor case, we need delete the allocation later, all good here. 
+            }
+
+            if(roleParsed == CompanyRole.Default)
+            {  
+                var otherCompanyInfo = GetMemberInfoOutsideCompany(companyId, memberId);
+                var inOtherCompanyAsAdmin = otherCompanyInfo.Any(p => p.CompanyMember.Role == CompanyRole.Admin);
+                if (inOtherCompanyAsAdmin)
+                {
+                    //people in other company is admin, as we cannot remove the admin role from the other company, set default role here is not allowed.
+                    throw new Exception("Member is the admin of other company, cannot assign default role in this company.");
+                }
+
+                var inOtherCompanyAsDefault = otherCompanyInfo.Any(p => p.CompanyMember.Role == CompanyRole.Default);//lost default role in other company
+
+                if (inOtherCompanyAsDefault)
+                {
+                    //if yes, mark him/her as contractor for all other company, ask first. 
+
+                    //request/response 
+                }
+                //up to here we know this guy being assigned role has a maximum of contractor role in other company. No default of admin. 
+                //just let pass the check,   mark him/her as default for this company, delete all property allocation for this company.
+            }
+            return string.Empty;
+        }
+
+        private IQueryable<MemberInfo> GetMemberInfoOutsideCompany(int companyId, int memberId )
         {
            // get all the memberInfo 
 
@@ -112,16 +166,39 @@ namespace EF.Data
             return members;
         }
 
-        private CompanyRole UpdateCompanyMemberRole(string userName,  int memberId, CompanyRole role)
-        {
-            var memberInfo = GetMemberByUserNameQuery(userName, memberId);
 
+        /// <summary>
+        /// this method just do the update, validation is passed before
+        /// </summary>
+        /// <param name="userName"></param>
+        /// <param name="memberId"></param>
+        /// <param name="role"></param>
+        /// <returns></returns>
+        private CompanyRole DoUpdateCompanyMemberRole(string userName,  int memberId, CompanyRole role)
+        {
+            var companyId = GetCompanyFoAdminUser(userName).Id;
+            var memberInfo = GetMemberByUserNameQuery(userName, memberId);
             if (memberInfo.Count() > 1)
             {
                 throw new Exception("Multiple member found with ID" + memberId);
             }
-           var cmRecord =  _ctx.CompanyMembers.Where(p => p.Company == memberInfo.First().Company && p.Member == memberInfo.First().Member).First();
+            var cmRecord = _ctx.CompanyMembers.Where(p => p.Company == memberInfo.FirstOrDefault().Company && p.Member == memberInfo.FirstOrDefault().Member).FirstOrDefault();
+            if (role == CompanyRole.Contractor)
+            {
+                //up have passed all validation so here we can do the update.
+                //here we directly mark this guy as contractor in all other companies. 
+                //once we have the request function we need send a request here, then on accepting the request we perform the action
+                _ctx.CompanyMembers.Where(p => p.CompanyId != companyId && p.MemberId == memberId).Update(p => new CompanyMember()
+                {
+                    Role = CompanyRole.Contractor,
+                    ModifiedDate = DateTime.Now,
+                });
+
+                //delete all allocation
+                _ctx.PropertyAllocations.RemoveRange(cmRecord.PropertyAllocations);
+            }
             cmRecord.Role = role;
+            
 
             _ctx.Entry(cmRecord).State = EntityState.Modified;
 
@@ -158,7 +235,7 @@ namespace EF.Data
             return company.Company;
         }
 
-        public IQueryable<MemberInfo> GetMemberByUserNameQuery(string userName, int? memberId = null)
+        private IQueryable<MemberInfo> GetMemberByUserNameQuery(string userName, int? memberId = null)
         {
             var companyId = GetCompanyFoAdminUser(userName).Id;
 
@@ -179,39 +256,7 @@ namespace EF.Data
 
             return members;
         }
-        public IQueryable<MemberModel> GetMemberByUserName(string userName, int? memberId = null)
-        {
-            var result = GetMemberByUserNameQuery(userName, memberId);
-            return result.Select(p => new MemberModel
-            {
-                FirstName = p.Member.FirstName,
-                LastName = p.Member.LastName,
-                Email = p.Member.Email,
-                MemberRole = p.CompanyMember.Role.ToString(),
-                MemberId = p.Member.Id,
-                Username = p.User.UserName,
-
-            });
-                
-        }
-
-
-        public Company GetCompanyForCurrentUser(string userName) {
-            var company = GetCompanyFoAdminUser(userName);
-            return company;
-
-        }
-
-        public IQueryable<Property> GetCompanyProperties(int companyId)
-        {
-            // get the company that this property has been assigned to.
-            IQueryable<Property> properties =   _ctx.Companies.Where(p => p.Id == companyId).SelectMany(p => p.PropertyCompanies).Select(p => p.Property);
-            return properties;
-
-
-        }
-
-
+      
         public void Dispose()
         {
             _ctx.Dispose();

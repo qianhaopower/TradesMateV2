@@ -22,7 +22,7 @@
 //        public virtual ICollection<Section> SectionList { get; set; }
 
 
-//        public int CompnayId { get; set;}
+//        public int CompanyId { get; set;}
 //        public virtual Company Company { get; set; }
 
 

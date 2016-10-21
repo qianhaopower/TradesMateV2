@@ -214,11 +214,12 @@ namespace DataService.Controllers
 
         }
 
-
-        public IHttpActionResult UpdateCompanyMemberRole(int memberId, string role)
+        [HttpPost]
+        public async  Task<IHttpActionResult> UpdateCompanyMemberRole(int memberId, string role)
         {
-            string newRole = new CompanyRepository().UpdateCompanyMemberRole(User.Identity.Name, memberId, role).ToString();
-            return (Ok(newRole));
+            var newRole = await new CompanyRepository().UpdateCompanyMemberRole(User.Identity.Name, memberId, role);
+               
+            return (Ok(newRole.ToString()));
 
         }
 

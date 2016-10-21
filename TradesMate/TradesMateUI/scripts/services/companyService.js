@@ -28,7 +28,18 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
         return deferred.promise;
 
     };
+    
+    var _updateMemberRole = function (memberId, role) {
 
+        var deferred = $q.defer();
+        $http.post(serviceBase + 'api/companies/UpdateCompanyMemberRole?memberId=' + memberId + '&role=' + role).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+
+    };
     var _getCompanyMembers = function () {
 
         var deferred = $q.defer();
@@ -111,6 +122,8 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     //companyServiceFactory.updateCompanyMember = _updateCompanyMember;
     companyServiceFactory.getMemberById = _getMemberById;
     companyServiceFactory.deleteMemberById = _deleteMemberById;
+    companyServiceFactory.updateMemberRole = _updateMemberRole;
+  
  
     
 

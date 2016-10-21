@@ -86,19 +86,19 @@ namespace EF.Data
             {
                 //user can only be admin for one company
 
-                var compnay = from m in _ctx.Members
+                var company = from m in _ctx.Members
                              join cm in _ctx.CompanyMembers on m.Id equals cm.MemberId
                              join c in _ctx.Companies on cm.CompanyId equals c.Id
                              where cm.Role == CompanyRole.Admin && m.Id == user.Member.Id
                              select c;
-                if(compnay.Count() == 1)
+                if(company.Count() == 1)
                 {
                     return true;
                 }
-                else if(compnay.Count() > 0)
+                else if(company.Count() > 0)
                 {
                     throw new Exception("Member can be admin for one company");
-                }else if (compnay.Count() == 0)
+                }else if (company.Count() == 0)
                 {
                     return false;
                 }
@@ -216,7 +216,7 @@ namespace EF.Data
                 _ctx.Entry(newMember).State = EntityState.Added;
                 _ctx.Members.Add(newMember);
 
-                if(company == null)//compnayId is provided, need to get the old compnay record
+                if(company == null)//companyId is provided, need to get the old company record
                     company = _ctx.Companies.First(p=> p.Id == companyId);
 
                 //create join entry

@@ -36,7 +36,12 @@
                     <a>{{member.firstName}} {{member.lastName}}</a>
                 </td>
                 <td class="col-md-6 col-xs-4">
-                   {{member.memberRole}}
+                    <div ng-show="member.memberRole == 'Admin'">{{member.memberRole}}</div>
+
+                    <div ng-show="member.memberRole != 'Admin'">
+                        <select ng-options="role for role in roleOptions"
+                                ng-model="member.memberRole" ng-change="fireUpdateRole(member)"></select>
+                    </div>
                 </td>
             
                 <!--<td class="col-md-1 col-xs-2">
