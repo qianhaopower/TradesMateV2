@@ -223,6 +223,14 @@ namespace DataService.Controllers
 
         }
 
+        [HttpDelete]
+        public async Task<IHttpActionResult> RemoveMember(int memberId )
+        {
+            await new CompanyRepository().RemoveMemberFromCompnay(User.Identity.Name, memberId);
+            return (Ok());
+
+        }
+
         [HttpGet]
         public IHttpActionResult GetCurrentCompanyMember(int memberId)
         {

@@ -60,7 +60,9 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
                 Notification.success({ message: 'Deleted', delay: 2000 });
                 getMembersInCompany();
 
-            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+            }, function (error) {
+                Notification.error({ message: error.exceptionMessage ? error.exceptionMessage: error, delay: 2000 });
+            });
         }
 
 
