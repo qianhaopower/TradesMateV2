@@ -1,5 +1,12 @@
 ﻿<div class="form-horizontal">
     <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <a class="btn btn-default" ng-click="goBack()">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
+            </a>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-lg-12">
             <h2 class="page-header">Members in {{companyInfo.companyName}}</h2>
         </div>
@@ -25,6 +32,7 @@
                 <th>Name</th>
                 <th>Role</th>
                 <th></th>
+                <th></th>
                
             </tr>
         </thead>
@@ -47,8 +55,12 @@
                 <!--<td class="col-md-1 col-xs-2">
                     <a class="btn btn-primary btn-sm" title="Edit member" ng-click="editMemberDetail(member)">Edit</a>
                 </td>-->
-                <td class="col-md-1 col-xs-2" ng-show="member.memberRole != 'Admin'">
-                    <a class="btn btn-danger btn-sm"  title="Delete member" ng-click="deleteMember(member)">Delete</a>
+
+                <td class="col-md-1 col-xs-2" >
+                    <a class="btn btn-primary btn-sm" title="Allocate property to contractor" ng-show="member.memberRole == 'Contractor'" ng-click="allocate(member)">Manage</a>
+                </td>
+                <td class="col-md-1 col-xs-2">
+                    <a class="btn btn-danger btn-sm"  title="Delete member"   ng-show="member.memberRole != 'Admin'" ng-click="deleteMember(member)">Delete</a>
                 </td>
 
             </tr>

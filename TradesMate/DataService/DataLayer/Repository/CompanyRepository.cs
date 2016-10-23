@@ -23,9 +23,17 @@ namespace EF.Data
         private EFDbContext _ctx;
 
         private UserManager<ApplicationUser> _userManager;
-        public CompanyRepository()
+        public CompanyRepository(EFDbContext ctx = null)
         {
-            _ctx = new EFDbContext();
+            if(ctx!= null)
+            {
+                _ctx = ctx;
+            }
+            else
+            {
+                _ctx = new EFDbContext();
+            }
+           
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
         }
 
@@ -269,7 +277,7 @@ namespace EF.Data
         }
 
 
-        private Company GetCompanyFoAdminUser(string userName)
+        public Company GetCompanyFoAdminUser(string userName)
         {
             var _repo = new AuthRepository(_ctx);
 

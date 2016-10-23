@@ -325,6 +325,7 @@
     <Compile Include="Infrastructure\ClaimsAuthorizationAttribute.cs" />
     <Compile Include="Infrastructure\ExtendedClaimsProvider.cs" />
     <Compile Include="Infrastructure\RolesFromClaims.cs" />
+    <Compile Include="ViewModels\AllocationModel.cs" />
     <Compile Include="ViewModels\ExternalLoginModels.cs" />
     <Compile Include="ViewModels\ModelFactory.cs" />
     <Compile Include="ViewModels\CompanyModel.cs" />

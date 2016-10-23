@@ -201,7 +201,7 @@ namespace DataService.Controllers
 
         public  IHttpActionResult GetCurrentCompanyMembers()
         {
-            var _repo = new AuthRepository();
+          
 
             //get the current user's company members
 
@@ -213,6 +213,9 @@ namespace DataService.Controllers
                 return (Ok(memberList));
 
         }
+
+
+        
 
         [HttpPost]
         public async  Task<IHttpActionResult> UpdateCompanyMemberRole(int memberId, string role)

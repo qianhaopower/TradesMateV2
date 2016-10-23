@@ -398,8 +398,12 @@ angular
               controller: 'companyMemberDetailController',
               url: '/companymember/view/:memberId',
           })
-
           
+          .state('base.allocateProperty', {
+              templateUrl: 'views/company/allocateProperty.html',
+              controller: 'allocatePropertyController',
+              url: '/companymember/allocate/:memberId',
+          })
 
 
           //NotificationProvider.setOptions({

@@ -1,0 +1,57 @@
+
+<form class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <a class="btn btn-default" ng-click="goBack()">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header"> Properties allocations for {{member.firstName}} {{member.lastName}}  </h2>
+        </div>
+    </div>
+    <!--<div class="row" ng-show="member">
+        <div class="col-lg-12 col-sm-12 ">
+            <div class="well">
+                Allocations for: {{member.firstName}} {{member.lastName}} 
+            </div>
+        </div>
+    </div>-->
+    <div class="row">
+        <div class="col-xs-6  col-md-3 pull-right">
+            <input type="text" placeholder="Search properties..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th></th>
+               
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="property in allocations | filter:search">
+               
+                <td class="col-md-3 col-xs-2" >
+                  {{property.propertyName}}
+                  
+                </td>
+                <td class="col-md-6 col-xs-4">
+                   {{property.description}}
+
+                </td>
+                <td class="col-md-1 col-xs-2">
+                   <input type="checkbox" ng-model="property.allocated" ng-change="updateAllocation(property)"/>
+                </td>
+                
+
+            </tr>
+        </tbody>
+    </table>
+
+
+</form>

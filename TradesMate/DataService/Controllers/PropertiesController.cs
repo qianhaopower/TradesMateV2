@@ -57,6 +57,27 @@ namespace DataService.Controllers
         //}
 
         [HttpGet]
+        //http://localhost/DataService/odata/GetMemberAllocation(memberId=1)
+        [ODataRoute("GetMemberAllocation(memberId={memberId})")]
+        public IHttpActionResult GetMemberAllocation(int memberId)
+        {
+            var memberList = new PropertyRepository().GetMemberAllocation(User.Identity.Name, memberId).ToList();
+            return (Ok(memberList));
+
+        }
+
+
+        [HttpPost]
+        //http://localhost/DataService/odata/UpdateMemberAllocation(memberId=1)
+        [ODataRoute("UpdateMemberAllocation(propertyId={propertyId},memberId={memberId},allocated={allocate})")]
+        public IHttpActionResult UpdateMemberAllocation(int propertyId,int memberId, bool allocate)
+        {
+           var allcation =  new PropertyRepository().UpdateMemberAllocation(User.Identity.Name, propertyId, memberId, allocate);
+            return (Ok(allcation));
+
+        }
+
+        [HttpGet]
         //  http://localhost/DataService/odata/Properties(1)/SomeFunction
         public IHttpActionResult SomeFunction()
         {

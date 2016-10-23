@@ -38,12 +38,24 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
             });
            
         }
-
+        $scope.goBack = function () {
+            $state.go('base.manageCompany');
+        }
         $scope.roleOptions = ['Default', 'Contractor'];
 
         $scope.addNewMember = function () {
             
             $state.go("base.createCompanyMember");
+
+        }
+
+
+
+        $scope.allocate = function (member) {
+
+            $state.go("base.allocateProperty",{
+            memberId: member.memberId
+        });
 
         }
         $scope.fireUpdateRole = function (member) {
