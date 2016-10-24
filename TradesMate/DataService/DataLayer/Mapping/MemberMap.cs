@@ -6,9 +6,9 @@ using System;
 
 namespace EF.Data.Mapping
 {
-    public class ClientMap : EntityTypeConfiguration<Client>
+    public class MemberMap : EntityTypeConfiguration<Member>
     {
-        public ClientMap()
+        public MemberMap()
         {
             this.HasKey(p => p.Id);
             //property
@@ -27,26 +27,12 @@ namespace EF.Data.Mapping
 
             //relation
 
-            this.HasMany<ClientProperty>(p => p.ClientProperties)
-                .WithRequired(p => p.Client)
-                .HasForeignKey(p => p.ClientId);
-
-            //this.HasMany(c => c.ClientCompanies)
-            //    .WithRequired()
-            //    .HasForeignKey(c => c.ClientId);
-
-
-
-            //this.HasRequired<DataService.Infrastructure.ApplicationUser>(p => p.User)
-            //    .WithOptional(p => p.Client);
-            // .Map(configurationAction: new Action<ForeignKeyAssociationMappingConfiguration>(x => x.MapKey("User_Id"))); 
-
-          
-
-
+            this.HasMany<CompanyMember>(p => p.CompanyMembers)
+                .WithRequired(p => p.Member)
+                .HasForeignKey(p => p.MemberId);
 
             //table
-            ToTable("Client");
+            ToTable("Member");
         }
     }
 }

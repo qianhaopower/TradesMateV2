@@ -7,7 +7,10 @@ namespace EF.Data
         public Property()
         {
             SectionList = new List<Section>();
-            Companies = new List<Company>();
+            PropertyCompanies = new List<PropertyCompany>();
+            PropertyAllocations = new List<PropertyAllocation>();
+            ClientProperties = new List<ClientProperty>();
+
         }
 
         public string Name { get; set; }
@@ -22,14 +25,17 @@ namespace EF.Data
         public int? AddressId { get; set; }
         public virtual Address Address { get; set; }
 
-        public int ClientId { get; set; }
+        //public int ClientId { get; set; }
 
 
-        public virtual Client Client { get; set; }
+        //public virtual Client Client { get; set; }
 
 
         public virtual ICollection<Section> SectionList {get;set;}
 
-        public virtual ICollection<Company> Companies { get; set; }
+        public virtual ICollection<PropertyCompany> PropertyCompanies { get; set; }
+        public virtual ICollection<PropertyAllocation> PropertyAllocations { get; set; }
+
+        public virtual ICollection<ClientProperty> ClientProperties { get; set; }
     }
 }

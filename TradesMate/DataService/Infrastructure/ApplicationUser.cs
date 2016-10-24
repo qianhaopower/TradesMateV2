@@ -27,11 +27,11 @@ namespace DataService.Infrastructure
         /// 1 TradeMan
         /// </summary>
         [Required]
-        public int UserType { get; set; }
+        public UserType UserType { get; set; }
 
 
-        [Required]
-        public int CompanyId { get; set; }
+        //[Required]
+        //public int CompanyId { get; set; }
 
       
 
@@ -41,6 +41,8 @@ namespace DataService.Infrastructure
 
         //[ForeignKey("UserId")]
         public virtual Client Client { get; set; }
+
+        public virtual Member Member { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager, string authenticationType)
         {

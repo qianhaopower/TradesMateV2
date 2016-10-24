@@ -50,11 +50,32 @@ namespace DataService.Controllers
         //public List<CompanyModel> GetPropertyCompanies([FromODataUri]int propertyId)
         //{
         //    var repo = new PropertyRepository();
-        //    var compnayModels = repo.GetCompanyForProperty(propertyId).Select( Mapper.Map<Company, CompanyModel>).ToList();
+        //    var companyModels = repo.GetCompanyForProperty(propertyId).Select( Mapper.Map<Company, CompanyModel>).ToList();
         //    //no need for the credit card field
-        //    compnayModels.ForEach(p => p.CreditCard = null);
-        //    return compnayModels;
+        //    companyModels.ForEach(p => p.CreditCard = null);
+        //    return companyModels;
         //}
+
+        [HttpGet]
+        //http://localhost/DataService/odata/GetMemberAllocation(memberId=1)
+        [ODataRoute("GetMemberAllocation(memberId={memberId})")]
+        public IHttpActionResult GetMemberAllocation(int memberId)
+        {
+            var memberList = new PropertyRepository().GetMemberAllocation(User.Identity.Name, memberId).ToList();
+            return (Ok(memberList));
+
+        }
+
+
+        [HttpPost]
+        //http://localhost/DataService/odata/UpdateMemberAllocation(memberId=1)
+        [ODataRoute("UpdateMemberAllocation(propertyId={propertyId},memberId={memberId},allocated={allocate})")]
+        public IHttpActionResult UpdateMemberAllocation(int propertyId,int memberId, bool allocate)
+        {
+           var allcation =  new PropertyRepository().UpdateMemberAllocation(User.Identity.Name, propertyId, memberId, allocate);
+            return (Ok(allcation));
+
+        }
 
         [HttpGet]
         //  http://localhost/DataService/odata/Properties(1)/SomeFunction
@@ -67,10 +88,10 @@ namespace DataService.Controllers
         public IHttpActionResult GetCompanies([FromODataUri]  int key)
         {
             var repo = new PropertyRepository();
-            var compnayModels = repo.GetCompanyForProperty(key).Select(Mapper.Map<Company, CompanyModel>).ToList();
+            var companyModels = repo.GetCompanyForProperty(key).Select(Mapper.Map<Company, CompanyModel>).ToList();
             //no need for the credit card field
-            compnayModels.ForEach(p => p.CreditCard = null);
-            return Ok(compnayModels);
+            companyModels.ForEach(p => p.CreditCard = null);
+            return Ok(companyModels);
         }
 
 
@@ -201,7 +222,9 @@ namespace DataService.Controllers
         [EnableQuery]
         public SingleResult<Client> GetClient([FromODataUri] int key)
         {
-            return SingleResult.Create(db.Properties.Where(m => m.Id == key).Select(m => m.Client));
+            //By defualt get the owner client, display the owner client name
+            var ownerClient = new PropertyRepository().GetPropertyOwnerClinet(key);
+            return SingleResult.Create(ownerClient);
         }
 
         // GET: odata/Properties(5)/SectionList

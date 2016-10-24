@@ -79,7 +79,7 @@ namespace DataService
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(EFDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
-            app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
+           // app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
 
 
             //use a cookie to temporarily store information about a user logging in with a third party login provider

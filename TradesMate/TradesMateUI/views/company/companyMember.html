@@ -1,0 +1,92 @@
+﻿<div class="form-horizontal">
+    <div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <a class="btn btn-default" ng-click="goBack()">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <h2 class="page-header">Members in {{companyInfo.companyName}}</h2>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-xs-6 col-md-9">
+
+            <button type="button" title="Add new member" class="btn btn-default btn-sm" ng-click="addNewMember()">
+                <i class="fa fa-plus"></i> Add Member
+            </button>
+
+        </div>
+        <div class="col-xs-6  col-md-3 pull-right">
+
+            <input type="text" placeholder="Search members..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+
+
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Role</th>
+                <th></th>
+                <th></th>
+               
+            </tr>
+        </thead>
+        <tbody>
+
+            <tr ng-repeat="member in memberList | filter:search">
+
+                <td class="col-md-3 col-xs-2" ng-click="openMemberDetail(member)">
+                    <a>{{member.firstName}} {{member.lastName}}</a>
+                </td>
+                <td class="col-md-6 col-xs-4">
+                    <div ng-show="member.memberRole == 'Admin'">{{member.memberRole}}</div>
+
+                    <div ng-show="member.memberRole != 'Admin'">
+                        <select ng-options="role for role in roleOptions"
+                                ng-model="member.memberRole" ng-change="fireUpdateRole(member)"></select>
+                    </div>
+                </td>
+            
+                <!--<td class="col-md-1 col-xs-2">
+                    <a class="btn btn-primary btn-sm" title="Edit member" ng-click="editMemberDetail(member)">Edit</a>
+                </td>-->
+
+                <td class="col-md-1 col-xs-2" >
+                    <a class="btn btn-primary btn-sm" title="Allocate property to contractor" ng-show="member.memberRole == 'Contractor'" ng-click="allocate(member)">Manage</a>
+                </td>
+                <td class="col-md-1 col-xs-2">
+                    <a class="btn btn-danger btn-sm"  title="Delete member"   ng-show="member.memberRole != 'Admin'" ng-click="deleteMember(member)">Delete</a>
+                </td>
+
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+
+<!-- The actual modal template, just a bit o bootstrap -->
+<script type="text/ng-template" id="deleteMembermodal.html">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title danger">Delete member</h4>
+                </div>
+                <div class="modal-body">
+                    <p>This will also remove the member from current company. Proceed?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>
+                    <button type="button" ng-click="close(true)" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

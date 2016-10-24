@@ -19,6 +19,6 @@ C:\Porjects\TradesMateV2\TradesMate\TradesMateUI\obj\Debug\TradesMateUI.pdb
 C:\Tutorial\TradesMateV2\TradesMate\TradesMateUI\bin\TradesMateUI.dll.config
 C:\Tutorial\TradesMateV2\TradesMate\TradesMateUI\bin\TradesMateUI.dll
 C:\Tutorial\TradesMateV2\TradesMate\TradesMateUI\bin\TradesMateUI.pdb
-C:\Tutorial\TradesMateV2\TradesMate\TradesMateUI\obj\Debug\TradesMateUI.csprojResolveAssemblyReference.cache
 C:\Tutorial\TradesMateV2\TradesMate\TradesMateUI\obj\Debug\TradesMateUI.dll
 C:\Tutorial\TradesMateV2\TradesMate\TradesMateUI\obj\Debug\TradesMateUI.pdb
+C:\Tutorial\TradesMateV2\TradesMate\TradesMateUI\obj\Debug\TradesMateUI.csprojResolveAssemblyReference.cache

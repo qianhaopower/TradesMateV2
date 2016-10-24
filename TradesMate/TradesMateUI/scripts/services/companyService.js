@@ -28,12 +28,23 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
         return deferred.promise;
 
     };
+    
+    var _updateMemberRole = function (memberId, role) {
 
-    var _getCompanyUsers = function () {
+        var deferred = $q.defer();
+        $http.post(serviceBase + 'api/companies/UpdateCompanyMemberRole?memberId=' + memberId + '&role=' + role).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+
+    };
+    var _getCompanyMembers = function () {
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/companies/getcurrentcompanyusers').success(function (response) {
+        $http.get(serviceBase + 'api/companies/GetCurrentCompanyMembers').success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
@@ -45,11 +56,11 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
 
 
-    var _getUserById = function (userId) {
+    var _getMemberById = function (memberId) {
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/account/getUserById/' + userId).success(function (response) {
+        $http.get(serviceBase + 'api/companies/GetCurrentCompanyMember?memberId=' + memberId).success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
@@ -59,11 +70,13 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     };
 
-    var _deleteUserById = function (userId) {
+    var _deleteMemberById = function (memberId) {
 
         var deferred = $q.defer();
 
-        $http.delete(serviceBase + 'api/account/deleteUserById/' + userId).success(function (response) {
+
+        //start from here
+        $http.delete(serviceBase + 'api/companies/RemoveMember?memberId=' + memberId).success(function (response) {//here we just delete the join between company and member, we never delete user.
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
@@ -87,16 +100,16 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     };
 
 
-    var _updateCompanyUser = function (userInfo) {
-        var deferred = $q.defer();
-         $http.post(serviceBase + 'api/account/updatecompanyuser', userInfo).success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
-            deferred.reject(err);
-        });
-         return deferred.promise;
+    //var _updateCompanyMember = function (memberInfo) {
+    //    var deferred = $q.defer();
+    //    $http.post(serviceBase + 'api/account/updatecompanyUser', memberInfo).success(function (response) {//broken
+    //        deferred.resolve(response);
+    //    }).error(function (err, status) {
+    //        deferred.reject(err);
+    //    });
+    //     return deferred.promise;
 
-    };
+    //};
  
 
    
@@ -105,12 +118,14 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     companyServiceFactory.updateCompany = _updateCompany;
     companyServiceFactory.getCurrentCompany = _getCurrentCompany;
 
-    companyServiceFactory.getCompanyUsers = _getCompanyUsers;
+    companyServiceFactory.getCompanyMembers = _getCompanyMembers;
     companyServiceFactory.createCompanyUser = _createCompanyUser;
 
-    companyServiceFactory.updateCompanyUser = _updateCompanyUser;
-    companyServiceFactory.getUserById = _getUserById;
-    companyServiceFactory.deleteUserById = _deleteUserById;
+    //companyServiceFactory.updateCompanyMember = _updateCompanyMember;
+    companyServiceFactory.getMemberById = _getMemberById;
+    companyServiceFactory.deleteMemberById = _deleteMemberById;
+    companyServiceFactory.updateMemberRole = _updateMemberRole;
+  
  
     
 

@@ -23,15 +23,21 @@ namespace EF.Data
         private EFDbContext _applicationContext;
 
         private UserManager<ApplicationUser> _userManager;
-        private RoleManager<IdentityRole> _roleManager;
+        //private RoleManager<IdentityRole> _roleManager;
 
         public ClientRepository()
         {
             _ctx = new EFDbContext();
             _applicationContext = new EFDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
-            _roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
+            //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
+
+
+        //decide what clients can this user see. 
+        //if the user is a client, then can only see client him/herself
+
+        //if the user is a member, he/she can see all the clients whose property he/she has access to.
 
         public   IQueryable<Client> GetClientForUser(string userName)
         {
@@ -56,12 +62,11 @@ namespace EF.Data
                     clients = _ctx.Clients.Where(p => p.Id == user.Client.Id);
 
                 }
-                else if (user.UserType == (int)UserType.Trade)
+                else if (user.UserType == UserType.Trade)
                 {
-                    var currentUserCompanyId = user.CompanyId;//should not be zero.
-                    // all the clients that has at least one property with that company
-                   
-                    clients = _ctx.Clients.Where(p => p.Properties.Any(z => z.Companies.Select(t => t.Id).Contains(currentUserCompanyId)));
+                    var properties = new PropertyRepository().GetPropertyForUser(userName);
+
+                    clients = GetClientsForProperty(properties);
                 }
                 else
                 {
@@ -77,6 +82,16 @@ namespace EF.Data
 
             return clients;
            
+
+        }
+
+        public IQueryable<Client> GetClientsForProperty(IQueryable<Property> list)
+        {
+            var clients = from p in list
+                          join cp in _ctx.ClientProperties on p.Id equals cp.PropertyId
+                          join c in _ctx.Clients on cp.Id equals c.Id
+                          select c;
+            return clients;
 
         }
 

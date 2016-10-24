@@ -1,16 +1,16 @@
-﻿using Microsoft.AspNet.Identity.EntityFramework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿//using Microsoft.AspNet.Identity.EntityFramework;
+//using System;
+//using System.Collections.Generic;
+//using System.Linq;
+//using System.Web;
 
-namespace DataService.Infrastructure
-{
-    //public class ApplicationRole
-    //{
-    //    //public ApplicationRole() : base() { }
+//namespace DataService.Infrastructure
+//{
+//    //public class ApplicationRole
+//    //{
+//    //    //public ApplicationRole() : base() { }
 
-    //    //public ApplicationRole(string name) : base(name) { }
-    //}
+//    //    //public ApplicationRole(string name) : base(name) { }
+//    //}
 
-}
+//}

@@ -7,7 +7,7 @@ angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$
         $scope.editMode = false;
 
         $scope.gotoManagerCompanyUser = function () {
-            $state.go('base.companyUser');
+            $state.go('base.companyMember');
         }
 
 

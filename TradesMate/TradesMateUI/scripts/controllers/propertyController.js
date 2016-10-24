@@ -71,7 +71,7 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
 
             clientDataService.getClientById($scope.clientId).then(function (result) {
                 $scope.client = result;
-                $scope.clientName = $scope.client.firstName + ' ' + $scope.client.surName;
+                $scope.clientName = $scope.client.firstName + ' ' + $scope.client.lastName;
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
             //get property for client
             clientDataService.getClientProperties($scope.clientId).then(function (result) {

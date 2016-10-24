@@ -191,49 +191,63 @@ namespace DataService.Controllers
     {
         private EFDbContext db = new EFDbContext();
 
-        public async Task<IHttpActionResult> GetCompanyForCurrentUser()
+        public IHttpActionResult GetCompanyForCurrentUser()
         {
-            var _repo = new AuthRepository();
-
-
-            if (await _repo.isUserAdmin(User.Identity.Name))
-            {
-                var user = await _repo.GetUserByUserName(User.Identity.Name);
-                var company = db.Companies.Where(c => c.Id == user.CompanyId).FirstOrDefault();
-                if (company != null)
-                {
-                    return Ok(Mapper.Map<Company, CompanyModel>(company));
-                }
-                else
-                {
-                    throw new Exception("Cannot find company for user");
-                }
-            }else
-            {
-                throw new Exception("Only admin user can manager company");
-
-            }
+            var company = new CompanyRepository().GetCompanyForCurrentUser(User.Identity.Name);
+            return Ok(Mapper.Map<Company, CompanyModel>(company));
 
         }
 
 
-        public async Task<IHttpActionResult> GetCurrentCompanyUsers()
+        public  IHttpActionResult GetCurrentCompanyMembers()
+        {
+          
+
+            //get the current user's company members
+
+                // the user must be of type trades, also the user need to be Admin. The check is in GetMemberByUserName
+                var memberList =  new CompanyRepository().GetMemberByUserName(User.Identity.Name);
+
+               // var modelList = memberList.ToList().Select(Mapper.Map<Member, MemberModel>);
+
+                return (Ok(memberList));
+
+        }
+
+
+        
+
+        [HttpPost]
+        public async  Task<IHttpActionResult> UpdateCompanyMemberRole(int memberId, string role)
+        {
+            var newRole = await new CompanyRepository().UpdateCompanyMemberRole(User.Identity.Name, memberId, role);
+               
+            return (Ok(newRole.ToString()));
+
+        }
+
+        [HttpDelete]
+        public async Task<IHttpActionResult> RemoveMember(int memberId )
+        {
+            await new CompanyRepository().RemoveMemberFromCompnay(User.Identity.Name, memberId);
+            return (Ok());
+
+        }
+
+        [HttpGet]
+        public IHttpActionResult GetCurrentCompanyMember(int memberId)
         {
             var _repo = new AuthRepository();
 
+            //get the current user's company members
 
-            if (await _repo.isUserAdmin(User.Identity.Name))
-            {
-                var user = await _repo.GetUserByUserName(User.Identity.Name);
-                var userlist = _repo.GetUserByCompanyId(user.CompanyId).Where(u => u.Id != user.Id).ToList();
-                var modelList = userlist.Select(Mapper.Map<ApplicationUser, UserModel>);
-                return (Ok(modelList));
-            }
-            {
-                throw new Exception("Only admin user can manager company user");
-            }
+            // the user must be of type trades, also the user need to be Admin. The check is in GetMemberByUserName
+            var member = new CompanyRepository().GetMemberByUserName(User.Identity.Name, memberId).First();
 
+            // var modelList = memberList.ToList().Select(Mapper.Map<Member, MemberModel>);
+            return Ok(member);
            
+
         }
 
 

@@ -1,0 +1,27 @@
+1) Client can create property. 
+2) When creating property, if the address exists, attach the client to the existing property, mark him/her as co-owner
+
+3)Client can send text based work request for a property (need create the property first). Need pick up a company to send the request. (The company need to have the service type (Electrical, plumber. etc.) the client is requesting to. System can recommend company to the client)
+
+4)Company admin get the request. Read it, make a call or whatever, then create section/workItem for the request. Need Mark the request as handled. 
+
+5) Client then can see the created work items for the property. 
+
+________________________
+
+
+6) Company Admin can add new tradespeople. If the tradespeople existed in the database (identified by the email), we send a request to the tradespeople.
+When the tradespeople accepted the invitation, he/she become a contractor of the company. 
+
+If the tradespeople does not exist in the system, create the new user/tradespeople record, set the tradespeople as default role.  
+
+7)Company admin can set other company member role to 
+ a) default, this will delete all PropertyAllocation for that member, because the member will have full access to company. 
+b) Contractor. this will create an empty propertyAllocation list for that member. Then admin need to tick/allocate property for that contractor so he/she has access. 
+
+8) If a member because a non-contractor of company A (this can be a new join or change role), he/she will receive a request of changing Role. If he/she choose to accept, he/she will become contractor for all other companies other than A, with no property allocations. Other company manager need manually add property allocation back to him. 
+
+Rule: any member cannot be a non-contractor for more than one company.
+
+
+9) All member (Admin, default, contractor) view company's properties based on their permissions.
