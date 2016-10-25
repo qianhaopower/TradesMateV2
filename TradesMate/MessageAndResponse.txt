@@ -1,0 +1,62 @@
+message/response design 
+
+Message table
+Id, 
+MessageType(Enum)
+MessageText,
+FromUserId,
+ToUserId,
+Pending,
+ResponseAction (Yes, No, other in a Enum) 
+ResponseText,
+Parameters,
+
+
+
+1) Assigning member default Role in Company A
+   If no default role in other company, just send message "XXX(Admin name) has assigned you default role in YYY(company name), now you can view all YYY properties and related works."
+MessageType:AssignDefaultRole
+
+   If has default role in one or more other company, send  message "XXX(Admin name) want to assign you defaut role in YYY(company name), if you accept you will become contractor in ZZZ,WWW and XXX(other company name)."
+MessageType:AssignDefaultRoleRequest
+Pending:true
+Parameters: memberId, companyId
+
+2)Assigning member contractor Role in Company A
+    send message "XXX(Admin name) has assigned you contractor role in YYY(company name), now you can view YYY's properties and related works allocated to you."
+MessageType:AssignContractorRole
+
+3)Add existing member in TradesMate to company, need select defualt role or contractor role. 
+   message:"XXX(Admin name) has invited you to join YYY(company name)."
+MessageType: InviteJoinCompanyRequest
+Pending:true
+Parameter: companyId, roleName
+
+4) Client send work request
+message:"I want to replace two power points in my bedroom"
+MessageType: WorkRequest
+Pending:true
+Parameter: ClientId, propertyId,companyId.
+
+5) Client add another client as co-owner to property
+MessageType:AddPropertyCoOwner
+message:"AAA(ClientName) has granted you access to property WWW(propertyName, address)"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
