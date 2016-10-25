@@ -38,12 +38,24 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
             });
            
         }
-
+        $scope.goBack = function () {
+            $state.go('base.manageCompany');
+        }
         $scope.roleOptions = ['Default', 'Contractor'];
 
         $scope.addNewMember = function () {
             
             $state.go("base.createCompanyMember");
+
+        }
+
+
+
+        $scope.allocate = function (member) {
+
+            $state.go("base.allocateProperty",{
+            memberId: member.memberId
+        });
 
         }
         $scope.fireUpdateRole = function (member) {
@@ -60,7 +72,9 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
                 Notification.success({ message: 'Deleted', delay: 2000 });
                 getMembersInCompany();
 
-            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+            }, function (error) {
+                Notification.error({ message: error.exceptionMessage ? error.exceptionMessage: error, delay: 2000 });
+            });
         }
 
 

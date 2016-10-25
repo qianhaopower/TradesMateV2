@@ -76,7 +76,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
 
         //start from here
-        $http.delete(serviceBase + 'api/companies/deleteCompanyMember' + memberId).success(function (response) {//here we just delete the join between company and member, we never delete user.
+        $http.delete(serviceBase + 'api/companies/RemoveMember?memberId=' + memberId).success(function (response) {//here we just delete the join between company and member, we never delete user.
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);

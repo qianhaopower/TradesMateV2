@@ -46,6 +46,49 @@ app.factory('propertyDataService', [ '$q', '$http', '$window', 'urls',function (
             });
             return deferred.promise;
         },
+        getMemberAllocation: function (memberId) {
+            var deferred = $q.defer();
+            var baseURL = urls.apiUrl;
+            var path = baseURL + '/GetMemberAllocation(memberId=' + memberId + ')';
+            var error = 'Error happened when getting property allocations';
+            $http({
+                method: 'GET',
+                url: path,
+            }).then(function successCallback(response) {
+                if (response.data && response.status >= 200 && response.status <= 299) {
+                    deferred.resolve(response.data.value);
+                } else {
+                    deferred.reject(error);
+                }
+
+            }, function errorCallback(response) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        },
+        updateMemberAllocation: function (propertyId , memberId, allocated) {
+            var deferred = $q.defer();
+            var baseURL = urls.apiUrl;
+            // [ODataRoute("UpdateMemberAllocation(propertyId={propertyId},memberId={memberId},allocate={allocate})")]
+            var path = baseURL + '/UpdateMemberAllocation(propertyId=' + propertyId + ',memberId=' + memberId + ',allocated='+ allocated + ')';
+
+            var error = 'Error happened when updating property allocations';
+            $http({
+                method: 'POST',
+                url: path,
+            }).then(function successCallback(response) {
+                if (response.data && response.status >= 200 && response.status <= 299) {
+                    deferred.resolve(response.data.value);
+                } else {
+                    deferred.reject(error);
+                }
+
+            }, function errorCallback(response) {
+                deferred.reject(error);
+            });
+            return deferred.promise;
+        },
+           
         getPropertyById: function (propertyId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;

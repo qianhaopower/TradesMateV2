@@ -62,15 +62,28 @@ namespace DataService
 
             // bound to entity and return the related entity
             FunctionConfiguration function = builder.EntityType<Property>().Function("GetCompanies").ReturnsCollection<CompanyModel>(); ;
-           // function.Parameter<double>("area");
-           // function.IsComposable = true;
+            // function.Parameter<double>("area");
+            // function.IsComposable = true;
 
 
             ////universal function
-           // GET / DataService / odata / GetPropertyCompanies(propertyId = 1) HTTP / 1.1
+            // GET / DataService / odata / GetPropertyCompanies(propertyId = 1) HTTP / 1.1
             //builder.Function("GetPropertyCompanies")
             //    .ReturnsCollection<CompanyModel>()
             //    .Parameter<int>("propertyId");
+
+            //  GET / DataService / odata / GetMemberAllocation(memberId = 1) HTTP / 1.1
+            builder.Function("GetMemberAllocation")
+                .ReturnsCollection<AllocationModel>()
+                .Parameter<int>("memberId");
+
+            var functionUpdateMemberAllocation = builder.Function("UpdateMemberAllocation");
+            functionUpdateMemberAllocation.Parameter<int>("propertyId");
+            functionUpdateMemberAllocation.Parameter<int>("memberId");
+            functionUpdateMemberAllocation.Parameter<bool>("allocated");
+            functionUpdateMemberAllocation.Returns<AllocationModel>();
+            
+
 
 
             builder.EntityType<Property>().Function("SomeFunction").Returns<string>();

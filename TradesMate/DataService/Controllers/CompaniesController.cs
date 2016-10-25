@@ -201,7 +201,7 @@ namespace DataService.Controllers
 
         public  IHttpActionResult GetCurrentCompanyMembers()
         {
-            var _repo = new AuthRepository();
+          
 
             //get the current user's company members
 
@@ -214,12 +214,23 @@ namespace DataService.Controllers
 
         }
 
+
+        
+
         [HttpPost]
         public async  Task<IHttpActionResult> UpdateCompanyMemberRole(int memberId, string role)
         {
             var newRole = await new CompanyRepository().UpdateCompanyMemberRole(User.Identity.Name, memberId, role);
                
             return (Ok(newRole.ToString()));
+
+        }
+
+        [HttpDelete]
+        public async Task<IHttpActionResult> RemoveMember(int memberId )
+        {
+            await new CompanyRepository().RemoveMemberFromCompnay(User.Identity.Name, memberId);
+            return (Ok());
 
         }
 
