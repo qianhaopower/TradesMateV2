@@ -213,7 +213,7 @@ namespace EF.Data
             return string.Empty;
         }
 
-        private IQueryable<MemberInfo> GetMemberInfoOutsideCompany(int companyId, int memberId)
+        public IQueryable<MemberInfo> GetMemberInfoOutsideCompany(int companyId, int memberId)
         {
             // get all the memberInfo 
 
@@ -325,6 +325,21 @@ namespace EF.Data
             return members;
         }
 
+
+
+        public ApplicationUser GetCompanyAdminMember(int companyId)
+        {
+
+
+            var user = from com in _ctx.Companies
+                          join cm in _ctx.CompanyMembers on com.Id equals cm.CompanyId
+                          join mem in _ctx.Members on cm.MemberId equals mem.Id
+                          join u in _ctx.Users on mem equals u.Member
+                          where com.Id == companyId && cm.Role== CompanyRole.Admin
+                          select u;
+
+            return user.First();
+        }
         public void Dispose()
         {
             _ctx.Dispose();

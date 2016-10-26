@@ -33,9 +33,10 @@ namespace EF.Data
         public DbSet<Member> Members { get; set; }
         public DbSet<PropertyAllocation> PropertyAllocations { get; set; }
         public DbSet<PropertyCompany> PropertyCompanies { get; set; }
+        public DbSet<Message> Messages { get; set; }
 
 
-       // public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+        // public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         public EFDbContext()
            : base("name=DbConnectionString")

@@ -44,7 +44,7 @@ namespace EF.Data
         AssignDefaultRole = 0,
         AssignDefaultRoleRequest = 1,
         AssignContractorRole = 2,
-        nviteJoinCompanyRequest = 3,
+        InviteJoinCompanyRequest = 3,
         WorkRequest = 4,
         AddPropertyCoOwner = 5,
     }

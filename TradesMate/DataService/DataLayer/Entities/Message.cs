@@ -33,7 +33,7 @@ namespace EF.Data
         public int? ClientId { get; set; }
         public int? PropertyId { get; set; }
 
-        public string RoleName { get; set; }
+        public CompanyRole Role { get; set; }
 
         public virtual Company Company {get;set;}
         public virtual Member Member { get; set; }
