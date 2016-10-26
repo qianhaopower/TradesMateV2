@@ -10,6 +10,7 @@ namespace EF.Data
             PropertyCompanies = new List<PropertyCompany>();
             PropertyAllocations = new List<PropertyAllocation>();
             ClientProperties = new List<ClientProperty>();
+            Messages = new List<Message>();
 
         }
 
@@ -37,5 +38,7 @@ namespace EF.Data
         public virtual ICollection<PropertyAllocation> PropertyAllocations { get; set; }
 
         public virtual ICollection<ClientProperty> ClientProperties { get; set; }
+
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }

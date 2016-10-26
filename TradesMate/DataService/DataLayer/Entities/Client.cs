@@ -11,6 +11,7 @@ namespace EF.Data
         {
             Properties = new List<Property>();
             ClientProperties = new List<ClientProperty>();
+            Messages = new List<Message>();
 
         }
         public string FirstName { get; set; }
@@ -34,5 +35,8 @@ namespace EF.Data
         public virtual Address Address { get; set; }
 
         public virtual ICollection<ClientProperty> ClientProperties { get; set; }
+
+        public virtual ICollection<Message> Messages { get; set; }
+      
     }
 }

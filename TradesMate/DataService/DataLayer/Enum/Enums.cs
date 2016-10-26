@@ -39,4 +39,20 @@ namespace EF.Data
         CoOwner  =1,//
     }
 
+    public enum MessageType
+    {
+        AssignDefaultRole = 0,
+        AssignDefaultRoleRequest = 1,
+        AssignContractorRole = 2,
+        nviteJoinCompanyRequest = 3,
+        WorkRequest = 4,
+        AddPropertyCoOwner = 5,
+    }
+
+    public enum ResponseAction
+    {
+        Accept = 0,
+        Reject = 1,
+    }
+
 }
