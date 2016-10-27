@@ -39,13 +39,20 @@ namespace EF.Data
         //AAA(ClientName) has granted you access to property WWW(propertyName, address)
         private const string AddPropertyCoOwnerMessage = "Dear {0}, you are granted access to {1}, you can see {1}'s works now.";
 
-        public MessageRepository()
+        public MessageRepository(EFDbContext ctx)
         {
-            _ctx = new EFDbContext();
+            if (ctx != null)
+            {
+                _ctx = ctx;
+            }
+            else
+            {
+                _ctx = new EFDbContext();
+            }
         }
 
         //this create the MessageResponse entity
-        public MessageResponse GenerateResponse(int messageId, ResponseAction action)
+        private MessageResponse GenerateResponse(int messageId, ResponseAction action)
         {
             var message = _ctx.Messages.Find(messageId);
 
@@ -58,7 +65,6 @@ namespace EF.Data
                 UserIdTo = message.UserIdFrom,
                 AddedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
-
             };
 
             _ctx.Entry<MessageResponse>(response).State = EntityState.Added;
@@ -67,9 +73,9 @@ namespace EF.Data
         }
 
         //this do the action after the 
-        public void HandleMessageResponse(MessageResponse response)
+        public void HandleMessageResponse(int messageId, ResponseAction action)
         {
-            var message = _ctx.Messages.Find(response.MessageId);
+            var message = _ctx.Messages.Find(messageId);
             switch (message.MessageType)
             {
                 //nothing to handle
@@ -79,24 +85,33 @@ namespace EF.Data
                 case MessageType.WorkRequest:// work request eventually we need set the work item as started if accepted. Once we have the work item status.
                     break;
                 case MessageType.AssignDefaultRoleRequest:
-                    HandleAssignDefaultRoleResponse(message, response);
+                    HandleAssignDefaultRoleResponse(message, action);
                     break;
                 case MessageType.InviteJoinCompanyRequest:
-                    HandleInviteJoinCompanyResponse(message, response);
+                    HandleInviteJoinCompanyResponse(message, action);
                     break;
 
             }
+            GenerateResponse(messageId, action);
         }
 
-        private void HandleAssignDefaultRoleResponse(Message message, MessageResponse response)
+        private void HandleAssignDefaultRoleResponse(Message message, ResponseAction action)
         {
             message.Pending = false;
+            if(action == ResponseAction.Accept)
+            {
+                //proceed
+            }
 
         }
 
-        private void HandleInviteJoinCompanyResponse(Message message, MessageResponse response)
+        private void HandleInviteJoinCompanyResponse(Message message, ResponseAction action)
         {
             message.Pending = false;
+            if (action == ResponseAction.Accept)
+            {
+                //proceed
+            }
 
         }
 
@@ -127,8 +142,6 @@ namespace EF.Data
             _ctx.Entry<Message>(message).State = EntityState.Added;
             _ctx.SaveChanges();
         }
-       
-
 
         public void GenerateAssignDefaultRoleRequestMessage(int memberId, int companyId)
         {
@@ -156,12 +169,6 @@ namespace EF.Data
             _ctx.Entry<Message>(message).State = EntityState.Added;
             _ctx.SaveChanges();
         }
-
-       
-
-
-
-
 
         public void GenerateAssignContractorRoleMessage(int memberId, int companyId)
         {
@@ -203,7 +210,6 @@ namespace EF.Data
             _ctx.Entry<Message>(message).State = EntityState.Added;
             _ctx.SaveChanges();
         }
-
 
         public void GenerateClientWorkRequest(int clientId, int propertyId, string messageText)
         {

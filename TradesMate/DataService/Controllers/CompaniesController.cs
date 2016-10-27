@@ -218,11 +218,11 @@ namespace DataService.Controllers
         
 
         [HttpPost]
-        public async  Task<IHttpActionResult> UpdateCompanyMemberRole(int memberId, string role)
+        public   IHttpActionResult UpdateCompanyMemberRole(int memberId, string role)
         {
-            var newRole = await new CompanyRepository().UpdateCompanyMemberRole(User.Identity.Name, memberId, role);
+            new CompanyRepository().UpdateCompanyMemberRole(User.Identity.Name, memberId, role);
                
-            return (Ok(newRole.ToString()));
+            return (Ok());
 
         }
 

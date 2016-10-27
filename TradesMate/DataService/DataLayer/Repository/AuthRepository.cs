@@ -76,10 +76,10 @@ namespace EF.Data
             return user;
         }
 
-        public async Task<bool> isUserAdmin(string userName)
+        public  bool isUserAdmin(string userName)
         {
 
-            var user = await this.GetUserByUserNameAsync(userName);
+            var user =  this.GetUserByUserName(userName);
 
             _ctx.Entry(user).Reference(s => s.Member).Load();
             if (user != null && user.Member != null)
@@ -99,6 +99,37 @@ namespace EF.Data
                 {
                     throw new Exception("Member can be admin for one company");
                 }else if (company.Count() == 0)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> isUserAdminAsync(string userName)
+        {
+
+            var user = await this.GetUserByUserNameAsync(userName);
+
+            _ctx.Entry(user).Reference(s => s.Member).Load();
+            if (user != null && user.Member != null)
+            {
+                //user can only be admin for one company
+
+                var company = from m in _ctx.Members
+                              join cm in _ctx.CompanyMembers on m.Id equals cm.MemberId
+                              join c in _ctx.Companies on cm.CompanyId equals c.Id
+                              where cm.Role == CompanyRole.Admin && m.Id == user.Member.Id
+                              select c;
+                if (company.Count() == 1)
+                {
+                    return true;
+                }
+                else if (company.Count() > 0)
+                {
+                    throw new Exception("Member can be admin for one company");
+                }
+                else if (company.Count() == 0)
                 {
                     return false;
                 }

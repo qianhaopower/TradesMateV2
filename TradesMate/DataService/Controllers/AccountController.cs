@@ -182,7 +182,7 @@ namespace DataService.Controllers
         public async Task<IHttpActionResult> GetUserById(string id)
         {
 
-            if (await _repo.isUserAdmin(User.Identity.Name))
+            if (await _repo.isUserAdminAsync(User.Identity.Name))
             {
                 var user = await this._repo.GetUserById(id);
 
@@ -201,13 +201,13 @@ namespace DataService.Controllers
         public async Task<IHttpActionResult> DeleteUserById(string id)
         {
 
-            if (await _repo.isUserAdmin(User.Identity.Name))
+            if (await _repo.isUserAdminAsync(User.Identity.Name))
             {
                 var user = await this._repo.GetUserById(id);
 
                 if (user != null)
                 {
-                    if (await _repo.isUserAdmin(user.UserName))
+                    if (await _repo.isUserAdminAsync(user.UserName))
                     {
                         throw new Exception("Cannot delete Admin user");
                     }

@@ -105,7 +105,7 @@ namespace EF.Data
         private async Task<string> RemoveMemberValidation(string userName, int companyId, int memberId)
         {
             var _repo = new AuthRepository(_ctx);
-            var isUserAdminTask = await _repo.isUserAdmin(userName);
+            var isUserAdminTask = await _repo.isUserAdminAsync(userName);
 
             // For Task (not Task<T>): will block until the task is completed...
             //isUserAdminTask.RunSynchronously();
@@ -128,27 +128,54 @@ namespace EF.Data
 
         }
 
-        public async Task<CompanyRole> UpdateCompanyMemberRole(string userName, int memberId, string role)
+        public  void UpdateCompanyMemberRole(string userName, int memberId, string role)
         {
-            var error = await UpdateRoleValidation(userName, memberId, role);
+            MessageType? messageType = null;
+            var error =  UpdateRoleValidation(userName, memberId, role, out messageType);
+
             if (string.IsNullOrEmpty(error))
             {
-                CompanyRole roleParsed;
-                bool roleValid = Enum.TryParse<CompanyRole>(role, out roleParsed);
-                return DoUpdateCompanyMemberRole(userName, memberId, roleParsed);
+                var repo = new MessageRepository(_ctx);
+                var companyId = GetCompanyFoAdminUser(userName).Id;
+                switch (messageType)
+                {
+                    //nothing to handle
+                    case MessageType.AssignDefaultRole:
+                        repo.GenerateAssignDefaultRoleMessage(memberId, companyId);
+                        break;
+                    case MessageType.AssignContractorRole:
+                        repo.GenerateAssignContractorRoleMessage(memberId, companyId);
+                        break;
+                    case MessageType.AssignDefaultRoleRequest:
+                        repo.GenerateAssignDefaultRoleRequestMessage(memberId, companyId);
+                        break;               
+                }
             }
             else
             {
                 throw new Exception(error);
             }
 
+
+            //if (string.IsNullOrEmpty(error))
+            //{
+            //    CompanyRole roleParsed;
+            //    bool roleValid = Enum.TryParse<CompanyRole>(role, out roleParsed);
+            //    return DoUpdateCompanyMemberRole(userName, memberId, roleParsed);
+            //}
+            //else
+            //{
+            //    throw new Exception(error);
+            //}
+
         }
 
 
-        private async Task<string> UpdateRoleValidation(string userName, int memberId, string role)
+        private  string UpdateRoleValidation(string userName, int memberId, string role, out MessageType? messageType)
         {
+            messageType = null;
             var _repo = new AuthRepository(_ctx);
-            var isUserAdminTask = await _repo.isUserAdmin(userName);
+            var isUserAdminTask =  _repo.isUserAdmin(userName);
 
             // For Task (not Task<T>): will block until the task is completed...
             //isUserAdminTask.RunSynchronously();
@@ -186,6 +213,7 @@ namespace EF.Data
             if (roleParsed == CompanyRole.Contractor)
             {
                 //default -> contractor case, we need delete the allocation later, all good here. 
+                messageType = MessageType.AssignContractorRole;
             }
 
             if (roleParsed == CompanyRole.Default)
@@ -206,6 +234,10 @@ namespace EF.Data
                     //if yes, mark him/her as contractor for all other company, ask first. 
 
                     //request/response 
+                    messageType = MessageType.AssignDefaultRoleRequest;
+                }else
+                {
+                    messageType = MessageType.AssignDefaultRole;//do not need request
                 }
                 //up to here we know this guy being assigned role has a maximum of contractor role in other company. No default of admin. 
                 //just let pass the check,   mark him/her as default for this company, delete all property allocation for this company.
@@ -242,9 +274,9 @@ namespace EF.Data
         /// <param name="memberId"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        private CompanyRole DoUpdateCompanyMemberRole(string userName, int memberId, CompanyRole role)
+        private CompanyRole DoUpdateCompanyMemberRole(int companyId, int memberId, CompanyRole role)
         {
-            var companyId = GetCompanyFoAdminUser(userName).Id;
+           // var companyId = GetCompanyFoAdminUser(userName).Id;
             var memberInfo = GetMemberByUserNameQuery(companyId, memberId);
             if (memberInfo.Count() > 1)
             {
