@@ -44,18 +44,81 @@ namespace EF.Data
             _ctx = new EFDbContext();
         }
 
+        //this create the MessageResponse entity
+        public MessageResponse GenerateResponse(int messageId, ResponseAction action)
+        {
+            var message = _ctx.Messages.Find(messageId);
+
+            var response = new MessageResponse()
+            {
+                ResponseText = null,// do not allow responseText yet.
+                MessageId = messageId,
+                ResponseAction = action,
+                UserIdFrom = message.UserIdTo,
+                UserIdTo = message.UserIdFrom,
+                AddedDate = DateTime.Now,
+                ModifiedDate = DateTime.Now,
+
+            };
+
+            _ctx.Entry<MessageResponse>(response).State = EntityState.Added;
+            _ctx.SaveChanges();
+            return response;
+        }
+
+        //this do the action after the 
+        public void HandleMessageResponse(MessageResponse response)
+        {
+            var message = _ctx.Messages.Find(response.MessageId);
+            switch (message.MessageType)
+            {
+                //nothing to handle
+                case MessageType.AssignDefaultRole:
+                case MessageType.AddPropertyCoOwner:
+                case MessageType.AssignContractorRole:
+                case MessageType.WorkRequest:// work request eventually we need set the work item as started if accepted. Once we have the work item status.
+                    break;
+                case MessageType.AssignDefaultRoleRequest:
+                    HandleAssignDefaultRoleResponse(message, response);
+                    break;
+                case MessageType.InviteJoinCompanyRequest:
+                    HandleInviteJoinCompanyResponse(message, response);
+                    break;
+
+            }
+        }
+
+        private void HandleAssignDefaultRoleResponse(Message message, MessageResponse response)
+        {
+            message.Pending = false;
+
+        }
+
+        private void HandleInviteJoinCompanyResponse(Message message, MessageResponse response)
+        {
+            message.Pending = false;
+
+        }
+
+
 
         public void GenerateAssignDefaultRoleMessage(int memberId, int companyId)
         {
             var companyName = _ctx.Companies.Find(companyId).Name;
-            var memberName = _ctx.Members.Find(memberId).FirstName;
+            var member = _ctx.Members.Find(memberId);
+            var memberName = member.FirstName;
+            var memberUser  = _ctx.Users.First(p => p.Member == member);
 
+            var adminUser = new CompanyRepository(_ctx).GetCompanyAdminMember(companyId);
+           
             var message = new Message()
             {
                 AddedDate = DateTime.Now,
                 ModifiedDate = DateTime.Now,
                 CompanyId = companyId,
                 MemberId = memberId,
+                UserIdFrom = adminUser.Id,
+                UserIdTo = memberUser.Id,
                 MessageText = string.Format(AssignDefaultRoleMessage, memberName, companyName),
                 MessageType = MessageType.AssignDefaultRole,
                 Pending = false,
@@ -64,6 +127,8 @@ namespace EF.Data
             _ctx.Entry<Message>(message).State = EntityState.Added;
             _ctx.SaveChanges();
         }
+       
+
 
         public void GenerateAssignDefaultRoleRequestMessage(int memberId, int companyId)
         {
@@ -91,6 +156,11 @@ namespace EF.Data
             _ctx.Entry<Message>(message).State = EntityState.Added;
             _ctx.SaveChanges();
         }
+
+       
+
+
+
 
 
         public void GenerateAssignContractorRoleMessage(int memberId, int companyId)

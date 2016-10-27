@@ -22,6 +22,8 @@ namespace EF.Data.Mapping
             this.HasOptional(p => p.Company).WithMany(p => p.Messages).HasForeignKey(p => p.CompanyId);
             this.HasOptional(p => p.Member).WithMany(p => p.Messages).HasForeignKey(p => p.MemberId);
 
+         
+
             //table
             ToTable("Message");
         }

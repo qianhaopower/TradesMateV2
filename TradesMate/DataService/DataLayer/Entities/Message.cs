@@ -16,9 +16,9 @@ namespace EF.Data
 
         public string MessageText { get; set; }
 
-        public int UserIdFrom { get; set; }
+        public string UserIdFrom { get; set; }
 
-        public int UserIdTo { get; set; }
+        public string UserIdTo { get; set; }
 
         public bool Pending { get; set; }
 
@@ -32,11 +32,14 @@ namespace EF.Data
         public int? MemberId { get; set; }
         public int? ClientId { get; set; }
         public int? PropertyId { get; set; }
+      
 
         public CompanyRole Role { get; set; }
 
         public virtual Company Company {get;set;}
         public virtual Member Member { get; set; }
+
+        public virtual MessageResponse MessageResponse { get; set; }
         public virtual Client Client { get; set; }
         public virtual Property Property { get; set; }
     }

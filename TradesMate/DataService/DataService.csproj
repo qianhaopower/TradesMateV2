@@ -282,6 +282,7 @@
     <Compile Include="DataLayer\EFDbContext.cs" />
     <Compile Include="DataLayer\Entities\Address.cs" />
     <Compile Include="DataLayer\Entities\BaseEntity.cs" />
+    <Compile Include="DataLayer\Entities\MessageResponse.cs" />
     <Compile Include="DataLayer\Entities\Message.cs" />
     <Compile Include="DataLayer\Entities\PropertyAllocation.cs" />
     <Compile Include="DataLayer\Entities\Member.cs" />
@@ -301,6 +302,7 @@
     <Compile Include="DataLayer\Entities\WorkItemTemplate.cs" />
     <Compile Include="DataLayer\Enum\Enums.cs" />
     <Compile Include="DataLayer\Mapping\AddressMapping.cs" />
+    <Compile Include="DataLayer\Mapping\MessageResponseMap.cs" />
     <Compile Include="DataLayer\Mapping\MessageMap.cs" />
     <Compile Include="DataLayer\Mapping\PropertyAllocationMap.cs" />
     <Compile Include="DataLayer\Mapping\MemberMap.cs" />
