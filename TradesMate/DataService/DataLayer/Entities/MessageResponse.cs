@@ -18,7 +18,7 @@ namespace EF.Data
 
         public string UserIdTo { get; set; }
 
-        public int MessageId { get; set; }
+        //public int MessageId { get; set; }
         public ResponseAction ResponseAction { get; set; }
 
         public string ResponseText { get; set; }

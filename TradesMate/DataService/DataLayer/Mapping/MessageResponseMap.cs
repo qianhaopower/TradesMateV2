@@ -12,11 +12,11 @@ namespace EF.Data.Mapping
              this.HasKey(p => p.Id);
             //property
             Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(t => t.AddedDate).IsRequired();
-            Property(t => t.ModifiedDate).IsRequired();
+            Property(t => t.AddedDateTime).IsRequired();
+            Property(t => t.ModifiedDateTime).IsRequired();
 
             //relation
-            this.HasRequired(p => p.Message).WithOptional(p => p.MessageResponse);
+            //this.HasRequired(p => p.Message).WithOptional(p => p.MessageResponse);
            
             //table
             ToTable("MessageResponse");

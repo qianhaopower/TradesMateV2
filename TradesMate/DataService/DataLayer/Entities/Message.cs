@@ -22,9 +22,9 @@ namespace EF.Data
 
         public bool Pending { get; set; }
 
-        public ResponseAction ResponseAction { get; set; }
+        //public ResponseAction ResponseAction { get; set; }
 
-        public string ResponseText { get; set; }
+        //public string ResponseText { get; set; }
 
 
         //all possible parameter for different message
@@ -32,6 +32,8 @@ namespace EF.Data
         public int? MemberId { get; set; }
         public int? ClientId { get; set; }
         public int? PropertyId { get; set; }
+
+        public int? MessageResponseId { get; set; }
       
 
         public CompanyRole Role { get; set; }

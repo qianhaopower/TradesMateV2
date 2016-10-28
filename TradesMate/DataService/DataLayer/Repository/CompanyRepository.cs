@@ -40,7 +40,7 @@ namespace EF.Data
         public IQueryable<MemberModel> GetMemberByUserName(string userName, int? memberId = null)
         {
             var companyId = GetCompanyFoAdminUser(userName).Id;
-            var result = GetMemberByUserNameQuery(companyId, memberId);
+            var result = GetMemberByCompanyIdQuery(companyId, memberId);
             return result.Select(p => new MemberModel
             {
                 FirstName = p.Member.FirstName,
@@ -88,7 +88,7 @@ namespace EF.Data
 
         private void DoRemoveCompanyMember(int companyId, int memberId)
         {
-            var info = this.GetMemberByUserNameQuery(companyId, memberId).ToList().FirstOrDefault();
+            var info = this.GetMemberByCompanyIdQuery(companyId, memberId).ToList().FirstOrDefault();
             if (info.CompanyMember.Role == CompanyRole.Contractor)
             {
                 //remove all allocation
@@ -117,7 +117,7 @@ namespace EF.Data
 
 
 
-            var info = this.GetMemberByUserNameQuery(companyId, memberId).ToList().FirstOrDefault();
+            var info = this.GetMemberByCompanyIdQuery(companyId, memberId).ToList().FirstOrDefault();
 
             if (info.CompanyMember.Role == CompanyRole.Admin)
             {
@@ -137,16 +137,22 @@ namespace EF.Data
             {
                 var repo = new MessageRepository(_ctx);
                 var companyId = GetCompanyFoAdminUser(userName).Id;
+                CompanyRole roleParsed;
+                bool roleValid = Enum.TryParse<CompanyRole>(role, out roleParsed);
                 switch (messageType)
                 {
-                    //nothing to handle
+                    //here we generate message to user. 
                     case MessageType.AssignDefaultRole:
                         repo.GenerateAssignDefaultRoleMessage(memberId, companyId);
+                        //let it happen, no need to wait
+                        DoUpdateCompanyMemberRole(memberId, companyId, roleParsed);
                         break;
                     case MessageType.AssignContractorRole:
                         repo.GenerateAssignContractorRoleMessage(memberId, companyId);
+                        DoUpdateCompanyMemberRole(memberId, companyId, roleParsed);
+                        //let it happen, no need to wait
                         break;
-                    case MessageType.AssignDefaultRoleRequest:
+                    case MessageType.AssignDefaultRoleRequest:// need wait for the request's response
                         repo.GenerateAssignDefaultRoleRequestMessage(memberId, companyId);
                         break;               
                 }
@@ -274,10 +280,10 @@ namespace EF.Data
         /// <param name="memberId"></param>
         /// <param name="role"></param>
         /// <returns></returns>
-        private CompanyRole DoUpdateCompanyMemberRole(int companyId, int memberId, CompanyRole role)
+        public CompanyRole DoUpdateCompanyMemberRole(int companyId, int memberId, CompanyRole role)
         {
            // var companyId = GetCompanyFoAdminUser(userName).Id;
-            var memberInfo = GetMemberByUserNameQuery(companyId, memberId);
+            var memberInfo = GetMemberByCompanyIdQuery(companyId, memberId);
             if (memberInfo.Count() > 1)
             {
                 throw new Exception("Multiple member found with ID" + memberId);
@@ -292,7 +298,7 @@ namespace EF.Data
                 _ctx.CompanyMembers.Where(p => p.CompanyId != companyId && p.MemberId == memberId).Update(p => new CompanyMember()
                 {
                     Role = CompanyRole.Contractor,
-                    ModifiedDate = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 });
 
                 //delete all allocation
@@ -308,6 +314,36 @@ namespace EF.Data
 
         }
 
+
+        // for now when member join company we give contractor role by default
+        public void DoMemberJoinCompany(int companyId, int memberId)
+        {
+            // var companyId = GetCompanyFoAdminUser(userName).Id;
+            var memberInfo = GetMemberByCompanyIdQuery(companyId, memberId);
+            if (memberInfo.Count() > 1)
+            {
+                throw new Exception("Multiple member found with ID" + memberId);
+            }
+            var cmRecord = _ctx.CompanyMembers.Where(p => p.CompanyId == companyId && p.MemberId == memberId).ToList().FirstOrDefault();
+
+            if(cmRecord != null)
+            {
+                throw new Exception("Member already exists in company");
+            }
+
+            var newCmRecord = new CompanyMember()
+            {
+                CompanyId = companyId,
+                MemberId = memberId,
+                Role = CompanyRole.Contractor,//by default contractor for now. We can pass in role for join company later.
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+                Confirmed = true
+
+            };
+            _ctx.Entry(newCmRecord).State = EntityState.Added;
+            _ctx.SaveChanges();
+        }
 
         public Company GetCompanyFoAdminUser(string userName)
         {
@@ -336,7 +372,7 @@ namespace EF.Data
             return company.Company;
         }
 
-        private IQueryable<MemberInfo> GetMemberByUserNameQuery(int companyId, int? memberId = null)
+        private IQueryable<MemberInfo> GetMemberByCompanyIdQuery(int companyId, int? memberId = null)
         {
 
 

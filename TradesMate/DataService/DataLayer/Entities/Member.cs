@@ -14,6 +14,10 @@ namespace EF.Data
             CompanyMembers = new List<CompanyMember>();
             Messages = new List<Message>();
         }
+        public string FullName
+        {
+            get { return FirstName + ' ' + LastName; }
+        }
         public string FirstName { get; set; }
         public string  MiddleName{ get; set; }
         public string LastName { get; set; }

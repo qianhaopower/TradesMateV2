@@ -272,6 +272,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\PropertiesController.cs" />
     <Compile Include="Controllers\ProtectedController.cs" />
@@ -331,6 +332,8 @@
     <Compile Include="Infrastructure\ExtendedClaimsProvider.cs" />
     <Compile Include="Infrastructure\RolesFromClaims.cs" />
     <Compile Include="ViewModels\AllocationModel.cs" />
+    <Compile Include="ViewModels\MessageResponseModel.cs" />
+    <Compile Include="ViewModels\MessageModel.cs" />
     <Compile Include="ViewModels\ExternalLoginModels.cs" />
     <Compile Include="ViewModels\ModelFactory.cs" />
     <Compile Include="ViewModels\CompanyModel.cs" />

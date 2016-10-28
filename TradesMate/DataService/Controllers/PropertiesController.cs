@@ -148,8 +148,8 @@ namespace DataService.Controllers
                 return BadRequest(ModelState);
             }
 
-            property.AddedDate = DateTime.Now;
-            property.ModifiedDate = DateTime.Now;
+            property.AddedDateTime = DateTime.Now;
+            property.ModifiedDateTime = DateTime.Now;
 
 
             db.Properties.Add(property);

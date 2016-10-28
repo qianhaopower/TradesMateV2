@@ -92,8 +92,8 @@ namespace EF.Data
                 {
                     Property = property,
                     CompanyMember = cm,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 _ctx.Entry(newItem).State = EntityState.Added;
                 result = new AllocationModel() {

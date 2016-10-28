@@ -20,9 +20,9 @@ namespace EF.Data
     public class MessageRepository : IDisposable
     {
         private EFDbContext _ctx;
-      
 
-        private UserManager<ApplicationUser> _userManager;
+
+        //private UserManager<ApplicationUser> _userManager;
 
         //XXX(Admin name) has assigned you default role in YYY(company name), now you can view all YYY properties and related works
         private const string AssignDefaultRoleMessage = "Dear {0}, You are assigned default role in {1}. Now you can view all {1}'s properties and related works.";
@@ -39,7 +39,7 @@ namespace EF.Data
         //AAA(ClientName) has granted you access to property WWW(propertyName, address)
         private const string AddPropertyCoOwnerMessage = "Dear {0}, you are granted access to {1}, you can see {1}'s works now.";
 
-        public MessageRepository(EFDbContext ctx)
+        public MessageRepository(EFDbContext ctx = null)
         {
             if (ctx != null)
             {
@@ -50,6 +50,29 @@ namespace EF.Data
                 _ctx = new EFDbContext();
             }
         }
+
+
+        public IQueryable<Message> GetMessageForUser(string username)
+        {
+            var user = new AuthRepository(_ctx).GetUserByUserName(username);
+            var messages = _ctx.Messages.Where(p => p.UserIdTo == user.Id)
+                .Include(p => p.MessageResponse)
+                .Include(p => p.Member)
+                .Include(p => p.Property)
+                .Include(p => p.Client)
+                .Include(p => p.Company);
+
+            return messages;
+        }
+
+        public int GetPendingMessageCountForUser(string username)
+        {
+            var user = new AuthRepository(_ctx).GetUserByUserName(username);
+            var count = _ctx.Messages.Where(p => p.UserIdTo == user.Id && p.Pending == true).Count();
+                
+            return count;
+        }
+
 
         //this create the MessageResponse entity
         private MessageResponse GenerateResponse(int messageId, ResponseAction action)
@@ -63,8 +86,8 @@ namespace EF.Data
                 ResponseAction = action,
                 UserIdFrom = message.UserIdTo,
                 UserIdTo = message.UserIdFrom,
-                AddedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
             };
 
             _ctx.Entry<MessageResponse>(response).State = EntityState.Added;
@@ -72,13 +95,13 @@ namespace EF.Data
             return response;
         }
 
-        //this do the action after the 
+
         public void HandleMessageResponse(int messageId, ResponseAction action)
         {
             var message = _ctx.Messages.Find(messageId);
             switch (message.MessageType)
             {
-                //nothing to handle
+                //nothing to handle as when the request is simply a notification for these four cases
                 case MessageType.AssignDefaultRole:
                 case MessageType.AddPropertyCoOwner:
                 case MessageType.AssignContractorRole:
@@ -98,9 +121,15 @@ namespace EF.Data
         private void HandleAssignDefaultRoleResponse(Message message, ResponseAction action)
         {
             message.Pending = false;
-            if(action == ResponseAction.Accept)
+            if (action == ResponseAction.Accept)
             {
                 //proceed
+
+                //here we don't validate as when the message is generated, validation is done.
+                //No illegal message could exist in the Message table as it is not created by the data from client
+                //use .value as if there is no value, the data is corrupted and we should crash. 
+                new CompanyRepository(_ctx).DoUpdateCompanyMemberRole(message.CompanyId.Value, message.MemberId.Value, message.Role);
+
             }
 
         }
@@ -110,7 +139,7 @@ namespace EF.Data
             message.Pending = false;
             if (action == ResponseAction.Accept)
             {
-                //proceed
+                new CompanyRepository(_ctx).DoMemberJoinCompany(message.CompanyId.Value, message.MemberId.Value);
             }
 
         }
@@ -122,14 +151,14 @@ namespace EF.Data
             var companyName = _ctx.Companies.Find(companyId).Name;
             var member = _ctx.Members.Find(memberId);
             var memberName = member.FirstName;
-            var memberUser  = _ctx.Users.First(p => p.Member == member);
+            var memberUser = _ctx.Users.First(p => p.Member == member);
 
             var adminUser = new CompanyRepository(_ctx).GetCompanyAdminMember(companyId);
-           
+
             var message = new Message()
             {
-                AddedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
                 CompanyId = companyId,
                 MemberId = memberId,
                 UserIdFrom = adminUser.Id,
@@ -148,7 +177,7 @@ namespace EF.Data
             var companyName = _ctx.Companies.Find(companyId).Name;
             var memberName = _ctx.Members.Find(memberId).FirstName;
             var companyRepo = new CompanyRepository(_ctx);
-         
+
             var otherCompanyNames = companyRepo.GetMemberInfoOutsideCompany(companyId, memberId)
                 .Where(p => p.CompanyMember.Role == CompanyRole.Default)
                 .Select(p => p.Company)
@@ -157,8 +186,8 @@ namespace EF.Data
                 .Aggregate((x, y) => x + ", " + y);
             var message = new Message()
             {
-                AddedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
                 CompanyId = companyId,
                 MemberId = memberId,
                 MessageText = string.Format(AssignDefaultRoleRequestMessage, memberName, companyName, otherCompanyNames),
@@ -174,11 +203,11 @@ namespace EF.Data
         {
             var companyName = _ctx.Companies.Find(companyId).Name;
             var memberName = _ctx.Members.Find(memberId).FirstName;
-           
+
             var message = new Message()
             {
-                AddedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
                 CompanyId = companyId,
                 MemberId = memberId,
                 MessageText = string.Format(AssignContractorRoleMessage, memberName, companyName),
@@ -194,11 +223,11 @@ namespace EF.Data
         {
             var companyName = _ctx.Companies.Find(companyId).Name;
             var memberName = _ctx.Members.Find(memberId).FirstName;
-           
+
             var message = new Message()
             {
-                AddedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
                 CompanyId = companyId,
                 MemberId = memberId,
                 Role = role,
@@ -216,8 +245,8 @@ namespace EF.Data
 
             var message = new Message()
             {
-                AddedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
                 PropertyId = propertyId,
                 ClientId = clientId,
                 MessageText = messageText,
@@ -229,15 +258,15 @@ namespace EF.Data
             _ctx.SaveChanges();
         }
 
-        public void GenerateAddPropertyCoClient(int propetyId, int clientId )
+        public void GenerateAddPropertyCoClient(int propetyId, int clientId)
         {
             var clientName = _ctx.Clients.Find(clientId).FirstName;
             var property = _ctx.Properties.Find(propetyId).Name;
 
             var message = new Message()
             {
-                AddedDate = DateTime.Now,
-                ModifiedDate = DateTime.Now,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
                 PropertyId = propetyId,
                 ClientId = clientId,
                 MessageText = string.Format(AddPropertyCoOwnerMessage, clientName, property),

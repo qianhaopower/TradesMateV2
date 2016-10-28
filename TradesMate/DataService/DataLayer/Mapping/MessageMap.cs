@@ -12,8 +12,8 @@ namespace EF.Data.Mapping
              this.HasKey(p => p.Id);
             //property
             Property(t => t.Id).HasDatabaseGeneratedOption(DatabaseGeneratedOption.Identity);
-            Property(t => t.AddedDate).IsRequired();
-            Property(t => t.ModifiedDate).IsRequired();
+            Property(t => t.AddedDateTime).IsRequired();
+            Property(t => t.ModifiedDateTime).IsRequired();
 
             //relation
 
@@ -22,8 +22,8 @@ namespace EF.Data.Mapping
             this.HasOptional(p => p.Company).WithMany(p => p.Messages).HasForeignKey(p => p.CompanyId);
             this.HasOptional(p => p.Member).WithMany(p => p.Messages).HasForeignKey(p => p.MemberId);
 
-         
 
+            this.HasOptional(p => p.MessageResponse).WithRequired(p => p.Message);
             //table
             ToTable("Message");
         }

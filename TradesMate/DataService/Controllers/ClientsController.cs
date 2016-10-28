@@ -93,8 +93,8 @@ namespace DataService.Controllers
                 return BadRequest(ModelState);
             }
 
-            client.AddedDate = DateTime.Now;
-            client.ModifiedDate = DateTime.Now;
+            client.AddedDateTime = DateTime.Now;
+            client.ModifiedDateTime = DateTime.Now;
 
             db.Clients.Add(client);
             db.SaveChanges();

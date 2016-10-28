@@ -195,8 +195,8 @@ namespace EF.Data
                     Email = user.Email,
                     UserId = user.Id,
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 _ctx.Entry(newClient).State = EntityState.Added;
@@ -219,8 +219,8 @@ namespace EF.Data
                      company = new Company()
                     {
                         Name = userModel.CompanyName,
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
                         Description = string.Format("A company created by user {0} {1}", userModel.FirstName, userModel.LastName)
                     };
 
@@ -239,8 +239,8 @@ namespace EF.Data
                     LastName = user.LastName,
                     Email = user.Email,
                     UserId = user.Id,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                     
                 };
 
@@ -253,8 +253,8 @@ namespace EF.Data
                 //create join entry
                 CompanyMember cm = new CompanyMember
                 {
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                     Role = companyId.HasValue ? CompanyRole.Default : CompanyRole.Admin,// if there is no company id provided, we are creating new company, so admin
                     Member = newMember,
                     Company = company,

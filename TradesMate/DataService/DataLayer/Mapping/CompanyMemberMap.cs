@@ -19,8 +19,8 @@ namespace EF.Data.Mapping
             Property(t => t.MemberId).IsRequired();
 
 
-            Property(t => t.AddedDate).IsRequired();
-            Property(t => t.ModifiedDate).IsRequired();
+            Property(t => t.AddedDateTime).IsRequired();
+            Property(t => t.ModifiedDateTime).IsRequired();
 
             //relation
 

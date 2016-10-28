@@ -282,7 +282,7 @@ namespace DataService.Controllers
 
             if (company == null)
             {
-                return BadRequest("Cannot fine company");
+                return BadRequest("Cannot find company");
             }
             company.Description = companyModel.Description;
             company.Name = companyModel.CompanyName;
