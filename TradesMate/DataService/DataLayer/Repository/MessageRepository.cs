@@ -82,7 +82,7 @@ namespace EF.Data
             var response = new MessageResponse()
             {
                 ResponseText = null,// do not allow responseText yet.
-                MessageId = messageId,
+               
                 ResponseAction = action,
                 UserIdFrom = message.UserIdTo,
                 UserIdTo = message.UserIdFrom,
@@ -282,7 +282,7 @@ namespace EF.Data
         public void Dispose()
         {
             _ctx.Dispose();
-            _userManager.Dispose();
+            //_userManager.Dispose();
         }
     }
 }
