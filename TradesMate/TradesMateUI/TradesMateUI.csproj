@@ -701,6 +701,7 @@
     <Content Include="scripts\authComplete.js" />
     <Content Include="scripts\controllers\associateController.js" />
     <Content Include="scripts\controllers\chartContoller.js" />
+    <Content Include="scripts\controllers\messageController.js" />
     <Content Include="scripts\controllers\clientController.js" />
     <Content Include="scripts\controllers\allocatePropertyController.js" />
     <Content Include="scripts\controllers\companyMemberDetailController.js" />
@@ -743,6 +744,7 @@
     <Content Include="scripts\directives\timeline\timeline.html" />
     <Content Include="scripts\directives\timeline\timeline.js" />
     <Content Include="scripts\services\authInterceptorService.js" />
+    <Content Include="scripts\services\messageService.js" />
     <Content Include="scripts\services\companyService.js" />
     <Content Include="scripts\services\authService.js" />
     <Content Include="scripts\services\clientDataService.js" />
@@ -756,6 +758,8 @@
     <Content Include="views\company\companyMember.html" />
     <Content Include="views\company\manageCompany.html" />
     <Content Include="views\company\allocateProperty.html" />
+    <Content Include="views\message\messageDetail.html" />
+    <Content Include="views\message\message.html" />
     <Content Include="views\pages\chart.html" />
     <Content Include="views\clients\clientDetail.html" />
     <Content Include="views\clients\clients.html" />

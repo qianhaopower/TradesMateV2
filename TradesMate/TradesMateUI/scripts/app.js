@@ -404,6 +404,21 @@ angular
               controller: 'allocatePropertyController',
               url: '/companymember/allocate/:memberId',
           })
+       
+
+          //message
+            .state('base.message', {
+                templateUrl: 'views/message/message.html',
+                controller: 'messageController',
+                url: '/messages',
+            })
+
+           .state('base.messageDetail', {
+               templateUrl: 'views/message/messageDetail.html',
+               controller: 'messageDetailController',
+               url: '/message/:messageId',
+           })
+
 
 
           //NotificationProvider.setOptions({

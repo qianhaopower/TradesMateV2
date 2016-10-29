@@ -30,6 +30,8 @@ namespace EF.Data
         //XXX(Admin name) want to assign you defaut role in YYY(company name), if you accept you will become contractor in ZZZ,WWW and XXX(other company name).
         private const string AssignDefaultRoleRequestMessage = "Dear {0}, {1} want to assign you defaut role, if you accept your role in {2} will become contractor.";
 
+      
+
         //XXX(Admin name) has assigned you contractor role in YYY(company name), now you can view YYY's properties and related works allocated to you.
         private const string AssignContractorRoleMessage = "Dear {0}, You are assigned contractor role in {1}. Now you can view {1}'s properties allocated to you.";
 
@@ -65,14 +67,36 @@ namespace EF.Data
             return messages;
         }
 
-        public int GetPendingMessageCountForUser(string username)
+        public int GetUnReadMessageCountForUser(string username)
         {
             var user = new AuthRepository(_ctx).GetUserByUserName(username);
-            var count = _ctx.Messages.Where(p => p.UserIdTo == user.Id && p.Pending == true).Count();
+            var count = _ctx.Messages.Include(p=> p.MessageResponse).
+                Where(p => (p.UserIdTo == user.Id && p.IsRead == false) // message sent to me but I have not read
+                ||(p.UserIdFrom == user.Id && p.MessageResponse != null && p.MessageResponse.IsRead == false)//I send the message, it has a unread response. 
+                )
+                .Count();
                 
             return count;
         }
 
+        public void MarkMessageAsRead(int messageOrResponseId)
+        {
+            var message = _ctx.Messages.Find(messageOrResponseId);
+          
+            if (message != null)
+            {
+                message.IsRead = true;
+                _ctx.Entry(message).State = EntityState.Modified;
+            }else
+            {
+                var messageResponse = _ctx.MessageResponses.Find(messageOrResponseId);
+                messageResponse.IsRead = true;
+                _ctx.Entry(messageResponse).State = EntityState.Modified;
+            }
+            _ctx.SaveChanges();
+                
+            
+        }
 
         //this create the MessageResponse entity
         private MessageResponse GenerateResponse(int messageId, ResponseAction action)
@@ -82,12 +106,13 @@ namespace EF.Data
             var response = new MessageResponse()
             {
                 ResponseText = null,// do not allow responseText yet.
-               
+
                 ResponseAction = action,
                 UserIdFrom = message.UserIdTo,
                 UserIdTo = message.UserIdFrom,
                 AddedDateTime = DateTime.Now,
                 ModifiedDateTime = DateTime.Now,
+                IsRead = false,
             };
 
             _ctx.Entry<MessageResponse>(response).State = EntityState.Added;
@@ -120,7 +145,7 @@ namespace EF.Data
 
         private void HandleAssignDefaultRoleResponse(Message message, ResponseAction action)
         {
-            message.Pending = false;
+            message.IsWaitingForResponse = false;
             if (action == ResponseAction.Accept)
             {
                 //proceed
@@ -136,7 +161,7 @@ namespace EF.Data
 
         private void HandleInviteJoinCompanyResponse(Message message, ResponseAction action)
         {
-            message.Pending = false;
+            message.IsWaitingForResponse = false;
             if (action == ResponseAction.Accept)
             {
                 new CompanyRepository(_ctx).DoMemberJoinCompany(message.CompanyId.Value, message.MemberId.Value);
@@ -151,7 +176,7 @@ namespace EF.Data
             var companyName = _ctx.Companies.Find(companyId).Name;
             var member = _ctx.Members.Find(memberId);
             var memberName = member.FirstName;
-            var memberUser = _ctx.Users.First(p => p.Member == member);
+            var memberUser = _ctx.Users.First(p => p.Member.Id == memberId);
 
             var adminUser = new CompanyRepository(_ctx).GetCompanyAdminMember(companyId);
 
@@ -165,11 +190,12 @@ namespace EF.Data
                 UserIdTo = memberUser.Id,
                 MessageText = string.Format(AssignDefaultRoleMessage, memberName, companyName),
                 MessageType = MessageType.AssignDefaultRole,
-                Pending = false,
+                IsWaitingForResponse = false,
+                IsRead = false,
             };
 
             _ctx.Entry<Message>(message).State = EntityState.Added;
-            _ctx.SaveChanges();
+            //_ctx.SaveChanges();
         }
 
         public void GenerateAssignDefaultRoleRequestMessage(int memberId, int companyId)
@@ -177,6 +203,10 @@ namespace EF.Data
             var companyName = _ctx.Companies.Find(companyId).Name;
             var memberName = _ctx.Members.Find(memberId).FirstName;
             var companyRepo = new CompanyRepository(_ctx);
+
+            var memberUser = _ctx.Users.First(p => p.Member.Id == memberId);
+
+            var adminUser = new CompanyRepository(_ctx).GetCompanyAdminMember(companyId);
 
             var otherCompanyNames = companyRepo.GetMemberInfoOutsideCompany(companyId, memberId)
                 .Where(p => p.CompanyMember.Role == CompanyRole.Default)
@@ -190,9 +220,12 @@ namespace EF.Data
                 ModifiedDateTime = DateTime.Now,
                 CompanyId = companyId,
                 MemberId = memberId,
+                UserIdFrom = adminUser.Id,
+                UserIdTo = memberUser.Id,
                 MessageText = string.Format(AssignDefaultRoleRequestMessage, memberName, companyName, otherCompanyNames),
                 MessageType = MessageType.AssignDefaultRoleRequest,
-                Pending = true,
+                IsWaitingForResponse = true,
+                IsRead = false,
             };
 
             _ctx.Entry<Message>(message).State = EntityState.Added;
@@ -201,6 +234,9 @@ namespace EF.Data
 
         public void GenerateAssignContractorRoleMessage(int memberId, int companyId)
         {
+            var memberUser = _ctx.Users.First(p => p.Member.Id == memberId);
+
+            var adminUser = new CompanyRepository(_ctx).GetCompanyAdminMember(companyId);
             var companyName = _ctx.Companies.Find(companyId).Name;
             var memberName = _ctx.Members.Find(memberId).FirstName;
 
@@ -210,13 +246,16 @@ namespace EF.Data
                 ModifiedDateTime = DateTime.Now,
                 CompanyId = companyId,
                 MemberId = memberId,
+                UserIdFrom = adminUser.Id,
+                UserIdTo = memberUser.Id,
                 MessageText = string.Format(AssignContractorRoleMessage, memberName, companyName),
                 MessageType = MessageType.AssignContractorRole,
-                Pending = false,
+                IsWaitingForResponse = false,
+                IsRead = false,
             };
 
             _ctx.Entry<Message>(message).State = EntityState.Added;
-            _ctx.SaveChanges();
+            //_ctx.SaveChanges();
         }
 
         public void GenerateAddMemberToCompany(int memberId, int companyId, CompanyRole role)
@@ -233,7 +272,8 @@ namespace EF.Data
                 Role = role,
                 MessageText = string.Format(InviteJoinCompanyRequestMessage, memberName, companyName),
                 MessageType = MessageType.InviteJoinCompanyRequest,
-                Pending = true,
+                IsWaitingForResponse = true,
+                IsRead = false,
             };
 
             _ctx.Entry<Message>(message).State = EntityState.Added;
@@ -251,7 +291,8 @@ namespace EF.Data
                 ClientId = clientId,
                 MessageText = messageText,
                 MessageType = MessageType.WorkRequest,
-                Pending = true,
+                IsWaitingForResponse = true,
+                IsRead = false,
             };
 
             _ctx.Entry<Message>(message).State = EntityState.Added;
@@ -271,7 +312,8 @@ namespace EF.Data
                 ClientId = clientId,
                 MessageText = string.Format(AddPropertyCoOwnerMessage, clientName, property),
                 MessageType = MessageType.AddPropertyCoOwner,
-                Pending = false,
+                IsWaitingForResponse = false,
+                IsRead = false,
             };
 
             _ctx.Entry<Message>(message).State = EntityState.Added;

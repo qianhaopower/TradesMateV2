@@ -10,7 +10,23 @@ namespace DataService.Models
 
         public string MessageText { get; set; }
 
-        public bool Pending { get; set; }
+        public bool IsWaitingForResponse { get; set; }
+
+        public bool IsRead { get; set; }
+
+        public DateTime CreatTime { get; set; }
+
+    }
+
+    public class MessageDetailModel
+    {
+        public int MessageType { get; set; }
+
+        public string MessageText { get; set; }
+
+        public bool IsWaitingForResponse { get; set; }
+        public bool IsRead { get; set; }
+
 
         public string Role { get; set; }
 

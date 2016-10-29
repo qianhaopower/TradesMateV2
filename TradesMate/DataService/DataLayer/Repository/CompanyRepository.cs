@@ -145,11 +145,11 @@ namespace EF.Data
                     case MessageType.AssignDefaultRole:
                         repo.GenerateAssignDefaultRoleMessage(memberId, companyId);
                         //let it happen, no need to wait
-                        DoUpdateCompanyMemberRole(memberId, companyId, roleParsed);
+                        DoUpdateCompanyMemberRole( companyId,memberId, roleParsed);
                         break;
                     case MessageType.AssignContractorRole:
                         repo.GenerateAssignContractorRoleMessage(memberId, companyId);
-                        DoUpdateCompanyMemberRole(memberId, companyId, roleParsed);
+                        DoUpdateCompanyMemberRole( companyId, memberId, roleParsed);
                         //let it happen, no need to wait
                         break;
                     case MessageType.AssignDefaultRoleRequest:// need wait for the request's response

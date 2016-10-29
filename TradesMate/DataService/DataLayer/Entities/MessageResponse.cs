@@ -23,6 +23,8 @@ namespace EF.Data
 
         public string ResponseText { get; set; }
 
+        public bool IsRead { get; set; }
+
 
         public virtual Message Message {get;set;}
        

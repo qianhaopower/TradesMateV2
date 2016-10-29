@@ -20,11 +20,11 @@ using AutoMapper;
 
 namespace DataService.Controllers
 {
-    
 
+    [Authorize]
     public class MessagesController : ApiController
     {
-       
+
 
         public IHttpActionResult GetMessages()
         {
@@ -34,15 +34,28 @@ namespace DataService.Controllers
 
         }
 
-        //called every 2 second
-        public IHttpActionResult GetPendingMessagesCount()
+
+        public IHttpActionResult GetMessage(int messageId)
         {
-            var count = new MessageRepository().GetPendingMessageCountForUser(User.Identity.Name);
+            var message = new MessageRepository().GetMessageForUser(User.Identity.Name).Where(p => p.Id == messageId).FirstOrDefault();
+
+            return Ok(Mapper.Map<Message, MessageDetailModel>(message));
+
+        }
+        //called every 2 second
+        public IHttpActionResult GetUnReadMessagesCount()
+        {
+            var count = new MessageRepository().GetUnReadMessageCountForUser(User.Identity.Name);
 
             return Ok(count);
         }
 
+        [HttpPost]
+        public IHttpActionResult MarkMessageAsRead(int messageOrResponseId)
+        {
+            new MessageRepository().MarkMessageAsRead(messageOrResponseId);
+            return Ok();
 
-
+        }
     }
 }
