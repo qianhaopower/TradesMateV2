@@ -104,6 +104,7 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     messageServiceFactory.markMessageAsRead = _markMessageAsRead;
     messageServiceFactory.getMessageTitleForType = _getMessageTitleForType;
     messageServiceFactory.getMessageById = _getMessageById;
+  
  
     
 
