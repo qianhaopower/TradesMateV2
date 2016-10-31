@@ -11,13 +11,14 @@ function ($scope, messageService, Notification, $state) {
 
     $scope.search = function (item) {
         //if (!$scope.filterTextModel.searchText
-        //    || (item.firstName && (item.firstName.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
-        //    || (item.lastName && (item.lastName.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
+        //   // || (item.firstName && (item.firstName.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
+            
         //    ) {
         //    return true;
         //}
         // return false;
         return true;
+        
     };
 
     $scope.openMessageDetail = function (message) {

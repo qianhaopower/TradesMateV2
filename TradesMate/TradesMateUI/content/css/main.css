@@ -90,6 +90,9 @@ background-color: #eee;
 margin-left:20px;
 }
 
+.unread-message{
+    background-color:lightyellow;
+}
 
 /*required fields label*/
 .form-group.required .control-label:after {
