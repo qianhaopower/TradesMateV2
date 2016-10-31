@@ -81,7 +81,7 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
                 title = 'New role request.';
                 break;
             case 2:
-                title = 'you are assigned contractor role.';
+                title = 'you are assigned contractor role';
                 break;
             case 3:
                 title = 'You are invited to join a company';
