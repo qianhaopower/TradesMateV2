@@ -21,8 +21,13 @@ function ($scope, messageService, Notification, $state) {
     };
 
     $scope.openMessageDetail = function (message) {
-           // $state.go('base.messageDetail', { param: message.id });
-    }; 
+            $state.go('base.messageDetail', { messageId: message.id });
+    };
+
+    $scope.getMessageTitleForType = function (message) {
+        return messageService.getMessageTitleForType(message.messageType);
+    };
+    
 
 
    

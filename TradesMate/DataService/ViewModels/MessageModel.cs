@@ -6,6 +6,7 @@ namespace DataService.Models
 {
     public class MessageModel
     {
+        public int Id { get; set; }
         public int MessageType { get; set; }
 
         public string MessageText { get; set; }
@@ -14,12 +15,13 @@ namespace DataService.Models
 
         public bool IsRead { get; set; }
 
-        public DateTime CreatTime { get; set; }
+        public DateTime CreateTime { get; set; }
 
     }
 
     public class MessageDetailModel
     {
+        public int Id { get; set; }
         public int MessageType { get; set; }
 
         public string MessageText { get; set; }
@@ -33,7 +35,7 @@ namespace DataService.Models
         public string CompanyName { get; set; }
         public string MemberName { get; set; }
 
-        public DateTime CreatTime { get; set; }
+        public DateTime CreateTime { get; set; }
 
         public MessageResponseModel MessageResponse { get; set; }
         public string ClientName { get; set; }

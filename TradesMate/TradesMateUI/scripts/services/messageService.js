@@ -22,6 +22,21 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
 
     };
 
+    var _getMessageById = function (messageId) {
+
+        var deferred = $q.defer();
+
+        $http.get(serviceBase + 'api/messages/GetMessage?messageId=' + messageId).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
+
+    };
+
+
     var _getPendingMessagesCount = function () {
 
         var deferred = $q.defer();
@@ -49,10 +64,46 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
 
     };
     
+
+    var _getMessageTitleForType = function (type) {
+       //AssignDefaultRole = 0,
+       //AssignDefaultRoleRequest = 1,
+       //AssignContractorRole = 2,
+       //InviteJoinCompanyRequest = 3,
+       //WorkRequest = 4,
+        //AddPropertyCoOwner = 5,
+        var title = 'You have a new message';
+        switch(type) {
+            case 0:
+                title = 'You are assigned default role';
+                break;
+            case 1:
+                title = 'New role request.';
+                break;
+            case 2:
+                title = 'you are assigned contractor role.';
+                break;
+            case 3:
+                title = 'You are invited to join a company';
+                break;
+            case 4:
+                title = 'New work request';
+                break;
+            case 5:
+                title = 'New property request';
+                break;
+            default:
+            
+        }
+        return title;
+
+    };
+
     messageServiceFactory.getMessages = _getMessages;
     messageServiceFactory.getPendingMessagesCount = _getPendingMessagesCount;
     messageServiceFactory.markMessageAsRead = _markMessageAsRead;
-  
+    messageServiceFactory.getMessageTitleForType = _getMessageTitleForType;
+    messageServiceFactory.getMessageById = _getMessageById;
  
     
 

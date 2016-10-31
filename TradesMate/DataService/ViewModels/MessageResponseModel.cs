@@ -12,7 +12,7 @@ namespace DataService.Models
 
         public string ResponseText { get; set; }
 
-        public DateTime CreatTime { get; set; }
+        public DateTime CreateTime { get; set; }
 
         public bool IsRead { get; set; }
 

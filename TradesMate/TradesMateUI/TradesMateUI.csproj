@@ -701,6 +701,7 @@
     <Content Include="scripts\authComplete.js" />
     <Content Include="scripts\controllers\associateController.js" />
     <Content Include="scripts\controllers\chartContoller.js" />
+    <Content Include="scripts\controllers\messageDetailController.js" />
     <Content Include="scripts\controllers\messageController.js" />
     <Content Include="scripts\controllers\clientController.js" />
     <Content Include="scripts\controllers\allocatePropertyController.js" />
