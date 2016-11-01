@@ -17,6 +17,8 @@ namespace DataService.Models
 
         public DateTime CreateTime { get; set; }
 
+        public bool HasResponse { get; set; }
+
     }
 
     public class MessageDetailModel

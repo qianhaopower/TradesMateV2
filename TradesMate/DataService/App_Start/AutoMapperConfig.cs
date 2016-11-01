@@ -77,6 +77,7 @@ namespace DataService
             CreateMap<Message, MessageModel>()
            .ForMember(dest => dest.CreateTime, opts => opts.MapFrom(src => src.AddedDateTime))
                     .ForMember(dest => dest.IsWaitingForResponse, opts => opts.MapFrom(src => src.IsWaitingForResponse))
+                     .ForMember(dest => dest.HasResponse, opts => opts.MapFrom(src => src.HasResponse))
                     .ForMember(dest => dest.IsRead, opts => opts.MapFrom(src => src.IsRead))
                                  .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Id))
                      .ForMember(dest => dest.MessageText, opts => opts.MapFrom(src => src.MessageText))

@@ -20,6 +20,6 @@ namespace EF.Data.Mapping
            
             //table
             ToTable("MessageResponse");
-        }
+        } 
     }
 }

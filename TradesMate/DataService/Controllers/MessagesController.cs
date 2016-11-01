@@ -28,7 +28,8 @@ namespace DataService.Controllers
 
         public IHttpActionResult GetMessages()
         {
-            var messages = new MessageRepository().GetMessageForUser(User.Identity.Name);
+            var messages = new MessageRepository().GetMessageForUser(User.Identity.Name).ToList();
+            messages.ForEach(p => p.HasResponse = p.MessageResponse != null);
 
             return Ok(messages.Select(Mapper.Map<Message, MessageModel>));
 

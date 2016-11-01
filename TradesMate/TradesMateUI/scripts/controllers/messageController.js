@@ -26,6 +26,9 @@ function ($scope, messageService, Notification, $state) {
     };
 
     $scope.getMessageTitleForType = function (message) {
+        if (message.hasResponse) {
+            return 'You have a new respond';
+        }
         return messageService.getMessageTitleForType(message.messageType);
     };
     

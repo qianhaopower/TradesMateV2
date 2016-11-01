@@ -15,6 +15,9 @@ namespace EF.Data.Mapping
             Property(t => t.AddedDateTime).IsRequired();
             Property(t => t.ModifiedDateTime).IsRequired();
 
+            Ignore(t => t.HasResponse);
+
+
             //relation
 
             this.HasOptional(p => p.Client).WithMany(p => p.Messages).HasForeignKey(p => p.ClientId);

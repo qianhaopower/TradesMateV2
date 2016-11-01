@@ -20,6 +20,8 @@ namespace EF.Data
 
         public string UserIdTo { get; set; }
 
+        public bool HasResponse { get; set; }
+
         public bool IsWaitingForResponse { get; set; }// indicates if the message is waiting for response/
 
         public bool IsRead { get; set; }//indicates if the message has been open, once the Get MessageDetail happens we assume this message is read. 

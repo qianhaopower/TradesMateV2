@@ -64,7 +64,13 @@ namespace EF.Data
                 .Include(p => p.Client)
                 .Include(p => p.Company);
 
-            return messages;
+            var responds = _ctx.Messages
+                .Include(p => p.MessageResponse)
+                      .Include(p => p.Member)
+                .Where(p => p.MessageResponse != null && p.MessageResponse.UserIdTo == user.Id)
+              ;
+           
+            return messages.Union(responds);
         }
 
         public int GetUnReadMessageCountForUser(string username)
