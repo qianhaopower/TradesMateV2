@@ -65,6 +65,18 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     };
     
 
+    var _handleMessageResponse = function (messageId, action) {
+
+        var deferred = $q.defer();
+        $http.post(serviceBase + 'api/messages/HandleMessageResponse?messageId=' + messageId +'&action=' + action).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
+    };
+
     var _getMessageTitleForType = function (type) {
        //AssignDefaultRole = 0,
        //AssignDefaultRoleRequest = 1,
@@ -78,7 +90,7 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
                 title = 'You are assigned default role';
                 break;
             case 1:
-                title = 'New role request.';
+                title = 'New role request';
                 break;
             case 2:
                 title = 'you are assigned contractor role';
@@ -99,11 +111,41 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
 
     };
 
+
+    var _isMessageWaitingForRespond = function (message) {
+        //AssignDefaultRole = 0,
+        //AssignDefaultRoleRequest = 1,
+        //AssignContractorRole = 2,
+        //InviteJoinCompanyRequest = 3,
+        //WorkRequest = 4,
+        //AddPropertyCoOwner = 5,
+    
+        var isWait = false;
+        switch (message.messageType) {
+            //no response should even happen for theses three
+            case 0:
+            case 2:
+            case 5:
+                break;
+
+            case 1:
+            case 3:
+            case 4:
+                isWait =  message.isWaitingForResponse;
+            default:
+        }
+        return isWait;
+
+    };
+
+
     messageServiceFactory.getMessages = _getMessages;
     messageServiceFactory.getPendingMessagesCount = _getPendingMessagesCount;
     messageServiceFactory.markMessageAsRead = _markMessageAsRead;
     messageServiceFactory.getMessageTitleForType = _getMessageTitleForType;
     messageServiceFactory.getMessageById = _getMessageById;
+    messageServiceFactory.handleMessageResponse = _handleMessageResponse;
+    
   
  
     

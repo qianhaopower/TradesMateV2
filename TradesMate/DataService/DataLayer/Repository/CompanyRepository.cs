@@ -128,7 +128,7 @@ namespace EF.Data
 
         }
 
-        public  void UpdateCompanyMemberRole(string userName, int memberId, string role)
+        public MessageType? UpdateCompanyMemberRole(string userName, int memberId, string role)
         {
             MessageType? messageType = null;
             var error =  UpdateRoleValidation(userName, memberId, role, out messageType);
@@ -156,6 +156,7 @@ namespace EF.Data
                         repo.GenerateAssignDefaultRoleRequestMessage(memberId, companyId);
                         break;               
                 }
+                return messageType;
             }
             else
             {
@@ -241,7 +242,14 @@ namespace EF.Data
 
                     //request/response 
                     messageType = MessageType.AssignDefaultRoleRequest;
-                }else
+                    var repo = new MessageRepository(_ctx);
+                    if (repo.CheckIfThereIsWaitingDefaultRoleRequestMessage(memberId, companyId))
+                    {
+                        return string.Format("There is already a same pending request, Please wait for member's response");
+                    }
+
+                }
+                else
                 {
                     messageType = MessageType.AssignDefaultRole;//do not need request
                 }

@@ -53,5 +53,16 @@
 
         </div>
     </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="btn btn-default accept pull-right" ng-click="accept()" ng-show="message.isWaitingForResponse">
+                <i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp;Accept
+            </div>
+            <div class="btn btn-default reject pull-right" ng-click="reject()" ng-show="message.isWaitingForResponse"> 
+                <i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Reject
+            </div>
+        </div>
+
+    </div>
 
 </div>

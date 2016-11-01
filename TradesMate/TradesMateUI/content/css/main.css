@@ -94,6 +94,15 @@ margin-left:20px;
     background-color:lightyellow;
 }
 
+.accept{
+    color:#337ab7;
+}
+
+.reject{
+   color:#d9534f;
+   margin-right:30px;
+}
+
 /*required fields label*/
 .form-group.required .control-label:after {
   content:"*";

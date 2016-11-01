@@ -51,9 +51,17 @@ namespace DataService.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult MarkMessageAsRead(int messageOrResponseId)
+        public IHttpActionResult MarkMessageAsRead(int messageOrResponseId)//this is wrong need change
         {
             new MessageRepository().MarkMessageAsRead(messageOrResponseId);
+            return Ok();
+
+        }
+
+        [HttpPost]
+        public IHttpActionResult HandleMessageResponse(int messageId, ResponseAction  action)
+        {
+            new MessageRepository().HandleMessageResponse(messageId, action);
             return Ok();
 
         }

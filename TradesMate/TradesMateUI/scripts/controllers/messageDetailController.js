@@ -9,7 +9,31 @@ function ($scope, messageService, Notification, $state, $stateParams) {
     $scope.goBack = function () {
         $state.go('base.message');
     };
+
+    
+
     $scope.messageTitle = undefined;
+
+
+    //Accept = 0,
+    //Reject = 1,
+    $scope.accept = function () {
+        handle(0);
+    }
+
+    $scope.reject = function () {
+        handle(1);
+    }
+
+
+
+    var handle = function (action) {
+        messageService.handleMessageResponse($scope.message.id, action).then(function (result) {
+            init();
+        }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+    }
+
+
     var init = function () {
         messageService.getMessageById($stateParams.messageId).then(function (result) {
             $scope.message = result;

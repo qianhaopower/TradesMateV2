@@ -59,10 +59,18 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
 
         }
         $scope.fireUpdateRole = function (member) {
-            companyService.updateMemberRole(member.memberId, member.memberRole).then(function () {
-                Notification.success({ message:'Role updated', delay: 2000 });
+            companyService.updateMemberRole(member.memberId, member.memberRole).then(function (reply) {
+                if (reply) {
+                    Notification.success({ message: reply, delay: 4000 });
+                } else {
+                    Notification.success({ message: 'Role updated', delay: 2000 });
+                }
+                
                 getMembersInCompany();
-            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+            }, function (error) {
+                Notification.error({ message: error.exceptionMessage, delay: 4000 });
+                getMembersInCompany();
+            });
         }
         
 

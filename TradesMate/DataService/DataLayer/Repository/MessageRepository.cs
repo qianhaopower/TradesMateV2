@@ -106,7 +106,7 @@ namespace EF.Data
             var response = new MessageResponse()
             {
                 ResponseText = null,// do not allow responseText yet.
-
+                Id = messageId,
                 ResponseAction = action,
                 UserIdFrom = message.UserIdTo,
                 UserIdTo = message.UserIdFrom,
@@ -124,6 +124,10 @@ namespace EF.Data
         public void HandleMessageResponse(int messageId, ResponseAction action)
         {
             var message = _ctx.Messages.Find(messageId);
+            if (!message.IsWaitingForResponse)
+            {
+                throw new Exception("Message already processed.");
+            }
             switch (message.MessageType)
             {
                 //nothing to handle as when the request is simply a notification for these four cases
@@ -140,6 +144,7 @@ namespace EF.Data
                     break;
 
             }
+            message.IsWaitingForResponse = false;
             GenerateResponse(messageId, action);
         }
 
@@ -200,6 +205,8 @@ namespace EF.Data
 
         public void GenerateAssignDefaultRoleRequestMessage(int memberId, int companyId)
         {
+            
+
             var companyName = _ctx.Companies.Find(companyId).Name;
             var memberName = _ctx.Members.Find(memberId).FirstName;
             var companyRepo = new CompanyRepository(_ctx);
@@ -230,6 +237,18 @@ namespace EF.Data
 
             _ctx.Entry<Message>(message).State = EntityState.Added;
             _ctx.SaveChanges();
+        }
+
+
+
+        public bool CheckIfThereIsWaitingDefaultRoleRequestMessage(int memberId, int companyId)
+        {
+            var any = _ctx.Messages.Where(p => p.MemberId == memberId
+            && p.CompanyId == companyId
+            && p.MessageType == MessageType.AssignDefaultRoleRequest
+            && p.IsWaitingForResponse == true).Any();
+            return any;
+
         }
 
         public void GenerateAssignContractorRoleMessage(int memberId, int companyId)

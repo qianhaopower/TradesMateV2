@@ -220,9 +220,11 @@ namespace DataService.Controllers
         [HttpPost]
         public   IHttpActionResult UpdateCompanyMemberRole(int memberId, string role)
         {
-            new CompanyRepository().UpdateCompanyMemberRole(User.Identity.Name, memberId, role);
-               
-            return (Ok());
+            var messageType = new CompanyRepository().UpdateCompanyMemberRole(User.Identity.Name, memberId, role);
+
+            string result = messageType == MessageType.AssignDefaultRoleRequest ?
+                "Member has default role in other company, we have send a request to him/her." : string.Empty;  
+            return (Ok(result));
 
         }
 

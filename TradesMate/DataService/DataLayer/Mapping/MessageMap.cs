@@ -23,7 +23,8 @@ namespace EF.Data.Mapping
             this.HasOptional(p => p.Member).WithMany(p => p.Messages).HasForeignKey(p => p.MemberId);
 
 
-            this.HasOptional(p => p.MessageResponse).WithRequired(p => p.Message);
+            // this.HasOptional(p => p.MessageResponse).WithRequired(p => p.Message).Map(x => x.MapKey("MessageResponseId")); ;
+            //this.HasOptional(p => p.MessageResponse).WithRequired(p => p.Message);
             //table
             ToTable("Message");
         }

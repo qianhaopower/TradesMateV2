@@ -37,7 +37,7 @@ namespace EF.Data
     {
         Owner = 0,// owner can accept coowner's request, so the co owner can have the same access to a property
         CoOwner  =1,//
-    }
+    }  
 
     public enum MessageType
     {
