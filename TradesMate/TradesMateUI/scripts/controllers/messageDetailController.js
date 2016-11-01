@@ -42,14 +42,22 @@ function ($scope, messageService, Notification, $state, $stateParams) {
 
     var init = function () {
         messageService.getMessageById($stateParams.messageId).then(function (result) {
+
             $scope.message = result;
             $scope.showRespond = result.messageResponse;
             $scope.respondText = result.messageResponse
                 ? result.memberName + ' has ' + result.messageResponse.responseAction.toLocaleLowerCase() + ' this request.'
                 : undefined;
             $scope.messageTitle = messageService.getMessageTitleForType($scope.message.messageType);
-            if(!result.isRead)//mark as read
+            //if(!result.isRead)//mark as read
+
+            //server will handle should we proceed this.
             messageService.markMessageAsRead($scope.message.id);
+
+            //if (result.messageResponse && !result.messageResponse.isRead)//mark response as read, we always mark it, server handles if this is the right person reading it and decide if we mark it.
+            //    messageService.markResponseAsRead($scope.message.id);//message and respond share the same key.
+
+
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
 

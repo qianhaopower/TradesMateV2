@@ -15,7 +15,7 @@ namespace EF.Data.Mapping
             Property(t => t.AddedDateTime).IsRequired();
             Property(t => t.ModifiedDateTime).IsRequired();
 
-            Ignore(t => t.HasResponse);
+          //  Ignore(t => t.HasResponse);
 
 
             //relation

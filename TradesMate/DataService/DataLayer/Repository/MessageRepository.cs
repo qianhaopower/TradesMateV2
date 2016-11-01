@@ -85,20 +85,30 @@ namespace EF.Data
             return count;
         }
 
-        public void MarkMessageAsRead(int messageOrResponseId)
+        public void MarkMessageAsRead(int messageId, string userId)
         {
-            var message = _ctx.Messages.Find(messageOrResponseId);
+            // we mark both message and response, but only one should has the user id.
+            var message = _ctx.Messages.Find(messageId);
           
-            if (message != null)
+            if (message != null
+                  && message.UserIdTo == userId
+                  && message.IsRead == false)//only mark it if current user is the message/response destinaion
             {
                 message.IsRead = true;
                 _ctx.Entry(message).State = EntityState.Modified;
-            }else
-            {
-                var messageResponse = _ctx.MessageResponses.Find(messageOrResponseId);
-                messageResponse.IsRead = true;
-                _ctx.Entry(messageResponse).State = EntityState.Modified;
             }
+
+            var response = _ctx.MessageResponses.Find(messageId);
+
+            if (response != null
+                && response.UserIdTo == userId
+                && response.IsRead == false)//only mark it if current user is the message/response destinaion
+            {
+                response.IsRead = true;
+                _ctx.Entry(response).State = EntityState.Modified;
+            }
+           
+
             _ctx.SaveChanges();
                 
             

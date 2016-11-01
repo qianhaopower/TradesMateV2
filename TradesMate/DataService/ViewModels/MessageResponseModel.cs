@@ -15,8 +15,9 @@ namespace DataService.Models
         public DateTime CreateTime { get; set; }
 
         public bool IsRead { get; set; }
+        public string UserIdTo { get; set; }
 
-        
+
 
 
     }

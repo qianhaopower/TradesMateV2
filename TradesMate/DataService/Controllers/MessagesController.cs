@@ -17,6 +17,7 @@ using System.Threading.Tasks;
 using System.Web.Http.Description;
 using DataService.Models;
 using AutoMapper;
+using Microsoft.AspNet.Identity;
 
 namespace DataService.Controllers
 {
@@ -29,9 +30,39 @@ namespace DataService.Controllers
         public IHttpActionResult GetMessages()
         {
             var messages = new MessageRepository().GetMessageForUser(User.Identity.Name).ToList();
-            messages.ForEach(p => p.HasResponse = p.MessageResponse != null);
+            //messages.ForEach(p => p.HasResponse = p.MessageResponse != null);
 
-            return Ok(messages.Select(Mapper.Map<Message, MessageModel>));
+            var returnList = messages.Select(Mapper.Map<Message, MessageDetailModel>).ToList();
+            returnList.ForEach(p => p.HasResponse = p.MessageResponse != null);
+
+            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
+
+            //returnList.ForEach(p => p.ShouldDisplayUnread =
+            //(p.UserIdTo == userId && p.IsRead == false)
+            //|| (p.MessageResponse != null && p.MessageResponse.UserIdTo == userId && p.MessageResponse.IsRead == false)
+            //);
+
+            foreach(var message in returnList)
+            {
+                if(message.UserIdTo == userId && message.IsRead == false)
+                {
+                    message.ShouldDisplayUnread = true;
+                }
+                if(message.MessageResponse != null 
+                    && message.MessageResponse.UserIdTo == userId)
+                    //&& message.MessageResponse.IsRead == false)
+                {
+                    message.Title = "You have a new respond";
+                    if (message.MessageResponse.IsRead == false)
+                    message.ShouldDisplayUnread = true;
+
+                   
+                }
+            }
+
+
+
+            return Ok(returnList);
 
         }
 
@@ -52,12 +83,22 @@ namespace DataService.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult MarkMessageAsRead(int messageOrResponseId)//this is wrong need change
+        public IHttpActionResult MarkMessageAsRead(int messageId)//this is wrong need change
         {
-            new MessageRepository().MarkMessageAsRead(messageOrResponseId);
+            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
+            new MessageRepository().MarkMessageAsRead(messageId, userId);
             return Ok();
 
         }
+
+        //[HttpPost]
+        //public IHttpActionResult MarkResponseAsRead(int responseId)//this is wrong need change
+        //{
+        //    var current = User.Identity.GetUserId();
+        //    new MessageRepository().MarkResponseAsRead(responseId, current);
+        //    return Ok();
+
+        //}
 
         [HttpPost]
         public IHttpActionResult HandleMessageResponse(int messageId, ResponseAction  action)

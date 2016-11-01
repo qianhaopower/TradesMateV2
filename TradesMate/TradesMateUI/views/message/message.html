@@ -27,11 +27,11 @@
         </thead>
         <tbody>
 
-            <tr ng-class="{'unread-message':!message.isRead}" ng-repeat="message in messageList | orderBy:'-createTime'| filter:search" ng-click="openMessageDetail(message)">
+            <tr ng-class="{'unread-message':message.shouldDisplayUnread}" ng-repeat="message in messageList | orderBy:'-createTime'| filter:search" ng-click="openMessageDetail(message)">
 
                 <td class="col-md-1 col-xs-2">
-                    <i class="fa fa-envelope-open-o" aria-hidden="true" ng-show="message.isRead"></i>
-                    <i class="fa fa-envelope-o" aria-hidden="true" ng-show="!message.isRead"></i>
+                    <i class="fa fa-envelope-open-o" aria-hidden="true" ng-show="!message.shouldDisplayUnread"></i>
+                    <i class="fa fa-envelope-o" aria-hidden="true" ng-show="message.shouldDisplayUnread"></i>
                 </td>
                 <td class="col-md-8 col-xs-6">
                    <!--{{message.messageText}}-->

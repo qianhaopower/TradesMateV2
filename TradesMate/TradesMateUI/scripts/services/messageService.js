@@ -51,10 +51,10 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     };
     
 
-    var _markMessageAsRead = function (messageOrResponseId) {
+    var _markMessageAsRead = function (messageId) {
 
         var deferred = $q.defer();
-        $http.post(serviceBase + 'api/messages/MarkMessageAsRead?messageOrResponseId=' + messageOrResponseId).success(function (response) {
+        $http.post(serviceBase + 'api/messages/MarkMessageAsRead?messageId=' + messageId).success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);
@@ -63,6 +63,19 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
         return deferred.promise;
 
     };
+
+    //var _markResponseAsRead = function (responseId) {
+
+    //    var deferred = $q.defer();
+    //    $http.post(serviceBase + 'api/messages/MarkMessageAsRead?responseId=' + responseId).success(function (response) {
+    //        deferred.resolve(response);
+    //    }).error(function (err, status) {
+    //        deferred.reject(err);
+    //    });
+    //    return deferred.promise;
+
+    //};
+
     
 
     var _handleMessageResponse = function (messageId, action) {
@@ -93,7 +106,7 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
                 title = 'New role request';
                 break;
             case 2:
-                title = 'you are assigned contractor role';
+                title = 'You are assigned contractor role';
                 break;
             case 3:
                 title = 'You are invited to join a company';
@@ -145,6 +158,8 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     messageServiceFactory.getMessageTitleForType = _getMessageTitleForType;
     messageServiceFactory.getMessageById = _getMessageById;
     messageServiceFactory.handleMessageResponse = _handleMessageResponse;
+    //messageServiceFactory.markResponseAsRead = _markResponseAsRead;
+    
     
   
  

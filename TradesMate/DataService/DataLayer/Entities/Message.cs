@@ -20,7 +20,7 @@ namespace EF.Data
 
         public string UserIdTo { get; set; }
 
-        public bool HasResponse { get; set; }
+        //public bool HasResponse { get; set; }
 
         public bool IsWaitingForResponse { get; set; }// indicates if the message is waiting for response/
 
