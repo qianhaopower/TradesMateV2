@@ -136,8 +136,8 @@ namespace DataService.Controllers
             {
                 //user must be admin to create user, the check is in GetCompanyForCurrentUser
 
-                var company = new CompanyRepository().GetCompanyForCurrentUser(User.Identity.Name);
-                    IdentityResult result = await _repo.RegisterUser(userModel, AppUserManager, company.Id);
+                var companyId = new CompanyRepository().GetCompanyFoAdminUser(User.Identity.Name).Id;
+                    IdentityResult result = await _repo.RegisterUser(userModel, AppUserManager, companyId);
 
                     IHttpActionResult errorResult = GetErrorResult(result);
 

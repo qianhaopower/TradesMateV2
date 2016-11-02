@@ -54,11 +54,11 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     };
 
-    var _searchMemberForJoinCompany = function () {
+    var _searchMemberForJoinCompany = function (searchText) {
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/companies/SearchMemberForJoinCompany').success(function (response) {
+        $http.get(serviceBase + 'api/companies/SearchMemberForJoinCompany?searchText=' + searchText).success(function (response) {
             deferred.resolve(response);
         }).error(function (err, status) {
             deferred.reject(err);

@@ -103,8 +103,15 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
         },function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
 
-    $scope.searchMember = function () {
-        companyService.searchMemberForJoinCompany().then(function (members) {
+    $scope.searchText = undefined;
+    $scope.$watch('searchText', function (newVal, oldVal) {
+        if(newVal)
+        searchMember(newVal);// fire search
+    });
+   
+
+    var searchMember = function (searchText) {
+        companyService.searchMemberForJoinCompany(searchText).then(function (members) {
 
             $scope.searchResult = members;
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });

@@ -193,7 +193,7 @@ namespace DataService.Controllers
 
         public IHttpActionResult GetCompanyForCurrentUser()
         {
-            var company = new CompanyRepository().GetCompanyForCurrentUser(User.Identity.Name);
+            var company = new CompanyRepository().GetCompanyFoAdminUser(User.Identity.Name);
             return Ok(Mapper.Map<Company, CompanyModel>(company));
 
         }
@@ -215,9 +215,9 @@ namespace DataService.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult SearchMemberForJoinCompany()
+        public IHttpActionResult SearchMemberForJoinCompany(string searchText)
         {
-            var searchList = new CompanyRepository().SearchMemberForJoinCompany(User.Identity.Name);
+            var searchList = new CompanyRepository().SearchMemberForJoinCompany(User.Identity.Name, searchText);
 
             return (Ok(searchList));
         }
