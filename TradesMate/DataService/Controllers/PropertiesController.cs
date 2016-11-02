@@ -14,6 +14,7 @@ using System.Web.OData.Routing;
 using EF.Data;
 using AutoMapper;
 using DataService.Models;
+using DataService.Infrastructure;
 
 namespace DataService.Controllers
 {
@@ -39,6 +40,12 @@ namespace DataService.Controllers
         public IQueryable<Property> GetProperties()
         {
             var repo = new PropertyRepository();
+
+            //var k = Request.GetOwinContext().Get<ApplicationUserManager>("AppUserManager");
+            //var u = k.FindByNameAsync(User.Identity.Name);
+
+            
+
             return repo.GetPropertyForUser(User.Identity.Name);
 
            // return db.Properties;

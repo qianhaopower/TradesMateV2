@@ -102,6 +102,14 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
             $scope.memberList = members;
         },function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
+
+    $scope.searchMember = function () {
+        companyService.searchMemberForJoinCompany().then(function (members) {
+
+            $scope.searchResult = members;
+        }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+    }
+
     var getCompanyDetail = function () {
         companyService.getCurrentCompany().then(function (company) {
             $scope.companyInfo.companyName = company.companyName;

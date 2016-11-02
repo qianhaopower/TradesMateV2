@@ -214,8 +214,15 @@ namespace DataService.Controllers
 
         }
 
+        [HttpGet]
+        public IHttpActionResult SearchMemberForJoinCompany()
+        {
+            var searchList = new CompanyRepository().SearchMemberForJoinCompany(User.Identity.Name);
 
-        
+            return (Ok(searchList));
+        }
+
+
 
         [HttpPost]
         public   IHttpActionResult UpdateCompanyMemberRole(int memberId, string role)

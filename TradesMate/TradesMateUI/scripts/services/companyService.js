@@ -54,6 +54,19 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     };
 
+    var _searchMemberForJoinCompany = function () {
+
+        var deferred = $q.defer();
+
+        $http.get(serviceBase + 'api/companies/SearchMemberForJoinCompany').success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+
+    };
+
 
 
     var _getMemberById = function (memberId) {
@@ -125,6 +138,9 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     companyServiceFactory.getMemberById = _getMemberById;
     companyServiceFactory.deleteMemberById = _deleteMemberById;
     companyServiceFactory.updateMemberRole = _updateMemberRole;
+    companyServiceFactory.searchMemberForJoinCompany = _searchMemberForJoinCompany;
+
+    
   
  
     

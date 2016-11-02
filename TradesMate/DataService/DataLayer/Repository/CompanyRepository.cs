@@ -416,6 +416,24 @@ namespace EF.Data
 
             return user.First();
         }
+
+
+        public IQueryable<MemberSearchModel> SearchMemberForJoinCompany(string userName )
+        {
+            var companyId = GetCompanyFoAdminUser(userName).Id;
+            var result = 
+                          (from cm in _ctx.CompanyMembers 
+                          join mem in _ctx.Members on cm.MemberId equals mem.Id
+                          where cm.Id != companyId //not in the company
+                          && cm.Role != CompanyRole.Admin //cannot be Admin in any other company
+                          select new MemberSearchModel
+                          {
+                              FullName = mem.FirstName + " "+ mem.LastName ,
+                               Email = mem.Email,
+                                MemberId = mem.Id,
+                          }).Distinct().Take(10);// search result get maximum 10. 
+            return result;
+        }
         public void Dispose()
         {
             _ctx.Dispose();

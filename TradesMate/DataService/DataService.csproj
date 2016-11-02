@@ -338,6 +338,7 @@
     <Compile Include="ViewModels\ModelFactory.cs" />
     <Compile Include="ViewModels\CompanyModel.cs" />
     <Compile Include="ViewModels\MemberModel.cs" />
+    <Compile Include="ViewModels\MemberSearchModel.cs" />
     <Compile Include="ViewModels\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AuthProviders\FacebookAuthProvider.cs" />
