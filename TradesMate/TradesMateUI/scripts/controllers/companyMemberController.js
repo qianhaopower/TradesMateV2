@@ -104,16 +104,17 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
     }
 
     $scope.searchText = undefined;
-    $scope.$watch('searchText', function (newVal, oldVal) {
-        if(newVal)
-        searchMember(newVal);// fire search
-    });
+    //$scope.$watch('searchText', function (newVal, oldVal) {
+    //    if(newVal)
+    //    searchMember(newVal);// fire search
+    //});
    
 
-    var searchMember = function (searchText) {
-        companyService.searchMemberForJoinCompany(searchText).then(function (members) {
+    $scope.searchMember = function (search) {
+       return companyService.searchMemberForJoinCompany(search).then(function (members) {
 
-            $scope.searchResult = members;
+            return members;
+            //$scope.searchResult = members;
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
 

@@ -27,10 +27,11 @@
 
             <h4>Asynchronous results</h4>
             <pre>Model: {{searchText}}</pre>
-            <input type="text" ng-model="searchText" placeholder="Locations loaded via $http" 
-                   uib-typeahead="address for address in search($viewValue)" 
+            <input type="text" ng-model="selected" placeholder="Locations loaded via $http" 
+                   uib-typeahead="item as item.fullName for item in searchMember($viewValue) " 
                    typeahead-loading="loadingLocations"
                     typeahead-no-results="noResults"
+                   typeahead-wait-ms ="200"
                     class="form-control">
             <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
             <div ng-show="noResults">
