@@ -6,17 +6,17 @@
             </a>
         </div>
     </div>
- 
+
     <div class="row">
         <div class="col-lg-12">
             <h2 class="page-header">Members in {{companyInfo.companyName}}</h2>
         </div>
     </div>
 
-    <div class="row">
-     
+    <div class="row" ng-show="!sendingRequest">
+
         <div class="col-xs-9 col-md-9">
-           
+
             <div class="inner-addon left-addon">
                 <i ng-show="loading" class="glyphicon glyphicon-refresh"></i>
                 <i ng-show="!loading" class="glyphicon glyphicon-user"></i>
@@ -27,6 +27,7 @@
                        typeahead-wait-ms="200"
                        class="form-control">
             </div>
+            <span class="hint">Search for member name or email, or type in full email address to invite new member.</span>
             <!--<div ng-show="noResults">
                 <i class="glyphicon glyphicon-remove" ></i> No Results Found
             </div>-->
@@ -34,17 +35,47 @@
 
         </div>
         <div class="col-xs-3 col-md-3" ng-disabled="!inputValid">
-            <div ng-click="proceedAddMember(selected)" ng-disabled="!inputValid">
+            <div ng-click="proceedAddMember()" ng-disabled="!inputValid">
                 <!--<i class="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>-->
                 <i class="fa fa-arrow-circle-o-right fa-2x" ng-class="{'disable-icon':!inputValid}" aria-hidden="true"></i>
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="row" ng-show="sendingRequest">
+        <div class="col-xs-12">
+           
+               
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <span class="control-label">Invite {{selected.fullName}} to join company </span>
+                </div>
 
             </div>
-           
+             
+            <div class="form-group">
+                <div class="col-xs-12">
+                    <input type="text" placeholder="Mssage to be send. e.g. Hello..."
+                    class="form-control">
+                </div>
+                
+            </div>
+              
+          
+                <div class="btn btn-default accept pull-right" ng-click="send()" ng-show="true">
+                    <i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp;Send
+                </div>
+                <div class="btn btn-default reject pull-right" ng-click="cancel()" ng-show="true">
+                    <i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Cancel
+                </div>
+
+            </div>
+
         </div>
 
 
-        
-    </div>
     <hr />
     <div class="row ">
         <div class="col-xs-6 col-md-9">
@@ -54,7 +85,7 @@
             </button>
         </div>
 
-     
+
 
         <div class="col-xs-6  col-md-3 pull-right">
 
@@ -70,7 +101,7 @@
                 <th>Role</th>
                 <th></th>
                 <th></th>
-               
+
             </tr>
         </thead>
         <tbody>
@@ -88,16 +119,16 @@
                                 ng-model="member.memberRole" ng-change="fireUpdateRole(member)"></select>
                     </div>
                 </td>
-            
+
                 <!--<td class="col-md-1 col-xs-2">
                     <a class="btn btn-primary btn-sm" title="Edit member" ng-click="editMemberDetail(member)">Edit</a>
                 </td>-->
 
-                <td class="col-md-1 col-xs-2" >
+                <td class="col-md-1 col-xs-2">
                     <a class="btn btn-primary btn-sm" title="Allocate property to contractor" ng-show="member.memberRole == 'Contractor'" ng-click="allocate(member)">Manage</a>
                 </td>
                 <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-danger btn-sm"  title="Delete member"   ng-show="member.memberRole != 'Admin'" ng-click="deleteMember(member)">Delete</a>
+                    <a class="btn btn-danger btn-sm" title="Delete member" ng-show="member.memberRole != 'Admin'" ng-click="deleteMember(member)">Delete</a>
                 </td>
 
             </tr>

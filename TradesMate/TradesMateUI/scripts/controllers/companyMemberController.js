@@ -135,12 +135,22 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
 
     $scope.proceedAddMember = function () {
         if ($scope.selected.memberId) {
+            $scope.sendingRequest = true;
             //we are adding existing member
         } else {
+            $scope.sendingRequest = false;
             // we are adding new member
         }
     }
+     
+    $scope.send = function () {
+        $scope.sendingRequest = false;
+    }
 
+
+    $scope.cancel = function () {
+        $scope.sendingRequest = false;
+    }
 
     //$scope.getLocation = function (val) {
     //    return $http.get('//maps.googleapis.com/maps/api/geocode/json', {

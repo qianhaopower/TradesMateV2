@@ -119,6 +119,12 @@ margin-left:20px;
   pointer-events: none;
 }
 
+
+.hint {
+    color:lightgrey;
+    font-style:italic;
+}
+
 /* align icon */
 .left-addon .glyphicon  { left:  0px;}
 .right-addon .glyphicon { right: 0px;}
