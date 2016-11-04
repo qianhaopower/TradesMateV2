@@ -6,39 +6,55 @@
             </a>
         </div>
     </div>
+ 
     <div class="row">
         <div class="col-lg-12">
             <h2 class="page-header">Members in {{companyInfo.companyName}}</h2>
         </div>
     </div>
+
+    <div class="row">
+     
+        <div class="col-xs-9 col-md-9">
+           
+            <div class="inner-addon left-addon">
+                <i ng-show="loading" class="glyphicon glyphicon-refresh"></i>
+                <i ng-show="!loading" class="glyphicon glyphicon-user"></i>
+                <input type="text" ng-model="selected" placeholder="Type in name or email to search"
+                       uib-typeahead="item as item.label for item in searchMember($viewValue) "
+                       typeahead-loading="loading"
+                       typeahead-no-results="noResults"
+                       typeahead-wait-ms="200"
+                       class="form-control">
+            </div>
+            <!--<div ng-show="noResults">
+                <i class="glyphicon glyphicon-remove" ></i> No Results Found
+            </div>-->
+
+
+        </div>
+        <div class="col-xs-3 col-md-3" ng-disabled="!inputValid">
+            <div ng-click="proceedAddMember(selected)" ng-disabled="!inputValid">
+                <!--<i class="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>-->
+                <i class="fa fa-arrow-circle-o-right fa-2x" ng-class="{'disable-icon':!inputValid}" aria-hidden="true"></i>
+
+            </div>
+           
+        </div>
+
+
+        
+    </div>
+    <hr />
     <div class="row ">
         <div class="col-xs-6 col-md-9">
 
             <button type="button" title="Add new member" class="btn btn-default btn-sm" ng-click="addNewMember()">
                 <i class="fa fa-plus"></i> Add Member
             </button>
-
-            <input type="text" data-ng-model="searchText" placeholder="Search..." ng-model-options="{debounce: 2000}">
-
         </div>
 
-        <div class="col-xs-6 col-md-9">
-
-
-            <h4>Asynchronous results</h4>
-            <pre>Model: {{searchText}}</pre>
-            <input type="text" ng-model="selected" placeholder="Locations loaded via $http" 
-                   uib-typeahead="item as item.fullName for item in searchMember($viewValue) " 
-                   typeahead-loading="loadingLocations"
-                    typeahead-no-results="noResults"
-                   typeahead-wait-ms ="200"
-                    class="form-control">
-            <i ng-show="loadingLocations" class="glyphicon glyphicon-refresh"></i>
-            <div ng-show="noResults">
-                <i class="glyphicon glyphicon-remove"></i> No Results Found
-            </div>
-
-        </div>
+     
 
         <div class="col-xs-6  col-md-3 pull-right">
 

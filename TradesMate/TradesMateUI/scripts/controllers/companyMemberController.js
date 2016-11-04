@@ -104,15 +104,20 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
     }
 
     $scope.searchText = undefined;
-    //$scope.$watch('searchText', function (newVal, oldVal) {
-    //    if(newVal)
-    //    searchMember(newVal);// fire search
-    //});
+    $scope.inputValid = false;
+
+    $scope.$watch('selected', function (newVal, oldVal) {
+        if (newVal)
+            $scope.inputValid = $scope.selected.memberId || (typeof ($scope.selected) == 'string' && /\S+@\S+\.\S+/.test($scope.selected));
+
+    });
    
 
     $scope.searchMember = function (search) {
        return companyService.searchMemberForJoinCompany(search).then(function (members) {
-
+           for(var i = 0; i< members.length; i++){
+               members[i].label = members[i].fullName + ' (' + members[i].email + ')';
+           }
             return members;
             //$scope.searchResult = members;
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
@@ -126,6 +131,14 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
             //$scope.companyInfo.companyId = company.companyId;
 
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+    }
+
+    $scope.proceedAddMember = function () {
+        if ($scope.selected.memberId) {
+            //we are adding existing member
+        } else {
+            // we are adding new member
+        }
     }
 
 
