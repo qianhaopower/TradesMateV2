@@ -332,6 +332,7 @@
     <Compile Include="Infrastructure\ExtendedClaimsProvider.cs" />
     <Compile Include="Infrastructure\RolesFromClaims.cs" />
     <Compile Include="ViewModels\AllocationModel.cs" />
+    <Compile Include="ViewModels\InviteMemberModel.cs" />
     <Compile Include="ViewModels\MessageResponseModel.cs" />
     <Compile Include="ViewModels\MessageModel.cs" />
     <Compile Include="ViewModels\ExternalLoginModels.cs" />

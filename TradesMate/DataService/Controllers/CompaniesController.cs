@@ -235,6 +235,19 @@ namespace DataService.Controllers
 
         }
 
+
+        [HttpPost]
+        public IHttpActionResult AddExistingMemberToCompany(InviteMemberModel model)
+        {
+
+            //todo 1) add text in to the message,
+            //2) validate email not exist. 
+            //3) validate this member is not admin for any other company. 
+             new CompanyRepository().CreateJoinCompanyRequest(User.Identity.Name, model.MemberId);
+            return (Ok());
+
+        }
+        
         [HttpDelete]
         public async Task<IHttpActionResult> RemoveMember(int memberId )
         {

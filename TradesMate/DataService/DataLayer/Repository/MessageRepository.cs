@@ -36,10 +36,10 @@ namespace EF.Data
         private const string AssignContractorRoleMessage = "Dear {0}, You are assigned contractor role in {1}. Now you can view {1}'s properties allocated to you.";
 
         //XXX(Admin name) has invited you to join YYY(company name).
-        private const string InviteJoinCompanyRequestMessage = "Dear {0}, you are invited to join {1}, you can see {1}'s properties if you accept.";
+        private const string InviteJoinCompanyRequestMessage = "Dear {0}, you are invited to join {1}. You can see {1}'s properties if  accept.";
 
         //AAA(ClientName) has granted you access to property WWW(propertyName, address)
-        private const string AddPropertyCoOwnerMessage = "Dear {0}, you are granted access to {1}, you can see {1}'s works now.";
+        private const string AddPropertyCoOwnerMessage = "Dear {0}, you are granted access to {1., You can see {1}'s works now.";
 
         public MessageRepository(EFDbContext ctx = null)
         {
@@ -293,10 +293,17 @@ namespace EF.Data
             //_ctx.SaveChanges();
         }
 
+       
+
+
         public void GenerateAddMemberToCompany(int memberId, int companyId, CompanyRole role)
         {
             var companyName = _ctx.Companies.Find(companyId).Name;
             var memberName = _ctx.Members.Find(memberId).FirstName;
+
+            var memberUser = _ctx.Users.First(p => p.Member.Id == memberId);
+
+            var adminUser = new CompanyRepository(_ctx).GetCompanyAdminMember(companyId);
 
             var message = new Message()
             {
@@ -305,6 +312,8 @@ namespace EF.Data
                 CompanyId = companyId,
                 MemberId = memberId,
                 Role = role,
+                UserIdFrom = adminUser.Id,
+                UserIdTo = memberUser.Id,
                 MessageText = string.Format(InviteJoinCompanyRequestMessage, memberName, companyName),
                 MessageType = MessageType.InviteJoinCompanyRequest,
                 IsWaitingForResponse = true,

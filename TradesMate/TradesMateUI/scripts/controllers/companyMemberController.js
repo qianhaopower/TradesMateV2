@@ -137,6 +137,7 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
         if ($scope.selected.memberId) {
             $scope.sendingRequest = true;
             //we are adding existing member
+           
         } else {
             $scope.sendingRequest = false;
             // we are adding new member
@@ -144,26 +145,31 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
     }
      
     $scope.send = function () {
-        $scope.sendingRequest = false;
+        addExistingMemberToCompany();
+       
     }
 
 
     $scope.cancel = function () {
         $scope.sendingRequest = false;
     }
+    
 
-    //$scope.getLocation = function (val) {
-    //    return $http.get('//maps.googleapis.com/maps/api/geocode/json', {
-    //        params: {
-    //            address: val,
-    //            sensor: false
-    //        }
-    //    }).then(function (response) {
-    //        return response.data.results.map(function (item) {
-    //            return item.formatted_address;
-    //        });
-    //    });
-    //};
+    var addExistingMemberToCompany = function () {
+        if($scope.selected.memberId){
+            var data = {memberId:$scope.selected.memberId, text:$scope.inviteText};
+            companyService.addExistingMemberToCompany(data).then(function () {
+                $scope.sendingRequest = false;
+                Notification.success({ message: 'Request sent', delay: 2000 });
+                //getMembersInCompany();
+            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+
+        }else{
+            Notification.error({ message: 'Please select a member to proceed', delay: 2000 }); 
+        }
+        
+        
+    }
 
     // get the company info for display
     getCompanyDetail();

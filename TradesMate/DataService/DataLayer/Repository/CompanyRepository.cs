@@ -37,6 +37,12 @@ namespace EF.Data
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
         }
 
+        public void CreateJoinCompanyRequest(string userName, int memberId)
+        {
+            var companyId = GetCompanyFoAdminUser(userName).Id;
+            new MessageRepository(_ctx).GenerateAddMemberToCompany(memberId, companyId, CompanyRole.Contractor);//for now by default contractor.
+        }
+
         public IQueryable<MemberModel> GetMemberByUserName(string userName, int? memberId = null)
         {
             var companyId = GetCompanyFoAdminUser(userName).Id;
@@ -422,20 +428,33 @@ namespace EF.Data
         {
             var search = searchText.ToLower();
             var companyId = GetCompanyFoAdminUser(userName).Id;
-            var result = 
-                          (from cm in _ctx.CompanyMembers 
-                          join mem in _ctx.Members on cm.MemberId equals mem.Id
-                          where cm.Id != companyId //not in the company
-                          && cm.Role != CompanyRole.Admin //cannot be Admin in any other company
-                          &&(mem.FirstName.ToLower().Contains(search)
-                          || mem.LastName.ToLower().Contains(search)
-                          || mem.Email.ToLower().Contains(search))//search
-                          select new MemberSearchModel
-                          {
-                              FullName = mem.FirstName + " "+ mem.LastName ,
-                               Email = mem.Email,
-                                MemberId = mem.Id,
-                          }).Distinct().Take(10);// search result get maximum 10. 
+            //var result = 
+            //              (from cm in _ctx.CompanyMembers 
+            //              join mem in _ctx.Members on cm.MemberId equals mem.Id
+            //              where cm.CompanyId != companyId //not in the company
+            //              && cm.Role != CompanyRole.Admin //cannot be Admin in any other company
+            //              &&(mem.FirstName.ToLower().Contains(search)
+            //              || mem.LastName.ToLower().Contains(search)
+            //              || mem.Email.ToLower().Contains(search))//search
+            //              select new MemberSearchModel
+            //              {
+            //                  FullName = mem.FirstName + " "+ mem.LastName ,
+            //                   Email = mem.Email,
+            //                    MemberId = mem.Id,
+            //              }).Distinct().Take(10);// search result get maximum 10. 
+
+            var result = ( from mem in _ctx.Members 
+                          where !mem.CompanyMembers.Any(p => p.CompanyId == companyId) //not in the company
+                           && !mem.CompanyMembers.Any(p => p.Role == CompanyRole.Admin)  //cannot be Admin in any other company
+                           && (mem.FirstName.ToLower().Contains(search)
+                           || mem.LastName.ToLower().Contains(search)
+                           || mem.Email.ToLower().Contains(search))//search
+                           select new MemberSearchModel
+                                     {
+                                         FullName = mem.FirstName + " " + mem.LastName,
+                                         Email = mem.Email,
+                                         MemberId = mem.Id,
+                                     }).Distinct().Take(10);// search result get maximum 10.             
             return result;
         }
         public void Dispose()
