@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Security.Claims;
+using System.Text;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -296,7 +297,7 @@ namespace EF.Data
        
 
 
-        public void GenerateAddMemberToCompany(int memberId, int companyId, CompanyRole role)
+        public void GenerateAddMemberToCompany(int memberId, int companyId, string messageFromRequestor,CompanyRole role)
         {
             var companyName = _ctx.Companies.Find(companyId).Name;
             var memberName = _ctx.Members.Find(memberId).FirstName;
@@ -305,6 +306,14 @@ namespace EF.Data
 
             var adminUser = new CompanyRepository(_ctx).GetCompanyAdminMember(companyId);
 
+            var systemMessage = string.Format(InviteJoinCompanyRequestMessage, memberName, companyName);
+           // var messageToSend = systemMessage + char(13) + CHAR(10) + messageFromRequestor;
+
+
+            var sb = new StringBuilder();
+            sb.AppendLine(systemMessage);
+            sb.AppendLine("<br/>");
+            sb.AppendLine(messageFromRequestor);
             var message = new Message()
             {
                 AddedDateTime = DateTime.Now,
@@ -314,7 +323,7 @@ namespace EF.Data
                 Role = role,
                 UserIdFrom = adminUser.Id,
                 UserIdTo = memberUser.Id,
-                MessageText = string.Format(InviteJoinCompanyRequestMessage, memberName, companyName),
+                MessageText = sb.ToString(),
                 MessageType = MessageType.InviteJoinCompanyRequest,
                 IsWaitingForResponse = true,
                 IsRead = false,

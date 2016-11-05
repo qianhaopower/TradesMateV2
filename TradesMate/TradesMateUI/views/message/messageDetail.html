@@ -43,7 +43,7 @@
                          <div class="form-group">
                              <label class="col-sm-3  ">Content</label>
                              <div class="col-sm-9" style="word-wrap: break-word;">
-                                 <div class="form-control work-item-textarea" ng-bind="message.messageText">
+                                 <div class="form-control work-item-textarea" ng-bind-html="renderHtml(message.messageText)">
                                  </div>
                              </div>
                          </div>

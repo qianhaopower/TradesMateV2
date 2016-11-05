@@ -37,10 +37,20 @@ namespace EF.Data
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
         }
 
-        public void CreateJoinCompanyRequest(string userName, int memberId)
+        public void CreateJoinCompanyRequest(string userName, InviteMemberModel model)
         {
             var companyId = GetCompanyFoAdminUser(userName).Id;
-            new MessageRepository(_ctx).GenerateAddMemberToCompany(memberId, companyId, CompanyRole.Contractor);//for now by default contractor.
+            var otherCompanyInfo = GetMemberInfoOutsideCompany(companyId, model.MemberId);
+            var inOtherCompanyAsAdmin = otherCompanyInfo.Any(p => p.CompanyMember.Role == CompanyRole.Admin);
+            if (inOtherCompanyAsAdmin)
+            {
+                //people in other company is admin, as we cannot remove the admin role from the other company, set default role here is not allowed.
+                // throw new Exception("Member is the admin of other company, cannot assign default role in this company.");
+                throw new Exception( "Member is the admin of other company, cannot invite.");
+            }
+            
+
+            new MessageRepository(_ctx).GenerateAddMemberToCompany(model.MemberId, companyId, model.Text, CompanyRole.Contractor);//for now by default contractor.
         }
 
         public IQueryable<MemberModel> GetMemberByUserName(string userName, int? memberId = null)

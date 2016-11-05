@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sbAdminApp')
-  .controller('messageDetailController', ['$scope', 'messageService', 'Notification', '$state', '$stateParams',
-function ($scope, messageService, Notification, $state, $stateParams) {
+  .controller('messageDetailController', ['$scope', 'messageService', 'Notification', '$state', '$stateParams', '$sce',
+function ($scope, messageService, Notification, $state, $stateParams, $sce) {
 
    
     $scope.message = {};
@@ -29,7 +29,9 @@ function ($scope, messageService, Notification, $state, $stateParams) {
         isMessageOpen: true,
 
     };
-
+    $scope.renderHtml = function (html_code) {
+        return $sce.trustAsHtml(html_code);
+    };
 
 
     var handle = function (action) {
