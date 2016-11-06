@@ -76,10 +76,10 @@ namespace EF.Data
             return user;
         }
 
-        public async Task<bool> isUserAdmin(string userName)
+        public  bool isUserAdmin(string userName)
         {
 
-            var user = await this.GetUserByUserNameAsync(userName);
+            var user =  this.GetUserByUserName(userName);
 
             _ctx.Entry(user).Reference(s => s.Member).Load();
             if (user != null && user.Member != null)
@@ -99,6 +99,37 @@ namespace EF.Data
                 {
                     throw new Exception("Member can be admin for one company");
                 }else if (company.Count() == 0)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+
+        public async Task<bool> isUserAdminAsync(string userName)
+        {
+
+            var user = await this.GetUserByUserNameAsync(userName);
+
+            _ctx.Entry(user).Reference(s => s.Member).Load();
+            if (user != null && user.Member != null)
+            {
+                //user can only be admin for one company
+
+                var company = from m in _ctx.Members
+                              join cm in _ctx.CompanyMembers on m.Id equals cm.MemberId
+                              join c in _ctx.Companies on cm.CompanyId equals c.Id
+                              where cm.Role == CompanyRole.Admin && m.Id == user.Member.Id
+                              select c;
+                if (company.Count() == 1)
+                {
+                    return true;
+                }
+                else if (company.Count() > 0)
+                {
+                    throw new Exception("Member can be admin for one company");
+                }
+                else if (company.Count() == 0)
                 {
                     return false;
                 }
@@ -137,7 +168,7 @@ namespace EF.Data
             return result;
         }
 
-        public async Task<IdentityResult> RegisterUser(UserModel userModel, ApplicationUserManager appUserManager, int? companyId = null)
+        public async Task<IdentityResult> RegisterUser(UserModel userModel, ApplicationUserManager appUserManager, int? companyId = null, bool isContractor = false)
         {
             ApplicationUser user = new ApplicationUser
             {
@@ -164,8 +195,8 @@ namespace EF.Data
                     Email = user.Email,
                     UserId = user.Id,
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 _ctx.Entry(newClient).State = EntityState.Added;
@@ -188,8 +219,8 @@ namespace EF.Data
                      company = new Company()
                     {
                         Name = userModel.CompanyName,
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
                         Description = string.Format("A company created by user {0} {1}", userModel.FirstName, userModel.LastName)
                     };
 
@@ -201,15 +232,15 @@ namespace EF.Data
                 //create new member entry, create join between company and new member
                 var result = await _userManager.CreateAsync(user, userModel.Password);
 
-                //need create client entity here
+                //need create member entity here
                 Member newMember = new Member
                 {
                     FirstName = user.FirstName,
                     LastName = user.LastName,
                     Email = user.Email,
                     UserId = user.Id,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                     
                 };
 
@@ -222,9 +253,10 @@ namespace EF.Data
                 //create join entry
                 CompanyMember cm = new CompanyMember
                 {
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
-                    Role = companyId.HasValue ? CompanyRole.Default : CompanyRole.Admin,// if there is no company id provided, we are creating new company, so admin
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                    Role = isContractor ? CompanyRole.Contractor :
+                    (companyId.HasValue ? CompanyRole.Default : CompanyRole.Admin),// if there is no company id provided, we are creating new company, so admin
                     Member = newMember,
                     Company = company,
                     Confirmed = false

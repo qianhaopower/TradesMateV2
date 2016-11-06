@@ -272,6 +272,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
+    <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\PropertiesController.cs" />
     <Compile Include="Controllers\ProtectedController.cs" />
@@ -282,6 +283,8 @@
     <Compile Include="DataLayer\EFDbContext.cs" />
     <Compile Include="DataLayer\Entities\Address.cs" />
     <Compile Include="DataLayer\Entities\BaseEntity.cs" />
+    <Compile Include="DataLayer\Entities\MessageResponse.cs" />
+    <Compile Include="DataLayer\Entities\Message.cs" />
     <Compile Include="DataLayer\Entities\PropertyAllocation.cs" />
     <Compile Include="DataLayer\Entities\Member.cs" />
     <Compile Include="DataLayer\Entities\CompanyMember.cs" />
@@ -300,6 +303,8 @@
     <Compile Include="DataLayer\Entities\WorkItemTemplate.cs" />
     <Compile Include="DataLayer\Enum\Enums.cs" />
     <Compile Include="DataLayer\Mapping\AddressMapping.cs" />
+    <Compile Include="DataLayer\Mapping\MessageResponseMap.cs" />
+    <Compile Include="DataLayer\Mapping\MessageMap.cs" />
     <Compile Include="DataLayer\Mapping\PropertyAllocationMap.cs" />
     <Compile Include="DataLayer\Mapping\MemberMap.cs" />
     <Compile Include="DataLayer\Mapping\ClientMapping.cs" />
@@ -313,6 +318,7 @@
     <Compile Include="DataLayer\Mapping\SubSectionTemplateMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemTemplateMap.cs" />
+    <Compile Include="DataLayer\Repository\MessageRepository.cs" />
     <Compile Include="DataLayer\Repository\ClientRepository.cs" />
     <Compile Include="DataLayer\Repository\CompanyRepository.cs" />
     <Compile Include="DataLayer\Repository\PropertyRepository.cs" />
@@ -326,10 +332,14 @@
     <Compile Include="Infrastructure\ExtendedClaimsProvider.cs" />
     <Compile Include="Infrastructure\RolesFromClaims.cs" />
     <Compile Include="ViewModels\AllocationModel.cs" />
+    <Compile Include="ViewModels\InviteMemberModel.cs" />
+    <Compile Include="ViewModels\MessageResponseModel.cs" />
+    <Compile Include="ViewModels\MessageModel.cs" />
     <Compile Include="ViewModels\ExternalLoginModels.cs" />
     <Compile Include="ViewModels\ModelFactory.cs" />
     <Compile Include="ViewModels\CompanyModel.cs" />
     <Compile Include="ViewModels\MemberModel.cs" />
+    <Compile Include="ViewModels\MemberSearchModel.cs" />
     <Compile Include="ViewModels\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="AuthProviders\FacebookAuthProvider.cs" />

@@ -10,8 +10,8 @@ namespace EF.Data.Mapping
         {
             //property
             Property(t => t.Id);
-            Property(t => t.AddedDate).IsRequired();
-            Property(t => t.ModifiedDate).IsRequired();
+            Property(t => t.AddedDateTime).IsRequired();
+            Property(t => t.ModifiedDateTime).IsRequired();
 
             Property(t => t.ClientId).IsRequired();
 

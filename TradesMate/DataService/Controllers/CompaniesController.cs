@@ -193,7 +193,7 @@ namespace DataService.Controllers
 
         public IHttpActionResult GetCompanyForCurrentUser()
         {
-            var company = new CompanyRepository().GetCompanyForCurrentUser(User.Identity.Name);
+            var company = new CompanyRepository().GetCompanyFoAdminUser(User.Identity.Name);
             return Ok(Mapper.Map<Company, CompanyModel>(company));
 
         }
@@ -214,18 +214,40 @@ namespace DataService.Controllers
 
         }
 
+        [HttpGet]
+        public IHttpActionResult SearchMemberForJoinCompany(string searchText)
+        {
+            var searchList = new CompanyRepository().SearchMemberForJoinCompany(User.Identity.Name, searchText);
 
-        
+            return (Ok(searchList));
+        }
+
+
 
         [HttpPost]
-        public async  Task<IHttpActionResult> UpdateCompanyMemberRole(int memberId, string role)
+        public   IHttpActionResult UpdateCompanyMemberRole(int memberId, string role)
         {
-            var newRole = await new CompanyRepository().UpdateCompanyMemberRole(User.Identity.Name, memberId, role);
-               
-            return (Ok(newRole.ToString()));
+            var messageType = new CompanyRepository().UpdateCompanyMemberRole(User.Identity.Name, memberId, role);
+
+            string result = messageType == MessageType.AssignDefaultRoleRequest ?
+                "Member has default role in other company, we have send a request to him/her." : string.Empty;  
+            return (Ok(result));
 
         }
 
+
+        [HttpPost]
+        public IHttpActionResult AddExistingMemberToCompany(InviteMemberModel model)
+        {
+
+            //todo 1) add text in to the message,
+            //2) validate email not exist. 
+            //3) validate this member is not admin for any other company. 
+             new CompanyRepository().CreateJoinCompanyRequest(User.Identity.Name, model);
+            return (Ok());
+
+        }
+        
         [HttpDelete]
         public async Task<IHttpActionResult> RemoveMember(int memberId )
         {
@@ -282,7 +304,7 @@ namespace DataService.Controllers
 
             if (company == null)
             {
-                return BadRequest("Cannot fine company");
+                return BadRequest("Cannot find company");
             }
             company.Description = companyModel.Description;
             company.Name = companyModel.CompanyName;

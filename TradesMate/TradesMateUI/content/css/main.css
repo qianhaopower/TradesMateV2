@@ -90,7 +90,54 @@ background-color: #eee;
 margin-left:20px;
 }
 
+.unread-message{
+    background-color:lightyellow;
+}
 
+.accept{
+    color:#337ab7;
+}
+
+.reject{
+   color:#d9534f;
+   margin-right:30px;
+}
+
+.disable-icon{
+    color:#e5e5e5;
+}
+
+
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+
+.hint {
+    color:lightgrey;
+    font-style:italic;
+}
+
+.add-new-member {
+    background-color:lightyellow;
+    
+}
+
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
 /*required fields label*/
 .form-group.required .control-label:after {
   content:"*";

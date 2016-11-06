@@ -100,7 +100,7 @@ namespace DataService.Providers
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
-                var isUserAdmin = await _repo.isUserAdmin(user.UserName);
+                var isUserAdmin = await _repo.isUserAdminAsync(user.UserName);
                 if (isUserAdmin)
                     userRole = "Admin";
 

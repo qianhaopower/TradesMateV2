@@ -123,6 +123,12 @@ namespace DataService.Controllers
         {
             //Company user must be the type of Trade;
             userModel.UserType = (int)UserType.Trade;
+
+            //todo generate random password
+            if (userModel.Password == null)
+            {
+                userModel.Password = "123456";
+            }
            
             if (!ModelState.IsValid)
             {
@@ -136,8 +142,9 @@ namespace DataService.Controllers
             {
                 //user must be admin to create user, the check is in GetCompanyForCurrentUser
 
-                var company = new CompanyRepository().GetCompanyForCurrentUser(User.Identity.Name);
-                    IdentityResult result = await _repo.RegisterUser(userModel, AppUserManager, company.Id);
+               
+                var companyId = new CompanyRepository().GetCompanyFoAdminUser(User.Identity.Name).Id;
+                    IdentityResult result = await _repo.RegisterUser(userModel, AppUserManager, companyId, userModel.IsContractor);
 
                     IHttpActionResult errorResult = GetErrorResult(result);
 
@@ -182,7 +189,7 @@ namespace DataService.Controllers
         public async Task<IHttpActionResult> GetUserById(string id)
         {
 
-            if (await _repo.isUserAdmin(User.Identity.Name))
+            if (await _repo.isUserAdminAsync(User.Identity.Name))
             {
                 var user = await this._repo.GetUserById(id);
 
@@ -201,13 +208,13 @@ namespace DataService.Controllers
         public async Task<IHttpActionResult> DeleteUserById(string id)
         {
 
-            if (await _repo.isUserAdmin(User.Identity.Name))
+            if (await _repo.isUserAdminAsync(User.Identity.Name))
             {
                 var user = await this._repo.GetUserById(id);
 
                 if (user != null)
                 {
-                    if (await _repo.isUserAdmin(user.UserName))
+                    if (await _repo.isUserAdminAsync(user.UserName))
                     {
                         throw new Exception("Cannot delete Admin user");
                     }

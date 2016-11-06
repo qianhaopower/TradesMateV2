@@ -59,10 +59,18 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
 
         }
         $scope.fireUpdateRole = function (member) {
-            companyService.updateMemberRole(member.memberId, member.memberRole).then(function () {
-                Notification.success({ message:'Role updated', delay: 2000 });
+            companyService.updateMemberRole(member.memberId, member.memberRole).then(function (reply) {
+                if (reply) {
+                    Notification.success({ message: reply, delay: 4000 });
+                } else {
+                    Notification.success({ message: 'Role updated', delay: 2000 });
+                }
+                
                 getMembersInCompany();
-            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+            }, function (error) {
+                Notification.error({ message: error.exceptionMessage, delay: 4000 });
+                getMembersInCompany();
+            });
         }
         
 
@@ -94,6 +102,27 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
             $scope.memberList = members;
         },function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
+
+    $scope.searchText = undefined;
+    $scope.inputValid = false;
+
+    $scope.$watch('selected', function (newVal, oldVal) {
+        if (newVal)
+            $scope.inputValid = $scope.selected.memberId || (typeof ($scope.selected) == 'string' && /\S+@\S+\.\S+/.test($scope.selected));
+
+    });
+   
+
+    $scope.searchMember = function (search) {
+       return companyService.searchMemberForJoinCompany(search).then(function (members) {
+           for(var i = 0; i< members.length; i++){
+               members[i].label = members[i].fullName + ' (' + members[i].email + ')';
+           }
+            return members;
+            //$scope.searchResult = members;
+        }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+    }
+
     var getCompanyDetail = function () {
         companyService.getCurrentCompany().then(function (company) {
             $scope.companyInfo.companyName = company.companyName;
@@ -104,6 +133,82 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
 
+
+    $scope.sendingRequestStatus = undefined;
+   
+    $scope.proceedAddMember = function () {
+        if ($scope.selected.memberId) {
+            $scope.sendingRequestStatus = 'existedMember';
+            //we are adding existing member
+           
+        } else {
+            // we are adding via a email
+
+            $scope.newMember = {
+                userName: undefined,
+                firstName: undefined,
+                lastName: undefined,
+                email: $scope.selected,
+                isContractor : true,
+             
+
+            };
+
+
+            $scope.sendingRequestStatus = 'newMember';
+            // we are adding new member
+        }
+    }
+     
+    $scope.sendExistedMember = function () {
+        addExistingMemberToCompany();
+       
+    }
+    $scope.sendNewMember = function () {
+        addNewMemberToCompany();
+
+    }
+
+
+    $scope.cancel = function () {
+        $scope.newMember = {};
+        $scope.sendingRequestStatus = undefined;
+    }
+    
+
+    var addExistingMemberToCompany = function () {
+        if($scope.selected.memberId){
+            var data = {memberId:$scope.selected.memberId, text:$scope.inviteText};
+            companyService.addExistingMemberToCompany(data).then(function () {
+                $scope.sendingRequestStatus = undefined;
+                Notification.success({ message: 'Request sent', delay: 2000 });
+                //getMembersInCompany();
+            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+
+        }else{
+            Notification.error({ message: 'Please select a member to proceed', delay: 2000 }); 
+        }
+
+    }
+    var addNewMemberToCompany = function () {
+        if ($scope.selected
+            && typeof ($scope.selected == 'string')
+            && /\S+@\S+\.\S+/.test($scope.selected)) {
+
+            
+            companyService.addNewMemberToCompany($scope.newMember).then(function () {
+                $scope.sendingRequestStatus = undefined;
+                Notification.success({ message: 'Member created', delay: 2000 });
+                getMembersInCompany();
+            }, function (error) {
+                Notification.error({ message: error.exceptionMessage ?error.exceptionMessage :error, delay: 2000 });
+            });
+
+        } else {
+            Notification.error({ message: 'Please input a valid email to proceed', delay: 2000 });
+        }
+
+    }
 
     // get the company info for display
     getCompanyDetail();

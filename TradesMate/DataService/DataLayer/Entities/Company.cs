@@ -14,6 +14,7 @@ namespace EF.Data
             //Properties = new List<Property>();
             PropertyCompanies = new List<PropertyCompany>();
             CompanyMembers = new List<CompanyMember>();
+            Messages = new List<Message>();
         }
 
         public string Name { get; set; }
@@ -32,5 +33,7 @@ namespace EF.Data
 
         public int? AddressId { get; set; }
         public virtual Address Address {get;set;}
+
+        public virtual ICollection<Message> Messages { get; set; }
     }
 }

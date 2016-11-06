@@ -12,6 +12,11 @@ namespace EF.Data
             //Properties = new List<Property>();
             // ClientCompanies = new List<ClientCompany>();
             CompanyMembers = new List<CompanyMember>();
+            Messages = new List<Message>();
+        }
+        public string FullName
+        {
+            get { return FirstName + ' ' + LastName; }
         }
         public string FirstName { get; set; }
         public string  MiddleName{ get; set; }
@@ -31,9 +36,11 @@ namespace EF.Data
         public string UserId { get; set; }
         public virtual ApplicationUser User { get; set; }
 
-   
+        public virtual ICollection<Message> Messages { get; set; }
 
-      //  public virtual ICollection<ClientCompany> ClientCompanies { get; set; }
+
+
+        //  public virtual ICollection<ClientCompany> ClientCompanies { get; set; }
     }
 
     public class MemberInfo

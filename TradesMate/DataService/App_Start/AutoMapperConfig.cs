@@ -20,7 +20,7 @@ namespace DataService
             Mapper.Initialize(x =>
             {
                 x.AddProfile<MappingProfile>();
-               
+
             });
             ////company
             //Mapper.Initialize(cfg => cfg.CreateMap<Company, CompanyModel>()
@@ -67,6 +67,40 @@ namespace DataService
 
                         .ForMember(dest => dest.Email, opts => opts.MapFrom(src => src.Email))
                           ;
+
+            CreateMap<MessageResponse, MessageResponseModel>()
+             .ForMember(dest => dest.CreateTime, opts => opts.MapFrom(src => src.AddedDateTime))
+                     .ForMember(dest => dest.ResponseText, opts => opts.MapFrom(src => src.ResponseText))
+                       .ForMember(dest => dest.IsRead, opts => opts.MapFrom(src => src.IsRead))
+                        .ForMember(dest => dest.UserIdTo, opts => opts.MapFrom(src => src.UserIdTo))
+                   .ForMember(dest => dest.ResponseAction, opts => opts.MapFrom(src => src.ResponseAction.ToString()))
+                       ;
+           // CreateMap<Message, MessageModel>()
+           //.ForMember(dest => dest.CreateTime, opts => opts.MapFrom(src => src.AddedDateTime))
+           //         .ForMember(dest => dest.IsWaitingForResponse, opts => opts.MapFrom(src => src.IsWaitingForResponse))
+           //          .ForMember(dest => dest.HasResponse, opts => opts.MapFrom(src => src.HasResponse))
+           //         .ForMember(dest => dest.IsRead, opts => opts.MapFrom(src => src.IsRead))
+           //                      .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Id))
+           //          .ForMember(dest => dest.MessageText, opts => opts.MapFrom(src => src.MessageText))
+           //          .ForMember(dest => dest.MessageType, opts => opts.MapFrom(src => (int)src.MessageType))
+                   
+           //           ;
+
+            CreateMap<Message, MessageDetailModel>()
+        .ForMember(dest => dest.CreateTime, opts => opts.MapFrom(src => src.AddedDateTime))
+                 .ForMember(dest => dest.ClientName, opts => opts.MapFrom(src => src.Client != null ? src.Client.FullName : null))
+                  .ForMember(dest => dest.CompanyName, opts => opts.MapFrom(src => src.Company != null ? src.Company.Name : null))
+                   .ForMember(dest => dest.PropertyName, opts => opts.MapFrom(src => src.Property != null ? src.Property.Name : null))
+                    .ForMember(dest => dest.MemberName, opts => opts.MapFrom(src => src.Member != null ? src.Member.FullName : null))
+                     .ForMember(dest => dest.UserIdTo, opts => opts.MapFrom(src => src.UserIdTo))
+                  .ForMember(dest => dest.Role, opts => opts.MapFrom(src => src.Role.ToString()))
+                   .ForMember(dest => dest.Id, opts => opts.MapFrom(src => src.Id))
+                 .ForMember(dest => dest.IsWaitingForResponse, opts => opts.MapFrom(src => src.IsWaitingForResponse))
+                    .ForMember(dest => dest.IsRead, opts => opts.MapFrom(src => src.IsRead))
+                  .ForMember(dest => dest.MessageText, opts => opts.MapFrom(src => src.MessageText))
+                  .ForMember(dest => dest.MessageType, opts => opts.MapFrom(src => (int)src.MessageType))
+                  .ForMember(dest => dest.MessageResponse, opts => opts.MapFrom(src => Mapper.Map<MessageResponse, MessageResponseModel>(src.MessageResponse)))
+                   ;
         }
     }
 }

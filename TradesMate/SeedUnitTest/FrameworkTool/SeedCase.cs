@@ -43,8 +43,8 @@ namespace EF.UnitTest
                         Suburb = "Clayton",
 
 
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
                     },
                     //Properties = new List<Property>() {
                     //  new Property() {
@@ -59,8 +59,8 @@ namespace EF.UnitTest
                     //  },
                       
                 //  },
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(clientLee).State = EntityState.Added;
@@ -86,8 +86,8 @@ namespace EF.UnitTest
                         Suburb = "Springvale",
 
 
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
                     },
                   //  Properties = new List<Property>() {
                   //    new Property() {
@@ -104,8 +104,8 @@ namespace EF.UnitTest
                   //},
 
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(clientJoe).State = EntityState.Added;
@@ -128,11 +128,11 @@ namespace EF.UnitTest
                         Suburb = "Bellavista",
 
 
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
                     },
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(clientLisa).State = EntityState.Added;
@@ -155,11 +155,11 @@ namespace EF.UnitTest
                         Suburb = "Caulfield",
 
 
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
                     },
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(clientKelly).State = EntityState.Added;
@@ -182,11 +182,11 @@ namespace EF.UnitTest
 
 
 
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
                     },
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(clientSimon).State = EntityState.Added;
@@ -239,15 +239,15 @@ namespace EF.UnitTest
                         Suburb = "Cheltenham",
 
 
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
                     },
                     Description = "Lee Pinder's House",
                     Condition = "This house is in good condition",
                     Narrative = "This house hot water service needs update",
                     Comment = "",                
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                     
                 };
                 context.Entry(propertyLee).State = EntityState.Added;
@@ -258,8 +258,8 @@ namespace EF.UnitTest
                     Property = propertyLee,
                     Confirmed = true,
                     Role = ClientRole.Owner,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(clientPropertyLee).State = EntityState.Added;
@@ -270,8 +270,8 @@ namespace EF.UnitTest
                     Property = propertyLee,
                     Confirmed = true,
                     Role = ClientRole.CoOwner,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(clientPropertyKelly).State = EntityState.Added;
@@ -291,16 +291,16 @@ namespace EF.UnitTest
                         Suburb = "Geelong",
 
 
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
                     },
                     Description = "Joe Smith's House",
                     Condition = "This house is in good condition",
                     Narrative = "This house hot water service needs update",
                     Comment = "",
                    
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
 
                 };
                 context.Entry(propertyLee).State = EntityState.Added;
@@ -311,8 +311,8 @@ namespace EF.UnitTest
                     Property = propertyJoe,
                     Confirmed = true,
                     Role = ClientRole.Owner,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(clientPropertyJoe).State = EntityState.Added;
@@ -333,15 +333,15 @@ namespace EF.UnitTest
                         Suburb = "Brunswick",
 
 
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
                     },
                     Description = "Lisa Pinder's House",
                     Condition = "This house is in good condition",
                     Narrative = "This house hot water service needs update",
                     Comment = "",
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                  
 
                 };
@@ -353,8 +353,8 @@ namespace EF.UnitTest
                     Property = propertyLisa,
                     Confirmed = true,
                     Role = ClientRole.Owner,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(clientPropertyLisa).State = EntityState.Added;
@@ -374,15 +374,15 @@ namespace EF.UnitTest
                         Suburb = "Bayswater",
 
 
-                        AddedDate = DateTime.Now,
-                        ModifiedDate = DateTime.Now,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
                     },
                     Description = "Simon Bing's House",
                     Condition = "This house is in good condition",
                     Narrative = "This house hot water service needs update",
                     Comment = "",
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
 
                 };
                 context.Entry(propertySimon).State = EntityState.Added;
@@ -393,8 +393,8 @@ namespace EF.UnitTest
                     Property = propertySimon,
                     Confirmed = true,
                     Role = ClientRole.Owner,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(clientPropertyLisa).State = EntityState.Added;
@@ -410,8 +410,8 @@ namespace EF.UnitTest
                     Property = propertyLee,
                     Type = "Living room",
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(sec).State = EntityState.Added;
@@ -425,8 +425,8 @@ namespace EF.UnitTest
                 {
                     Description = "TradesMate Software solutions. Providing best trades software",
                     Name = "TradesMate Soft",
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(companyTradesMate).State = EntityState.Added;
@@ -435,8 +435,8 @@ namespace EF.UnitTest
                 {
                     Property = propertyJoe,
                     Company = companyTradesMate,
-                     AddedDate = DateTime.Now,
-                      ModifiedDate = DateTime.Now,
+                     AddedDateTime = DateTime.Now,
+                      ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(propertyCompanyJoe).State = EntityState.Added;
 
@@ -444,8 +444,8 @@ namespace EF.UnitTest
                 {
                     Property = propertyLee,
                     Company = companyTradesMate,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(propertyCompanyLee).State = EntityState.Added;
 
@@ -453,8 +453,8 @@ namespace EF.UnitTest
                 {
                     Property = propertySimon,
                     Company = companyTradesMate,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(propertyCompanySimon).State = EntityState.Added;
 
@@ -463,8 +463,8 @@ namespace EF.UnitTest
                 {
                     Description = "Billy's trade company . Providing best trades software",
                     Name = "Billy's trade",
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };          
                 context.Entry(companyBilly).State = EntityState.Added;
 
@@ -472,8 +472,8 @@ namespace EF.UnitTest
                 {
                     Property = propertyLisa,
                     Company = companyBilly,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(propertyCompanyLisa).State = EntityState.Added;
 
@@ -481,8 +481,8 @@ namespace EF.UnitTest
                 {
                     Property = propertyLee,
                     Company = companyBilly,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(propertyCompanyLeeNo2).State = EntityState.Added;
 
@@ -497,8 +497,8 @@ namespace EF.UnitTest
                     FirstName = "Oleg",
                     LastName = "Lien",
                     Email = "oleg.lien@tradsmate.com",
-                    ModifiedDate = DateTime.Now,
-                    AddedDate = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
                     
                 };
 
@@ -509,8 +509,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     Role = CompanyRole.Admin,
                     Confirmed = true,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(cmOleg).State = EntityState.Added;
 
@@ -521,8 +521,8 @@ namespace EF.UnitTest
                     FirstName = "Roger",
                     LastName = "Yearwood",
                     Email = "roger.yearwood@tradsmate.com",
-                    ModifiedDate = DateTime.Now,
-                    AddedDate = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
 
 
 
@@ -534,8 +534,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     Role = CompanyRole.Default,
                     Confirmed = true,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(cmRoger).State = EntityState.Added;
 
@@ -551,8 +551,8 @@ namespace EF.UnitTest
                     FirstName = "Ralph",
                     LastName = "Carrow",
                     Email = "ralph.carrow@tradsmate.com",
-                    ModifiedDate = DateTime.Now,
-                    AddedDate = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
 
 
                 };
@@ -563,8 +563,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     Role = CompanyRole.Default,
                     Confirmed = true,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(memberRalph).State = EntityState.Added;
 
@@ -577,8 +577,8 @@ namespace EF.UnitTest
                     FirstName = "Stonny",
                     LastName = "Getchell",
                     Email = "Stonny.Getchell@tradsmate.com",
-                    ModifiedDate = DateTime.Now,
-                    AddedDate = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
 
 
                 };
@@ -589,8 +589,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     Role = CompanyRole.Contractor,
                     Confirmed = true,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(cmStonny).State = EntityState.Added;
 
@@ -601,8 +601,8 @@ namespace EF.UnitTest
                     FirstName = "Taylor",
                     LastName = "Diniz",
                     Email = "Taylor.Diniz@tradsmate.com",
-                    ModifiedDate = DateTime.Now,
-                    AddedDate = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
 
 
                 };
@@ -613,8 +613,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     Role = CompanyRole.Contractor,
                     Confirmed = true,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(cmTaylor).State = EntityState.Added;
 
@@ -626,8 +626,8 @@ namespace EF.UnitTest
                     FirstName = "Billy",
                     LastName = "Bowen",
                     Email = "billy.bowen@billy.com",
-                    ModifiedDate = DateTime.Now,
-                    AddedDate = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
 
 
 
@@ -639,8 +639,8 @@ namespace EF.UnitTest
                     Company = companyBilly,
                     Role = CompanyRole.Admin,
                     Confirmed = true,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(cmBilly).State = EntityState.Added;
 
@@ -652,8 +652,8 @@ namespace EF.UnitTest
                     FirstName = "Elwood",
                     LastName = "Olin",
                     Email = "elwood.olin@billy.com",
-                    ModifiedDate = DateTime.Now,
-                    AddedDate = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
 
                 };
                 context.Entry(memberElwood).State = EntityState.Added;
@@ -663,8 +663,8 @@ namespace EF.UnitTest
                     Company = companyBilly,
                     Role = CompanyRole.Default,
                     Confirmed = true,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(cmElwood).State = EntityState.Added;
 
@@ -676,8 +676,8 @@ namespace EF.UnitTest
                     Company = companyBilly,
                     Role = CompanyRole.Contractor,
                     Confirmed = true,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(cmTaylorNo2).State = EntityState.Added;
 
@@ -715,16 +715,16 @@ namespace EF.UnitTest
                 {
                     Property = propertySimon,
                     CompanyMember = cmStonny,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(allocationSonnyTradesMate).State = EntityState.Added;
                 PropertyAllocation allocationTayloyBilly = new PropertyAllocation
                 {
                     Property = propertyLee,
                     CompanyMember = cmTaylorNo2,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
 
 
                 };
@@ -733,8 +733,8 @@ namespace EF.UnitTest
                 {
                     Property = propertyJoe,
                     CompanyMember = cmTaylor,
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
                 context.Entry(allocationTayloyTradesMate).State = EntityState.Added;
                 #endregion
@@ -748,8 +748,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     TradeWorkType = TradeType.Electrician,
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(item).State = EntityState.Added;
@@ -769,8 +769,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     TradeWorkType = TradeType.Electrician,
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(item2).State = EntityState.Added;
@@ -789,8 +789,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     TradeWorkType = TradeType.Electrician,
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(item3).State = EntityState.Added;
@@ -809,8 +809,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     TradeWorkType = TradeType.Electrician,
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(item4).State = EntityState.Added;
@@ -827,8 +827,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     TradeWorkType = TradeType.Electrician,
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(item5).State = EntityState.Added;
@@ -846,8 +846,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     TradeWorkType = TradeType.Plumber,
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(item6).State = EntityState.Added;
@@ -863,8 +863,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     TradeWorkType = TradeType.Plumber,
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(item7).State = EntityState.Added;
@@ -880,8 +880,8 @@ namespace EF.UnitTest
                     Company = companyTradesMate,
                     TradeWorkType = TradeType.Handyman,
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(item8).State = EntityState.Added;
@@ -903,8 +903,8 @@ namespace EF.UnitTest
                     TemplateRecord = item,
                     TradeWorkType = TradeType.Electrician,
 
-                    AddedDate = DateTime.Now,
-                    ModifiedDate = DateTime.Now,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
                 };
 
                 context.Entry(workItem).State = EntityState.Added;
