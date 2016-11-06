@@ -123,6 +123,12 @@ namespace DataService.Controllers
         {
             //Company user must be the type of Trade;
             userModel.UserType = (int)UserType.Trade;
+
+            //todo generate random password
+            if (userModel.Password == null)
+            {
+                userModel.Password = "123456";
+            }
            
             if (!ModelState.IsValid)
             {
@@ -136,8 +142,9 @@ namespace DataService.Controllers
             {
                 //user must be admin to create user, the check is in GetCompanyForCurrentUser
 
+               
                 var companyId = new CompanyRepository().GetCompanyFoAdminUser(User.Identity.Name).Id;
-                    IdentityResult result = await _repo.RegisterUser(userModel, AppUserManager, companyId);
+                    IdentityResult result = await _repo.RegisterUser(userModel, AppUserManager, companyId, userModel.IsContractor);
 
                     IHttpActionResult errorResult = GetErrorResult(result);
 

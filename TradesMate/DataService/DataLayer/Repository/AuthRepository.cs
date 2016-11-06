@@ -168,7 +168,7 @@ namespace EF.Data
             return result;
         }
 
-        public async Task<IdentityResult> RegisterUser(UserModel userModel, ApplicationUserManager appUserManager, int? companyId = null)
+        public async Task<IdentityResult> RegisterUser(UserModel userModel, ApplicationUserManager appUserManager, int? companyId = null, bool isContractor = false)
         {
             ApplicationUser user = new ApplicationUser
             {
@@ -232,7 +232,7 @@ namespace EF.Data
                 //create new member entry, create join between company and new member
                 var result = await _userManager.CreateAsync(user, userModel.Password);
 
-                //need create client entity here
+                //need create member entity here
                 Member newMember = new Member
                 {
                     FirstName = user.FirstName,
@@ -255,7 +255,8 @@ namespace EF.Data
                 {
                     AddedDateTime = DateTime.Now,
                     ModifiedDateTime = DateTime.Now,
-                    Role = companyId.HasValue ? CompanyRole.Default : CompanyRole.Admin,// if there is no company id provided, we are creating new company, so admin
+                    Role = isContractor ? CompanyRole.Contractor :
+                    (companyId.HasValue ? CompanyRole.Default : CompanyRole.Admin),// if there is no company id provided, we are creating new company, so admin
                     Member = newMember,
                     Company = company,
                     Confirmed = false

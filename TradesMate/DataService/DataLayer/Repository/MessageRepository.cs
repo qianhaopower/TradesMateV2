@@ -240,7 +240,7 @@ namespace EF.Data
                 .Aggregate((x, y) => x + ", " + y);
             var message = new Message()
             {
-                AddedDateTime = DateTime.Now,
+                AddedDateTime = DateTime.Now, 
                 ModifiedDateTime = DateTime.Now,
                 CompanyId = companyId,
                 MemberId = memberId,
