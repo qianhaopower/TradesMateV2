@@ -15,6 +15,7 @@ namespace EF.Data
             PropertyCompanies = new List<PropertyCompany>();
             CompanyMembers = new List<CompanyMember>();
             Messages = new List<Message>();
+            CompanyServices = new List<CompanyService>(); 
         }
 
         public string Name { get; set; }
@@ -28,6 +29,8 @@ namespace EF.Data
         public ICollection<PropertyCompany> PropertyCompanies { get; set; }
 
         public ICollection<CompanyMember> CompanyMembers { get; set; }
+
+        public ICollection<CompanyService> CompanyServices { get; set; }
 
         // public virtual ICollection<ClientCompany> ClientCompanies { get; set; }
 

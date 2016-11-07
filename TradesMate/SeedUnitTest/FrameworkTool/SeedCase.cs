@@ -431,6 +431,34 @@ namespace EF.UnitTest
 
                 context.Entry(companyTradesMate).State = EntityState.Added;
 
+                CompanyService tradesMateServiceElec = new CompanyService {
+                    Company = companyTradesMate,
+                    Type = TradeType.Electrician,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                };
+                context.Entry(tradesMateServiceElec).State = EntityState.Added;
+
+                CompanyService tradesMateServiceHandy = new CompanyService
+                {
+                    Company = companyTradesMate,
+                    Type = TradeType.Handyman,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                };
+                context.Entry(tradesMateServiceHandy).State = EntityState.Added;
+
+                CompanyService tradesMateServiceBuilder = new CompanyService
+                {
+                    Company = companyTradesMate,
+                    Type = TradeType.Builder,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                };
+                context.Entry(tradesMateServiceBuilder).State = EntityState.Added;
+
+
+
                 PropertyCompany propertyCompanyJoe = new PropertyCompany
                 {
                     Property = propertyJoe,
@@ -465,8 +493,20 @@ namespace EF.UnitTest
                     Name = "Billy's trade",
                     AddedDateTime = DateTime.Now,
                     ModifiedDateTime = DateTime.Now,
-                };          
+                };
                 context.Entry(companyBilly).State = EntityState.Added;
+
+
+                CompanyService billyService = new CompanyService
+                {
+                    Company = companyBilly,
+                    Type = TradeType.Electrician,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                };
+                context.Entry(billyService).State = EntityState.Added;
+
+
 
                 PropertyCompany propertyCompanyLisa = new PropertyCompany
                 {
