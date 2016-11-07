@@ -101,7 +101,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
 
 
-    var _createCompanyUser = function (userInfo) {
+    var _addNewMemberToCompany = function (userInfo) {
         var deferred = $q.defer();
         $http.post(serviceBase + 'api/account/registerCompanyUser', userInfo).success(function (response) {
             deferred.resolve(response);
@@ -145,14 +145,13 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     companyServiceFactory.getCurrentCompany = _getCurrentCompany;
 
     companyServiceFactory.getCompanyMembers = _getCompanyMembers;
-    companyServiceFactory.createCompanyUser = _createCompanyUser;
-
-    //companyServiceFactory.updateCompanyMember = _updateCompanyMember;
+   
     companyServiceFactory.getMemberById = _getMemberById;
     companyServiceFactory.deleteMemberById = _deleteMemberById;
     companyServiceFactory.updateMemberRole = _updateMemberRole;
     companyServiceFactory.searchMemberForJoinCompany = _searchMemberForJoinCompany;
     companyServiceFactory.addExistingMemberToCompany = _addExistingMemberToCompany;
+    companyServiceFactory.addNewMemberToCompany = _addNewMemberToCompany;
 
     
 

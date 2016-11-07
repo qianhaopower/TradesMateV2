@@ -133,25 +133,46 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
 
+
+    $scope.sendingRequestStatus = undefined;
+   
     $scope.proceedAddMember = function () {
         if ($scope.selected.memberId) {
-            $scope.sendingRequest = true;
+            $scope.sendingRequestStatus = 'existedMember';
             //we are adding existing member
            
         } else {
-            $scope.sendingRequest = false;
+            // we are adding via a email
+
+            $scope.newMember = {
+                userName: undefined,
+                firstName: undefined,
+                lastName: undefined,
+                email: $scope.selected,
+                isContractor : true,
+             
+
+            };
+
+
+            $scope.sendingRequestStatus = 'newMember';
             // we are adding new member
         }
     }
      
-    $scope.send = function () {
+    $scope.sendExistedMember = function () {
         addExistingMemberToCompany();
        
+    }
+    $scope.sendNewMember = function () {
+        addNewMemberToCompany();
+
     }
 
 
     $scope.cancel = function () {
-        $scope.sendingRequest = false;
+        $scope.newMember = {};
+        $scope.sendingRequestStatus = undefined;
     }
     
 
@@ -159,7 +180,7 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
         if($scope.selected.memberId){
             var data = {memberId:$scope.selected.memberId, text:$scope.inviteText};
             companyService.addExistingMemberToCompany(data).then(function () {
-                $scope.sendingRequest = false;
+                $scope.sendingRequestStatus = undefined;
                 Notification.success({ message: 'Request sent', delay: 2000 });
                 //getMembersInCompany();
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
@@ -167,8 +188,26 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
         }else{
             Notification.error({ message: 'Please select a member to proceed', delay: 2000 }); 
         }
-        
-        
+
+    }
+    var addNewMemberToCompany = function () {
+        if ($scope.selected
+            && typeof ($scope.selected == 'string')
+            && /\S+@\S+\.\S+/.test($scope.selected)) {
+
+            
+            companyService.addNewMemberToCompany($scope.newMember).then(function () {
+                $scope.sendingRequestStatus = undefined;
+                Notification.success({ message: 'Member created', delay: 2000 });
+                getMembersInCompany();
+            }, function (error) {
+                Notification.error({ message: error.exceptionMessage ?error.exceptionMessage :error, delay: 2000 });
+            });
+
+        } else {
+            Notification.error({ message: 'Please input a valid email to proceed', delay: 2000 });
+        }
+
     }
 
     // get the company info for display

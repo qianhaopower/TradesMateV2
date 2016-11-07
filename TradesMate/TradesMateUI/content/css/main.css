@@ -130,6 +130,11 @@ margin-left:20px;
     background:  url('http://www.imyourpa.co.uk/wp-content/uploads/2016/01/tradesmen-e1423740392493.jpg'); 
     background-size:100% 100%;
 }*/
+.add-new-member {
+    background-color:lightyellow;
+    
+}
+
 
 /* align icon */
 .left-addon .glyphicon  { left:  0px;}
