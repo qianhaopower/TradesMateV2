@@ -17,6 +17,15 @@ namespace DataService.Providers
 {
     public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
+        public override Task AuthorizationEndpointResponse(OAuthAuthorizationEndpointResponseContext context)
+        {
+            return base.AuthorizationEndpointResponse(context);
+        }
+
+        public override Task ValidateAuthorizeRequest(OAuthValidateAuthorizeRequestContext context)
+        {
+            return base.ValidateAuthorizeRequest(context);
+        }
         public override Task ValidateClientAuthentication(OAuthValidateClientAuthenticationContext context)
         {
 

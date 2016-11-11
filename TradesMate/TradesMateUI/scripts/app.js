@@ -18,6 +18,7 @@ angular
     'angularModalService',
     'angular-carousel',
     'LocalStorageModule',
+    'isteven-multi-select',
  
   ])
   .constant('domain', 'http://' + window.location.hostname)

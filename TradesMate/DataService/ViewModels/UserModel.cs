@@ -49,6 +49,8 @@ namespace DataService.Models
 
         public bool IsContractor { get; set; }
 
+        public List<TradeType> TradeTypes { get; set; }
+
 
 
 

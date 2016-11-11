@@ -300,33 +300,8 @@ namespace DataService.Controllers
             {
                 return BadRequest(ModelState);
             }
-            var company = db.Companies.First(p => p.Id == companyModel.CompanyId);
 
-            if (company == null)
-            {
-                return BadRequest("Cannot find company");
-            }
-            company.Description = companyModel.Description;
-            company.Name = companyModel.CompanyName;
-            company.CreditCard = companyModel.CreditCard;
-
-            db.Entry(company).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!CompanyExists(companyModel.CompanyId))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            new CompanyRepository().UpdateCompany(companyModel);
 
             return StatusCode(HttpStatusCode.NoContent);
         }

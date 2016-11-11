@@ -11,6 +11,8 @@ namespace EF.Data
         Electrician,
         Handyman,
         Plumber,
+        Builder,
+        AirConditioning,
     }
 
     public enum UserType

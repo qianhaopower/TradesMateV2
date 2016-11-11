@@ -1,11 +1,17 @@
 ﻿'use strict';
-app.controller('signupController', ['$scope', '$location', '$timeout', '$state', 'authService','constants',
-function ($scope, $location, $timeout, $state, authService,constants) {
+app.controller('signupController', ['$scope', '$location', '$timeout', '$state', 'authService', 'constants', 'companyService',
+function ($scope, $location, $timeout, $state, authService,constants, companyService) {
 
     $scope.savedSuccessfully = false;
     $scope.message = "";
 
+   
 
+    $scope.serviceTypes = companyService.getDefaultServices();
+
+    //angular.forEach($scope.outputBrowsers, function (value, key) {
+    //    /* do your stuff here */
+    //});
 
     $scope.registration = {
         userName: "",
@@ -24,7 +30,10 @@ function ($scope, $location, $timeout, $state, authService,constants) {
 
         if ($scope.registerForm.$invalid) return;
 
-        $scope.registration.userType = $scope.registration.isTrade ? constants.userType.trade : constants.userType.client  ;
+        $scope.registration.userType = $scope.registration.isTrade ? constants.userType.trade : constants.userType.client;
+        if ($scope.registration.isTrade) {
+            $scope.registration.tradeTypes = _.pluck($scope.outputServiceTypes, 'enumValue');
+        }
 
         authService.saveRegistration($scope.registration).then(function (response) {
 

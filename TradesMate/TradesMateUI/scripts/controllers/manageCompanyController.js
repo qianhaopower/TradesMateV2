@@ -9,14 +9,15 @@ angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$
         $scope.gotoManagerCompanyUser = function () {
             $state.go('base.companyMember');
         }
-
+        $scope.serviceTypes = companyService.getDefaultServices();
+       
 
     $scope.companyInfo = {
         companyName: undefined,
         description: undefined,
         creditCard: undefined,
         companyId: undefined,
-      
+        tradeTypes: $scope.serviceTypes,
     };
     $scope.companyInfoClone = {};
    
@@ -24,8 +25,9 @@ angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$
         $scope.editMode = false;
         if ($scope.companyInfoForm.$invalid) return;
 
+        $scope.companyInfo.tradeTypes = _.pluck($scope.outputServiceTypes, 'enumValue');
         companyService.updateCompany($scope.companyInfo).then(function (response) {
-
+            getCompanyDetail();
             Notification.success({ message: "Saved", delay: 2000 });
            
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
@@ -43,8 +45,28 @@ angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$
             $scope.companyInfo.description = company.description;
             $scope.companyInfo.creditCard = company.creditCard;
             $scope.companyInfo.companyId = company.companyId;
-           
+
+            //grab all of the default
+            $scope.companyInfo.tradeTypes = $scope.serviceTypes;
+            
+            angular.forEach($scope.companyInfo.tradeTypes, function (value, key) {
+                /* do your stuff here */
+                if (company.tradeTypes.indexOf(value.enumValue) > -1) {
+                    value.ticked = true;
+                } else {
+                    value.ticked = false;
+                }
+               
+            });
+
+            //$scope.companyInfo.serviceCurrentSelected = _.filter($scope.serviceTypes, function (item) {
+            //    return company.tradeTypes.indexOf(item.enumValue) > -1;
+            //});
+
             $scope.companyInfoClone = JSON.parse(JSON.stringify($scope.companyInfo));
+          
+
+
            
         },function (error) { Notification.error({ message: error, delay: 2000 }); });
     }

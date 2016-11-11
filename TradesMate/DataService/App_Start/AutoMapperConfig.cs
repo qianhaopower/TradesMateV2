@@ -49,6 +49,7 @@ namespace DataService
                  .ForMember(dest => dest.Description, opts => opts.MapFrom(src => src.Description))
                            .ForMember(dest => dest.CompanyName, opts => opts.MapFrom(src => src.Name))
                              .ForMember(dest => dest.CompanyId, opts => opts.MapFrom(src => src.Id))
+                               .ForMember(dest => dest.TradeTypes, opts => opts.MapFrom(src => src.CompanyServices.Select(p => p.Type).ToList()))
                            .ForMember(dest => dest.CreditCard, opts => opts.MapFrom(src => src.CreditCard))
                            ;
 
