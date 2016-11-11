@@ -5,7 +5,26 @@ function ($scope, $location, $timeout, $state, authService,constants) {
     $scope.savedSuccessfully = false;
     $scope.message = "";
 
+    // public  enum TradeType
+    //{
+    //    Electrician,
+    //    Handyman,
+    //    Plumber,
+    //    Builder,
+    //    AirConditioning,
+    //    }
 
+    $scope.serviceTypes = [
+    { icon: "<i class=\"fa fa-bolt\" ></i>", name: "Electrician", maker: undefined, ticked: true },
+    { icon: "<i class=\"fa fa-wrench\" ></i>", name: "Handyman", maker: undefined, ticked: false },
+    { icon: "<i class=\"fa fa-tint\" ></i>", name: "Plumber", maker: undefined, ticked: false },
+    { icon: "<i class=\"fa fa-home\" ></i>", name: "Builder", maker: undefined, ticked: false },
+    { icon: "<i class=\"fa fa-snowflake-o\" ></i>", name: "Air Conditioning", maker: undefined, ticked: false }
+    ];
+
+    //angular.forEach($scope.outputBrowsers, function (value, key) {
+    //    /* do your stuff here */
+    //});
 
     $scope.registration = {
         userName: "",

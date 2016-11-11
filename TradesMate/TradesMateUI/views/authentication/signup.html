@@ -41,6 +41,19 @@
 
         </div>
 
+        <div class="form-group" ng-show="registration.isTrade">
+            <label class="control-label">Service Types</label>
+            <div isteven-multi-select
+                 input-model="serviceTypes"
+                 output-model="outputServiceTypes"
+                 button-label="icon name"
+                 item-label="icon name maker"
+                 tick-property="ticked"
+                 helper-elements ="">
+            </div>
+
+        </div>
+
         <button class="btn btn-lg btn-info btn-block" type="submit" data-ng-click="signUp()" ng-disabled="registerForm.$invalid">Submit</button>
         <div data-ng-hide="message == ''" data-ng-class="(savedSuccessfully) ? 'alert alert-success' : 'alert alert-danger'">
             {{message}}
