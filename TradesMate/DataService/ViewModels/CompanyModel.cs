@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EF.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -24,6 +25,8 @@ namespace DataService.Models
 
       
         public int CompanyId { get; set; }
+
+        public List<TradeType> TradeTypes { get; set; }
 
 
 

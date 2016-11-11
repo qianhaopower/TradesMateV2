@@ -70,6 +70,8 @@
     <Content Include="bower_components\isteven-angular-multiselect\isteven-multi-select.css" />
     <Content Include="bower_components\isteven-angular-multiselect\isteven-multi-select.js" />
     <Content Include="bower_components\isteven-angular-multiselect\LICENSE.txt" />
+    <Content Include="bower_components\underscore\underscore-min.js" />
+    <Content Include="bower_components\underscore\underscore.js" />
     <Content Include="content\images\google_icon.png" />
     <Content Include="content\images\google_icon15.png" />
     <Content Include="scripts\controllers\authCompleteController.js" />
@@ -732,6 +734,11 @@
     <Content Include="bower_components\isteven-angular-multiselect\.bower.json" />
     <Content Include="bower_components\isteven-angular-multiselect\.npmignore" />
     <Content Include="bower_components\isteven-angular-multiselect\bower.json" />
+    <Content Include="bower_components\underscore\.bower.json" />
+    <Content Include="bower_components\underscore\bower.json" />
+    <Content Include="bower_components\underscore\LICENSE" />
+    <Content Include="bower_components\underscore\README.md" />
+    <Content Include="bower_components\underscore\underscore-min.map" />
     <None Include="Properties\PublishProfiles\ngauthenticationweb.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

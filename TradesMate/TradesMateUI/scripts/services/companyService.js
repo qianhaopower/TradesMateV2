@@ -124,8 +124,28 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
         return deferred.promise;
 
     };
+    // public  enum TradeType
+    //{
+    //    Electrician,
+    //    Handyman,
+    //    Plumber,
+    //    Builder,
+    //    AirConditioning,
+    //    }
+    var _getDefaultServices = function () {
 
+        
 
+        var result =  [
+    { icon: "<i class=\"fa fa-bolt\" ></i>", name: "Electrician", ticked: true, enumValue: 0 },
+    { icon: "<i class=\"fa fa-wrench\" ></i>", name: "Handyman", ticked: false, enumValue: 1 },
+    { icon: "<i class=\"fa fa-tint\" ></i>", name: "Plumber", ticked: false, enumValue: 2 },
+    { icon: "<i class=\"fa fa-home\" ></i>", name: "Builder", ticked: false, enumValue: 3 },
+    { icon: "<i class=\"fa fa-snowflake-o\" ></i>", name: "Air Conditioning", ticked: false, enumValue: 4 }
+        ];
+        return result;
+
+    }
     //var _updateCompanyMember = function (memberInfo) {
     //    var deferred = $q.defer();
     //    $http.post(serviceBase + 'api/account/updatecompanyUser', memberInfo).success(function (response) {//broken
@@ -152,6 +172,8 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     companyServiceFactory.searchMemberForJoinCompany = _searchMemberForJoinCompany;
     companyServiceFactory.addExistingMemberToCompany = _addExistingMemberToCompany;
     companyServiceFactory.addNewMemberToCompany = _addNewMemberToCompany;
+
+    companyServiceFactory.getDefaultServices = _getDefaultServices;
 
     
 

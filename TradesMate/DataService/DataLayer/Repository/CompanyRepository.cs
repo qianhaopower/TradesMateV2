@@ -87,6 +87,44 @@ namespace EF.Data
 
         }
 
+        public void UpdateCompany(CompanyModel companyModel)
+        {
+            // get the company that this property has been assigned to.
+            var company = _ctx.Companies.First(p => p.Id == companyModel.CompanyId);
+
+            if (company == null)
+            {
+                throw new Exception("Cannot find company");
+            }
+            company.Description = companyModel.Description;
+            company.Name = companyModel.CompanyName;
+            company.CreditCard = companyModel.CreditCard;
+
+            if (!companyModel.TradeTypes.Any())
+            {
+                throw new Exception("At least one service type is required");
+            }
+            _ctx.CompanyServices.Where(p => p.CompanyId == company.Id
+             ).Delete();// delete all that is not listed in the new types
+
+            // add new ones, not too many so we can just delete and add new.
+            companyModel.TradeTypes.ForEach(p => {
+                CompanyService cs = new CompanyService()
+                {
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                    Company = company,
+                    Type = p,
+                };
+                _ctx.Entry(cs).State = EntityState.Added;
+            });
+
+
+            _ctx.Entry(company).State = EntityState.Modified;
+
+            _ctx.SaveChanges();
+        }
+
 
         public async Task RemoveMemberFromCompnay(string userName, int memberId)
         {
@@ -393,6 +431,8 @@ namespace EF.Data
 
 
             _ctx.Entry(company).Reference(s => s.Company).Load();
+           // var result = _ctx.Companies.Find(company.CompanyId);
+            _ctx.Entry(company.Company).Collection(s => s.CompanyServices).Load();
             return company.Company;
         }
 

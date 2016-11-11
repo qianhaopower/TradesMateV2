@@ -28,14 +28,15 @@
                     <div class="form-group">
                         <div class="col-xs-10"><!--<h2 class="form-login-heading">Profile</h2>--></div>
                         <div class="col-xs-2">
-                            <div class="pull-right" style="margin-top:30px;" ng-click="editMode = true" ng-show="!editMode" title="Edit"> <i class="fa fa-pencil" aria-hidden="true"></i></div>
+                            <div class="pull-right"  ng-click="editMode = true" ng-show="!editMode" title="Edit"> <i class="fa fa-pencil" aria-hidden="true"></i></div>
                         </div>
                     </div>
 
 
                     <div class="form-group">
                         <label class="control-label">Company Name</label>
-                        <input type="text" class="form-control" placeholder="Companyname" data-ng-model="companyInfo.companyName" required ng-disabled="!editMode" autofocus>
+                        <input type="text" class="form-control" placeholder="Companyname" data-ng-model="companyInfo.companyName" required ng-disabled="!editMode" 
+                               autofocus>
                     </div>
 
 
@@ -49,10 +50,27 @@
                         <input type="text" class="form-control" placeholder="Credit card number" data-ng-model="companyInfo.creditCard" ng-disabled="!editMode" autofocus>
                     </div>
 
+                    <div class="form-group" >
+                        <label class="control-label">Service Types</label>
+                        <div isteven-multi-select
+                             input-model="companyInfo.tradeTypes"
+                             output-model="outputServiceTypes"
+                             button-label="icon name"
+                             item-label="icon name"
+                             tick-property="ticked"
+                             helper-elements=""
+                             is-disabled="!editMode">
+                        </div>
+
+                    </div>
+
                     <div class="form-group">
-                        <button class="btn btn-md btn-primary btn-block" type="submit" data-ng-click="updateCompany()" ng-disabled="companyInfoForm.$invalid" ng-show="editMode">Save</button>
+                        <button class="btn btn-md btn-primary btn-block" type="submit" data-ng-click="updateCompany()" ng-disabled="companyInfoForm.$invalid"
+                                 ng-show="editMode">Save</button>
                         <button class="btn btn-md btn-info btn-block" ng-click="cancelEdit()" ng-show="editMode">Cancel</button>
                     </div> 
+
+                   
  
                
 

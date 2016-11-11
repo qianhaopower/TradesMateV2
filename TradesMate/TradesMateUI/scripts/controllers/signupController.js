@@ -1,26 +1,13 @@
 ﻿'use strict';
-app.controller('signupController', ['$scope', '$location', '$timeout', '$state', 'authService','constants',
-function ($scope, $location, $timeout, $state, authService,constants) {
+app.controller('signupController', ['$scope', '$location', '$timeout', '$state', 'authService', 'constants', 'companyService',
+function ($scope, $location, $timeout, $state, authService,constants, companyService) {
 
     $scope.savedSuccessfully = false;
     $scope.message = "";
 
-    // public  enum TradeType
-    //{
-    //    Electrician,
-    //    Handyman,
-    //    Plumber,
-    //    Builder,
-    //    AirConditioning,
-    //    }
+   
 
-    $scope.serviceTypes = [
-    { icon: "<i class=\"fa fa-bolt\" ></i>", name: "Electrician", maker: undefined, ticked: true },
-    { icon: "<i class=\"fa fa-wrench\" ></i>", name: "Handyman", maker: undefined, ticked: false },
-    { icon: "<i class=\"fa fa-tint\" ></i>", name: "Plumber", maker: undefined, ticked: false },
-    { icon: "<i class=\"fa fa-home\" ></i>", name: "Builder", maker: undefined, ticked: false },
-    { icon: "<i class=\"fa fa-snowflake-o\" ></i>", name: "Air Conditioning", maker: undefined, ticked: false }
-    ];
+    $scope.serviceTypes = companyService.getDefaultServices();
 
     //angular.forEach($scope.outputBrowsers, function (value, key) {
     //    /* do your stuff here */
@@ -43,7 +30,10 @@ function ($scope, $location, $timeout, $state, authService,constants) {
 
         if ($scope.registerForm.$invalid) return;
 
-        $scope.registration.userType = $scope.registration.isTrade ? constants.userType.trade : constants.userType.client  ;
+        $scope.registration.userType = $scope.registration.isTrade ? constants.userType.trade : constants.userType.client;
+        if ($scope.registration.isTrade) {
+            $scope.registration.tradeTypes = _.pluck($scope.outputServiceTypes, 'enumValue');
+        }
 
         authService.saveRegistration($scope.registration).then(function (response) {
 

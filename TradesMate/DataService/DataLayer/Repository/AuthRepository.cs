@@ -224,6 +224,27 @@ namespace EF.Data
                         Description = string.Format("A company created by user {0} {1}", userModel.FirstName, userModel.LastName)
                     };
 
+                    //add the company service records here
+                    if (userModel.TradeTypes.Any())
+                    {
+                        userModel.TradeTypes.ForEach(p => {
+                            CompanyService cs = new CompanyService()
+                            {
+                                AddedDateTime = DateTime.Now,
+                                 ModifiedDateTime = DateTime.Now,
+                                  Company = company,
+                                   Type = p,
+                            };
+                            _ctx.Entry(cs).State = EntityState.Added;
+                        });
+                            
+                      
+
+                    }else
+                    {
+                        throw new Exception("Compnay need at least have one type of service");
+                    }
+
                     _ctx.Entry(company).State = EntityState.Added;
                     _ctx.SaveChanges();
                 }
