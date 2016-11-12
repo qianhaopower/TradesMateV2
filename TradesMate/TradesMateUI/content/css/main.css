@@ -135,6 +135,10 @@ margin-left:20px;
     
 }
 
+.clickable {
+   cursor:pointer;
+}
+
 
 /* align icon */
 .left-addon .glyphicon  { left:  0px;}
