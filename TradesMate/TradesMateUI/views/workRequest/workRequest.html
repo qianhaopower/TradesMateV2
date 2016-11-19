@@ -15,20 +15,19 @@
                 <form role="form" name="workRequestForm">
                   
                     <div class="form-group">
-
-
-                        <input type="radio" ng-model="requestInfo.isNewProperty" ng-value="false" id="r2" />
-                        <label for="r1">I want request work for my existing property</label> 
-                        <br />
-                        <input type="radio" ng-model="requestInfo.isNewProperty" ng-value="true"  id="r1" />
-                        <label for="r1">I want request work for a new property </label>
-                       
-                
+                        <div class="checkbox">
+                            <input type="radio" ng-model="requestInfo.isNewProperty" ng-value="false" id="r2"  />
+                            <label for="r1">I want request work for my existing property</label> 
+                        </div>
+                        <div class="checkbox">
+                            <input type="radio" ng-model="requestInfo.isNewProperty" ng-value="true" id="r1"  />
+                            <label for="r1">I want request work for a new property </label>
+                        </div>
                     </div>
 
                     <div class="form-group" ng-show="!requestInfo.isNewProperty">
                         <label class="control-label">Property</label>
-                        <select name="" ng-model="selectedProperty" ng-options="item as item.name for item in propertyList">
+                        <select class="form-control" ng-model="selectedProperty" ng-options="item as item.name for item in propertyList">
                         </select>
                     </div>
 
@@ -40,6 +39,28 @@
                                typeahead-no-results="noResults"
                                typeahead-wait-ms="200"
                                class="form-control">
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label  ">Service type</label>
+                        <div class="">
+                            <div isteven-multi-select
+                                 input-model="serviceTypes"
+                                 output-model="outputServiceType"
+                                 button-label="icon name"
+                                 item-label="icon name"
+                                 tick-property="ticked"
+                                 selection-mode="single"
+                                 helper-elements="">
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="form-group" >
+                        <label class="control-label">Company</label>
+                        <select class="form-control" ng-model="selectedCompany" 
+                                ng-options="item as item.companyName for item in companyList | filter:companyFilterFunc()"></select>
                     </div>
 
 

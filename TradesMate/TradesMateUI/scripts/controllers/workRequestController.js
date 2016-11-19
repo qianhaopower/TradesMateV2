@@ -17,6 +17,8 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
         $scope.isNewProperty = false;
         $scope.selectedProperty = undefined;
         $scope.newPropertyAddress = undefined;
+        $scope.outputServiceType = undefined;
+        $scope.selectedCompany = undefined;
 
     
         $scope.requestInfo = {
@@ -29,18 +31,41 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
             isNewProperty:false
 
         };
+
+        $scope.companyFilterFunc = function () {
+
+            return function (item) {
+                var found = _.some(item.tradeTypes, function (companyType) {
+                    return companyType == $scope.outputServiceType[0].enumValue;
+                });
+                if (found) {
+                    return true;
+                }
+                return false;
+            };
+          
+        }
+
+
         $scope.findAddress = function (search) {
             return addressService.findAddress(search).then(function (results) {
                
                 return results;
                 //$scope.searchResult = members;
-            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+            }, function (error) {
+                // no need to display no results
+                //Notification.error({ message: error, delay: 2000 });
+            });
         }
 
         var init = function () {
             //need get companyList, for now we can get all companies as there are not too many.
             companyService.getCompanies().then(function (result) {
                 $scope.companyList = result;
+        
+                if (result.length > 0) {
+                    $scope.selectedCompany = result[0];
+                }
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
 
             //need get all the property for the current user has

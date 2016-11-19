@@ -80,7 +80,7 @@ namespace EF.Data
 
         internal IQueryable<Company> GetAllCompanies()
         {
-            return _ctx.Companies.AsQueryable();
+            return _ctx.Companies.Include(p => p.CompanyServices).AsQueryable();
         }
 
         public AllocationModel UpdateMemberAllocation(string userName, int propertyId, int memberId, bool allocate)
