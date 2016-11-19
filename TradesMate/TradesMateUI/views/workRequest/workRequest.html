@@ -1,0 +1,72 @@
+﻿<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-lg-12">
+            <h2 class="page-header">Work Request</h2>
+        </div>
+
+    </div>
+    
+
+    <div class="form-group">
+        <div class="col-xs-1 col-lg-3"></div>
+
+            <div class="col-xs-10 col-lg-6">
+
+                <form role="form" name="workRequestForm">
+                    <div class="form-group">
+                        <div class="col-xs-10"><!--<h2 class="form-login-heading">Profile</h2>--></div>
+                        <div class="col-xs-2">
+                            <div class="pull-right"  ng-click="editMode = true" ng-show="!editMode" title="Edit"> <i class="fa fa-pencil" aria-hidden="true"></i></div>
+                        </div>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label">Company Name</label>
+                        <input type="text" class="form-control" placeholder="Companyname" data-ng-model="companyInfo.companyName" required ng-disabled="!editMode" 
+                               autofocus>
+                    </div>
+
+
+                    <div class="form-group">
+                        <label class="control-label"> Description</label>
+                        <textarea type="text" class="form-control" placeholder="Description" data-ng-model="companyInfo.description" ng-disabled="!editMode" autofocus></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label">Credit Card</label>
+                        <input type="text" class="form-control" placeholder="Credit card number" data-ng-model="companyInfo.creditCard" ng-disabled="!editMode" autofocus>
+                    </div>
+
+                    <div class="form-group" >
+                        <label class="control-label">Service Types</label>
+                        <div isteven-multi-select
+                             input-model="companyInfo.tradeTypes"
+                             output-model="outputServiceTypes"
+                             button-label="icon name"
+                             item-label="icon name"
+                             tick-property="ticked"
+                             helper-elements=""
+                             is-disabled="!editMode">
+                        </div>
+
+                    </div>
+
+                    <div class="form-group">
+                        <button class="btn btn-md btn-primary btn-block" type="submit" data-ng-click="updateCompany()" ng-disabled="companyInfoForm.$invalid"
+                                 ng-show="editMode">Save</button>
+                        <button class="btn btn-md btn-info btn-block" ng-click="discard()" ng-show="editMode">Cancel</button>
+                    </div> 
+
+                   
+ 
+               
+
+                </form>
+            </div>
+
+        <div class="col-xs-1 col-lg-3"></div>
+
+        </div>
+</div>
+

@@ -80,7 +80,7 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
 
         } else {
             //get all properties
-            propertyDataService.getAllProperties($scope.clientId).then(function (result) {
+            propertyDataService.getAllProperties().then(function (result) {
                 $scope.propertyList = result;
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
         }

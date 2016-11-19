@@ -7,5 +7,9 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .controller('MainCtrl', function($scope) {
+  .controller('dashboardController', function ($scope, $state) {
+
+      $scope.goToWorkRequest = function(){
+          $state.go('base.workRequest');
+      }
   });

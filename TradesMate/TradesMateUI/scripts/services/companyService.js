@@ -54,6 +54,19 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     };
 
+    var _getCompanies = function () {
+
+        var deferred = $q.defer();
+
+        $http.get(serviceBase + 'api/Companies/getcompanies').success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+
+    };
+
     var _searchMemberForJoinCompany = function (searchText) {
 
         var deferred = $q.defer();
@@ -133,9 +146,6 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     //    AirConditioning,
     //    }
     var _getDefaultServices = function () {
-
-        
-
         var result =  [
     { icon: "<i class=\"fa fa-bolt\" ></i>", name: "Electrician", ticked: true, enumValue: 0 },
     { icon: "<i class=\"fa fa-wrench\" ></i>", name: "Handyman", ticked: false, enumValue: 1 },
@@ -174,7 +184,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     companyServiceFactory.addNewMemberToCompany = _addNewMemberToCompany;
 
     companyServiceFactory.getDefaultServices = _getDefaultServices;
-
+    companyServiceFactory.getCompanies = _getCompanies;
     
 
     

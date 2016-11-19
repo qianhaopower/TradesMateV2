@@ -757,6 +757,7 @@
     <Content Include="scripts\authComplete.js" />
     <Content Include="scripts\controllers\associateController.js" />
     <Content Include="scripts\controllers\chartContoller.js" />
+    <Content Include="scripts\controllers\workRequestController.js" />
     <Content Include="scripts\controllers\messageDetailController.js" />
     <Content Include="scripts\controllers\messageController.js" />
     <Content Include="scripts\controllers\clientController.js" />
@@ -767,7 +768,7 @@
     <Content Include="scripts\controllers\homeController.js" />
     <Content Include="scripts\controllers\indexController.js" />
     <Content Include="scripts\controllers\loginController.js" />
-    <Content Include="scripts\controllers\main.js" />
+    <Content Include="scripts\controllers\dashboardController.js" />
     <Content Include="scripts\controllers\companyMemberController.js" />
     <Content Include="scripts\controllers\ordersController.js" />
     <Content Include="scripts\controllers\peronalSettingController.js" />
@@ -811,6 +812,7 @@
     <Content Include="scripts\services\tokensManagerService.js" />
     <Content Include="scripts\services\workItemDataService.js" />
     <Content Include="views\authentication\associate.html" />
+    <Content Include="views\workRequest\workRequest.html" />
     <Content Include="views\company\companyMemberDetail.html" />
     <Content Include="views\company\companyMember.html" />
     <Content Include="views\company\manageCompany.html" />

@@ -91,7 +91,7 @@ angular
             })
             .state('base.home', {
                 url: '/home',
-                controller: 'MainCtrl',
+                controller: 'dashboardController',
                 templateUrl: 'views/base/home.html',
                 resolve: {
                     loadMyFiles: function ($ocLazyLoad) {
@@ -99,7 +99,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                             //controllers
-                            'scripts/controllers/main.js',
+                            'scripts/controllers/dashboardController.js',
                             'scripts/controllers/clientController.js',
                             'scripts/controllers/propertyController.js',
                             'scripts/controllers/propertySectionController.js',
@@ -418,8 +418,14 @@ angular
                templateUrl: 'views/message/messageDetail.html',
                controller: 'messageDetailController',
                url: '/message/:messageId',
+           }) 
+          //work request
+           .state('base.workRequest', {
+               templateUrl: 'views/workRequest/workRequest.html',
+               controller: 'workRequestController',
+               url: '/workRequests',
            })
-
+          
 
 
           //NotificationProvider.setOptions({
