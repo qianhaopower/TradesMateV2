@@ -28,8 +28,17 @@ angular
         
     })
   .service('urls', function (domain, api) { this.apiUrl = domain + api; })
-  .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', 'NotificationProvider',
-      function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, NotificationProvider) {
+
+  .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', 'NotificationProvider','$httpProvider',
+      function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, NotificationProvider,$httpProvider) {
+          //$httpProvider.defaults.headers.common = {};
+          //$httpProvider.defaults.headers.post = {};
+          //$httpProvider.defaults.headers.put = {};
+          //$httpProvider.defaults.headers.patch = {};
+          //$httpProvider.defaults.headers.get = {};
+          //$httpProvider.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
+          //$httpProvider.defaults.useXDomain = true;
+          //delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
           $ocLazyLoadProvider.config({
               debug: false,

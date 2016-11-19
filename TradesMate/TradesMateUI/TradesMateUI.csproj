@@ -806,7 +806,7 @@
     <Content Include="scripts\services\companyService.js" />
     <Content Include="scripts\services\authService.js" />
     <Content Include="scripts\services\clientDataService.js" />
-    <Content Include="scripts\services\ordersService.js" />
+    <Content Include="scripts\services\addressService.js" />
     <Content Include="scripts\services\propertyDataService.js" />
     <Content Include="scripts\services\propertySectionDataService.js" />
     <Content Include="scripts\services\tokensManagerService.js" />

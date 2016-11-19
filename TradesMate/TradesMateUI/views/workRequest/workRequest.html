@@ -13,19 +13,35 @@
             <div class="col-xs-10 col-lg-6">
 
                 <form role="form" name="workRequestForm">
+                  
                     <div class="form-group">
-                        <div class="col-xs-10"><!--<h2 class="form-login-heading">Profile</h2>--></div>
-                        <div class="col-xs-2">
-                            <div class="pull-right"  ng-click="editMode = true" ng-show="!editMode" title="Edit"> <i class="fa fa-pencil" aria-hidden="true"></i></div>
-                        </div>
-                    </div>
 
 
-                    <div class="form-group">
-                        <label class="control-label">Company Name</label>
-                        <input type="text" class="form-control" placeholder="Companyname" data-ng-model="companyInfo.companyName" required ng-disabled="!editMode" 
-                               autofocus>
+                        <input type="radio" ng-model="requestInfo.isNewProperty" ng-value="false" id="r2" />
+                        <label for="r1">I want request work for my existing property</label> 
+                        <br />
+                        <input type="radio" ng-model="requestInfo.isNewProperty" ng-value="true"  id="r1" />
+                        <label for="r1">I want request work for a new property </label>
+                       
+                
                     </div>
+
+                    <div class="form-group" ng-show="!requestInfo.isNewProperty">
+                        <label class="control-label">Property</label>
+                        <select name="" ng-model="selectedProperty" ng-options="item as item.name for item in propertyList">
+                        </select>
+                    </div>
+
+                    <div class="form-group" ng-show="requestInfo.isNewProperty">
+                        <label class="control-label">New property address</label>
+                        <input type="text" ng-model="newPropertyAddress" placeholder="Address"
+                               uib-typeahead="item as item.formatted_address for item in findAddress($viewValue) "
+                               typeahead-loading="loading"
+                               typeahead-no-results="noResults"
+                               typeahead-wait-ms="200"
+                               class="form-control">
+                    </div>
+
 
 
                     <div class="form-group">
