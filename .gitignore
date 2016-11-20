@@ -568,3 +568,8 @@ TradesMate/DataService/bin/
 TradesMate/AuthenticationService/obj/Debug/
 .suo
 TradesMate/DataService/obj/
+TradesMate/SeedUnitTest/obj/Debug/build.force
+TradesMate/.vs/TradesMate/v14/.suo
+*.cache
+TradesMate/DataService/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
+TradesMate/SeedUnitTest/bin

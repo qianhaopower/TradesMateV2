@@ -37,11 +37,15 @@ namespace DataService.Controllers
         private EFDbContext db = new EFDbContext();
 
         // GET: odata/Companies
-        [EnableQuery]
-        public IQueryable<Company> GetCompanies()
-        {
-            return db.Companies;
-        }
+        //[EnableQuery]
+        //public IHttpActionResult GetCompanies()
+        //{
+        //   var result = new PropertyRepository().GetAllCompanies()
+        //    .Select(Mapper.Map<Company, CompanyModel>).ToList();
+        //    //no need for the credit card field
+        //    result.ForEach(p => p.CreditCard = null);
+        //    return Ok(result);
+        //}
 
         // GET: odata/Companies(5)
         [EnableQuery]
@@ -201,7 +205,6 @@ namespace DataService.Controllers
 
         public  IHttpActionResult GetCurrentCompanyMembers()
         {
-          
 
             //get the current user's company members
 
@@ -271,13 +274,22 @@ namespace DataService.Controllers
            
 
         }
-
-
+        [HttpGet]
         // GET: api/Companies
-        public IQueryable<Company> GetCompanies()
+        public IHttpActionResult GetCompanies()
         {
-            return db.Companies;
+            var result = new PropertyRepository().GetAllCompanies()
+             .Select(Mapper.Map<Company, CompanyModel>).ToList();
+            //no need for the credit card field
+            result.ForEach(p => p.CreditCard = null);
+            return Ok(result);
         }
+
+        //// GET: api/Companies
+        //public IQueryable<Company> GetCompanies()
+        //{
+        //    return db.Companies;
+        //}
 
         // GET: api/Companies/5
         [ResponseType(typeof(Company))]

@@ -1,0 +1,122 @@
+﻿<div class="form-horizontal">
+    <div class="form-group">
+        <div class="col-lg-12">
+            <h2 class="page-header">Work Request</h2>
+        </div>
+
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-xs-1 col-lg-3"></div>
+
+        <div class="col-xs-10 col-lg-6">
+
+            <form role="form" name="workRequestForm">
+
+                <div class="form-group">
+                    <div class="checkbox">
+                        <input type="radio" ng-model="requestInfo.isNewProperty" ng-value="false" id="r2" />
+                        <label for="r1">I want request work for my existing property</label>
+                    </div>
+                    <div class="checkbox">
+                        <input type="radio" ng-model="requestInfo.isNewProperty" ng-value="true" id="r1" />
+                        <label for="r1">I want request work for a new property </label>
+                    </div>
+                </div>
+
+                <div class="form-group" ng-show="!requestInfo.isNewProperty">
+                    <label class="control-label">Property</label>
+                    <select class="form-control" ng-model="selectedProperty" ng-options="item as item.name for item in propertyList"></select>
+                </div>
+
+                <div class="form-group" ng-show="requestInfo.isNewProperty">
+                    <label class="control-label">New property address</label>
+                    <input type="text" ng-model="newPropertyAddress" placeholder="Address" name="newPropertyAddress"
+                           uib-typeahead="item as item.formatted_address for item in findAddress($viewValue) "
+                           typeahead-loading="loading"
+                           typeahead-no-results="noResults"
+                           typeahead-wait-ms="200"
+                           class="form-control"
+                           ng-required="requestInfo.isNewProperty">
+                    <div ng-messages="workRequestForm.newPropertyAddress.$error">
+                        <div class="text-danger" ng-message="required">This field is required</div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <label class="control-label  ">Service type</label>
+                    <div class="">
+                        <div isteven-multi-select
+                             input-model="serviceTypes"
+                             output-model="outputServiceType"
+                             button-label="icon name"
+                             item-label="icon name"
+                             tick-property="ticked"
+                             selection-mode="single"
+                             helper-elements="">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="control-label">Company</label>
+                    <select class="form-control" ng-model="selectedCompany" name="requestCompany" required
+                            ng-options="item as item.companyName for item in companyList | filter:companyFilterFunc()"></select>
+                    <div ng-messages="workRequestForm.requestCompany.$error">
+                        <div class="text-danger" ng-message="required">This field is required</div>
+                    </div>
+                </div>
+
+
+
+
+                <div class="form-group">
+                    <label class="control-label"> Section</label>
+                    <select name="sectionType" ng-model="section.type" required class="form-control">
+                        <option value="Bedroom">Bedroom</option>
+                        <option value="Living room">Living room</option>
+                        <option value="Bathroom">Bathroom</option>
+                        <option value="Kitchen">Kitchen</option>
+                        <option value="Laundry room">Laundry room</option>
+                        <option value="Hall way">Hall way</option>
+                        <option value="Deck">Deck</option>
+                        <option value="Basement">Basement</option>
+                        <option value="Garden">Garden</option>
+                        <option value="Garage">Garage</option>
+                    </select>
+                    <!--<input type="text" name="sectionName" class="form-control" placeholder="--name--" ng-model="section.type" required>-->
+                    <div ng-messages="workRequestForm.sectionType.$error">
+                        <div class="text-danger" ng-message="required">This field is required</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label"> Description</label>
+                    <textarea type="text" name="requestDescription" class="form-control" required placeholder="e.g. I need three power points installed" data-ng-model="requestInfo.description" ng-disabled="" autofocus></textarea>
+                    <div ng-messages="workRequestForm.requestDescription.$error">
+                        <div class="text-danger" ng-message="required">This field is required</div>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <button class="btn btn-md btn-primary btn-block" type="submit" data-ng-click="updateCompany()" ng-disabled="workRequestForm.$invalid">
+                        Send request
+                    </button>
+                    <button class="btn btn-md btn-info btn-block" ng-click="discard()">Cancel</button>
+                </div>
+
+
+
+
+
+            </form>
+        </div>
+
+        <div class="col-xs-1 col-lg-3"></div>
+
+    </div>
+</div>
+

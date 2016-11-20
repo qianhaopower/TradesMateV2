@@ -28,8 +28,17 @@ angular
         
     })
   .service('urls', function (domain, api) { this.apiUrl = domain + api; })
-  .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', 'NotificationProvider',
-      function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, NotificationProvider) {
+
+  .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', 'NotificationProvider','$httpProvider',
+      function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, NotificationProvider,$httpProvider) {
+          //$httpProvider.defaults.headers.common = {};
+          //$httpProvider.defaults.headers.post = {};
+          //$httpProvider.defaults.headers.put = {};
+          //$httpProvider.defaults.headers.patch = {};
+          //$httpProvider.defaults.headers.get = {};
+          //$httpProvider.defaults.headers.common['Access-Control-Allow-Headers'] = '*';
+          //$httpProvider.defaults.useXDomain = true;
+          //delete $httpProvider.defaults.headers.common['X-Requested-With'];
 
           $ocLazyLoadProvider.config({
               debug: false,
@@ -91,7 +100,7 @@ angular
             })
             .state('base.home', {
                 url: '/home',
-                controller: 'MainCtrl',
+                controller: 'dashboardController',
                 templateUrl: 'views/base/home.html',
                 resolve: {
                     loadMyFiles: function ($ocLazyLoad) {
@@ -99,7 +108,7 @@ angular
                             name: 'sbAdminApp',
                             files: [
                             //controllers
-                            'scripts/controllers/main.js',
+                            'scripts/controllers/dashboardController.js',
                             'scripts/controllers/clientController.js',
                             'scripts/controllers/propertyController.js',
                             'scripts/controllers/propertySectionController.js',
@@ -418,8 +427,14 @@ angular
                templateUrl: 'views/message/messageDetail.html',
                controller: 'messageDetailController',
                url: '/message/:messageId',
+           }) 
+          //work request
+           .state('base.workRequest', {
+               templateUrl: 'views/workRequest/workRequest.html',
+               controller: 'workRequestController',
+               url: '/workRequests',
            })
-
+          
 
 
           //NotificationProvider.setOptions({
