@@ -62,8 +62,11 @@
                 </div>
                 <div class="form-group">
                     <label class="control-label">Company</label>
-                    <select class="form-control" ng-model="selectedCompany"
+                    <select class="form-control" ng-model="selectedCompany" name="requestCompany" required
                             ng-options="item as item.companyName for item in companyList | filter:companyFilterFunc()"></select>
+                    <div ng-messages="workRequestForm.requestCompany.$error">
+                        <div class="text-danger" ng-message="required">This field is required</div>
+                    </div>
                 </div>
 
 
@@ -100,7 +103,7 @@
 
                 <div class="form-group">
                     <button class="btn btn-md btn-primary btn-block" type="submit" data-ng-click="updateCompany()" ng-disabled="workRequestForm.$invalid">
-                        Save
+                        Send request
                     </button>
                     <button class="btn btn-md btn-info btn-block" ng-click="discard()">Cancel</button>
                 </div>
