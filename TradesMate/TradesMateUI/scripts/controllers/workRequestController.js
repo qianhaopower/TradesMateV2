@@ -8,7 +8,7 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
 
 
         $scope.discard = function () {
-            $state.go('base.dashboard');
+            $state.go('base.home');
         }
         $scope.serviceTypes = companyService.getDefaultServices();
         $scope.companyList = [];
@@ -43,7 +43,7 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
                 }
                 return false;
             };
-          
+            
         }
 
 
