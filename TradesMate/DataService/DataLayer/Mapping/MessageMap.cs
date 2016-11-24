@@ -15,7 +15,10 @@ namespace EF.Data.Mapping
             Property(t => t.AddedDateTime).IsRequired();
             Property(t => t.ModifiedDateTime).IsRequired();
 
-          //  Ignore(t => t.HasResponse);
+            Property(t => t.PropertyAddress).IsOptional();
+            Property(t => t.Section).IsOptional();
+            Property(t => t.ServiceType).IsOptional();
+            //  Ignore(t => t.HasResponse);
 
 
             //relation

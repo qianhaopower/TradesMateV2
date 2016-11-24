@@ -60,8 +60,6 @@ namespace DataService.Controllers
                 }
             }
 
-
-
             return Ok(returnList);
 
         }
@@ -99,6 +97,14 @@ namespace DataService.Controllers
         //    return Ok();
 
         //}
+
+        [HttpPost]
+        public IHttpActionResult GenerateClientWorkRequest(MessageDetailModel model)
+        {
+            new MessageRepository().GenerateClientWorkRequest(model,User.Identity.Name);
+            return (Ok());
+
+        }
 
         [HttpPost]
         public IHttpActionResult HandleMessageResponse(int messageId, ResponseAction  action)

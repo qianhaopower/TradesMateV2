@@ -25,13 +25,36 @@ namespace EF.Data
         private UserManager<ApplicationUser> _userManager;
         //private RoleManager<IdentityRole> _roleManager;
 
-        public ClientRepository()
+        public ClientRepository(EFDbContext ctx = null)
         {
-            _ctx = new EFDbContext();
+            if (ctx != null)
+            {
+                _ctx = ctx;
+            }
+            else
+            {
+                _ctx = new EFDbContext();
+            }
             _applicationContext = new EFDbContext();
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
             //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
+       
+
+        public Client GetClientForUser (string userId)
+        {
+            var user = _userManager.FindById(userId);
+            if(user.UserType == UserType.Client)
+            {
+                _ctx.Entry(user).Reference(s => s.Client).Load();
+                return _ctx.Clients.First(p => p.Id == user.Client.Id);
+            }else
+            {
+                throw new Exception("User is not a client");
+            }
+           
+        }
+
 
 
         //decide what clients can this user see. 
@@ -39,7 +62,7 @@ namespace EF.Data
 
         //if the user is a member, he/she can see all the clients whose property he/she has access to.
 
-        public   IQueryable<Client> GetClientForUser(string userName)
+        public   IQueryable<Client> GetAccessibleClientForUser(string userName)
         {
             if (string.IsNullOrEmpty(userName))
             {

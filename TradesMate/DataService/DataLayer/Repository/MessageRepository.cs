@@ -333,16 +333,36 @@ namespace EF.Data
             _ctx.SaveChanges();
         }
 
-        public void GenerateClientWorkRequest(int clientId, int propertyId, string messageText)
+        public void GenerateClientWorkRequest(MessageDetailModel model, string userId)
         {
+
+            //here userId is the client who request the work. 
+            if (!model.CompanyId.HasValue)
+            {
+                throw new Exception("Must select a company to generate a work request.");
+            }
+            if (model.PropertyId.HasValue)
+            {
+                //this is a existing property, do not care the property address field then. 
+                model.PropertyAddress = null;
+            }
+            //the message should be sent to the admin of the company.
+            var userIdTo =  new CompanyRepository(_ctx).GetCompanyAdminMember(model.CompanyId.Value).Id;
+            var clientId = new ClientRepository(_ctx).GetClientForUser(userId).Id;
 
             var message = new Message()
             {
                 AddedDateTime = DateTime.Now,
                 ModifiedDateTime = DateTime.Now,
-                PropertyId = propertyId,
+                PropertyId = model.PropertyId,
+                CompanyId = model.CompanyId,
                 ClientId = clientId,
-                MessageText = messageText,
+                Section = model.Section,
+                ServiceType = model.ServiceType,
+                UserIdTo = userIdTo,
+                UserIdFrom = userId,
+               
+                MessageText = model.MessageText,
                 MessageType = MessageType.WorkRequest,
                 IsWaitingForResponse = true,
                 IsRead = false,
