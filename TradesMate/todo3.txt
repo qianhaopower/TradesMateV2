@@ -1,0 +1,31 @@
+
+--Saturday
+1) Add mobile in to work request, fill this field by client mobile if possible.
+If user has no mobile, display a mobile field in work requet page, upon saving, save that mobile number as   client's mobile number.
+(1.5h)
+
+2) add client Name, 
+client mobile, 
+client email address.
+propery name, 
+property address,
+to be displayed in message detail. if the message type is a work request. 
+
+Set this section  a directive. 
+(2h)
+
+
+3) Add permission, only client can send work request. (Server side is handled already, client side UI change only)
+(0.5h)
+
+
+-- Sunday
+ 5) implement right side info panel for Add Property/Add section/add work Item view,  allow admin user view the original request and create work items. 
+On select a propertyd/its section/its work item, highlight the corresbonding work request if there is any.
+(4h)
+
+optional for sunday
+6) Allow create new property for admin, 
+  thoughts 1) request with new property address, should allow create property in work request page. 
+Need address directive and "Add property" component
+work request -> Add property for client. 
