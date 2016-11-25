@@ -101,7 +101,8 @@ namespace DataService.Controllers
         [HttpPost]
         public IHttpActionResult GenerateClientWorkRequest(MessageDetailModel model)
         {
-            new MessageRepository().GenerateClientWorkRequest(model,User.Identity.Name);
+            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
+            new MessageRepository().GenerateClientWorkRequest(model, userId);
             return (Ok());
 
         }

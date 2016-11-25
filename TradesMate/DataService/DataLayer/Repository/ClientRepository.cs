@@ -39,8 +39,8 @@ namespace EF.Data
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
             //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
-       
 
+        
         public Client GetClientForUser (string userId)
         {
             var user = _userManager.FindById(userId);
@@ -55,6 +55,22 @@ namespace EF.Data
            
         }
 
+        public Member GetMemberForUser(string userId)
+        {
+            var user = _userManager.FindById(userId);
+            if (user.UserType == UserType.Trade)
+            {
+                _ctx.Entry(user).Reference(s => s.Member).Load();
+                return _ctx.Members.First(p => p.Id == user.Member.Id);
+            }
+            else
+            {
+                throw new Exception("User is not a member");
+            }
+
+        }
+
+
 
 
         //decide what clients can this user see. 
@@ -62,7 +78,7 @@ namespace EF.Data
 
         //if the user is a member, he/she can see all the clients whose property he/she has access to.
 
-        public   IQueryable<Client> GetAccessibleClientForUser(string userName)
+        public IQueryable<Client> GetAccessibleClientForUser(string userName)
         {
             if (string.IsNullOrEmpty(userName))
             {

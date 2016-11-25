@@ -349,6 +349,7 @@ namespace EF.Data
             //the message should be sent to the admin of the company.
             var userIdTo =  new CompanyRepository(_ctx).GetCompanyAdminMember(model.CompanyId.Value).Id;
             var clientId = new ClientRepository(_ctx).GetClientForUser(userId).Id;
+            var memberId = new ClientRepository(_ctx).GetMemberForUser(userIdTo).Id;
 
             var message = new Message()
             {
@@ -361,7 +362,7 @@ namespace EF.Data
                 ServiceType = model.ServiceType,
                 UserIdTo = userIdTo,
                 UserIdFrom = userId,
-               
+                MemberId = memberId,
                 MessageText = model.MessageText,
                 MessageType = MessageType.WorkRequest,
                 IsWaitingForResponse = true,

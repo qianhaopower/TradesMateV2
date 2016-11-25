@@ -74,7 +74,7 @@
 
                 <div class="form-group">
                     <label class="control-label"> Section</label>
-                    <select name="sectionType" ng-model="section.type" required class="form-control">
+                    <select name="sectionType" ng-model="requestInfo.section" required class="form-control">
                         <option value="Bedroom">Bedroom</option>
                         <option value="Living room">Living room</option>
                         <option value="Bathroom">Bathroom</option>
@@ -94,7 +94,9 @@
 
                 <div class="form-group">
                     <label class="control-label"> Description</label>
-                    <textarea type="text" name="requestDescription" class="form-control" required placeholder="e.g. I need three power points installed" data-ng-model="requestInfo.description" ng-disabled="" autofocus></textarea>
+                    <textarea type="text" name="requestDescription" class="form-control"
+                               required placeholder="e.g. I need three power points installed" 
+                              data-ng-model="requestInfo.messageText" ng-disabled="" autofocus></textarea>
                     <div ng-messages="workRequestForm.requestDescription.$error">
                         <div class="text-danger" ng-message="required">This field is required</div>
                     </div>
@@ -102,7 +104,7 @@
 
 
                 <div class="form-group">
-                    <button class="btn btn-md btn-primary btn-block" type="submit" data-ng-click="updateCompany()" ng-disabled="workRequestForm.$invalid">
+                    <button class="btn btn-md btn-primary btn-block" type="submit" data-ng-click="send()" ng-disabled="workRequestForm.$invalid">
                         Send request
                     </button>
                     <button class="btn btn-md btn-info btn-block" ng-click="discard()">Cancel</button>

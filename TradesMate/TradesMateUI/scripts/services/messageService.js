@@ -64,6 +64,19 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
 
     };
 
+
+    var _generateClientWorkRequest = function (data) {
+
+        var deferred = $q.defer();
+        $http.post(serviceBase + 'api/messages/GenerateClientWorkRequest', data).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+
+    };
+
     //var _markResponseAsRead = function (responseId) {
 
     //    var deferred = $q.defer();
@@ -158,6 +171,8 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     messageServiceFactory.getMessageTitleForType = _getMessageTitleForType;
     messageServiceFactory.getMessageById = _getMessageById;
     messageServiceFactory.handleMessageResponse = _handleMessageResponse;
+    messageServiceFactory.generateClientWorkRequest = _generateClientWorkRequest;
+    
     //messageServiceFactory.markResponseAsRead = _markResponseAsRead;
     
     

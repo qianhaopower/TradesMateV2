@@ -2,8 +2,9 @@
 
 
 angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$location', '$timeout', '$state', 'Notification',
-    'companyService', 'propertyDataService','addressService',
-    function ($scope, $location, $timeout, $state, Notification, companyService, propertyDataService, addressService) {
+    'companyService', 'propertyDataService', 'addressService', 'messageService',
+    function ($scope, $location, $timeout, $state, Notification,
+        companyService, propertyDataService, addressService, messageService) {
 
 
 
@@ -26,8 +27,8 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
             propertyAddress: undefined,//propertyId and propertyAddress, must provide one
             companyId: undefined,
             tradeType: undefined, // must select one and only one 
-            sectionId: undefined, //must select one
-            description: undefined,
+            section: undefined, //must select one
+            messageText: undefined,
             isNewProperty:false
 
         };
@@ -56,6 +57,22 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
                 // no need to display no results
                 //Notification.error({ message: error, delay: 2000 });
             });
+        }
+        var handle = function (action) {
+          
+        }
+
+
+        $scope.send = function () {
+            let data = $scope.requestInfo;
+            data.companyId = $scope.selectedCompany.companyId;
+            data.propertyId = $scope.selectedProperty.id;
+            data.tradeType = $scope.outputServiceType[0].enumValue;
+
+            messageService.generateClientWorkRequest(data).then(function (result) {
+                Notification.success({ message: 'Work request send. You will be contacted shortly', delay: 10*1000 });
+               
+            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
         }
 
         var init = function () {
