@@ -346,6 +346,16 @@ namespace EF.Data
                 //this is a existing property, do not care the property address field then. 
                 model.PropertyAddress = null;
             }
+
+            //set the client mobile number if it is not there.
+            var client = new ClientRepository(_ctx).GetClientForUser(userId);
+            if (client.MobileNumber == null)
+            {
+                client.MobileNumber = model.Mobile;
+            }
+            _ctx.Entry<Client>(client).State = EntityState.Modified;
+
+
             //the message should be sent to the admin of the company.
             var userIdTo =  new CompanyRepository(_ctx).GetCompanyAdminMember(model.CompanyId.Value).Id;
             var clientId = new ClientRepository(_ctx).GetClientForUser(userId).Id;

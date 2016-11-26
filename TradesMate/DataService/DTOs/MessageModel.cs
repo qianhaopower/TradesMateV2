@@ -39,6 +39,7 @@ namespace DataService.Models
         public bool IsRead { get; set; }
 
         public string UserIdTo { get; set; }
+        public string Mobile { get; set; }
 
 
         public string Role { get; set; }

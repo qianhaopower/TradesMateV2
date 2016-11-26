@@ -73,6 +73,8 @@ namespace EF.Data
                 throw new Exception("User name cannot by empty");
             }
             var user = await _userManager.FindByNameAsync(userName);
+            _ctx.Entry(user).Reference(s => s.Member).Load();
+            _ctx.Entry(user).Reference(s => s.Client).Load();
             return user;
         }
 

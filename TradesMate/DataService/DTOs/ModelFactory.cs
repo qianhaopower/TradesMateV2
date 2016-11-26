@@ -1,4 +1,5 @@
 ﻿using DataService.Infrastructure;
+using EF.Data;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Collections.Generic;
@@ -30,6 +31,8 @@ namespace DataService.Models
                 UserName = appUser.UserName,
                 FirstName = appUser.FirstName,
                 LastName = appUser.LastName,
+                UserType = appUser.Client != null ? UserType.Client : UserType.Trade,
+                Mobile = appUser.Client != null ? appUser.Client.MobileNumber : appUser.Member.MobileNumber,
 
 
                 //FullName = string.Format("{0} {1}", appUser.FirstName, appUser.LastName),
@@ -67,6 +70,8 @@ namespace DataService.Models
         public string LastName { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }
+        public UserType UserType { get; set; }
+        public string Mobile { get; set; }
       
         public bool EmailConfirmed { get; set; }
         public int Level { get; set; }

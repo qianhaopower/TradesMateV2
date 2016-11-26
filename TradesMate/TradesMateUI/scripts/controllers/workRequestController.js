@@ -2,9 +2,9 @@
 
 
 angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$location', '$timeout', '$state', 'Notification',
-    'companyService', 'propertyDataService', 'addressService', 'messageService',
+    'companyService', 'propertyDataService', 'addressService', 'messageService','authService',
     function ($scope, $location, $timeout, $state, Notification,
-        companyService, propertyDataService, addressService, messageService) {
+        companyService, propertyDataService, addressService, messageService, authentication) {
 
 
 
@@ -21,6 +21,8 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
         $scope.outputServiceType = undefined;
         $scope.selectedCompany = undefined;
 
+        $scope.regEx = "^[0-9]*$"
+        let currentUserMobile = authentication.authentication.userInfo ?authentication.authentication.userInfo.mobile :undefined;
     
         $scope.requestInfo = {
             propertyId: undefined,
@@ -29,7 +31,8 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
             tradeType: undefined, // must select one and only one 
             section: undefined, //must select one
             messageText: undefined,
-            isNewProperty:false
+            isNewProperty: false,
+            mobile: currentUserMobile,
 
         };
 
