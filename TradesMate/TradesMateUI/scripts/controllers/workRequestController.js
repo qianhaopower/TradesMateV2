@@ -73,7 +73,8 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
             data.tradeType = $scope.outputServiceType[0].enumValue;
 
             messageService.generateClientWorkRequest(data).then(function (result) {
-                Notification.success({ message: 'Work request send. You will be contacted shortly', delay: 10*1000 });
+                Notification.success({ message: 'Work request send. You will be contacted shortly', delay: 10 * 1000 });
+                $scope.discard();
                
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
         }

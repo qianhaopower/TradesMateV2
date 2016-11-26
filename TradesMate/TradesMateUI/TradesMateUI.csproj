@@ -788,6 +788,8 @@
     <Content Include="scripts\directives\chat\chat.js" />
     <Content Include="scripts\directives\base\stats\stats.html" />
     <Content Include="scripts\directives\base\stats\stats.js" />
+    <Content Include="scripts\directives\clientReadOnlyInfo\clientReadOnlyInfo.html" />
+    <Content Include="scripts\directives\clientReadOnlyInfo\clientReadOnlyInfo.js" />
     <Content Include="scripts\directives\fileUploadOnChange.js" />
     <Content Include="scripts\directives\header\header-notification\header-notification.html" />
     <Content Include="scripts\directives\header\header-notification\header-notification.js" />

@@ -52,6 +52,8 @@ namespace DataService.Models
         public string Section { get; set; }
 
         public int? PropertyId { get; set; }
+        public int? ClientId { get; set; }
+
 
         public int? CompanyId { get; set; }
 

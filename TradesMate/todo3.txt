@@ -18,6 +18,7 @@ Set this section  a directive.
 3) Add permission, only client can send work request. (Server side is handled already, client side UI change only)
 (0.5h)
 
+4) add message count in message menu
 
 -- Sunday
  5) implement right side info panel for Add Property/Add section/add work Item view,  allow admin user view the original request and create work items. 

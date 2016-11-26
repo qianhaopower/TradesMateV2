@@ -103,9 +103,13 @@ namespace EF.Data
                 }
                 else if (user.UserType == UserType.Trade)
                 {
-                    var properties = new PropertyRepository().GetPropertyForUser(userName);
+                    var properties = new PropertyRepository(_ctx).GetPropertyForUser(userName);
 
                     clients = GetClientsForProperty(properties);
+
+                    //need get all the client that has a work request. 
+                    var clientHasRequest = new MessageRepository(_ctx).GetClientThatHasMessageForUser(userName);
+                    clients = clients.Union(clientHasRequest);
                 }
                 else
                 {

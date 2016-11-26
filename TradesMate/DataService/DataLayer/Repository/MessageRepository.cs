@@ -74,6 +74,14 @@ namespace EF.Data
             return messages.Union(responds);
         }
 
+        public IQueryable<Client> GetClientThatHasMessageForUser(string username)
+        {
+            var user = new AuthRepository(_ctx).GetUserByUserName(username);
+            var clients = _ctx.Messages.Where(p => p.UserIdTo == user.Id && p.MessageType == MessageType.WorkRequest)
+                .Include(p => p.Client).Select(p => p.Client);
+            return clients;
+        }
+
         public int GetUnReadMessageCountForUser(string username)
         {
             var user = new AuthRepository(_ctx).GetUserByUserName(username);

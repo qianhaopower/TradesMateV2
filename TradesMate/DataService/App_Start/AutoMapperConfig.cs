@@ -98,6 +98,7 @@ namespace DataService
                       .ForMember(dest => dest.Section, opts => opts.MapFrom(src => src.Section))
                       .ForMember(dest => dest.ServiceType, opts => opts.MapFrom(src => src.ServiceType))
                         .ForMember(dest => dest.PropertyId, opts => opts.MapFrom(src => src.PropertyId))
+                          .ForMember(dest => dest.ClientId, opts => opts.MapFrom(src => src.ClientId))
                           .ForMember(dest => dest.CompanyId, opts => opts.MapFrom(src => src.CompanyId))
 
                      .ForMember(dest => dest.UserIdTo, opts => opts.MapFrom(src => src.UserIdTo))
