@@ -110,6 +110,27 @@ namespace DataService
                   .ForMember(dest => dest.MessageType, opts => opts.MapFrom(src => (int)src.MessageType))
                   .ForMember(dest => dest.MessageResponse, opts => opts.MapFrom(src => Mapper.Map<MessageResponse, MessageResponseModel>(src.MessageResponse)))
                    ;
+
+
+            CreateMap<Property, PropertyModel>()
+            .ForMember(dest => dest.Comment, opts => opts.MapFrom(src => src.Comment))
+            .ForMember(dest => dest.Description, opts => opts.MapFrom(src => src.Description))
+            .ForMember(dest => dest.Name, opts => opts.MapFrom(src => src.Name))
+            .ForMember(dest => dest.Narrative, opts => opts.MapFrom(src => src.Narrative))
+            .ForMember(dest => dest.Condition, opts => opts.MapFrom(src => src.Condition))
+            .ForMember(dest => dest.AddressDisplay, opts => opts.MapFrom(src => src.Address == null ? null :
+            
+            string.Format("{0} {1} {2} {3} {4} {5}", 
+            src.Address.Line1,
+            src.Address.Line2,
+            src.Address.Line3,
+            src.Address.Suburb,
+            src.Address.State,
+            src.Address.PostCode)
+            
+            ))
+
+                      ;
         }
     }
 }
