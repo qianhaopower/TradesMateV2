@@ -16,7 +16,7 @@ namespace EF.Data
 
         public string Name { get; set; }
         public string Description { get; set; }
-      
+
         public string Condition { get; set; }
 
         public string Narrative { get; set; }
@@ -32,7 +32,7 @@ namespace EF.Data
         //public virtual Client Client { get; set; }
 
 
-        public virtual ICollection<Section> SectionList {get;set;}
+        public virtual ICollection<Section> SectionList { get; set; }
 
         public virtual ICollection<PropertyCompany> PropertyCompanies { get; set; }
         public virtual ICollection<PropertyAllocation> PropertyAllocations { get; set; }
@@ -40,5 +40,22 @@ namespace EF.Data
         public virtual ICollection<ClientProperty> ClientProperties { get; set; }
 
         public virtual ICollection<Message> Messages { get; set; }
+
+
+        public string AddressDisplay
+        {
+            get
+            {
+                return string.Format("{0} {1} {2} {3} {4} {5}",
+         Address.Line1,
+         Address.Line2,
+         Address.Line3,
+          Address.Suburb,
+          Address.State,
+         Address.PostCode);
+            }
+            set { }
+            
+        }
     }
 }

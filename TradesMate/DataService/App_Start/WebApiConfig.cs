@@ -11,6 +11,10 @@ using System.Web.OData.Extensions;
 using EF.Data;
 using System.Net.Http.Formatting;
 using DataService.Models;
+using Microsoft.OData.Edm.Library;
+using Microsoft.OData.Edm.Library.Annotations;
+using Microsoft.OData.Edm;
+using Microsoft.OData.Edm.Library.Values;
 
 namespace DataService
 {
@@ -49,6 +53,11 @@ namespace DataService
 
 
             builder.EntitySet<Property>("Properties");
+            //var model = builder.GetEdmModel() as EdmModel;
+            //model.SetVocabularyAnnotation(
+            //    new EdmAnnotation(model.EntityContainer.FindEntitySet("Properties").EntityType().FindProperty("AddressDisplay"),
+            //    new EdmTerm("Org.OData.Core.V1", "Computed", EdmPrimitiveTypeKind.Boolean),
+            //    new EdmBooleanConstant(true)));
 
             //builder.Namespace = "PropertyExtension";
             //builder.EntityType<Property>()

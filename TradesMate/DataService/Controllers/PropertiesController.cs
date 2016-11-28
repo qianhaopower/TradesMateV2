@@ -37,14 +37,16 @@ namespace DataService.Controllers
         private EFDbContext db = new EFDbContext();
 
         // GET: odata/Properties
-     
-        public IQueryable<PropertyModel> GetProperties()
+        [EnableQuery]
+        public IQueryable<Property> GetProperties()
         {
             var repo = new PropertyRepository();
 
-            var properties =  repo.GetPropertyForUser(User.Identity.Name);
-            var results= properties.Select(Mapper.Map<Property, PropertyModel>).ToList();
-            return results.AsQueryable();
+            var properties =  repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address);
+
+            // bing the property model back when we decide to use normal model or OData EDM model.
+            //var results= properties.Select(Mapper.Map<Property, PropertyModel>).ToList();
+            return properties;
             
 
            // return db.Properties;
@@ -102,13 +104,13 @@ namespace DataService.Controllers
 
 
         // GET: odata/Properties(5)
-        
-        public PropertyModel GetProperty([FromODataUri] int key)
+        [EnableQuery]
+        public SingleResult<Property> GetProperty([FromODataUri] int key)
         {
             var repo = new PropertyRepository();
-            var property = repo.GetPropertyForUser(User.Identity.Name).FirstOrDefault(p => p.Id == key);
-            var result = Mapper.Map<Property, PropertyModel>(property);
-            return result;
+            var property = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address).Where(p => p.Id == key);
+            //var result = Mapper.Map<Property, PropertyModel>(property);
+            return SingleResult.Create(property);
         }
 
         // PUT: odata/Properties(5)
