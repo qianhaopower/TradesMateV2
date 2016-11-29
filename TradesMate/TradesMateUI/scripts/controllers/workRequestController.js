@@ -6,7 +6,7 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
     function ($scope, $location, $timeout, $state, Notification,
         companyService, propertyDataService, addressService, messageService, authentication) {
 
-
+      
 
         $scope.discard = function () {
             $state.go('base.home');
