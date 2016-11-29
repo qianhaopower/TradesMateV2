@@ -37,8 +37,20 @@ namespace EF.Data
         public int? ClientId { get; set; }
         public int? PropertyId { get; set; }
 
-       // public int? MessageResponseId { get; set; }
-      
+
+        #region for work request
+        //put these field in the message table for now. If Work request need more property we need consider add a workrequest info table
+
+        public string PropertyAddress { get; set; } // only used if no propertyId is provided, i.e. new property
+        public TradeType ServiceType { get; set; }
+        public string Section { get; set; }// bedroom, bathroom etc.
+
+        #endregion
+
+
+
+        // public int? MessageResponseId { get; set; }
+
 
         public CompanyRole Role { get; set; }
 

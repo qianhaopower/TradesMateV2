@@ -42,12 +42,12 @@ namespace DataService.Controllers
         {
             var repo = new PropertyRepository();
 
-            //var k = Request.GetOwinContext().Get<ApplicationUserManager>("AppUserManager");
-            //var u = k.FindByNameAsync(User.Identity.Name);
+            var properties =  repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address);
 
+            // bing the property model back when we decide to use normal model or OData EDM model.
+            //var results= properties.Select(Mapper.Map<Property, PropertyModel>).ToList();
+            return properties;
             
-
-            return repo.GetPropertyForUser(User.Identity.Name);
 
            // return db.Properties;
         }
@@ -108,7 +108,9 @@ namespace DataService.Controllers
         public SingleResult<Property> GetProperty([FromODataUri] int key)
         {
             var repo = new PropertyRepository();
-            return SingleResult.Create(repo.GetPropertyForUser(User.Identity.Name).Where(property => property.Id == key));
+            var property = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address).Where(p => p.Id == key);
+            //var result = Mapper.Map<Property, PropertyModel>(property);
+            return SingleResult.Create(property);
         }
 
         // PUT: odata/Properties(5)

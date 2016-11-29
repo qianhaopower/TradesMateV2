@@ -19,6 +19,7 @@ angular
     'angular-carousel',
     'LocalStorageModule',
     'isteven-multi-select',
+    'pageslide-directive',
  
   ])
   .constant('domain', 'http://' + window.location.hostname)
@@ -51,6 +52,7 @@ angular
             .state('base', {
                 url: '/base',
                 templateUrl: 'views/base/main.html',
+                controller: 'baseController',
                 resolve: {
                     loadMyDirectives: function ($ocLazyLoad) {
                         return $ocLazyLoad.load(

@@ -79,7 +79,13 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
             _authentication.userRole = response.userRole;
             _authentication.userType = response.userType;
 
-            deferred.resolve(response);
+
+            _getCurrentUser().then(function (currentUser) {
+                _authentication.userInfo = currentUser;
+                deferred.resolve(response);
+
+            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+
 
         }).error(function (err, status) {
             _logOut();
@@ -99,6 +105,7 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         _authentication.useRefreshTokens = false;
         _authentication.userRole = undefined;
         _authentication.userType = undefined;
+        _authentication.userInfo = undefined ;
 
     };
 

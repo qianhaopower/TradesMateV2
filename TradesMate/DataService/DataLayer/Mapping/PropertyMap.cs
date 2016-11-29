@@ -24,6 +24,8 @@ namespace EF.Data.Mapping
             Property(t => t.AddedDateTime).IsRequired();
             Property(t => t.ModifiedDateTime).IsRequired();
 
+            Ignore(t => t.AddressDisplay);
+
             //relation
 
             this.HasMany<Section>(p => p.SectionList)

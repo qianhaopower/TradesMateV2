@@ -8,7 +8,7 @@
  */
 
 angular.module('sbAdminApp')
-  .directive('sidebar', ['authService', function (authService) {
+  .directive('sidebar', ['$interval', 'authService', 'messageService', function ($interval, authService, messageService) {
     return {
       templateUrl:'scripts/directives/sidebar/sidebar.html',
       restrict: 'E',
@@ -22,11 +22,21 @@ angular.module('sbAdminApp')
         
         $scope.currentUser = authService.authentication;
         $scope.showManage = authService.authentication.userRole == 'Admin';
-        $scope.showClients = authService.authentication.userType == '1'; // 0 client , 1 trade
+        $scope.showClients = authService.authentication.userType == 'Trade'; // 0 client , 1 trade
+        $scope.unReadMessageCount = 0;
+      
+        var checkCount = function () {
+            messageService.getPendingMessagesCount().then(function (count) {
+                $scope.unReadMessageCount = count;
+            }, function (error) {
+                // Get message count fail do nothing.
+            });
+        } 
+
+        $interval(checkCount, 5000);
 
 
-
-        $scope.check = function(x){
+        $scope.checkCount = function(x){
           
           if(x==$scope.collapseVar)
             $scope.collapseVar = 0;

@@ -1,5 +1,6 @@
 ﻿
 
+using EF.Data;
 using System;
 
 namespace DataService.Models
@@ -38,12 +39,23 @@ namespace DataService.Models
         public bool IsRead { get; set; }
 
         public string UserIdTo { get; set; }
+        public string Mobile { get; set; }
 
 
         public string Role { get; set; }
 
         public string CompanyName { get; set; }
         public string MemberName { get; set; }
+
+        public string PropertyAddress { get; set; } 
+        public TradeType ServiceType { get; set; }
+        public string Section { get; set; }
+
+        public int? PropertyId { get; set; }
+        public int? ClientId { get; set; }
+
+
+        public int? CompanyId { get; set; }
 
         public DateTime CreateTime { get; set; }
 

@@ -37,7 +37,7 @@ namespace DataService.Controllers
         public IQueryable<Client> GetClients()
         {
             var repo = new ClientRepository();
-            return repo.GetClientForUser(User.Identity.Name);
+            return repo.GetAccessibleClientForUser(User.Identity.Name);
         }
 
         // GET: odata/Clients(5)
@@ -45,7 +45,7 @@ namespace DataService.Controllers
         public SingleResult<Client> GetClient([FromODataUri] int key)
         {
             var repo = new ClientRepository();
-            return SingleResult.Create(repo.GetClientForUser(User.Identity.Name).Where(property => property.Id == key));
+            return SingleResult.Create(repo.GetAccessibleClientForUser(User.Identity.Name).Where(property => property.Id == key));
         }
 
         // PUT: odata/Clients(5)

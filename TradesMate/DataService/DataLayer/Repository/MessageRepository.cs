@@ -74,6 +74,14 @@ namespace EF.Data
             return messages.Union(responds);
         }
 
+        public IQueryable<Client> GetClientThatHasMessageForUser(string username)
+        {
+            var user = new AuthRepository(_ctx).GetUserByUserName(username);
+            var clients = _ctx.Messages.Where(p => p.UserIdTo == user.Id && p.MessageType == MessageType.WorkRequest)
+                .Include(p => p.Client).Select(p => p.Client);
+            return clients;
+        }
+
         public int GetUnReadMessageCountForUser(string username)
         {
             var user = new AuthRepository(_ctx).GetUserByUserName(username);
@@ -333,16 +341,47 @@ namespace EF.Data
             _ctx.SaveChanges();
         }
 
-        public void GenerateClientWorkRequest(int clientId, int propertyId, string messageText)
+        public void GenerateClientWorkRequest(MessageDetailModel model, string userId)
         {
+
+            //here userId is the client who request the work. 
+            if (!model.CompanyId.HasValue)
+            {
+                throw new Exception("Must select a company to generate a work request.");
+            }
+            if (model.PropertyId.HasValue)
+            {
+                //this is a existing property, do not care the property address field then. 
+                model.PropertyAddress = null;
+            }
+
+            //set the client mobile number if it is not there.
+            var client = new ClientRepository(_ctx).GetClientForUser(userId);
+            if (client.MobileNumber == null)
+            {
+                client.MobileNumber = model.Mobile;
+            }
+            _ctx.Entry<Client>(client).State = EntityState.Modified;
+
+
+            //the message should be sent to the admin of the company.
+            var userIdTo =  new CompanyRepository(_ctx).GetCompanyAdminMember(model.CompanyId.Value).Id;
+            var clientId = new ClientRepository(_ctx).GetClientForUser(userId).Id;
+            var memberId = new ClientRepository(_ctx).GetMemberForUser(userIdTo).Id;
 
             var message = new Message()
             {
                 AddedDateTime = DateTime.Now,
                 ModifiedDateTime = DateTime.Now,
-                PropertyId = propertyId,
+                PropertyId = model.PropertyId,
+                CompanyId = model.CompanyId,
                 ClientId = clientId,
-                MessageText = messageText,
+                Section = model.Section,
+                ServiceType = model.ServiceType,
+                UserIdTo = userIdTo,
+                UserIdFrom = userId,
+                MemberId = memberId,
+                MessageText = model.MessageText,
                 MessageType = MessageType.WorkRequest,
                 IsWaitingForResponse = true,
                 IsRead = false,

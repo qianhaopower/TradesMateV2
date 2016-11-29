@@ -573,3 +573,6 @@ TradesMate/.vs/TradesMate/v14/.suo
 *.cache
 TradesMate/DataService/obj/Debug/DesignTimeResolveAssemblyReferencesInput.cache
 TradesMate/SeedUnitTest/bin
+*.dll
+*.suo
+*.cache

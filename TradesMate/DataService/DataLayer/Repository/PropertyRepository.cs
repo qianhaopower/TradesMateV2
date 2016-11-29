@@ -23,15 +23,23 @@ namespace EF.Data
       
 
         private UserManager<ApplicationUser> _userManager;
-       // private RoleManager<IdentityRole> _roleManager;
+        // private RoleManager<IdentityRole> _roleManager;
 
-        public PropertyRepository()
+
+
+        public PropertyRepository(EFDbContext ctx = null)
         {
-            _ctx = new EFDbContext();
-           
+            if (ctx != null)
+            {
+                _ctx = ctx;
+            }
+            else
+            {
+                _ctx = new EFDbContext();
+            }
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
-            //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
+        
 
         public   IQueryable<Property> GetPropertyForUser(string userName)
         {

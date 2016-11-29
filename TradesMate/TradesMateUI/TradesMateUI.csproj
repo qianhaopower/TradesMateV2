@@ -59,6 +59,14 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="404.html" />
+    <Content Include="bower_components\angular-pageslide-directive\.gitignore" />
+    <Content Include="bower_components\angular-pageslide-directive\dist\angular-pageslide-directive.js" />
+    <Content Include="bower_components\angular-pageslide-directive\dist\angular-pageslide-directive.min.js" />
+    <Content Include="bower_components\angular-pageslide-directive\examples\index.html" />
+    <Content Include="bower_components\angular-pageslide-directive\Gruntfile.js" />
+    <Content Include="bower_components\angular-pageslide-directive\karma.conf.js" />
+    <Content Include="bower_components\angular-pageslide-directive\src\angular-pageslide-directive.js" />
+    <Content Include="bower_components\angular-pageslide-directive\test\angular-pageslide-directive.spec.js" />
     <Content Include="bower_components\components-font-awesome\.gitignore" />
     <Content Include="bower_components\components-font-awesome\css\font-awesome.css" />
     <Content Include="bower_components\components-font-awesome\css\font-awesome.min.css" />
@@ -739,6 +747,11 @@
     <Content Include="bower_components\underscore\LICENSE" />
     <Content Include="bower_components\underscore\README.md" />
     <Content Include="bower_components\underscore\underscore-min.map" />
+    <Content Include="bower_components\angular-pageslide-directive\.bower.json" />
+    <Content Include="bower_components\angular-pageslide-directive\.travis.yml" />
+    <Content Include="bower_components\angular-pageslide-directive\bower.json" />
+    <Content Include="bower_components\angular-pageslide-directive\package.json" />
+    <Content Include="bower_components\angular-pageslide-directive\readme.md" />
     <None Include="Properties\PublishProfiles\ngauthenticationweb.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -757,6 +770,7 @@
     <Content Include="scripts\authComplete.js" />
     <Content Include="scripts\controllers\associateController.js" />
     <Content Include="scripts\controllers\chartContoller.js" />
+    <Content Include="scripts\controllers\baseController.js" />
     <Content Include="scripts\controllers\workRequestController.js" />
     <Content Include="scripts\controllers\messageDetailController.js" />
     <Content Include="scripts\controllers\messageController.js" />
@@ -788,6 +802,10 @@
     <Content Include="scripts\directives\chat\chat.js" />
     <Content Include="scripts\directives\base\stats\stats.html" />
     <Content Include="scripts\directives\base\stats\stats.js" />
+    <Content Include="scripts\directives\propertyInfo\propertyInfo.html" />
+    <Content Include="scripts\directives\propertyInfo\propertyInfo.js" />
+    <Content Include="scripts\directives\clientReadOnlyInfo\clientReadOnlyInfo.html" />
+    <Content Include="scripts\directives\clientReadOnlyInfo\clientReadOnlyInfo.js" />
     <Content Include="scripts\directives\fileUploadOnChange.js" />
     <Content Include="scripts\directives\header\header-notification\header-notification.html" />
     <Content Include="scripts\directives\header\header-notification\header-notification.js" />

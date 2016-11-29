@@ -14,7 +14,10 @@
         </div>
 
     </div>
-   
+    <client-read-only-info ng-if="message.messageType == 4"  
+     client-id="{{message.clientId}}"></client-read-only-info>
+    <property-info ng-if="message.messageType == 4"
+     property-id="{{message.propertyId}}"></property-info>
 
     <uib-accordion close-others="false">
         <div uib-accordion-group class="panel-default" heading="Respond" is-open="status.isRespondOpen" ng-show="showRespond">
@@ -54,16 +57,20 @@
                 </div>
             </div>
     </uib-accordion>
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="btn btn-default accept pull-right" ng-click="accept()" ng-show="message.isWaitingForResponse">
-                    <i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp;Accept
-                </div>
-                <div class="btn btn-default reject pull-right" ng-click="reject()" ng-show="message.isWaitingForResponse">
-                    <i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Reject
-                </div>
-            </div>
+  
+  
 
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="btn btn-default accept pull-right" ng-click="accept()" ng-show="message.isWaitingForResponse">
+                <i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp;Accept
+            </div>
+            <div class="btn btn-default reject pull-right" ng-click="reject()" ng-show="message.isWaitingForResponse">
+                <i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Reject
+            </div>
         </div>
+
+    </div>
 
 </div>
