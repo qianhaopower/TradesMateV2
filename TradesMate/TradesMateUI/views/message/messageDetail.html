@@ -14,10 +14,16 @@
         </div>
 
     </div>
+
     <client-read-only-info ng-if="message.messageType == 4"  
      client-id="{{message.clientId}}"></client-read-only-info>
     <property-info ng-if="message.messageType == 4"
-     property-id="{{message.propertyId}}"></property-info>
+     property-id="{{message.propertyId}}"
+     property-address="{{message.propertyAddress}}"
+                   ></property-info>
+ 
+
+
 
     <uib-accordion close-others="false">
         <div uib-accordion-group class="panel-default" heading="Respond" is-open="status.isRespondOpen" ng-show="showRespond">

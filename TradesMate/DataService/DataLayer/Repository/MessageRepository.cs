@@ -385,6 +385,8 @@ namespace EF.Data
                 MessageType = MessageType.WorkRequest,
                 IsWaitingForResponse = true,
                 IsRead = false,
+                PropertyAddress = model.PropertyAddress,
+                
             };
 
             _ctx.Entry<Message>(message).State = EntityState.Added;

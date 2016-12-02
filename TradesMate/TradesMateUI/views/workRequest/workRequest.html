@@ -34,7 +34,7 @@
                 <div class="form-group" ng-show="requestInfo.isNewProperty">
                     <label class="control-label">New property address</label>
                     <input type="text" ng-model="newPropertyAddress" placeholder="Address" name="newPropertyAddress"
-                           uib-typeahead="item as item.formatted_address for item in findAddress($viewValue) "
+                           uib-typeahead="item.formatted_address as item.formatted_address for item in findAddress($viewValue) "
                            typeahead-loading="loading"
                            typeahead-no-results="noResults"
                            typeahead-wait-ms="200"

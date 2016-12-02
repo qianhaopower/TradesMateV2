@@ -69,14 +69,18 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
         $scope.send = function () {
             let data = $scope.requestInfo;
             data.companyId = $scope.selectedCompany.companyId;
-            data.propertyId = $scope.selectedProperty.id;
+            data.propertyId = data.isNewProperty ? undefined : $scope.selectedProperty.id;
+
+            data.propertyAddress = data.isNewProperty ? $scope.newPropertyAddress : undefined;
             data.tradeType = $scope.outputServiceType[0].enumValue;
 
             messageService.generateClientWorkRequest(data).then(function (result) {
                 Notification.success({ message: 'Work request send. You will be contacted shortly', delay: 10 * 1000 });
                 $scope.discard();
                
-            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+            }, function (error) {
+                Notification.error({ message: error.message ? error.message : error, delay: 2000 });
+            });
         }
 
         var init = function () {
