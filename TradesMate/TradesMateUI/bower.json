@@ -26,7 +26,9 @@
     "angular-scenario": "1.5.7"
   },
   "resolutions": {
-    "bootstrap": "~3.1.1"
+    "bootstrap": "~3.1.1",
+    "angular-bootstrap": "^2.3.0",
+    "angular": "1.5.x"
   },
   "appPath": "app"
 }
