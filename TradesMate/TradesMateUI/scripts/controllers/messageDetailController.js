@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sbAdminApp')
-  .controller('messageDetailController', ['$scope', 'messageService', 'Notification', '$state', '$stateParams', '$sce',
-function ($scope, messageService, Notification, $state, $stateParams, $sce) {
+  .controller('messageDetailController', ['$scope', 'messageService', 'Notification', '$state', '$stateParams', '$sce', 'ModalService',
+function ($scope, messageService, Notification, $state, $stateParams, $sce, modalService) {
 
    
     $scope.message = {};
@@ -32,6 +32,25 @@ function ($scope, messageService, Notification, $state, $stateParams, $sce) {
     $scope.renderHtml = function (html_code) {
         return $sce.trustAsHtml(html_code);
     };
+
+    $scope.createProperty = function () {
+        modalService.showModal({
+            templateUrl: 'createPropertyFromRequest.html',
+            controller: "createPropertyFromRequestController",
+            inputs: {
+                addressFormatted: $scope.message.propertyAddress,
+                
+            }
+        }).then(function (modal) {
+            modal.element.modal();
+            modal.close.then(function (result) {
+                if (result) {
+                    //property should be created, reload this message detail
+                    init();
+                }
+            });
+        });
+    }
 
 
     var handle = function (action) {
@@ -70,3 +89,15 @@ function ($scope, messageService, Notification, $state, $stateParams, $sce) {
 
 
 
+
+
+angular.module('sbAdminApp').controller('createPropertyFromRequestController', function ($scope, addressFormatted, close) {
+    $scope.addressFormatted = addressFormatted;
+    $scope.cancel = function () {
+        close(false, 500); // close, but give 500ms for bootstrap to animate
+    };
+    $scope.save = function () {
+        //fire the save
+        close(true, 500);
+    }
+});
