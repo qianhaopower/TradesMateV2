@@ -397,7 +397,7 @@ namespace EF.UnitTest
                     ModifiedDateTime = DateTime.Now,
                 };
 
-                context.Entry(clientPropertyLisa).State = EntityState.Added;
+                context.Entry(clientPropertySimon).State = EntityState.Added;
 
                 #endregion
 

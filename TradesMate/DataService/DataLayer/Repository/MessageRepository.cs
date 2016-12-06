@@ -160,6 +160,7 @@ namespace EF.Data
                 case MessageType.AddPropertyCoOwner:
                 case MessageType.AssignContractorRole:
                 case MessageType.WorkRequest:// work request eventually we need set the work item as started if accepted. Once we have the work item status.
+                    HandleWorkRequestResponse(message, action);
                     break;
                 case MessageType.AssignDefaultRoleRequest:
                     HandleAssignDefaultRoleResponse(message, action);
@@ -171,6 +172,16 @@ namespace EF.Data
             }
             message.IsWaitingForResponse = false;
             GenerateResponse(messageId, action);
+        }
+
+        private void HandleWorkRequestResponse(Message message, ResponseAction action)
+        {
+            message.IsWaitingForResponse = false;
+            if (action == ResponseAction.Accept)
+            {
+              
+            }
+
         }
 
         private void HandleAssignDefaultRoleResponse(Message message, ResponseAction action)
@@ -388,6 +399,27 @@ namespace EF.Data
                 PropertyAddress = model.PropertyAddress,
                 
             };
+
+
+            // if the company-property relationship is not there, add it. 
+            if (_ctx.PropertyCompanies.Any(p => p.CompanyId == message.CompanyId && p.PropertyId == message.PropertyId))
+            {
+                //relationship is already there, all good. The client is requesting work for a property that with this company
+            }
+            else
+            {
+                // add the relationship
+                PropertyCompany propertyCompanyNew = new PropertyCompany
+                {
+                    PropertyId = message.PropertyId.Value,
+                    CompanyId = message.CompanyId.Value,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                };
+                _ctx.Entry(propertyCompanyNew).State = EntityState.Added;
+                
+            }
+
 
             _ctx.Entry<Message>(message).State = EntityState.Added;
             _ctx.SaveChanges();
