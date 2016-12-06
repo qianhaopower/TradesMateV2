@@ -1,13 +1,14 @@
-﻿<div class="">
+﻿
 
     <br />
-    <div class="form-group">
+    <div class="">
         <div class="col-lg-12 col-sm-12">
             <a class="btn btn-default" ng-click="goBack()">
                 <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Go Back
             </a>
         </div>
     </div>
+<div class="container-fluid">
     <div class="row">
         <div class="col-lg-12">
             <h2 class="page-header">Message detail</h2>
@@ -15,56 +16,64 @@
 
     </div>
 
-    <client-read-only-info ng-if="message.messageType == 4"  
-     client-id="{{message.clientId}}"></client-read-only-info>
-    <property-info ng-if="message.messageType == 4"
-     property-id="{{message.propertyId}}"
-     property-address="{{message.propertyAddress}}"
-                   ></property-info>
- 
+    <div class="row">
+        <client-read-only-info ng-if="message.messageType == 4"
+                               client-id="{{message.clientId}}"></client-read-only-info>
+        <property-info ng-if="message.messageType == 4"
+                       property-id="{{message.propertyId}}"
+                       property-address="{{message.propertyAddress}}"></property-info>
 
+    </div>
 
-
-    <uib-accordion close-others="false">
-        <div uib-accordion-group class="panel-default" heading="Respond" is-open="status.isRespondOpen" ng-show="showRespond">
-          {{respondText}} <br/>
-             {{message.messageResponse.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
+    <div class="row ">
+        <div class="col-sm-3">
+            <div class="btn btn-primary">Create property </div>
         </div>
-        <div uib-accordion-group class="panel-default" heading="Message" is-open="status.isMessageOpen">
-            ﻿<div class="form-horizontal">
-                 <div class="row">
-                     <div class="col-lg-12">
-
-                         <div class="form-group">
-                             <label class="col-sm-3  ">Title</label>
-                             <div class="col-sm-9">
-                                 <div class="form-control" ng-bind="messageTitle"></div>
-                             </div>
-                         </div>
-
-                         <div class="form-group">
-                             <label class="col-sm-3  ">Created on</label>
-                             <div class="col-sm-9">
-                                 <div class="form-control" ng-bind="message.createTime | date:'yyyy-MM-dd HH:mm:ss'"></div>
-                             </div>
-                         </div>
-
-                         <div class="form-group">
-                             <label class="col-sm-3  ">Content</label>
-                             <div class="col-sm-9" style="word-wrap: break-word;">
-                                 <div class="form-control work-item-textarea" ng-bind-html="renderHtml(message.messageText)">
-                                 </div>
-                             </div>
-                         </div>
+        <label class="col-sm-9 text-danger">You need create the property before you can accept this request</label>
+    </div>
 
 
-                     </div>
-                 </div>
+    <div class="row top-buffer">
+        <uib-accordion close-others="false">
+            <div uib-accordion-group class="panel-default" heading="Respond" is-open="status.isRespondOpen" ng-show="showRespond">
+                {{respondText}} <br />
+                {{message.messageResponse.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
+            </div>
+            <div uib-accordion-group class="panel-default" heading="Message" is-open="status.isMessageOpen">
+                ﻿<div class="form-horizontal">
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <div class="form-group">
+                                <label class="col-sm-3  ">Title</label>
+                                <div class="col-sm-9">
+                                    <div class="form-control" ng-bind="messageTitle"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3  ">Created on</label>
+                                <div class="col-sm-9">
+                                    <div class="form-control" ng-bind="message.createTime | date:'yyyy-MM-dd HH:mm:ss'"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-sm-3  ">Content</label>
+                                <div class="col-sm-9" style="word-wrap: break-word;">
+                                    <div class="form-control work-item-textarea" ng-bind-html="renderHtml(message.messageText)">
+                                    </div>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
                 </div>
             </div>
-    </uib-accordion>
-  
-  
+        </uib-accordion>
+    </div>
+
 
 
     <div class="row">
@@ -79,4 +88,5 @@
 
     </div>
 
-</div>
+
+    </div>

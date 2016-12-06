@@ -27,7 +27,7 @@ angular.module('sbAdminApp')
                   }
               });
               attrs.$observe('propertyAddress', function (value) {
-                  if (scope.propertyId) {
+                  if (scope.propertyId && value) {
                       throw 'Cannot set address when propertyId is presented';
                   } else {
                       scope.property = { name: 'New', addressDisplay: value };

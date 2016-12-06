@@ -399,29 +399,36 @@ namespace EF.Data
                 PropertyAddress = model.PropertyAddress,
                 
             };
-
-
-            // if the company-property relationship is not there, add it. 
-            if (_ctx.PropertyCompanies.Any(p => p.CompanyId == message.CompanyId && p.PropertyId == message.PropertyId))
-            {
-                //relationship is already there, all good. The client is requesting work for a property that with this company
-            }
-            else
-            {
-                // add the relationship
-                PropertyCompany propertyCompanyNew = new PropertyCompany
-                {
-                    PropertyId = message.PropertyId.Value,
-                    CompanyId = message.CompanyId.Value,
-                    AddedDateTime = DateTime.Now,
-                    ModifiedDateTime = DateTime.Now,
-                };
-                _ctx.Entry(propertyCompanyNew).State = EntityState.Added;
-                
-            }
-
-
             _ctx.Entry<Message>(message).State = EntityState.Added;
+
+            if (model.PropertyId.HasValue)//existing property
+            {
+                // if the company-property relationship is not there, add it. 
+                if (_ctx.PropertyCompanies.Any(p => p.CompanyId == message.CompanyId && p.PropertyId == message.PropertyId))
+                {
+                    //relationship is already there, all good. The client is requesting work for a property that with this company
+                }
+                else
+                {
+                    // add the relationship
+                    PropertyCompany propertyCompanyNew = new PropertyCompany
+                    {
+                        PropertyId = message.PropertyId.Value,
+                        CompanyId = message.CompanyId.Value,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
+                    };
+                    _ctx.Entry(propertyCompanyNew).State = EntityState.Added;
+
+                }
+            }else// new property
+            {
+
+            }
+               
+
+
+            
             _ctx.SaveChanges();
         }
 
