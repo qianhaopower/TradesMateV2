@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sbAdminApp')
-  .controller('messageDetailController', ['$scope', 'messageService', 'Notification', '$state', '$stateParams', '$sce',
-function ($scope, messageService, Notification, $state, $stateParams, $sce) {
+  .controller('messageDetailController', ['$scope', 'messageService', 'Notification', '$state', '$stateParams', '$sce', 'ModalService',
+function ($scope, messageService, Notification, $state, $stateParams, $sce, modalService) {
 
    
     $scope.message = {};
@@ -32,6 +32,8 @@ function ($scope, messageService, Notification, $state, $stateParams, $sce) {
     $scope.renderHtml = function (html_code) {
         return $sce.trustAsHtml(html_code);
     };
+
+  
 
 
     var handle = function (action) {
@@ -63,6 +65,28 @@ function ($scope, messageService, Notification, $state, $stateParams, $sce) {
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
 
+    $scope.createProperty = function () {
+        modalService.showModal({
+            templateUrl: 'createPropertyFromRequest.html',
+            controller: "createPropertyFromRequestController",
+            inputs: {
+                addressFormatted: $scope.message.propertyAddress,
+
+            }
+        }).then(function (modal) {
+            modal.element.modal();
+            modal.close.then(function (property) {
+                if (property) {
+                    //property should be created, reload this message detail
+
+                    messageService.createPropertyForWorkRequest($stateParams.messageId, property).then(function (result) {
+                        init();
+                    }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+                  
+                }
+            });
+        });
+    }
 
     init();
 
@@ -70,3 +94,22 @@ function ($scope, messageService, Notification, $state, $stateParams, $sce) {
 
 
 
+
+
+angular.module('sbAdminApp').controller('createPropertyFromRequestController', function ($scope, addressFormatted, close) {
+    $scope.property = {
+        name: undefined,
+        description: undefined,
+        address: {
+            line1: undefined,
+        },
+    };
+    $scope.addressFormatted = addressFormatted;
+    $scope.cancel = function () {
+        close(undefined, 500); // close, but give 500ms for bootstrap to animate
+    };
+    $scope.save = function () {
+        //fire the save
+        close($scope.property, 500);
+    }
+});

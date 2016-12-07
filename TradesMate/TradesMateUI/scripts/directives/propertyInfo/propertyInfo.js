@@ -15,6 +15,7 @@ angular.module('sbAdminApp')
           replace: true,
           scope: {
               propertyId: '@',// read the property id from outside
+              propertyAddress: '@',// read the property id from outside
           },
           link: function (scope, element, attrs) {
               attrs.$observe('propertyId', function (value) {
@@ -24,6 +25,15 @@ angular.module('sbAdminApp')
                           scope.property = result;
                       }, function (error) { Notification.error({ message: error, delay: 2000 }); });
                   }
+              });
+              attrs.$observe('propertyAddress', function (value) {
+                  if (scope.propertyId && value) {
+                      throw 'Cannot set address when propertyId is presented';
+                  } else {
+                      scope.property = { name: 'New', addressDisplay: value };
+                  }
+                  
+                  
               });
              // scope.clientId = $attrs.clientId; //assign attribute to the scope
 

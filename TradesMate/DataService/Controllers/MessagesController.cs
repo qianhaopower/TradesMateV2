@@ -107,6 +107,15 @@ namespace DataService.Controllers
 
         }
 
+
+        [HttpPost]
+        public IHttpActionResult CreatePropertyForWorkRequest(int messageId, PropertyModel property)
+        {
+            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
+            new MessageRepository().CreatePropertyForWorkRequest(messageId, property);
+            return (Ok());
+
+        }
         [HttpPost]
         public IHttpActionResult HandleMessageResponse(int messageId, ResponseAction  action)
         {

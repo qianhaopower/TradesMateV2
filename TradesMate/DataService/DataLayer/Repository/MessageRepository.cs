@@ -94,6 +94,85 @@ namespace EF.Data
             return count;
         }
 
+        internal void CreatePropertyForWorkRequest(int messageId, PropertyModel model)
+        {
+            var message = _ctx.Messages.Find(messageId);
+            if(message == null)
+            {
+                throw new Exception("Cannot find message with Id "+ messageId);
+            }
+            if (!message.IsWaitingForResponse)
+            {
+                throw new Exception("Message already handled ");
+            }
+
+            if(message.PropertyId != null)
+            {
+                throw new Exception("Property already attached for this message");
+            }
+
+            if(model.Address == null)
+            {
+                throw new Exception("Address cannot be null");
+            }
+
+            Property newProperty = new Property
+            {
+                Name = model.Name,
+                Address = new Address()
+                {
+                    City = model.Address.City,
+                    Line1 = model.Address.Line1,
+                    Line2 = model.Address.Line2,
+                    Line3 = model.Address.Line3,
+                    PostCode = model.Address.PostCode,
+                    State = model.Address.State,
+                    Suburb = model.Address.Suburb,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                },
+                Description = model.Description,
+                Condition = model.Condition,
+                Narrative = model.Narrative,
+                Comment = model.Comment,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+
+            };
+            _ctx.Entry(newProperty).State = EntityState.Added;
+            message.Property = newProperty;
+            message.PropertyAddress = message.PropertyAddress + " (Address record created)";
+            _ctx.Entry(message).State = EntityState.Modified;
+
+
+            //add this property to the company
+            PropertyCompany propertyCompanyNew = new PropertyCompany
+            {
+                Property = newProperty,
+                CompanyId = message.CompanyId.Value,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+            };
+            _ctx.Entry(propertyCompanyNew).State = EntityState.Added;
+
+
+
+            ClientProperty clientPropertyNew = new ClientProperty
+            {
+                ClientId = message.ClientId.Value,
+                Property = newProperty,
+                Confirmed = true,
+                Role = ClientRole.Owner,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+            };
+
+            _ctx.Entry(clientPropertyNew).State = EntityState.Added;
+
+            _ctx.SaveChanges();
+
+        }
+
         public void MarkMessageAsRead(int messageId, string userId)
         {
             // we mark both message and response, but only one should has the user id.
@@ -160,6 +239,7 @@ namespace EF.Data
                 case MessageType.AddPropertyCoOwner:
                 case MessageType.AssignContractorRole:
                 case MessageType.WorkRequest:// work request eventually we need set the work item as started if accepted. Once we have the work item status.
+                    HandleWorkRequestResponse(message, action);
                     break;
                 case MessageType.AssignDefaultRoleRequest:
                     HandleAssignDefaultRoleResponse(message, action);
@@ -171,6 +251,16 @@ namespace EF.Data
             }
             message.IsWaitingForResponse = false;
             GenerateResponse(messageId, action);
+        }
+
+        private void HandleWorkRequestResponse(Message message, ResponseAction action)
+        {
+            message.IsWaitingForResponse = false;
+            if (action == ResponseAction.Accept)
+            {
+              
+            }
+
         }
 
         private void HandleAssignDefaultRoleResponse(Message message, ResponseAction action)
@@ -385,9 +475,39 @@ namespace EF.Data
                 MessageType = MessageType.WorkRequest,
                 IsWaitingForResponse = true,
                 IsRead = false,
+                PropertyAddress = model.PropertyAddress,
+                
             };
-
             _ctx.Entry<Message>(message).State = EntityState.Added;
+
+            if (model.PropertyId.HasValue)//existing property
+            {
+                // if the company-property relationship is not there, add it. 
+                if (_ctx.PropertyCompanies.Any(p => p.CompanyId == message.CompanyId && p.PropertyId == message.PropertyId))
+                {
+                    //relationship is already there, all good. The client is requesting work for a property that with this company
+                }
+                else
+                {
+                    // add the relationship
+                    PropertyCompany propertyCompanyNew = new PropertyCompany
+                    {
+                        PropertyId = message.PropertyId.Value,
+                        CompanyId = message.CompanyId.Value,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
+                    };
+                    _ctx.Entry(propertyCompanyNew).State = EntityState.Added;
+
+                }
+            }else// new property
+            {
+
+            }
+               
+
+
+            
             _ctx.SaveChanges();
         }
 

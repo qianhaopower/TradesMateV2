@@ -105,12 +105,14 @@ namespace DataService.Controllers
 
         // GET: odata/Properties(5)
         [EnableQuery]
-        public SingleResult<Property> GetProperty([FromODataUri] int key)
+        public Property GetProperty([FromODataUri] int key)
         {
             var repo = new PropertyRepository();
-            var property = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address).Where(p => p.Id == key);
+             
+            var property = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address).FirstOrDefault(p => p.Id == key);
             //var result = Mapper.Map<Property, PropertyModel>(property);
-            return SingleResult.Create(property);
+            //return SingleResult.Create(property);
+            return property;
         }
 
         // PUT: odata/Properties(5)
