@@ -33,24 +33,7 @@ function ($scope, messageService, Notification, $state, $stateParams, $sce, moda
         return $sce.trustAsHtml(html_code);
     };
 
-    $scope.createProperty = function () {
-        modalService.showModal({
-            templateUrl: 'createPropertyFromRequest.html',
-            controller: "createPropertyFromRequestController",
-            inputs: {
-                addressFormatted: $scope.message.propertyAddress,
-                
-            }
-        }).then(function (modal) {
-            modal.element.modal();
-            modal.close.then(function (result) {
-                if (result) {
-                    //property should be created, reload this message detail
-                    init();
-                }
-            });
-        });
-    }
+  
 
 
     var handle = function (action) {
@@ -82,6 +65,28 @@ function ($scope, messageService, Notification, $state, $stateParams, $sce, moda
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
 
+    $scope.createProperty = function () {
+        modalService.showModal({
+            templateUrl: 'createPropertyFromRequest.html',
+            controller: "createPropertyFromRequestController",
+            inputs: {
+                addressFormatted: $scope.message.propertyAddress,
+
+            }
+        }).then(function (modal) {
+            modal.element.modal();
+            modal.close.then(function (property) {
+                if (property) {
+                    //property should be created, reload this message detail
+
+                    messageService.createPropertyForWorkRequest($stateParams.messageId, property).then(function (result) {
+                        init();
+                    }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+                  
+                }
+            });
+        });
+    }
 
     init();
 
@@ -92,12 +97,19 @@ function ($scope, messageService, Notification, $state, $stateParams, $sce, moda
 
 
 angular.module('sbAdminApp').controller('createPropertyFromRequestController', function ($scope, addressFormatted, close) {
+    $scope.property = {
+        name: undefined,
+        description: undefined,
+        address: {
+            line1: undefined,
+        },
+    };
     $scope.addressFormatted = addressFormatted;
     $scope.cancel = function () {
-        close(false, 500); // close, but give 500ms for bootstrap to animate
+        close(undefined, 500); // close, but give 500ms for bootstrap to animate
     };
     $scope.save = function () {
         //fire the save
-        close(true, 500);
+        close($scope.property, 500);
     }
 });

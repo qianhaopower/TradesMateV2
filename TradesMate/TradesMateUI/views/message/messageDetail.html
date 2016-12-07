@@ -25,7 +25,7 @@
 
     </div>
 
-    <div class="row ">
+    <div class="row " ng-if="message.messageType == 4 && !message.propertyId">
         <div class="col-sm-3">
             <div class="btn btn-primary" ng-click="createProperty()">Create property </div>
         </div>
@@ -78,7 +78,8 @@
 
     <div class="row">
         <div class="col-lg-12">
-            <div class="btn btn-default accept pull-right" ng-click="accept()" ng-show="message.isWaitingForResponse">
+            <div class="btn btn-default accept pull-right" ng-click="accept()" ng-show="message.isWaitingForResponse"
+                 ng-if="message.messageType != 4 || (message.messageType == 4 && message.propertyId)">
                 <i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp;Accept
             </div>
             <div class="btn btn-default reject pull-right" ng-click="reject()" ng-show="message.isWaitingForResponse">
@@ -123,22 +124,22 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Line 1</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.line1">
+                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.address.line1">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Line 2</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.line2">
+                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.address.line2">
                                 </div>
                             </div>
 
 
                             <div class="form-group">
-                                <label class="col-sm-3 control-label">Line 1</label>
+                                <label class="col-sm-3 control-label">Line 3</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.line2">
+                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.address.line3">
                                 </div>
                             </div>
 
@@ -146,7 +147,7 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Suburb</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.suburb">
+                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.address.suburb">
                                 </div>
                             </div>
 
@@ -154,14 +155,14 @@
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">State</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.state">
+                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.address.state">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="col-sm-3 control-label">Post Code</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.postcode">
+                                    <input type="text" name="" class="form-control" placeholder="" ng-model="property.address.postcode">
                                 </div>
                             </div>
   

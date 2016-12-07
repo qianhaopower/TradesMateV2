@@ -19,7 +19,11 @@ namespace DataService.Models
         public string Comment { get; set; }
 
         public string AddressDisplay { get; set; }
-      
+
+        public int ClientId { get; set; }
+
+        public AddressModel Address { get; set; }
+
     }
 
 

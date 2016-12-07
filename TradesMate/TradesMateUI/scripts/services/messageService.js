@@ -77,6 +77,22 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
 
     };
 
+
+
+    var _createPropertyForWorkRequest = function (messageId, propertyModel) {
+
+        //var data = { property: propertyModel, messageId: messageId };
+        var deferred = $q.defer();
+        $http.post(serviceBase + 'api/messages/CreatePropertyForWorkRequest?messageId=' + messageId, propertyModel).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+
+    };
+
+
     //var _markResponseAsRead = function (responseId) {
 
     //    var deferred = $q.defer();
@@ -172,6 +188,8 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     messageServiceFactory.getMessageById = _getMessageById;
     messageServiceFactory.handleMessageResponse = _handleMessageResponse;
     messageServiceFactory.generateClientWorkRequest = _generateClientWorkRequest;
+    messageServiceFactory.createPropertyForWorkRequest = _createPropertyForWorkRequest;
+    
     
     //messageServiceFactory.markResponseAsRead = _markResponseAsRead;
     
