@@ -805,6 +805,8 @@
     <Content Include="scripts\directives\messageDetail\createPropertyFromRequestModal.html" />
     <Content Include="scripts\directives\messageDetail\messageDetailDirective.html" />
     <Content Include="scripts\directives\messageDetail\messageDetailDirective.js" />
+    <Content Include="scripts\directives\messagePanel\messagePanel.html" />
+    <Content Include="scripts\directives\messagePanel\messagePanel.js" />
     <Content Include="scripts\directives\propertyInfo\propertyInfo.html" />
     <Content Include="scripts\directives\propertyInfo\propertyInfo.js" />
     <Content Include="scripts\directives\clientReadOnlyInfo\clientReadOnlyInfo.html" />

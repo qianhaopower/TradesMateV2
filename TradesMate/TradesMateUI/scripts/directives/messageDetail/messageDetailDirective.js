@@ -48,16 +48,12 @@ angular.module('sbAdminApp')
                   return $sce.trustAsHtml(html_code);
               };
 
-
-
-
               var handle = function (action) {
                   messageService.handleMessageResponse(scope.message.id, action).then(function (result) {
                       Notification.success({ message: action ? 'Message rejected' : 'Message accepted', delay: 2000 });
                       init();
                   }, function (error) { Notification.error({ message: error, delay: 2000 }); });
               }
-
 
               var init = function () {
                   messageService.getMessageById(scope.messageId).then(function (result) {
