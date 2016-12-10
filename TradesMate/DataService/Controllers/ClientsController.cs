@@ -166,7 +166,14 @@ namespace DataService.Controllers
         [EnableQuery]
         public IQueryable<Property> GetProperties([FromODataUri] int key)
         {
-            return db.Clients.Where(m => m.Id == key).SelectMany(m => m.Properties);
+            //return db.Clients.Where(m => m.Id == key).SelectMany(m => m.Properties);
+            var repo = new PropertyRepository();
+
+            var properties = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address).Include(p=> p.ClientProperties).Where(p=>p.ClientProperties.Any(z=> z.ClientId == key));
+
+            // bing the property model back when we decide to use normal model or OData EDM model.
+            //var results= properties.Select(Mapper.Map<Property, PropertyModel>).ToList();
+            return properties;
         }
 
         protected override void Dispose(bool disposing)

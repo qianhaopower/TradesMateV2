@@ -31,7 +31,7 @@ namespace DataService.Models
     public class MessageDetailModel
     {
         public int Id { get; set; }
-        public int MessageType { get; set; }
+        public MessageType MessageType { get; set; }
 
         public string MessageText { get; set; }
 

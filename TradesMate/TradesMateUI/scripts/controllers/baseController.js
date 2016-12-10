@@ -15,8 +15,5 @@ angular.module('sbAdminApp')
       //    $state.go('base.workRequest');
       //}
 
-      $scope.checked = false;
-      $scope.toggle = function () {
-          $scope.checked = !$scope.checked;
-      }
+     
   }]);

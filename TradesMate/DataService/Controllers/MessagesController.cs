@@ -29,6 +29,19 @@ namespace DataService.Controllers
 
         public IHttpActionResult GetMessages()
         {
+            return Ok(GetUserMessage());
+
+        }
+
+        public IHttpActionResult GetWorkRequestMessageForProperty(int propertyId)
+        {
+            var messages = GetUserMessage().Where(p => p.MessageType == MessageType.WorkRequest
+             && p.PropertyId == propertyId).ToList();
+            return Ok(messages);
+        }
+
+        private IEnumerable<MessageDetailModel> GetUserMessage()
+        {
             var messages = new MessageRepository().GetMessageForUser(User.Identity.Name).ToList();
             //messages.ForEach(p => p.HasResponse = p.MessageResponse != null);
 
@@ -42,25 +55,24 @@ namespace DataService.Controllers
             //|| (p.MessageResponse != null && p.MessageResponse.UserIdTo == userId && p.MessageResponse.IsRead == false)
             //);
 
-            foreach(var message in returnList)
+            foreach (var message in returnList)
             {
-                if(message.UserIdTo == userId && message.IsRead == false)
+                if (message.UserIdTo == userId && message.IsRead == false)
                 {
                     message.ShouldDisplayUnread = true;
                 }
-                if(message.MessageResponse != null 
+                if (message.MessageResponse != null
                     && message.MessageResponse.UserIdTo == userId)
-                    //&& message.MessageResponse.IsRead == false)
+                //&& message.MessageResponse.IsRead == false)
                 {
                     message.Title = "You have a new respond";
                     if (message.MessageResponse.IsRead == false)
-                    message.ShouldDisplayUnread = true;
+                        message.ShouldDisplayUnread = true;
 
-                   
+
                 }
             }
-
-            return Ok(returnList);
+            return returnList;
 
         }
 

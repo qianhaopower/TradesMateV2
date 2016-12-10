@@ -22,7 +22,7 @@ angular.module('sbAdminApp')
         
         $scope.currentUser = authService.authentication;
         $scope.showManage = authService.authentication.userRole == 'Admin';
-        $scope.showClients = authService.authentication.userType == 'Trade'; // 0 client , 1 trade
+        $scope.showClients = authService.authentication.userType == 'Trade' && authService.authentication.userRole == 'Admin'; // 0 client , 1 trade
         $scope.unReadMessageCount = 0;
       
         var checkCount = function () {
