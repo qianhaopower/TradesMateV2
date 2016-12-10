@@ -1,7 +1,19 @@
 ﻿
 
-<pageslide ps-open="checked" ps-push="false" style="background-color:dimgrey; opacity:1">
-    <div>
-        <p>some random content...</p>
+<pageslide ps-open="checked" 
+           ps-push="false"
+           ps-size="500px"
+            style="background-color:#fff; opacity:1;overflow-y: auto;">
+    <div class="container-fluid ">
+        
+        <p>Messages</p>
+        <div class="row">
+            <div class="col-sm-12" >
+                <select class="" ng-model="selectedMessage" ng-options="item as item.createTime | date:'yyyy-MM-dd HH:mm' for item in messageList"></select>
+            </div>           
+        </div>
+        <div class="row" ng-show="selectedMessage">
+            <message-detail-directive message-id="{{selectedMessage.id}}"></message-detail-directive>
+        </div>
     </div>
 </pageslide>

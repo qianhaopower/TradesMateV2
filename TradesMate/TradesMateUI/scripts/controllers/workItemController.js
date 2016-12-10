@@ -12,6 +12,8 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
         searchText: undefined,
     };
 
+    $scope.propertyId = $stateParams.propertyId;
+
     $scope.search = function (item) {
         if (!$scope.filterTextModel.searchText
             || (item.name && (item.name.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))

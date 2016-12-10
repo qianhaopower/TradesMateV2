@@ -107,7 +107,7 @@ namespace DataService
                  .ForMember(dest => dest.IsWaitingForResponse, opts => opts.MapFrom(src => src.IsWaitingForResponse))
                     .ForMember(dest => dest.IsRead, opts => opts.MapFrom(src => src.IsRead))
                   .ForMember(dest => dest.MessageText, opts => opts.MapFrom(src => src.MessageText))
-                  .ForMember(dest => dest.MessageType, opts => opts.MapFrom(src => (int)src.MessageType))
+                  .ForMember(dest => dest.MessageType, opts => opts.MapFrom(src => src.MessageType))
                   .ForMember(dest => dest.MessageResponse, opts => opts.MapFrom(src => Mapper.Map<MessageResponse, MessageResponseModel>(src.MessageResponse)))
                    ;
 

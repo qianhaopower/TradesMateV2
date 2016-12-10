@@ -13,6 +13,9 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
 
     $scope.creatingNew = $state.current.name == 'base.createWorkItem';
 
+
+    $scope.propertyId = $stateParams.propertyId;
+
     $scope.save = function () {
         $scope.workItem.address = undefined;
 

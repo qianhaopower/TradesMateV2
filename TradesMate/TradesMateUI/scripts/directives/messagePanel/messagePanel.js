@@ -8,7 +8,7 @@
  */
 
 angular.module('sbAdminApp')
-  .directive('messagePanel', [ 'Notification', function ( Notification) {
+  .directive('messagePanel', ['Notification', 'messageService', function (Notification, messageService) {
       return {
           templateUrl: 'scripts/directives/messagePanel/messagePanel.html',
           restrict: 'E',
@@ -21,11 +21,19 @@ angular.module('sbAdminApp')
               attrs.$observe('propertyId', function (value) {
                   scope.propertyId = value;
                   if (scope.propertyId) {
-                      propertyDataService.getPropertyById(scope.propertyId).then(function (result) {
-                          scope.property = result;
+                      messageService.getWorkRequestMessageForProperty(scope.propertyId).then(function (result) {
+                          scope.messageList = result;
+                          //select the latest one
+                          if (scope.messageList.length > 0) {
+                              scope.selectedMessage = scope.messageList[0];
+                          }
+
+
                       }, function (error) { Notification.error({ message: error, delay: 2000 }); });
                   }
+                  
               });
+              scope.messageList = [];
               scope.checked = false;
               scope.toggle = function () {
                   scope.checked = !scope.checked;

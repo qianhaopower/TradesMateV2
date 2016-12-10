@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sbAdminApp')
-  .controller('messageDetailController', ['$scope',  '$stateParams',
-function ($scope,$stateParams) {
+  .controller('messageDetailController', ['$scope',  '$stateParams','$state',
+function ($scope, $stateParams, $state) {
 
    
    

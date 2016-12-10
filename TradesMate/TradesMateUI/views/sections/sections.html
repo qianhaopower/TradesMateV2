@@ -2,14 +2,21 @@
 <form class="form-horizontal">
     <br />
     <div class="row">
-        <div class="col-lg-12 col-sm-12">
+        <div class="col-lg-6 col-sm-6">
             <a class="btn btn-default" ng-click="goBack()">
                 <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Go Back
             </a>
         </div>
+        <div class="col-lg-6 col-sm-6 ">
+            <span class="btn btn-default pull-right" title="View message" ng-click="toggle()">
+                <i class="fa fa-envelope" aria-hidden="true"></i> 
+            </span>
+        </div>
+
+     
     </div>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-12" >
             <h2 class="page-header">Property Sections</h2>
         </div>
     </div>
@@ -67,6 +74,7 @@
 </form>
 
 
+<message-panel property-id="{{propertyId}}"></message-panel>
 
 <!-- The actual modal template, just a bit o bootstrap -->
 <script type="text/ng-template" id="deleteSectionmodal.html">
