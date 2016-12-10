@@ -40,6 +40,65 @@ namespace EF.Data
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
         }
         
+        public Property CreatePropertyForClient(string userName, PropertyModel model)
+        {
+            var companyId = new CompanyRepository(_ctx).GetCompanyFoAdminUser(userName).Id;
+            if (model.Address == null)
+            {
+                throw new Exception("Address cannot be null");
+            }
+
+            Property newProperty = new Property
+            {
+                Name = model.Name,
+                Address = new Address()
+                {
+                    City = model.Address.City,
+                    Line1 = model.Address.Line1,
+                    Line2 = model.Address.Line2,
+                    Line3 = model.Address.Line3,
+                    PostCode = model.Address.PostCode,
+                    State = model.Address.State,
+                    Suburb = model.Address.Suburb,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                },
+                Description = model.Description,
+                Condition = model.Condition,
+                Narrative = model.Narrative,
+                Comment = model.Comment,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+
+            };
+            _ctx.Entry(newProperty).State = EntityState.Added;
+
+            //add this property to the company
+            PropertyCompany propertyCompanyNew = new PropertyCompany
+            {
+                Property = newProperty,
+                CompanyId = companyId,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+            };
+            _ctx.Entry(propertyCompanyNew).State = EntityState.Added;
+
+
+
+            ClientProperty clientPropertyNew = new ClientProperty
+            {
+                ClientId = model.ClientId,
+                Property = newProperty,
+                Confirmed = true,
+                Role = ClientRole.Owner,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+            };
+
+            _ctx.Entry(clientPropertyNew).State = EntityState.Added;
+            _ctx.SaveChanges();
+            return newProperty;
+        }
 
         public   IQueryable<Property> GetPropertyForUser(string userName)
         {

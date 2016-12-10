@@ -38,18 +38,19 @@ namespace DataService.Controllers
 
         // GET: odata/Properties
         [EnableQuery]
+        [HttpGet]
         public IQueryable<Property> GetProperties()
         {
             var repo = new PropertyRepository();
 
-            var properties =  repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address);
+            var properties = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address);
 
             // bing the property model back when we decide to use normal model or OData EDM model.
             //var results= properties.Select(Mapper.Map<Property, PropertyModel>).ToList();
             return properties;
-            
 
-           // return db.Properties;
+
+            // return db.Properties;
         }
 
         //[HttpGet]
@@ -78,9 +79,9 @@ namespace DataService.Controllers
         [HttpPost]
         //http://localhost/DataService/odata/UpdateMemberAllocation(memberId=1)
         [ODataRoute("UpdateMemberAllocation(propertyId={propertyId},memberId={memberId},allocated={allocate})")]
-        public IHttpActionResult UpdateMemberAllocation(int propertyId,int memberId, bool allocate)
+        public IHttpActionResult UpdateMemberAllocation(int propertyId, int memberId, bool allocate)
         {
-           var allcation =  new PropertyRepository().UpdateMemberAllocation(User.Identity.Name, propertyId, memberId, allocate);
+            var allcation = new PropertyRepository().UpdateMemberAllocation(User.Identity.Name, propertyId, memberId, allocate);
             return (Ok(allcation));
 
         }
@@ -108,7 +109,7 @@ namespace DataService.Controllers
         public Property GetProperty([FromODataUri] int key)
         {
             var repo = new PropertyRepository();
-             
+
             var property = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address).FirstOrDefault(p => p.Id == key);
             //var result = Mapper.Map<Property, PropertyModel>(property);
             //return SingleResult.Create(property);
@@ -152,23 +153,7 @@ namespace DataService.Controllers
             return Updated(property);
         }
 
-        // POST: odata/Properties
-        public IHttpActionResult Post(Property property)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
 
-            property.AddedDateTime = DateTime.Now;
-            property.ModifiedDateTime = DateTime.Now;
-
-
-            db.Properties.Add(property);
-            db.SaveChanges();
-
-            return Created(property);
-        }
 
         // PATCH: odata/Properties(5)
         [AcceptVerbs("PATCH", "MERGE")]
@@ -260,4 +245,23 @@ namespace DataService.Controllers
             return db.Properties.Count(e => e.Id == key) > 0;
         }
     }
+
+
+
+
+    [Authorize]
+    public class PropertiesWebApiController : ApiController
+    {
+
+
+        [HttpPost]
+        public IHttpActionResult CreatePropertyForClient(PropertyModel model)
+        {
+            var property = new PropertyRepository().CreatePropertyForClient(User.Identity.Name, model);
+
+            return Ok();
+
+        }
+    }
+
 }

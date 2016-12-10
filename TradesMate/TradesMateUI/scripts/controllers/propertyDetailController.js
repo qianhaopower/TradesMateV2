@@ -25,7 +25,7 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
     
 
     $scope.save = function () {
-        $scope.property.address = undefined;
+      //  $scope.property.address = undefined;
 
         if ($scope.property.isNew) {
             var propertyCopy = angular.copy($scope.property);
@@ -132,6 +132,7 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
             $scope.property = {
                 condition:'Normal',//default
                 isNew: true,
+                address: {},
             }
         }
         //propertyDataService.getAllPropertys().then(function (result) {

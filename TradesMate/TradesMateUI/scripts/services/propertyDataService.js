@@ -1,8 +1,8 @@
 ﻿'use strict';
 var app = angular.module('sbAdminApp');
-app.factory('propertyDataService', [ '$q', '$http', '$window', 'urls',function ( $q, $http, $window, urls) {
+app.factory('propertyDataService', ['$q', '$http', '$window', 'urls', 'ngAuthSettings', function ($q, $http, $window, urls, ngAuthSettings) {
 
-    
+    var serviceBase = ngAuthSettings.apiServiceBaseUri;
   
     return {
         //$scope.url = urls.apiUrl;    
@@ -130,50 +130,14 @@ app.factory('propertyDataService', [ '$q', '$http', '$window', 'urls',function (
             });
             return deferred.promise;
         },
+    
         createProperty: function (newProperty) {
+            //var data = { property: propertyModel, messageId: messageId };
             var deferred = $q.defer();
-            var baseURL = urls.apiUrl;
-            var path = baseURL + '/Properties';
-            var error = 'Error happened when creating property';
-            $http({
-                method: 'POST',
-                url: path,
-                data: newProperty,
-            }).then(function successCallback(response) {
-                if (response.status >= 200 && response.status <= 299) {
-                    deferred.resolve(response.data);
-                } else {
-                    deferred.reject(error);
-                }
-
-            }, function errorCallback(response) {
-                deferred.reject(error);
-            });
-            return deferred.promise;
-        },
-        createProperty: function (newProperty) {
-
-            //find out a way allow passing extra to server. 
-            //Or find a pattern to remove all extra property
-            newProperty.isNew = undefined;
-
-            var deferred = $q.defer();
-            var baseURL = urls.apiUrl;
-            var path = baseURL + '/Properties';
-            var error = 'Error happened when creating property';
-            $http({
-                method: 'POST',
-                url: path,
-                data: newProperty,
-            }).then(function successCallback(response) {
-                if (response.status >= 200 && response.status <= 299) {
-                    deferred.resolve(response.data);
-                } else {
-                    deferred.reject(error);
-                }
-
-            }, function errorCallback(response) {
-                deferred.reject(error);
+            $http.post(serviceBase + 'api/propertiesWebApi/CreatePropertyForClient', newProperty).success(function (response) {
+                deferred.resolve(response);
+            }).error(function (err, status) {
+                deferred.reject(err);
             });
             return deferred.promise;
         },

@@ -9,7 +9,7 @@
         </div>
     </div>
 
-    <div class="form-group">
+    <!--<div class="form-group">
         <div class="col-xs-1 col-lg-3"></div>
 
         <div class="col-xs-10 col-lg-6">
@@ -21,11 +21,11 @@
 
         </div>
         <div class="col-xs-1 col-lg-3"></div>
-    </div>
+    </div>-->
 
     <fieldset ng-disabled="readOnly">
         <legend> {{clientId ? 'Property Details' :'Add Property'}}</legend>
-        <div class="form-group">
+        <!--<div class="form-group">
             <label class="col-sm-3 control-label">Address</label>
             <div class="col-sm-9">
                 <input type="text" name="Address" class="form-control" placeholder="address" ng-model="property.addressDisplay" required disabled>
@@ -33,11 +33,15 @@
                     <div class="text-danger" ng-message="required">Address is required</div>
                 </div>
             </div>
-        </div>
+        </div>-->
         <div class="form-group">
-            <label class="col-sm-3 control-label">Property Name</label>
+            <label class="col-sm-3 control-label">Property Name *</label>
             <div class="col-sm-9">
-                <input type="text" name="PropertyName" class="form-control" placeholder="property name" ng-model="property.name">
+                <input type="text" name="PropertyName" class="form-control" placeholder="property name" ng-model="property.name" required>
+                <div ng-messages="propertyForm.PropertyName.$error"
+                     ng-show="propertyForm.PropertyName.$dirty">
+                    <div class="text-danger" ng-message="required">Property name is required</div>
+                </div>
             </div>
         </div>
         <div class="form-group">
@@ -66,6 +70,67 @@
             <div class="col-sm-9">
                 <input type="text" placeholder="comment" class="form-control"
                        ng-model="property.comment">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Address Line 1 *</label>
+            <div class="col-sm-9">
+                <input type="text" name="line1" class="form-control" placeholder="" ng-model="property.address.line1" required>
+                <div ng-messages="propertyForm.line1.$error"
+                     ng-show="propertyForm.line1.$dirty">
+                    <div class="text-danger" ng-message="required">line1 is required</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Address Line 2</label>
+            <div class="col-sm-9">
+                <input type="text" name="" class="form-control" placeholder="" ng-model="property.address.line2">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Address Line 3</label>
+            <div class="col-sm-9">
+                <input type="text" name="" class="form-control" placeholder="" ng-model="property.address.line3">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Suburb *</label>
+            <div class="col-sm-9">
+                <input type="text" name="suburb" class="form-control" placeholder="" ng-model="property.address.suburb" required>
+                <div ng-messages="propertyForm.suburb.$error"
+                     ng-show="propertyForm.suburb.$dirty">
+                    <div class="text-danger" ng-message="required">suburb is required</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">State *</label>
+            <div class="col-sm-9">
+                <input type="text" name="state" class="form-control" placeholder="" ng-model="property.address.state">
+                <div ng-messages="propertyForm.state.$error"
+                     ng-show="propertyForm.state.$dirty">
+                    <div class="text-danger" ng-message="required">state is required</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Post Code *</label>
+            <div class="col-sm-9">
+                <input type="text" name="postCode" class="form-control" placeholder="" ng-model="property.address.postcode" required>
+                <div ng-messages="propertyForm.postCode.$error"
+                     ng-show="propertyForm.postCode.$dirty">
+                    <div class="text-danger" ng-message="required">post code is required</div>
+                </div>
             </div>
         </div>
     </fieldset>
