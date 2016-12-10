@@ -25,6 +25,7 @@ angular.module('sbAdminApp')
                           scope.messageList = result;
                           //select the latest one
                           if (scope.messageList.length > 0) {
+                              scope.hasProperty = true;
                               scope.selectedMessage = scope.messageList[0];
                           }
 
@@ -33,6 +34,7 @@ angular.module('sbAdminApp')
                   }
                   
               });
+              scope.hasProperty = false;
               scope.messageList = [];
               scope.checked = false;
               scope.toggle = function () {

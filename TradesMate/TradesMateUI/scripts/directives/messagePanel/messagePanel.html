@@ -4,7 +4,7 @@
            ps-push="false"
            ps-size="500px"
             style="background-color:#fff; opacity:1;overflow-y: auto;">
-    <div class="container-fluid ">
+    <div class="container-fluid " ng-show="hasProperty">
         
         <p>Messages</p>
         <div class="row">
@@ -15,5 +15,8 @@
         <div class="row" ng-show="selectedMessage">
             <message-detail-directive message-id="{{selectedMessage.id}}"></message-detail-directive>
         </div>
+    </div>
+    <div class="container-fluid " ng-show="!hasProperty">
+        <p>No message for this property</p>
     </div>
 </pageslide>
