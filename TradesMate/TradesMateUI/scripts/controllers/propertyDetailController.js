@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('sbAdminApp')
-  .controller('propertyDetailController', ['$scope', 'propertyDataService', 'clientDataService',
+    .controller('propertyDetailController', ['$scope', 'propertyDataService', 'clientDataService','uploadImageService',
       'Notification', '$state', '$stateParams',
-function ($scope, propertyDataService, clientDataService, Notification, $state, $stateParams) {
+        function ($scope, propertyDataService, clientDataService, uploadImageService, Notification, $state, $stateParams) {
 
     $scope.filterTextModel = {
         searchText: undefined,
@@ -79,20 +79,35 @@ function ($scope, propertyDataService, clientDataService, Notification, $state, 
     //    }
     //}
 
-    $scope.uploadFile = function () {
-        var file = event.target.files[0];
+    //$scope.uploadFile = function () {
+    //    var file = event.target.files[0];
       
-        var reader = new FileReader();
+    //    var reader = new FileReader();
 
-        reader.addEventListener("load", function () {
-            $scope.slides.push({ image: reader.result });
-            $scope.$apply();
-        }, false);
+    //    reader.addEventListener("load", function () {
 
-        if (file) {
-            reader.readAsDataURL(file);
-        }
-    };
+    //        if (reader.result) {
+
+    //           // uploadImageService.uploadImage(reader.result);
+    //            $scope.slides.push({ image: reader.result });
+    //            $scope.$apply();
+    //        }
+    //    }, false);
+
+    //    if (file) {
+    //        reader.readAsDataURL(file);
+    //    }
+    //};
+    $scope.addFile = function () {
+        uploadImageService.uploadImage($scope.files[0]
+          );
+    }
+
+    $scope.uploadedFile = function (element) {
+        $scope.$apply(function ($scope) {
+            $scope.files = element.files;
+        });
+    }
 
 
     var init = function () {

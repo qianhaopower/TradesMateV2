@@ -156,19 +156,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
         return result;
 
     }
-    //var _updateCompanyMember = function (memberInfo) {
-    //    var deferred = $q.defer();
-    //    $http.post(serviceBase + 'api/account/updatecompanyUser', memberInfo).success(function (response) {//broken
-    //        deferred.resolve(response);
-    //    }).error(function (err, status) {
-    //        deferred.reject(err);
-    //    });
-    //     return deferred.promise;
-
-    //};
  
-
-   
 
   
     companyServiceFactory.updateCompany = _updateCompany;

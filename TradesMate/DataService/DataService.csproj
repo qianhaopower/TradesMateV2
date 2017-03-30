@@ -275,7 +275,6 @@
     <Compile Include="Controllers\MessagesController.cs" />
     <Compile Include="Controllers\CompaniesController.cs" />
     <Compile Include="Controllers\PropertiesController.cs" />
-    <Compile Include="Controllers\ProtectedController.cs" />
     <Compile Include="Controllers\RefreshTokensController.cs" />
     <Compile Include="Controllers\SectionsController.cs" />
     <Compile Include="Controllers\WorkItemsController.cs" />

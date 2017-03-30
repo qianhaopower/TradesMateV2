@@ -144,7 +144,7 @@
 
 <hr>
 
-<form class="form-horizontal">
+<form class="form-horizontal" name="upload"  data-ng-submit="addFile()">
     <fieldset ng-hide="readOnly">
         <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -152,6 +152,9 @@
             </label>
             <div class="col-sm-9">
                 <input type="file" custom-on-change="uploadFile" />
+                <input type="file" name="file" multiple
+                       onchange="angular.element(this).scope().uploadedFile(this)" />
+                <button type="submit">Upload </button>
 
                 <div style="height: 305px">
                     <carousel interval="myInterval">
