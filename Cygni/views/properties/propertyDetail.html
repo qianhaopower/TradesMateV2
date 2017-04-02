@@ -151,9 +151,10 @@
                 Upload photo for this property
             </label>
             <div class="col-sm-9">
-                <input type="file" custom-on-change="uploadFile" />
+                <!--<input type="file" custom-on-change="uploadFile" />-->
                 <input type="file" name="file" multiple
                        onchange="angular.element(this).scope().uploadedFile(this)" />
+                <br/>
                 <button type="submit">Upload </button>
 
                 <div style="height: 305px">

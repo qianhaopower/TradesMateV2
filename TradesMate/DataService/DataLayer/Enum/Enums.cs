@@ -57,4 +57,15 @@ namespace EF.Data
         Reject = 1,
     }
 
+
+    public enum AttachmentEntityType {
+        Property  = 0,
+        WorkItem  =1 ,
+    }
+
+    public enum AttachmentType
+    {
+        Image = 0,
+        Document = 1,
+    }
 }

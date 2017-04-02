@@ -99,7 +99,7 @@ angular.module('sbAdminApp')
     //    }
     //};
     $scope.addFile = function () {
-        uploadImageService.uploadImage($scope.files[0]
+        uploadImageService.uploadImage($scope.files[0], $scope.propertyId
           );
     }
 

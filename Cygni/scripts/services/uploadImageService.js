@@ -4,12 +4,13 @@ app.factory('uploadImageService', ['$http', '$q', 'ngAuthSettings', function ($h
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var uploadIamgeServiceFactory = {};
 
-    var _uploadImage = function (imageFile) {
+    var _uploadImage = function (imageFile, entityId) {
 
         //return $http.put(serviceBase + 'api/companies/ModifyCompany' , companyInfo).then(function (response) {
         //    return response;
         //});
-        let uploadUrl = 'http://localhost/zebra/api/blob/upload';
+        var type = 'Property';
+        let uploadUrl = serviceBase + 'api/storage/PostBlobUpload?entityId=' + entityId + '&type=' + type;
 
         let formData = new FormData();
         //Take the first selected file

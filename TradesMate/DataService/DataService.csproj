@@ -301,6 +301,7 @@
     <Compile Include="DataLayer\EFDbContext.cs" />
     <Compile Include="DataLayer\Entities\Address.cs" />
     <Compile Include="DataLayer\Entities\BaseEntity.cs" />
+    <Compile Include="DataLayer\Entities\Attachment.cs" />
     <Compile Include="DataLayer\Entities\CompanyService.cs" />
     <Compile Include="DataLayer\Entities\MessageResponse.cs" />
     <Compile Include="DataLayer\Entities\Message.cs" />
@@ -322,6 +323,7 @@
     <Compile Include="DataLayer\Entities\WorkItemTemplate.cs" />
     <Compile Include="DataLayer\Enum\Enums.cs" />
     <Compile Include="DataLayer\Mapping\AddressMapping.cs" />
+    <Compile Include="DataLayer\Mapping\AttachmentMapping.cs" />
     <Compile Include="DataLayer\Mapping\CompanyServiceMap.cs" />
     <Compile Include="DataLayer\Mapping\MessageResponseMap.cs" />
     <Compile Include="DataLayer\Mapping\MessageMap.cs" />
@@ -341,6 +343,7 @@
     <Compile Include="DataLayer\Repository\MessageRepository.cs" />
     <Compile Include="DataLayer\Repository\ClientRepository.cs" />
     <Compile Include="DataLayer\Repository\CompanyRepository.cs" />
+    <Compile Include="DataLayer\Repository\StorageRepository.cs" />
     <Compile Include="DataLayer\Repository\PropertyRepository.cs" />
     <Compile Include="DTOs\AddressModel.cs" />
     <Compile Include="DTOs\PropertyModel.cs" />
