@@ -93,7 +93,7 @@ namespace DataService.Controllers
         }
 
         [HttpPost]
-        public IHttpActionResult MarkMessageAsRead(int messageId)//this is wrong need change
+        public IHttpActionResult MarkMessageAsRead(int messageId)
         {
             var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
             new MessageRepository().MarkMessageAsRead(messageId, userId);

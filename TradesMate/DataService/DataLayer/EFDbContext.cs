@@ -37,6 +37,8 @@ namespace EF.Data
 
         public DbSet<MessageResponse> MessageResponses { get; set; }
         public DbSet<CompanyService> CompanyServices { get; set; }
+        public DbSet<Attachment> Attchments { get; set; }
+
 
 
         // public DbSet<ApplicationUser> ApplicationUsers { get; set; }

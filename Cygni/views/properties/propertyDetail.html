@@ -1,0 +1,185 @@
+﻿
+<form name="propertyForm" class="form-horizontal">
+    <br />
+    <div class="form-group">
+        <div class="col-lg-12 col-sm-12">
+            <a class="btn btn-default" ng-click="goBack()">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Go Back
+            </a>
+        </div>
+    </div>
+
+    <!--<div class="form-group">
+        <div class="col-xs-1 col-lg-3"></div>
+
+        <div class="col-xs-10 col-lg-6">
+            <div class="form-group">
+                <button type="button" title="View companies who have work for this property" class="btn btn-default btn-block" ng-click="gotoViewPropertyCompany()">
+                    <i class="fa fa-cog"></i> View companies 
+                </button>
+            </div>
+
+        </div>
+        <div class="col-xs-1 col-lg-3"></div>
+    </div>-->
+
+    <fieldset ng-disabled="readOnly">
+        <legend> {{clientId ? 'Property Details' :'Add Property'}}</legend>
+        <!--<div class="form-group">
+            <label class="col-sm-3 control-label">Address</label>
+            <div class="col-sm-9">
+                <input type="text" name="Address" class="form-control" placeholder="address" ng-model="property.addressDisplay" required disabled>
+                <div ng-messages="propertyForm.Address.$error">
+                    <div class="text-danger" ng-message="required">Address is required</div>
+                </div>
+            </div>
+        </div>-->
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Property Name *</label>
+            <div class="col-sm-9">
+                <input type="text" name="PropertyName" class="form-control" placeholder="property name" ng-model="property.name" required>
+                <div ng-messages="propertyForm.PropertyName.$error"
+                     ng-show="propertyForm.PropertyName.$dirty">
+                    <div class="text-danger" ng-message="required">Property name is required</div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Condition</label>
+            <div class="col-sm-9">
+                <input type="text" name="propertyCondition" placeholder="condition" class="form-control" ng-model="property.condition">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Description</label>
+            <div class="col-sm-9">
+                <input type="text" name="propertyDescription" class="form-control" placeholder="description" ng-model="property.description">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Narrative</label>
+            <div class="col-sm-9">
+                <input type="text" placeholder="narrative" class="form-control"
+                       ng-model="property.narrative" multiple>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Comment</label>
+            <div class="col-sm-9">
+                <input type="text" placeholder="comment" class="form-control"
+                       ng-model="property.comment">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Address Line 1 *</label>
+            <div class="col-sm-9">
+                <input type="text" name="line1" class="form-control" placeholder="" ng-model="property.address.line1" required>
+                <div ng-messages="propertyForm.line1.$error"
+                     ng-show="propertyForm.line1.$dirty">
+                    <div class="text-danger" ng-message="required">line1 is required</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Address Line 2</label>
+            <div class="col-sm-9">
+                <input type="text" name="" class="form-control" placeholder="" ng-model="property.address.line2">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Address Line 3</label>
+            <div class="col-sm-9">
+                <input type="text" name="" class="form-control" placeholder="" ng-model="property.address.line3">
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Suburb *</label>
+            <div class="col-sm-9">
+                <input type="text" name="suburb" class="form-control" placeholder="" ng-model="property.address.suburb" required>
+                <div ng-messages="propertyForm.suburb.$error"
+                     ng-show="propertyForm.suburb.$dirty">
+                    <div class="text-danger" ng-message="required">suburb is required</div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">State *</label>
+            <div class="col-sm-9">
+                <input type="text" name="state" class="form-control" placeholder="" ng-model="property.address.state">
+                <div ng-messages="propertyForm.state.$error"
+                     ng-show="propertyForm.state.$dirty">
+                    <div class="text-danger" ng-message="required">state is required</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Post Code *</label>
+            <div class="col-sm-9">
+                <input type="text" name="postCode" class="form-control" placeholder="" ng-model="property.address.postcode" required>
+                <div ng-messages="propertyForm.postCode.$error"
+                     ng-show="propertyForm.postCode.$dirty">
+                    <div class="text-danger" ng-message="required">post code is required</div>
+                </div>
+            </div>
+        </div>
+    </fieldset>
+</form>
+<div class="" ng-hide="readOnly">
+
+    <button class="btn btn-primary pull-right" type="button" ng-click="save()" ng-disabled="propertyForm.$invalid">Save</button>
+    <button class="btn btn-danger pull-left" type="button" ng-click="goToPropertyIndex()">Cancel</button>
+</div>
+
+
+<hr>
+
+<form class="form-horizontal" name="upload"  data-ng-submit="addFile()">
+    <fieldset ng-hide="readOnly">
+        <div class="form-group">
+            <label class="col-sm-3 control-label">
+                Upload photo for this property
+            </label>
+            <div class="col-sm-9">
+                <!--<input type="file" custom-on-change="uploadFile" />-->
+                <input type="file" name="file" multiple
+                       onchange="angular.element(this).scope().uploadedFile(this)" />
+                <br/>
+                <button type="submit">Upload </button>
+
+                <div style="height: 305px">
+                    <carousel interval="myInterval">
+                        <slide ng-repeat="slide in slides">
+                            <img ng-src="{{slide.image}}" style="margin:auto;">
+                            <div class="carousel-caption">
+                                <h4>Slide {{$index}}</h4>
+                                <p>{{slide.text}}</p>
+                            </div>
+                        </slide>
+                    </carousel>
+                </div>
+            </div>
+        </div>
+
+    </fieldset>
+</form>
+
+<div class="row" ng-hide="readOnly">
+
+
+</div>
+
+
+
+
+
