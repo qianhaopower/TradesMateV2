@@ -4,12 +4,12 @@ app.factory('uploadImageService', ['$http', '$q', 'ngAuthSettings', function ($h
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var uploadIamgeServiceFactory = {};
 
-    var _uploadImage = function (imageFile, entityId) {
+    var _uploadImage = function (imageFile, entityId, type) {
 
         //return $http.put(serviceBase + 'api/companies/ModifyCompany' , companyInfo).then(function (response) {
         //    return response;
         //});
-        var type = 'Property';
+      
         let uploadUrl = serviceBase + 'api/storage/PostBlobUpload?entityId=' + entityId + '&type=' + type;
 
         let formData = new FormData();
@@ -31,8 +31,25 @@ app.factory('uploadImageService', ['$http', '$q', 'ngAuthSettings', function ($h
         return deferred.promise;
 
     };
+
+    var _downloadFile = function ( entityId, type) {
+
+        let downUrl = serviceBase + 'api/storage/GetBlobDownload?entityId=' + entityId + '&type=' + type;
+        window.open(downUrl);
+  
+
+        //var deferred = $q.defer();
+        //$http.get(downUrl).success(function (response) {
+        //    deferred.resolve(response);
+        //}).error(function (err, status) {
+        //    deferred.reject(err);
+        //});
+        //return deferred.promise;
+
+    };
   
     uploadIamgeServiceFactory.uploadImage = _uploadImage;
+    uploadIamgeServiceFactory.downloadFile = _downloadFile;
 
     return uploadIamgeServiceFactory;
 }]);

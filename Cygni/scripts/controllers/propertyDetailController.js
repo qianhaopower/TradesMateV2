@@ -97,9 +97,11 @@ angular.module('sbAdminApp')
     //    if (file) {
     //        reader.readAsDataURL(file);
     //    }
-    //};
+            //};
+
+    var attachmentType = "Property"
     $scope.addFile = function () {
-        uploadImageService.uploadImage($scope.files[0], $scope.propertyId
+        uploadImageService.uploadImage($scope.files[0], $scope.propertyId, attachmentType
           );
     }
 
@@ -108,6 +110,22 @@ angular.module('sbAdminApp')
             $scope.files = element.files;
         });
     }
+
+    $scope.downLoadFile = function (element) {
+        $scope.$apply(function ($scope) {
+            $scope.files = element.files;
+        });
+    }
+
+    $scope.downLoad = function () {
+        uploadImageService.downloadFile($scope.propertyId, attachmentType);
+        //    .then(function (data) {
+
+        //    var file = new Blob([data], { type: 'image/png' });
+        //    saveAs(file, 'filename.png');
+        //});
+    }
+
 
 
     var init = function () {

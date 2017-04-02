@@ -21,16 +21,6 @@ namespace DataService.Controllers
     public class StorageController : ApiController
 {
 	
-
-
-
-        public int GetOne()
-        {
-            return 1;
-        }
-
-
-
         /// <summary>
         /// Uploads one or more blob files.
         /// </summary>
@@ -48,8 +38,8 @@ namespace DataService.Controllers
                 }
 
                 AttachmentEntityType typeParsed;
-                bool roleValid = Enum.TryParse<AttachmentEntityType>(type, out typeParsed);
-                if (roleValid == false)
+                bool typeValid = Enum.TryParse<AttachmentEntityType>(type, out typeParsed);
+                if (typeValid == false)
                 {
                     return BadRequest(string.Format("{0} is not a valid entity type for attachments", type)) ;
                 }
@@ -71,53 +61,61 @@ namespace DataService.Controllers
             }
         }
 
-	/// <summary>
-	/// Downloads a blob file.
-	/// </summary>
-	/// <param name="blobId">The ID of the blob.</param>
-	/// <returns></returns>
-	public async Task<HttpResponseMessage> GetBlobDownload(int blobId)
-	{
-		// IMPORTANT: This must return HttpResponseMessage instead of IHttpActionResult
+        /// <summary>
+        /// Downloads a blob file.
+        /// </summary>
+        /// <param name="blobId">The ID of the blob.</param>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<HttpResponseMessage> GetBlobDownload(int entityId, string type)
+        {
+            // IMPORTANT: This must return HttpResponseMessage instead of IHttpActionResult
 
-		try
-		{
+            try
+            {
+
+                AttachmentEntityType typeParsed;
+                bool typeValid = Enum.TryParse<AttachmentEntityType>(type, out typeParsed);
+                if (typeValid == false)
+                {
+                    return Request.CreateResponse(HttpStatusCode.BadRequest, string.Format("{0} is not a valid entity type for attachments", type));
+                }
                 var repo = new StorageRepository();
-                var result = await repo.DownloadBlob(blobId);
-			if (result == null)
-			{
-				return new HttpResponseMessage(HttpStatusCode.NotFound);
-			}
+                var result = await repo.DownloadBlob(entityId, typeParsed);
+                if (result == null)
+                {
+                    return new HttpResponseMessage(HttpStatusCode.NotFound);
+                }
 
-			// Reset the stream position; otherwise, download will not work
-			result.BlobStream.Position = 0;
+                // Reset the stream position; otherwise, download will not work
+                result.BlobStream.Position = 0;
 
-			// Create response message with blob stream as its content
-			var message = new HttpResponseMessage(HttpStatusCode.OK)
-			{
-				Content = new StreamContent(result.BlobStream)
-			};
+                // Create response message with blob stream as its content
+                var message = new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StreamContent(result.BlobStream)
+                };
 
-			// Set content headers
-			message.Content.Headers.ContentLength = result.BlobLength;
-			message.Content.Headers.ContentType = new MediaTypeHeaderValue(result.BlobContentType);
-			message.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
-			{
-				FileName = HttpUtility.UrlDecode(result.BlobFileName),
-				Size = result.BlobLength
-			};
+                // Set content headers
+                message.Content.Headers.ContentLength = result.BlobLength;
+                message.Content.Headers.ContentType = new MediaTypeHeaderValue(result.BlobContentType);
+                message.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
+                {
+                    FileName = HttpUtility.UrlDecode(result.BlobFileName),
+                    Size = result.BlobLength
+                };
 
-			return message;
-		}
-		catch (Exception ex)
-		{
-			return new HttpResponseMessage
-			{
-				StatusCode = HttpStatusCode.InternalServerError,
-				Content = new StringContent(ex.Message)
-			};
-		}
-	}
+                return message;
+            }
+            catch (Exception ex)
+            {
+                return new HttpResponseMessage
+                {
+                    StatusCode = HttpStatusCode.InternalServerError,
+                    Content = new StringContent(ex.Message)
+                };
+            }
+        }
 }
 
 

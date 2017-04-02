@@ -60,6 +60,8 @@ namespace EF.Data
                         Url = item.FileUrl,
                         SizeInBytes = item.FileSizeInBytes,
                         EntityType = type,
+                        EntityId = entityId,
+                      
                         Type = IsImageExtension(item.FileName) ? AttachmentType.Image : AttachmentType.Document,
                         AddedDateTime = DateTime.Now,
                         ModifiedDateTime = DateTime.Now,
@@ -78,10 +80,21 @@ namespace EF.Data
 
         }
 
-        public async Task<BlobDownloadModel> DownloadBlob(int blobId)
+        public async Task<BlobDownloadModel> DownloadBlob(int entityId, AttachmentEntityType type)
         {
-            throw new NotImplementedException();
-        }
+            var allBlobs = _ctx.Attchments.Where(p => p.EntityType == type && p.EntityId == entityId).ToList();
+            if (allBlobs.Any())
+            {
+                return await _service.DownloadBlob(allBlobs.First().Name);
+            }
+            else
+            {
+                return await Task.FromResult<BlobDownloadModel>(null);
+            }
+
+
+
+            }
         public  bool IsImageExtension(string fileName)
         {
             return _validExtensions.Any(p=> fileName.Contains(p));
@@ -132,7 +145,7 @@ namespace EF.Data
     public interface IBlobService
     {
         Task<List<BlobUploadModel>> UploadBlobs(HttpContent httpContent);
-        Task<BlobDownloadModel> DownloadBlob(int blobId);
+        Task<BlobDownloadModel> DownloadBlob(string blobName);
     }
 
     public class BlobService : IBlobService
@@ -159,12 +172,12 @@ namespace EF.Data
             return list;
         }
 
-        public async Task<BlobDownloadModel> DownloadBlob(int blobId)
+        public async Task<BlobDownloadModel> DownloadBlob(string blobName)
         {
             // TODO: You must implement this helper method. It should retrieve blob info
             // from your database, based on the blobId. The record should contain the
             // blobName, which you should return as the result of this helper method.
-            var blobName = string.Empty;// GetBlobName(blobId);
+            //var blobName = string.Empty;// GetBlobName(blobId);
 
             if (!String.IsNullOrEmpty(blobName))
             {

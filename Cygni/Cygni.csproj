@@ -71,6 +71,8 @@
     <Content Include="bower_components\components-font-awesome\css\font-awesome.css" />
     <Content Include="bower_components\components-font-awesome\css\font-awesome.min.css" />
     <Content Include="bower_components\components-font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="bower_components\file-saver\FileSaver.js" />
+    <Content Include="bower_components\file-saver\FileSaver.min.js" />
     <Content Include="bower_components\font-awesome\.gitignore" />
     <Content Include="bower_components\font-awesome\css\font-awesome.css" />
     <Content Include="bower_components\font-awesome\css\font-awesome.min.css" />
@@ -752,6 +754,9 @@
     <Content Include="bower_components\angular-pageslide-directive\bower.json" />
     <Content Include="bower_components\angular-pageslide-directive\package.json" />
     <Content Include="bower_components\angular-pageslide-directive\readme.md" />
+    <Content Include="bower_components\file-saver\.bower.json" />
+    <Content Include="bower_components\file-saver\bower.json" />
+    <Content Include="bower_components\file-saver\LICENSE.md" />
     <None Include="Properties\PublishProfiles\ngauthenticationweb.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
