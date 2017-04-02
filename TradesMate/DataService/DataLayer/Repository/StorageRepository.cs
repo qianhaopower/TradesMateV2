@@ -82,9 +82,9 @@ namespace EF.Data
         {
             throw new NotImplementedException();
         }
-        public  bool IsImageExtension(string ext)
+        public  bool IsImageExtension(string fileName)
         {
-            return _validExtensions.Contains(ext);
+            return _validExtensions.Any(p=> fileName.Contains(p));
         }
 
         /// <summary>
