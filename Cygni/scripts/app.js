@@ -341,7 +341,14 @@ angular
                    templateUrl: 'views/sections/sectionDetail.html',
                    controller: 'propertySectionDetailController',
                    url: '/property/:propertyId/property-section/view/:sectionId'
-               })
+              })
+
+              //property  Attachments
+              .state('base.propertyAttachments', {
+                  templateUrl: 'views/attachment/attachments.html',
+                  controller: 'attachmentController',
+                  url: '/property/:propertyId/attachments'//property attachment
+              })
 
               //workItems
             

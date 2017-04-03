@@ -67,7 +67,7 @@ namespace DataService.Controllers
         /// <param name="blobId">The ID of the blob.</param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<HttpResponseMessage> GetBlobDownload(int entityId, string type)
+        public async Task<HttpResponseMessage> GetBlobDownload(int entityId, string type, int attachmentId)
         {
             // IMPORTANT: This must return HttpResponseMessage instead of IHttpActionResult
 
@@ -81,7 +81,7 @@ namespace DataService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, string.Format("{0} is not a valid entity type for attachments", type));
                 }
                 var repo = new StorageRepository();
-                var result = await repo.DownloadBlob(entityId, typeParsed);
+                var result = await repo.DownloadBlob(entityId, typeParsed, attachmentId);
                 if (result == null)
                 {
                     return new HttpResponseMessage(HttpStatusCode.NotFound);

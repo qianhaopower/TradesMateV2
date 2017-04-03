@@ -80,9 +80,12 @@ namespace EF.Data
 
         }
 
-        public async Task<BlobDownloadModel> DownloadBlob(int entityId, AttachmentEntityType type)
-        {
-            var allBlobs = _ctx.Attchments.Where(p => p.EntityType == type && p.EntityId == entityId).ToList();
+        public async Task<BlobDownloadModel> DownloadBlob(int entityId, AttachmentEntityType type, int attachmentId)
+		{
+            var allBlobs = _ctx.Attchments.Where(p =>  //add the type and entityId here just to make sure right attachment has been fetched.
+			p.EntityType == type
+			&& p.EntityId == entityId
+			&& p.Id == attachmentId).ToList();
             if (allBlobs.Any())
             {
                 return await _service.DownloadBlob(allBlobs.First().Name);

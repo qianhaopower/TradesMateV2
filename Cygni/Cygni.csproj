@@ -71,8 +71,6 @@
     <Content Include="bower_components\components-font-awesome\css\font-awesome.css" />
     <Content Include="bower_components\components-font-awesome\css\font-awesome.min.css" />
     <Content Include="bower_components\components-font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="bower_components\file-saver\FileSaver.js" />
-    <Content Include="bower_components\file-saver\FileSaver.min.js" />
     <Content Include="bower_components\font-awesome\.gitignore" />
     <Content Include="bower_components\font-awesome\css\font-awesome.css" />
     <Content Include="bower_components\font-awesome\css\font-awesome.min.css" />
@@ -754,9 +752,6 @@
     <Content Include="bower_components\angular-pageslide-directive\bower.json" />
     <Content Include="bower_components\angular-pageslide-directive\package.json" />
     <Content Include="bower_components\angular-pageslide-directive\readme.md" />
-    <Content Include="bower_components\file-saver\.bower.json" />
-    <Content Include="bower_components\file-saver\bower.json" />
-    <Content Include="bower_components\file-saver\LICENSE.md" />
     <None Include="Properties\PublishProfiles\ngauthenticationweb.pubxml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -776,6 +771,7 @@
     <Content Include="scripts\controllers\associateController.js" />
     <Content Include="scripts\controllers\chartContoller.js" />
     <Content Include="scripts\controllers\baseController.js" />
+    <Content Include="scripts\controllers\attachmentController.js" />
     <Content Include="scripts\controllers\workRequestController.js" />
     <Content Include="scripts\controllers\messageDetailController.js" />
     <Content Include="scripts\controllers\messageController.js" />
@@ -840,6 +836,7 @@
     <Content Include="scripts\services\propertySectionDataService.js" />
     <Content Include="scripts\services\tokensManagerService.js" />
     <Content Include="scripts\services\workItemDataService.js" />
+    <Content Include="views\attachment\attachments.html" />
     <Content Include="views\authentication\associate.html" />
     <Content Include="views\workRequest\workRequest.html" />
     <Content Include="views\company\companyMemberDetail.html" />

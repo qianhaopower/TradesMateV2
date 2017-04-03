@@ -32,10 +32,10 @@ app.factory('uploadImageService', ['$http', '$q', 'ngAuthSettings', function ($h
 
     };
 
-    var _downloadFile = function ( entityId, type) {
+    var _downloadFile = function ( entityId, type, attachmentId) {
 
-        let downUrl = serviceBase + 'api/storage/GetBlobDownload?entityId=' + entityId + '&type=' + type;
-        window.open(downUrl);
+        let downUrl = serviceBase + 'api/storage/GetBlobDownload?entityId=' + entityId + '&type=' + type + '&attachmentId=' + attachmentId;
+        window.open(downUrl);//fire the download
   
 
         //var deferred = $q.defer();

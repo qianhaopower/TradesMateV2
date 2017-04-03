@@ -1,0 +1,70 @@
+
+<form class="form-horizontal">
+    <!--<div class="row">
+        <div class="col-lg-12 col-sm-12">
+            <a class="btn btn-default" ng-click="goBack()">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Navigate to Clients
+            </a>
+        </div>
+    </div>-->
+    <div class="row">
+        <div class="col-lg-12" >
+            <h2 class="page-header"> Attachments</h2>
+        </div>
+    </div>
+    <div class="row" ng-show="propertyId">
+        <div class="col-lg-12 col-sm-12 ">
+            <div class="well">
+                Property: {{property.name}} 
+            </div>
+        </div>
+    </div>
+    <div class="row" ng-show="workItemId">
+        <div class="col-lg-12 col-sm-12 ">
+            <div class="well">
+                WorkItem: {{workItem.name}}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-md-9">
+            <button type="button" title="Add new attachment" ng-show="propertyId || workItemId"
+                    class="btn btn-default btn-sm" ng-click="addNewAttachment()">
+                <i class="fa fa-plus "></i> Add Attachment
+            </button>
+        </div>
+        <div class="col-xs-6  col-md-3 pull-right">
+            <input type="text" placeholder="Search attachments..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Size (KB)</th>
+                <th>Type</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="attachment in attachmentList | filter:search">
+                <!--<td >
+                    <i class="fa fa-home"></i>
+                </td>-->
+                <td class="col-md-3 col-xs-6">
+                    <a>{{attachment.name}}</a>
+                </td>
+                <td class="col-md-6 col-xs-2">
+                   {{attachment.sizeDisplay}}
+                </td>
+                <td class="col-md-1 col-xs-2">
+                    {{attachment.type}}
+                </td>
+                <td class="col-md-1 col-xs-2"  ng-click="openUrl(attachment)">
+                    Download
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>
+
