@@ -144,7 +144,7 @@
 
 <hr>
 
-<form class="form-horizontal" name="upload"  data-ng-submit="addFile()">
+<form class="form-horizontal" name="upload"  data-ng-submit="">
     <fieldset ng-hide="readOnly">
         <div class="form-group">
             <label class="col-sm-3 control-label">
@@ -152,7 +152,7 @@
             </label>
             <div class="col-sm-9">
                 <!--<input type="file" custom-on-change="uploadFile" />-->
-                <input type="file" name="file" multiple
+                <input type="file" name="file" 
                        onchange="angular.element(this).scope().uploadedFile(this)" />
                 <br/>
                 <button type="submit">Upload </button>

@@ -22,9 +22,17 @@ angular.module('sbAdminApp')
         if (attachment.id)
             uploadImageService.downloadFile($scope.propertyId, attachmentType, attachment.id);
     };
-    $scope.addNewAttachment = function () {
-        
+   
+
+    $scope.uploadedFile = function (element) {
+        $scope.$apply(function ($scope) {
+            $scope.files = element.files;
+
+            uploadImageService.uploadImage($scope.files[0], $scope.propertyId, $scope.attachmentType
+            );
+        });
     }
+
 
     $scope.goBack = function () {
         if ($stateParams.propertyId) {

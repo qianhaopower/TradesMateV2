@@ -28,10 +28,15 @@
     </div>
     <div class="row">
         <div class="col-xs-6 col-md-9">
-            <button type="button" title="Add new attachment" ng-show="propertyId || workItemId"
+            <!--<button type="button" title="Add new attachment" ng-show="propertyId || workItemId"
                     class="btn btn-default btn-sm" ng-click="addNewAttachment()">
                 <i class="fa fa-plus "></i> Add Attachment
-            </button>
+            </button>-->
+            <label class="btn btn-default btn-file">
+                Add Attachment <input type="file" name="file"
+       onchange="angular.element(this).scope().uploadedFile(this)" hidden />
+            </label>
+            
         </div>
         <div class="col-xs-6  col-md-3 pull-right">
             <input type="text" placeholder="Search attachments..." class="input-sm form-control" ng-model="filterTextModel.searchText">
