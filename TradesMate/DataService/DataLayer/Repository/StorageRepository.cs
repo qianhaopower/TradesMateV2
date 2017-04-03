@@ -94,11 +94,19 @@ namespace EF.Data
             {
                 return await Task.FromResult<BlobDownloadModel>(null);
             }
+        }
 
+		public  List<Attachment> GetEntityAttachments(int entityId, AttachmentEntityType type )
+		{
+			var allBlobs = _ctx.Attchments.Where(p =>  //add the type and entityId here just to make sure right attachment has been fetched.
+			p.EntityType == type
+			&& p.EntityId == entityId
+			).ToList();
+			return allBlobs;
+		}
 
-
-            }
-        public  bool IsImageExtension(string fileName)
+		
+		public bool IsImageExtension(string fileName)
         {
             return _validExtensions.Any(p=> fileName.Contains(p));
         }

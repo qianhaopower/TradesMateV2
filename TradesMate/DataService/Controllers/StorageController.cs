@@ -14,6 +14,8 @@ using System.Web.Http.Description;
 using System.Linq;
 using System.Web;
 using EF.Data;
+using AutoMapper;
+using DataService.Models;
 
 namespace DataService.Controllers
 {
@@ -61,12 +63,30 @@ namespace DataService.Controllers
             }
         }
 
-        /// <summary>
-        /// Downloads a blob file.
-        /// </summary>
-        /// <param name="blobId">The ID of the blob.</param>
-        /// <returns></returns>
-        [HttpGet]
+
+		[HttpGet]
+		public IHttpActionResult GetBlobModels(int entityId, string entityType)
+		{
+			AttachmentEntityType typeParsed;
+			bool typeValid = Enum.TryParse<AttachmentEntityType>(entityType, out typeParsed);
+			if (typeValid == false)
+			{
+				return BadRequest(string.Format("{0} is not a valid entity type for attachments", entityType));
+			}
+			var repo = new StorageRepository();
+			var result =  repo.GetEntityAttachments(entityId, typeParsed);
+
+			var returnList = result.Select(Mapper.Map<Attachment, AttachmentModel>).ToList();
+			return Ok(returnList);
+		}
+
+
+		/// <summary>
+		/// Downloads a blob file.
+		/// </summary>
+		/// <param name="blobId">The ID of the blob.</param>
+		/// <returns></returns>
+		[HttpGet]
         public async Task<HttpResponseMessage> GetBlobDownload(int entityId, string type, int attachmentId)
         {
             // IMPORTANT: This must return HttpResponseMessage instead of IHttpActionResult

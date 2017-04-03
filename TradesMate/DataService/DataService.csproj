@@ -345,6 +345,7 @@
     <Compile Include="DataLayer\Repository\CompanyRepository.cs" />
     <Compile Include="DataLayer\Repository\StorageRepository.cs" />
     <Compile Include="DataLayer\Repository\PropertyRepository.cs" />
+    <Compile Include="DTOs\AttachmentModel.cs" />
     <Compile Include="DTOs\AddressModel.cs" />
     <Compile Include="DTOs\PropertyModel.cs" />
     <Compile Include="Helper.cs" />

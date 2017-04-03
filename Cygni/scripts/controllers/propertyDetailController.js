@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('sbAdminApp')
-    .controller('propertyDetailController', ['$scope', 'propertyDataService', 'clientDataService','uploadImageService',
+    .controller('propertyDetailController', ['$scope', 'propertyDataService', 'clientDataService','storageService',
       'Notification', '$state', '$stateParams',
-        function ($scope, propertyDataService, clientDataService, uploadImageService, Notification, $state, $stateParams) {
+      function ($scope, propertyDataService, clientDataService, storageService, Notification, $state, $stateParams) {
 
     $scope.filterTextModel = {
         searchText: undefined,
@@ -88,7 +88,7 @@ angular.module('sbAdminApp')
 
     //        if (reader.result) {
 
-    //           // uploadImageService.uploadImage(reader.result);
+    //           // storageService.uploadImage(reader.result);
     //            $scope.slides.push({ image: reader.result });
     //            $scope.$apply();
     //        }
@@ -101,7 +101,7 @@ angular.module('sbAdminApp')
 
     var attachmentType = "Property"
     //$scope.addFile = function () {
-    //    uploadImageService.uploadImage($scope.files[0], $scope.propertyId, attachmentType
+    //    storageService.uploadImage($scope.files[0], $scope.propertyId, attachmentType
     //      );
     //}
 
@@ -109,7 +109,7 @@ angular.module('sbAdminApp')
         $scope.$apply(function ($scope) {
             $scope.files = element.files;
 
-            uploadImageService.uploadImage($scope.files[0], $scope.propertyId, attachmentType
+            storageService.uploadImage($scope.files[0], $scope.propertyId, attachmentType
             );
         });
     }
@@ -121,7 +121,7 @@ angular.module('sbAdminApp')
     //}
 
     $scope.downLoad = function () {
-        uploadImageService.downloadFile($scope.propertyId, attachmentType);
+        storageService.downloadFile($scope.propertyId, attachmentType);
         //    .then(function (data) {
 
         //    var file = new Blob([data], { type: 'image/png' });

@@ -1,13 +1,14 @@
 'use strict';
 
 angular.module('sbAdminApp')
-    .controller('attachmentController', ['$scope', 'propertyDataService','workItemDataService', 'Notification', '$state', '$stateParams', 'uploadImageService',
-        function ($scope, propertyDataService, workItemDataService, Notification, $state, $stateParams, uploadImageService) {
+    .controller('attachmentController', ['$scope', 'propertyDataService', 'workItemDataService', 'Notification', '$state', '$stateParams', 'storageService',
+        function ($scope, propertyDataService, workItemDataService, Notification, $state, $stateParams, storageService) {
 
     $scope.filterTextModel = {
         searchText: undefined,
     };
     $scope.attachmentType = undefined;
+    $scope.attachmentList = [];
   
     $scope.search = function (item) {
         if (!$scope.filterTextModel.searchText
@@ -20,7 +21,7 @@ angular.module('sbAdminApp')
 
     $scope.openUrl = function (attachment) {
         if (attachment.id)
-            uploadImageService.downloadFile($scope.propertyId, attachmentType, attachment.id);
+            storageService.downloadFile($scope.propertyId, attachmentType, attachment.id);
     };
    
 
@@ -28,7 +29,7 @@ angular.module('sbAdminApp')
         $scope.$apply(function ($scope) {
             $scope.files = element.files;
 
-            uploadImageService.uploadImage($scope.files[0], $scope.propertyId, $scope.attachmentType
+            storageService.uploadImage($scope.files[0], $scope.propertyId, $scope.attachmentType
             );
         });
     }
@@ -62,6 +63,10 @@ angular.module('sbAdminApp')
         }
 
         $scope.entityId = $stateParams.propertyId || $stateParams.workItemId;
+        storageService.downloadAttachmentForEntity($scope.entityId, $scope.attachmentType).then(function (result) {
+            $scope.attachmentList = result;
+        }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+      
 
     }
 

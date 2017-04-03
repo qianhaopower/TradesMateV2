@@ -1,8 +1,8 @@
 ﻿'use strict';
-app.factory('uploadImageService', ['$http', '$q', 'ngAuthSettings', function ($http, $q, ngAuthSettings) {
+app.factory('storageService', ['$http', '$q', 'ngAuthSettings', function ($http, $q, ngAuthSettings) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
-    var uploadIamgeServiceFactory = {};
+    var storageServiceFactory = {};
 
     var _uploadImage = function (imageFile, entityId, type) {
 
@@ -36,20 +36,25 @@ app.factory('uploadImageService', ['$http', '$q', 'ngAuthSettings', function ($h
 
         let downUrl = serviceBase + 'api/storage/GetBlobDownload?entityId=' + entityId + '&type=' + type + '&attachmentId=' + attachmentId;
         window.open(downUrl);//fire the download
-  
+    };
 
-        //var deferred = $q.defer();
-        //$http.get(downUrl).success(function (response) {
-        //    deferred.resolve(response);
-        //}).error(function (err, status) {
-        //    deferred.reject(err);
-        //});
-        //return deferred.promise;
+    var _downloadAttachmentForEntity = function (entityId, entityType) {
 
+        let getUrl = serviceBase + 'api/storage/GetBlobModels?entityId=' + entityId + '&entityType=' + entityType ;
+        var deferred = $q.defer();
+
+        $http.get(getUrl).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
     };
   
-    uploadIamgeServiceFactory.uploadImage = _uploadImage;
-    uploadIamgeServiceFactory.downloadFile = _downloadFile;
+    storageServiceFactory.uploadImage = _uploadImage;
+    storageServiceFactory.downloadFile = _downloadFile;
+    storageServiceFactory.downloadAttachmentForEntity = _downloadAttachmentForEntity;
 
-    return uploadIamgeServiceFactory;
+    return storageServiceFactory;
 }]);
