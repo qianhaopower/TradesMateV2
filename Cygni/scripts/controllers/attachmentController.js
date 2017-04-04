@@ -21,7 +21,7 @@ angular.module('sbAdminApp')
 
     $scope.openUrl = function (attachment) {
         if (attachment.id)
-            storageService.downloadFile($scope.propertyId, attachmentType, attachment.id);
+            storageService.downloadFile($scope.propertyId, $scope.attachmentType, attachment.id);
     };
    
 
@@ -43,6 +43,7 @@ angular.module('sbAdminApp')
             $state.go('base.workItems');
         }
     }
+    $scope.trunc = Math.trunc;
 
     var init = function () {
 

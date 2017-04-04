@@ -129,7 +129,8 @@ namespace DataService
 			src.Address.PostCode)
 
 			));
-			CreateMap<Attachment, AttachmentModel>();
+			CreateMap<Attachment, AttachmentModel>()
+				.ForMember(dest => dest.CreatedDateTime, opts => opts.MapFrom(src => src.AddedDateTime));
 
 
 

@@ -46,8 +46,9 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Size (KB)</th>
+                <th>Created At</th>
                 <th>Type</th>
+                <th>Size (KB)</th>
                 <th></th>
             </tr>
         </thead>
@@ -56,17 +57,21 @@
                 <!--<td >
                     <i class="fa fa-home"></i>
                 </td>-->
-                <td class="col-md-3 col-xs-6">
-                    <a>{{attachment.name}}</a>
+                <td class="col-md-3 col-xs-2">
+                    <a>{{attachment.nameDisplay}}</a>
                 </td>
-                <td class="col-md-6 col-xs-2">
-                   {{attachment.sizeDisplay}}
+                <td class="col-md-3 col-xs-4">
+                    {{attachment.createdDateTime | date:'yyyy-MM-dd HH:mm:ss'}}
                 </td>
-                <td class="col-md-1 col-xs-2">
-                    {{attachment.type}}
+                <td class="col-md-3 col-xs-2">
+                    {{attachment.typeDisplay}}
                 </td>
-                <td class="col-md-1 col-xs-2"  ng-click="openUrl(attachment)">
-                    Download
+                <td class="col-md-3 col-xs-2">
+                    {{trunc(attachment.sizeInBytes /1024)}}
+                </td>
+              
+                <td class="col-md-1 col-xs-2"  ng-click="openUrl(attachment)" title="Download">
+                    <i class="fa fa-download" aria-hidden="true"></i>
                 </td>
             </tr>
         </tbody>
