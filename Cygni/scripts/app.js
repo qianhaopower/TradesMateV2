@@ -16,7 +16,7 @@ angular
     'ui-notification',
     'ngMessages',
     'angularModalService',
-    'angular-carousel',
+
     'LocalStorageModule',
     'isteven-multi-select',
     'pageslide-directive',
