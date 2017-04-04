@@ -61,7 +61,10 @@ angular.module('sbAdminApp')
             $state.go('base.properties');
 
         } else if ($stateParams.workItemId) {
-            $state.go('base.workItems');
+            $state.go('base.workItems', {
+                sectionId: $stateParams.sectionId,
+                propertyId: $stateParams.propertyIdForWorkItem
+            });
         }
     }
     $scope.trunc = Math.trunc;

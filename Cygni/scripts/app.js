@@ -380,7 +380,7 @@ angular
               .state('base.workItemAttachments', {
                   templateUrl: 'views/attachment/attachments.html',
                   controller: 'attachmentController',
-                  url: '/workitem/:workItemId/attachments'//property attachment
+                  url: '/property/:propertyIdForWorkItem/section/:sectionId/workItems/:workItemId/attachments'//workItem attachment
               })
 
 

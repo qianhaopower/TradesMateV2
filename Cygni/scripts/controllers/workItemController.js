@@ -90,7 +90,10 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
 
 
     $scope.viewWorkItemAttachments = function (workItem) {
-        $state.go('base.workItemAttachments', { workItemId: workItem.id });
+        $state.go('base.workItemAttachments', {
+            workItemId: workItem.id,
+            propertyIdForWorkItem: $stateParams.propertyId,
+            sectionId: $stateParams.sectionId, });
     }
 
     var init = function () {
