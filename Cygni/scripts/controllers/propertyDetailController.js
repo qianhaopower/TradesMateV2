@@ -60,74 +60,7 @@ angular.module('sbAdminApp')
               ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
         });
     };
-    for (var i = 0; i < 2; i++) {
-       // $scope.addSlide();
-    }
-    //$scope.previewFile = function() {
-    //    var preview = document.querySelector('img');
-    //    var file = document.querySelector('input[type=file]').files[0];
-    //    var reader = new FileReader();
-
-    //    reader.addEventListener("load", function () {
-           
-    //        $scope.slides.push({ image: reader.result });
-    //        $scope.$apply();
-    //    }, false);
-
-    //    if (file) {
-    //        reader.readAsDataURL(file);
-    //    }
-    //}
-
-    //$scope.uploadFile = function () {
-    //    var file = event.target.files[0];
-      
-    //    var reader = new FileReader();
-
-    //    reader.addEventListener("load", function () {
-
-    //        if (reader.result) {
-
-    //           // storageService.uploadImage(reader.result);
-    //            $scope.slides.push({ image: reader.result });
-    //            $scope.$apply();
-    //        }
-    //    }, false);
-
-    //    if (file) {
-    //        reader.readAsDataURL(file);
-    //    }
-            //};
-
-    var attachmentType = "Property"
-    //$scope.addFile = function () {
-    //    storageService.uploadImage($scope.files[0], $scope.propertyId, attachmentType
-    //      );
-    //}
-
-    $scope.uploadedFile = function (element) {
-        $scope.$apply(function ($scope) {
-            $scope.files = element.files;
-
-            storageService.uploadImage($scope.files[0], $scope.propertyId, attachmentType
-            );
-        });
-    }
-
-    //$scope.downLoadFile = function (element) {
-    //    $scope.$apply(function ($scope) {
-    //        $scope.files = element.files;
-    //    });
-    //}
-
-    $scope.downLoad = function () {
-        storageService.downloadFile($scope.propertyId, attachmentType);
-        //    .then(function (data) {
-
-        //    var file = new Blob([data], { type: 'image/png' });
-        //    saveAs(file, 'filename.png');
-        //});
-    }
+ 
 
 
 

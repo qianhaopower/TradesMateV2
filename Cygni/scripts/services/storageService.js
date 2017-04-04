@@ -4,7 +4,7 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var storageServiceFactory = {};
 
-    var _uploadImage = function (imageFile, entityId, type) {
+    var _uploadFile = function (imageFile, entityId, type) {
 
         //return $http.put(serviceBase + 'api/companies/ModifyCompany' , companyInfo).then(function (response) {
         //    return response;
@@ -52,7 +52,7 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', function ($http,
         return deferred.promise;
     };
   
-    storageServiceFactory.uploadImage = _uploadImage;
+    storageServiceFactory.uploadFile = _uploadFile;
     storageServiceFactory.downloadFile = _downloadFile;
     storageServiceFactory.downloadAttachmentForEntity = _downloadAttachmentForEntity;
 

@@ -18,7 +18,7 @@ namespace DataService.Models
 
 		public string NameDisplay {
 		get {
-				return Name.Split('_')[1];
+				return Name.Substring(Name.IndexOf('_') + 1);
 			}
 		}
 		public string TypeDisplay

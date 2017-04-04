@@ -29,8 +29,15 @@ angular.module('sbAdminApp')
         $scope.$apply(function ($scope) {
             $scope.files = element.files;
 
-            storageService.uploadImage($scope.files[0], $scope.propertyId, $scope.attachmentType
-            );
+            storageService.uploadFile($scope.files[0], $scope.propertyId, $scope.attachmentType)
+                .then(function () {
+
+                    storageService.downloadAttachmentForEntity($scope.entityId, $scope.attachmentType).then(function (result) {
+                        $scope.attachmentList = result;
+                    }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+
+
+            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
         });
     }
 

@@ -206,10 +206,10 @@ namespace EF.Data
                 var lastPos = blob.Name.LastIndexOf('/');
                 var fileName = blob.Name.Substring(lastPos + 1, blob.Name.Length - lastPos - 1);
 				//remove the timestamp tag
-				fileName = fileName.Split('_')[1];
+				fileName = fileName.Substring(fileName.IndexOf('_') + 1);
 
-                // Build and return the download model with the blob stream and its relevant info
-                var download = new BlobDownloadModel
+				// Build and return the download model with the blob stream and its relevant info
+				var download = new BlobDownloadModel
                 {
                     BlobStream = ms,
                     BlobFileName = fileName,
