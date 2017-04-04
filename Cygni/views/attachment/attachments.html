@@ -50,28 +50,30 @@
                 <th>Type</th>
                 <th>Size (KB)</th>
                 <th></th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="attachment in attachmentList | filter:search">
-                <!--<td >
-                    <i class="fa fa-home"></i>
-                </td>-->
-                <td class="col-md-3 col-xs-2">
+              
+                <td class="col-md-3 col-xs-3">
                     <a>{{attachment.nameDisplay}}</a>
                 </td>
-                <td class="col-md-3 col-xs-4">
+                <td class="col-md-3 col-xs-3">
                     {{attachment.createdDateTime | date:'yyyy-MM-dd HH:mm:ss'}}
                 </td>
-                <td class="col-md-3 col-xs-2">
+                <td class="col-md-2 col-xs-2">
                     {{attachment.typeDisplay}}
                 </td>
-                <td class="col-md-3 col-xs-2">
+                <td class="col-md-2 col-xs-2">
                     {{trunc(attachment.sizeInBytes /1024)}}
                 </td>
               
-                <td class="col-md-1 col-xs-2"  ng-click="openUrl(attachment)" title="Download">
+                <td class="col-md-1 col-xs-1"  ng-click="openUrl(attachment)" title="Download">
                     <i class="fa fa-download" aria-hidden="true"></i>
+                </td>
+                <td class="col-md-1 col-xs-1" ng-click="deleteFile(attachment)" title="Delete">
+                    <i class="fa fa-remove" aria-hidden="true"></i>
                 </td>
             </tr>
         </tbody>

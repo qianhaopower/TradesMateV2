@@ -159,13 +159,6 @@ namespace DataService.Controllers
             {
                 throw new Exception("User cannot be found");
             }
-
-
-
-
-
-
-          
         }
 
         //GET api/Account/GetCurrentUser   

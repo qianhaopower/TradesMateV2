@@ -74,11 +74,34 @@ namespace DataService.Controllers
 				return BadRequest(string.Format("{0} is not a valid entity type for attachments", entityType));
 			}
 			var repo = new StorageRepository();
-			var result =  repo.GetEntityAttachments(entityId, typeParsed);
+			var result =  repo.GetEntityAttachments(entityId, typeParsed,User.Identity.Name);
 
 			var returnList = result.Select(Mapper.Map<Attachment, AttachmentModel>).ToList();
 			return Ok(returnList);
 		}
+
+		[HttpDelete]
+		public async Task<IHttpActionResult> DeleteBlob(int entityId, string entityType, int attachmentId)
+		{
+			AttachmentEntityType typeParsed;
+			bool typeValid = Enum.TryParse<AttachmentEntityType>(entityType, out typeParsed);
+			if (typeValid == false)
+			{
+				return BadRequest(string.Format("{0} is not a valid entity type for attachments", entityType));
+			}
+			var repo = new StorageRepository();
+			var result = await repo.DeleteBlob(attachmentId, entityId, typeParsed, User.Identity.Name);
+			if (result)
+			{
+				return StatusCode(HttpStatusCode.NoContent);
+			}
+			else
+			{
+				return BadRequest();
+			}
+		}
+
+
 
 
 		/// <summary>
@@ -101,7 +124,7 @@ namespace DataService.Controllers
                     return Request.CreateResponse(HttpStatusCode.BadRequest, string.Format("{0} is not a valid entity type for attachments", type));
                 }
                 var repo = new StorageRepository();
-                var result = await repo.DownloadBlob(entityId, typeParsed, attachmentId);
+                var result = await repo.DownloadBlob(entityId, typeParsed, attachmentId, User.Identity.Name);
                 if (result == null)
                 {
                     return new HttpResponseMessage(HttpStatusCode.NotFound);

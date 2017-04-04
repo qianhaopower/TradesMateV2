@@ -32,6 +32,21 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', function ($http,
 
     };
 
+
+    var _deleteFile = function (entityId, entityType, attachmentId) {
+
+        let deleteUrl = serviceBase + 'api/storage/DeleteBlob?entityId=' + entityId + '&entityType=' + entityType + '&attachmentId=' + attachmentId;
+        var deferred = $q.defer();
+
+        $http.delete(deleteUrl).success(function (response) {
+            deferred.resolve(response);
+        }).error(function (err, status) {
+            deferred.reject(err);
+        });
+
+        return deferred.promise;
+    };
+
     var _downloadFile = function ( entityId, type, attachmentId) {
 
         let downUrl = serviceBase + 'api/storage/GetBlobDownload?entityId=' + entityId + '&type=' + type + '&attachmentId=' + attachmentId;
@@ -55,6 +70,7 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     storageServiceFactory.uploadFile = _uploadFile;
     storageServiceFactory.downloadFile = _downloadFile;
     storageServiceFactory.downloadAttachmentForEntity = _downloadAttachmentForEntity;
+    storageServiceFactory.deleteFile = _deleteFile;
 
     return storageServiceFactory;
 }]);

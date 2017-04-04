@@ -44,45 +44,44 @@ namespace EF.Data
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
         }
 
-        public async Task<List<BlobUploadModel>> UploadBlobs(HttpContent content, int entityId, AttachmentEntityType type, string userName)
-        {
-            
-            if(CheckUserPermissionForEntity(entityId, type, userName))
-            {
-                var result = await _service.UploadBlobs(content);
-
-                foreach(var item in result)
-                {
-
-                    Attachment newAttachment = new Attachment
-                    {
-                        Name = item.FileName,
-                        Url = item.FileUrl,
-                        SizeInBytes = item.FileSizeInBytes,
-                        EntityType = type,
-                        EntityId = entityId,
-                      
-                        Type = IsImageExtension(item.FileName) ? AttachmentType.Image : AttachmentType.Document,
-                        AddedDateTime = DateTime.Now,
-                        ModifiedDateTime = DateTime.Now,
-                    };
-                    _ctx.Entry(newAttachment).State = EntityState.Added;
-                }
-
-                _ctx.SaveChanges();
-
-                return result;
-            }
-            else
-            {
-                throw new Exception(string.Format("User {0} has no permission to add attachment on {1} with id {2}", userName, type, entityId));
-            }
-
-        }
-
-        public async Task<BlobDownloadModel> DownloadBlob(int entityId, AttachmentEntityType type, int attachmentId)
+		public async Task<List<BlobUploadModel>> UploadBlobs(HttpContent content, int entityId, AttachmentEntityType type, string userName)
 		{
-            var allBlobs = _ctx.Attchments.Where(p =>  //add the type and entityId here just to make sure right attachment has been fetched.
+
+			if (!CheckUserPermissionForEntity(entityId, type, userName))
+				throw new Exception(string.Format("User {0} has no permission to add attachment on {1} with id {2}", userName, type, entityId));
+
+			var result = await _service.UploadBlobs(content);
+
+			foreach (var item in result)
+			{
+
+				Attachment newAttachment = new Attachment
+				{
+					Name = item.FileName,
+					Url = item.FileUrl,
+					SizeInBytes = item.FileSizeInBytes,
+					EntityType = type,
+					EntityId = entityId,
+
+					Type = IsImageExtension(item.FileName) ? AttachmentType.Image : AttachmentType.Document,
+					AddedDateTime = DateTime.Now,
+					ModifiedDateTime = DateTime.Now,
+				};
+				_ctx.Entry(newAttachment).State = EntityState.Added;
+			}
+
+			_ctx.SaveChanges();
+
+			return result;
+
+		}
+
+        public async Task<BlobDownloadModel> DownloadBlob(int entityId, AttachmentEntityType type, int attachmentId, string userName)
+		{
+			if (!CheckUserPermissionForEntity(entityId, type, userName))
+				throw new Exception(string.Format("User {0} has no permission to download attachment on {1} with id {2}", userName, type, entityId));
+
+			var allBlobs = _ctx.Attchments.Where(p =>  //add the type and entityId here just to make sure right attachment has been fetched.
 			p.EntityType == type
 			&& p.EntityId == entityId
 			&& p.Id == attachmentId).ToList();
@@ -96,8 +95,35 @@ namespace EF.Data
             }
         }
 
-		public  List<Attachment> GetEntityAttachments(int entityId, AttachmentEntityType type )
+
+		public async Task<bool> DeleteBlob(int attachmentId, int entityId, AttachmentEntityType type, string userName)
 		{
+			if (!CheckUserPermissionForEntity(entityId, type, userName))
+				throw new Exception(string.Format("User {0} has no permission to download attachment on {1} with id {2}", userName, type, entityId));
+
+			var blob = _ctx.Attchments.Where(p =>  
+			 p.Id == attachmentId).Single();
+
+			var deleteSuccessfull  = await _service.DeleteBlob(blob.Name);
+			if (deleteSuccessfull)
+			{
+				_ctx.Attchments.Remove(blob);
+				_ctx.SaveChanges();
+				return await Task.FromResult<bool>(true);
+			}
+			else
+			{
+				return await Task.FromResult<bool>(false);
+			}
+
+		}
+
+
+		public List<Attachment> GetEntityAttachments(int entityId, AttachmentEntityType type, string userName )
+		{
+			if (!CheckUserPermissionForEntity(entityId, type, userName))
+				throw new Exception(string.Format("User {0} has no permission to download attachment on {1} with id {2}", userName, type, entityId));
+
 			var allBlobs = _ctx.Attchments.Where(p =>  //add the type and entityId here just to make sure right attachment has been fetched.
 			p.EntityType == type
 			&& p.EntityId == entityId
@@ -157,7 +183,9 @@ namespace EF.Data
     {
         Task<List<BlobUploadModel>> UploadBlobs(HttpContent httpContent);
         Task<BlobDownloadModel> DownloadBlob(string blobName);
-    }
+		Task<bool> DeleteBlob(string blobName);
+
+	}
 
     public class BlobService : IBlobService
     {
@@ -194,12 +222,13 @@ namespace EF.Data
             {
                 var container = BlobHelper.GetBlobContainer();
                 var blob = container.GetBlockBlobReference(blobName);
+				
 
-                // Download the blob into a memory stream. Notice that we're not putting the memory
-                // stream in a using statement. This is because we need the stream to be open for the
-                // API controller in order for the file to actually be downloadable. The closing and
-                // disposing of the stream is handled by the Web API framework.
-                var ms = new MemoryStream();
+				// Download the blob into a memory stream. Notice that we're not putting the memory
+				// stream in a using statement. This is because we need the stream to be open for the
+				// API controller in order for the file to actually be downloadable. The closing and
+				// disposing of the stream is handled by the Web API framework.
+				var ms = new MemoryStream();
                 await blob.DownloadToStreamAsync(ms);
 
                 // Strip off any folder structure so the file name is just the file name
@@ -223,7 +252,36 @@ namespace EF.Data
             // Otherwise
             return null;
         }
-    }
+		public async Task<bool> DeleteBlob(string blobName)
+		{
+			var container = BlobHelper.GetBlobContainer();
+			CloudBlockBlob _blockBlob = container.GetBlockBlobReference(blobName);
+
+			if (_blockBlob != null)
+			{
+				try
+				{ //delete blob from container    
+					await _blockBlob.DeleteAsync();
+					return await Task.FromResult<bool>(true);
+				}
+				catch (Exception ex)
+				{
+					return await Task.FromResult<bool>(false);
+				}
+
+
+			}
+			else
+			{
+				throw new Exception(string.Format("{0} cannot be found in storage", blobName));
+			}
+
+
+		}
+	}
+
+
+
 
     public class BlobUploadModel
     {
