@@ -376,6 +376,14 @@ angular
              url: '/property/:propertyId/section/:sectionId/workItems/view/:workItemId'
          })
 
+              //workItem  Attachments
+              .state('base.workItemAttachments', {
+                  templateUrl: 'views/attachment/attachments.html',
+                  controller: 'attachmentController',
+                  url: '/workitem/:workItemId/attachments'//property attachment
+              })
+
+
           //profile
           .state(
           'base.profile', {

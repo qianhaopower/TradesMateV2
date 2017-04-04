@@ -1,5 +1,5 @@
 ﻿'use strict';
-app.factory('storageService', ['$http', '$q', 'ngAuthSettings', function ($http, $q, ngAuthSettings) {
+app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageService', function ($http, $q, ngAuthSettings, localStorageService) {
 
     var serviceBase = ngAuthSettings.apiServiceBaseUri;
     var storageServiceFactory = {};
@@ -47,10 +47,47 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', function ($http,
         return deferred.promise;
     };
 
+    var downLoadFromUrl = function (url) {
+
+        var authData = localStorageService.get('authorizationData');
+
+        var headers = {};
+        headers.Authorization = 'Bearer ' + authData.token;
+        var deferred = $q.defer();
+
+        $http.get(url, { responseType: 'arraybuffer', headers: headers })
+            .success(function (data, status, headers, config) {
+                var file = new Blob([data], { type: headers()['content-type'] });
+
+                var disposition = headers()['content-disposition'];
+                var fileName = undefined;
+                if (disposition && disposition.indexOf('attachment') !== -1) {
+                    var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
+                    var matches = filenameRegex.exec(disposition);
+                    if (matches != null && matches[1]) {
+                        fileName = matches[1].replace(/['"]/g, '');
+                    }
+                }
+                if (fileName)
+                saveAs(file, fileName);
+            }).error(function (data, status) {
+                console.log("Request failed with status: " + status);
+            });;
+        return deferred.promise;
+    }
+
+    var getFileNameFromContentDisposition = function (contentDisposition) {
+        return "test";
+
+    }
+
+
     var _downloadFile = function ( entityId, type, attachmentId) {
 
         let downUrl = serviceBase + 'api/storage/GetBlobDownload?entityId=' + entityId + '&type=' + type + '&attachmentId=' + attachmentId;
-        window.open(downUrl);//fire the download
+
+        downLoadFromUrl(downUrl);
+      
     };
 
     var _downloadAttachmentForEntity = function (entityId, entityType) {
@@ -66,6 +103,25 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', function ($http,
 
         return deferred.promise;
     };
+
+
+
+   
+
+    //var getPDF2 = function (apiUrl) {
+    //    var promise = $http({
+    //        method: 'GET',
+    //        url: hostApiUrl + apiUrl,
+    //        headers: { 'Authorization': 'Bearer ' + sessionStorage.tokenKey },
+    //        responseType: 'arraybuffer'
+    //    });
+    //    promise.success(function (data) {
+    //        return data;
+    //    }).error(function (data, status) {
+    //        console.log("Request failed with status: " + status);
+    //    });
+    //    return promise;
+    //}
   
     storageServiceFactory.uploadFile = _uploadFile;
     storageServiceFactory.downloadFile = _downloadFile;

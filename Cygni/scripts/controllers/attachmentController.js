@@ -21,11 +21,12 @@ angular.module('sbAdminApp')
 
     $scope.openUrl = function (attachment) {
         if (attachment.id)
-            storageService.downloadFile($scope.propertyId, $scope.attachmentType, attachment.id);
+            storageService.downloadFile($scope.entityId, $scope.attachmentType, attachment.id);
+
     };
     $scope.deleteFile = function (attachment) {
         if (attachment.id)
-            storageService.deleteFile($scope.propertyId, $scope.attachmentType, attachment.id)
+            storageService.deleteFile($scope.entityId, $scope.attachmentType, attachment.id)
                 .then(function () {
                     Notification.success({ message: "Deleted", delay: 2000 });
                     storageService.downloadAttachmentForEntity($scope.entityId, $scope.attachmentType).then(function (result) {
@@ -41,7 +42,7 @@ angular.module('sbAdminApp')
         $scope.$apply(function ($scope) {
             $scope.files = element.files;
 
-            storageService.uploadFile($scope.files[0], $scope.propertyId, $scope.attachmentType)
+            storageService.uploadFile($scope.files[0], $scope.entityId, $scope.attachmentType)
                 .then(function () {
                     Notification.success({ message: "Upload successful", delay: 2000 });
 

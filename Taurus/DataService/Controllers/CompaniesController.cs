@@ -20,7 +20,7 @@ using AutoMapper;
 
 namespace DataService.Controllers
 {
-    /*
+	/*
     The WebApiConfig class may require additional changes to add a route for this controller. Merge these statements into the Register method of the WebApiConfig class as applicable. Note that OData URLs are case sensitive.
 
     using System.Web.OData.Builder;
@@ -32,7 +32,8 @@ namespace DataService.Controllers
     builder.EntitySet<WorkItemTemplate>("WorkItemTemplates"); 
     config.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
     */
-    public class CompaniesOdataController : ODataController
+	[Authorize]
+	public class CompaniesOdataController : ODataController
     {
         private EFDbContext db = new EFDbContext();
 

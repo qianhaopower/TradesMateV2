@@ -19,8 +19,8 @@ using DataService.Models;
 
 namespace DataService.Controllers
 {
-
-    public class StorageController : ApiController
+	[Authorize]
+	public class StorageController : ApiController
 {
 	
         /// <summary>

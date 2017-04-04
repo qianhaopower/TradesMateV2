@@ -47,8 +47,8 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Desc.</th>
-                <th>Qty.</th>
+                <th>Description</th>
+                <th>Quantity</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -60,18 +60,17 @@
             <tr ng-repeat="workItem in workItemList | filter:search">
 
                 <td class="col-md-2 col-xs-2" ng-click="openWorkItemDetail(workItem, true)">
-                    <a>{{workItem.name}}</a>
+                    <a>{{workItem.name}}</a>workItem
                 </td>
-                <td class="col-md-6 col-xs-3">
+                <td class="col-md-5 col-xs-3">
                     {{workItem.description}}
                 </td>
-                <td class="col-md-2 col-xs-3">
+                <td class="col-md-2 col-xs-1">
                     {{workItem.quantity}}
                 </td>
-                <!--<td class="col-md-1 col-xs-2">
-                    <a class="btn btn-default btn-sm" title="Extra" ng-click="openWorkItemDetail(workItem,false)">Extra</a>
-                 
-                </td>-->
+                <td class="col-md-1 col-xs-2">
+                    <button class="btn btn-default btn-sm" value="Attachments" title="Manage Attachments" type="button" ng-click="viewWorkItemAttachments(workItem)">Attachments</button>
+                </td>
                 <td class="col-md-1 col-xs-2">
                     <a class="btn btn-primary btn-sm" title="Edit Work Item" ng-click="openWorkItemDetail(workItem,false)">Edit</a>
                 </td>
