@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sbAdminApp')
-    .controller('attachmentController', ['$scope', 'propertyDataService', 'workItemDataService', 'Notification', '$state', '$stateParams', 'storageService',
-        function ($scope, propertyDataService, workItemDataService, Notification, $state, $stateParams, storageService) {
+    .controller('attachmentController', ['$scope', 'propertyDataService', 'workItemDataService', 'Notification', '$state', '$stateParams', 'storageService','Lightbox',
+        function ($scope, propertyDataService, workItemDataService, Notification, $state, $stateParams, storageService, Lightbox) {
 
     $scope.filterTextModel = {
         searchText: undefined,
@@ -31,6 +31,7 @@ angular.module('sbAdminApp')
                     Notification.success({ message: "Deleted", delay: 2000 });
                     storageService.downloadAttachmentForEntity($scope.entityId, $scope.attachmentType).then(function (result) {
                         $scope.attachmentList = result;
+                        updateGallary($scope.attachmentList);
                     }, function (error) { Notification.error({ message: error, delay: 2000 }); });
 
 
@@ -48,6 +49,7 @@ angular.module('sbAdminApp')
 
                     storageService.downloadAttachmentForEntity($scope.entityId, $scope.attachmentType).then(function (result) {
                         $scope.attachmentList = result;
+                        updateGallary($scope.attachmentList);
                     }, function (error) { Notification.error({ message: error, delay: 2000 }); });
 
 
@@ -68,6 +70,30 @@ angular.module('sbAdminApp')
         }
     }
     $scope.trunc = Math.trunc;
+
+
+  
+
+    var updateGallary = function (attachmentList) {
+        $scope.images = [];
+        var imageList = _.filter(attachmentList, function (item) {
+            return item.type == 0;
+        });//0 is image;
+
+        _.each(imageList, function (item) {
+            $scope.images.push({
+                'url': item.url,
+                //'caption': 'Optional caption',
+                'thumbUrl': item.url // used only for this example
+            });
+        });
+        
+    }
+  
+
+    $scope.openLightboxModal = function (index) {
+        Lightbox.openModal($scope.images, index);
+    };
 
     var init = function () {
 
@@ -90,6 +116,7 @@ angular.module('sbAdminApp')
         $scope.entityId = $stateParams.propertyId || $stateParams.workItemId;
         storageService.downloadAttachmentForEntity($scope.entityId, $scope.attachmentType).then(function (result) {
             $scope.attachmentList = result;
+            updateGallary($scope.attachmentList);
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
       
 

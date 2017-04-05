@@ -16,7 +16,7 @@ angular
     'ui-notification',
     'ngMessages',
     'angularModalService',
-
+      'bootstrapLightbox',
     'LocalStorageModule',
     'isteven-multi-select',
     'pageslide-directive',
@@ -30,8 +30,8 @@ angular
     })
   .service('urls', function (domain, api) { this.apiUrl = domain + api; })
 
-  .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', 'NotificationProvider','$httpProvider',
-      function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, NotificationProvider,$httpProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$httpProvider',
+      function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $httpProvider) {
           //$httpProvider.defaults.headers.common = {};
           //$httpProvider.defaults.headers.post = {};
           //$httpProvider.defaults.headers.put = {};
@@ -45,6 +45,8 @@ angular
               debug: false,
               events: true,
           });
+
+
 
           $urlRouterProvider.otherwise('/base/home');
 
