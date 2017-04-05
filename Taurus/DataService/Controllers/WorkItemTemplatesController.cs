@@ -12,170 +12,62 @@ using System.Web.OData;
 using System.Web.OData.Query;
 using System.Web.OData.Routing;
 using EF.Data;
+using DataService.Models;
+using AutoMapper;
+using System.Threading.Tasks;
 
 namespace DataService.Controllers
 {
-	/*
-    The WebApiConfig class may require additional changes to add a route for this controller. Merge these statements into the Register method of the WebApiConfig class as applicable. Note that OData URLs are case sensitive.
-
-    using System.Web.OData.Builder;
-    using System.Web.OData.Extensions;
-    using EF.Data;
-    ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<WorkItemTemplate>("WorkItemTemplates");
-    builder.EntitySet<Company>("Companies"); 
-    builder.EntitySet<WorkItem>("WorkItems"); 
-    config.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
-    */
+	
 	[Authorize]
-	public class WorkItemTemplatesController : ODataController
+	public class WorkItemTemplatesController : ApiController
     {
-        private EFDbContext db = new EFDbContext();
 
-        // GET: odata/WorkItemTemplates
-        [EnableQuery]
-        public IQueryable<WorkItemTemplate> GetWorkItemTemplates()
-        {
-            return db.WorkItemTemplates;
-        }
 
-        // GET: odata/WorkItemTemplates(5)
-        [EnableQuery]
-        public SingleResult<WorkItemTemplate> GetWorkItemTemplate([FromODataUri] int key)
-        {
-            return SingleResult.Create(db.WorkItemTemplates.Where(workItemTemplate => workItemTemplate.Id == key));
-        }
+		[HttpGet]
+		private async Task<IEnumerable<WorkItemTemplateModel>> GetWorkItemTemplates()
+		{
 
-        // PUT: odata/WorkItemTemplates(5)
-        public IHttpActionResult Put([FromODataUri] int key, Delta<WorkItemTemplate> patch)
-        {
-            Validate(patch.GetEntity());
+			var workItemTemplates = await new WorkItemTemplateRepository().GetWorkItemTemplateForUserAsync(User.Identity.Name);
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+			var returnList = workItemTemplates.Select(Mapper.Map<WorkItemTemplate, WorkItemTemplateModel>).ToList();
 
-            WorkItemTemplate workItemTemplate = db.WorkItemTemplates.Find(key);
-            if (workItemTemplate == null)
-            {
-                return NotFound();
-            }
+			return returnList;
+		}
 
-            patch.Put(workItemTemplate);
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WorkItemTemplateExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return Updated(workItemTemplate);
-        }
+		[HttpPatch]
+		private async Task<WorkItemTemplateModel> UpdateWorkItemTemplates(int id, WorkItemTemplateModel model)
+		{
 
-        // POST: odata/WorkItemTemplates
-        public IHttpActionResult Post(WorkItemTemplate workItemTemplate)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+			 await new WorkItemTemplateRepository().UpdateWorkItemTemplateForUserAsync(User.Identity.Name, id, model);
 
-            db.WorkItemTemplates.Add(workItemTemplate);
-            db.SaveChanges();
+			return model;
+		}
 
-            return Created(workItemTemplate);
-        }
 
-        // PATCH: odata/WorkItemTemplates(5)
-        [AcceptVerbs("PATCH", "MERGE")]
-        public IHttpActionResult Patch([FromODataUri] int key, Delta<WorkItemTemplate> patch)
-        {
-            Validate(patch.GetEntity());
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+		[HttpPost]
+		private async Task<WorkItemTemplateModel> CreateWorkItemTemplates( WorkItemTemplateModel model)
+		{
 
-            WorkItemTemplate workItemTemplate = db.WorkItemTemplates.Find(key);
-            if (workItemTemplate == null)
-            {
-                return NotFound();
-            }
+			await new WorkItemTemplateRepository().CreateWorkItemTemplateForUserAsync(User.Identity.Name, model);
 
-            patch.Patch(workItemTemplate);
+			return model;
+		}
 
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!WorkItemTemplateExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
 
-            return Updated(workItemTemplate);
-        }
 
-        // DELETE: odata/WorkItemTemplates(5)
-        public IHttpActionResult Delete([FromODataUri] int key)
-        {
-            WorkItemTemplate workItemTemplate = db.WorkItemTemplates.Find(key);
-            if (workItemTemplate == null)
-            {
-                return NotFound();
-            }
+		[HttpDelete]
+		private async Task<IHttpActionResult> DeleteWorkItemTemplates(int id)
+		{
 
-            db.WorkItemTemplates.Remove(workItemTemplate);
-            db.SaveChanges();
+			await new WorkItemTemplateRepository().DeleteWorkItemTemplateForUserAsync(User.Identity.Name,id);
 
-            return StatusCode(HttpStatusCode.NoContent);
-        }
+			return StatusCode(HttpStatusCode.NoContent);
+		}
 
-        // GET: odata/WorkItemTemplates(5)/Company
-        [EnableQuery]
-        public SingleResult<Company> GetCompany([FromODataUri] int key)
-        {
-            return SingleResult.Create(db.WorkItemTemplates.Where(m => m.Id == key).Select(m => m.Company));
-        }
-
-        // GET: odata/WorkItemTemplates(5)/WorkItemList
-        [EnableQuery]
-        public IQueryable<WorkItem> GetWorkItemList([FromODataUri] int key)
-        {
-            return db.WorkItemTemplates.Where(m => m.Id == key).SelectMany(m => m.WorkItemList);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool WorkItemTemplateExists(int key)
-        {
-            return db.WorkItemTemplates.Count(e => e.Id == key) > 0;
-        }
+		
     }
 }

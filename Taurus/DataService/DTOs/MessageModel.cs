@@ -5,29 +5,7 @@ using System;
 
 namespace DataService.Models
 {
-    //public class MessageModel
-    //{
-    //    public int Id { get; set; }
-    //    public int MessageType { get; set; }
-
-    //    public string MessageText { get; set; }
-
-    //    public bool IsWaitingForResponse { get; set; }
-
-
-    //    //display unread if
-    //    /// <summary>
-    //    /// 1. message if for the user and message is unread.
-    //    /// 2. message response if for the user and message is unread
-    //    /// </summary>
-    //    public bool ShouldDisplayUnread { get; set; }
-
-    //    public DateTime CreateTime { get; set; }
-
-    //    public bool HasResponse { get; set; }
-
-    //}
-
+   
     public class MessageDetailModel
     {
         public int Id { get; set; }

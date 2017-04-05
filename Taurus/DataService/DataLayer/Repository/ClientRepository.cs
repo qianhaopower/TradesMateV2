@@ -20,7 +20,6 @@ namespace EF.Data
     public class ClientRepository : IDisposable
     {
         private EFDbContext _ctx;
-        private EFDbContext _applicationContext;
 
         private UserManager<ApplicationUser> _userManager;
         //private RoleManager<IdentityRole> _roleManager;
@@ -35,7 +34,7 @@ namespace EF.Data
             {
                 _ctx = new EFDbContext();
             }
-            _applicationContext = new EFDbContext();
+          
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
             //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
