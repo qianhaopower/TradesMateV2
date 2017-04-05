@@ -12,9 +12,10 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/messages/GetMessages').success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
+        $http.get(serviceBase + 'api/messages/GetMessages').then(function (response) {
+         
+            deferred.resolve(response.data);
+        },function (err, status) {
             deferred.reject(err);
         });
 
@@ -25,9 +26,10 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/messages/GetWorkRequestMessageForProperty?propertyId=' + propertyId).success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
+        $http.get(serviceBase + 'api/messages/GetWorkRequestMessageForProperty?propertyId=' + propertyId).then(function (response) {
+            debugger;
+            deferred.resolve(response.data);
+        },function (err, status) {
             deferred.reject(err);
         });
 
@@ -39,9 +41,10 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/messages/GetMessage?messageId=' + messageId).success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
+        $http.get(serviceBase + 'api/messages/GetMessage?messageId=' + messageId).then(function (response) {
+            debugger;
+            deferred.resolve(response.data);
+        },function (err, status) {
             deferred.reject(err);
         });
 
@@ -53,9 +56,10 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     var _getPendingMessagesCount = function () {
 
         var deferred = $q.defer();
-        $http.get(serviceBase + 'api/messages/GetUnReadMessagesCount').success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
+        $http.get(serviceBase + 'api/messages/GetUnReadMessagesCount').then(function (response) {
+            debugger;
+            deferred.resolve(response.data);
+        },function (err, status) {
             deferred.reject(err);
         });
 
@@ -67,9 +71,9 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     var _markMessageAsRead = function (messageId) {
 
         var deferred = $q.defer();
-        $http.post(serviceBase + 'api/messages/MarkMessageAsRead?messageId=' + messageId).success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
+        $http.post(serviceBase + 'api/messages/MarkMessageAsRead?messageId=' + messageId).then(function (response) {
+            deferred.resolve(response.data);
+        },function (err, status) {
             deferred.reject(err);
         });
 
@@ -81,9 +85,10 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     var _generateClientWorkRequest = function (data) {
 
         var deferred = $q.defer();
-        $http.post(serviceBase + 'api/messages/GenerateClientWorkRequest', data).success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
+        $http.post(serviceBase + 'api/messages/GenerateClientWorkRequest', data).then(function (response) {
+            debugger;
+            deferred.resolve(response.data);
+        },function (err, status) {
             deferred.reject(err);
         });
         return deferred.promise;
@@ -96,9 +101,9 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
 
         //var data = { property: propertyModel, messageId: messageId };
         var deferred = $q.defer();
-        $http.post(serviceBase + 'api/messages/CreatePropertyForWorkRequest?messageId=' + messageId, propertyModel).success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
+        $http.post(serviceBase + 'api/messages/CreatePropertyForWorkRequest?messageId=' + messageId, propertyModel).then(function (response) {
+            deferred.resolve(response.data);
+        },function (err, status) {
             deferred.reject(err);
         });
         return deferred.promise;
@@ -109,9 +114,9 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     //var _markResponseAsRead = function (responseId) {
 
     //    var deferred = $q.defer();
-    //    $http.post(serviceBase + 'api/messages/MarkMessageAsRead?responseId=' + responseId).success(function (response) {
+    //    $http.post(serviceBase + 'api/messages/MarkMessageAsRead?responseId=' + responseId).then(function (response) {
     //        deferred.resolve(response);
-    //    }).error(function (err, status) {
+    //    },function (err, status) {
     //        deferred.reject(err);
     //    });
     //    return deferred.promise;
@@ -123,9 +128,9 @@ app.factory('messageService', ['$http', '$q', 'ngAuthSettings', function ($http,
     var _handleMessageResponse = function (messageId, action) {
 
         var deferred = $q.defer();
-        $http.post(serviceBase + 'api/messages/HandleMessageResponse?messageId=' + messageId +'&action=' + action).success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
+        $http.post(serviceBase + 'api/messages/HandleMessageResponse?messageId=' + messageId +'&action=' + action).then(function (response) {
+            deferred.resolve(response.data);
+        },function (err, status) {
             deferred.reject(err);
         });
 

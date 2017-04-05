@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('sbAdminApp')
-    .controller('propertyDetailController', ['$scope', 'propertyDataService', 'clientDataService','uploadImageService',
+    .controller('propertyDetailController', ['$scope', 'propertyDataService', 'clientDataService','storageService',
       'Notification', '$state', '$stateParams',
-        function ($scope, propertyDataService, clientDataService, uploadImageService, Notification, $state, $stateParams) {
+      function ($scope, propertyDataService, clientDataService, storageService, Notification, $state, $stateParams) {
 
     $scope.filterTextModel = {
         searchText: undefined,
@@ -60,54 +60,8 @@ angular.module('sbAdminApp')
               ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
         });
     };
-    for (var i = 0; i < 2; i++) {
-       // $scope.addSlide();
-    }
-    //$scope.previewFile = function() {
-    //    var preview = document.querySelector('img');
-    //    var file = document.querySelector('input[type=file]').files[0];
-    //    var reader = new FileReader();
+ 
 
-    //    reader.addEventListener("load", function () {
-           
-    //        $scope.slides.push({ image: reader.result });
-    //        $scope.$apply();
-    //    }, false);
-
-    //    if (file) {
-    //        reader.readAsDataURL(file);
-    //    }
-    //}
-
-    //$scope.uploadFile = function () {
-    //    var file = event.target.files[0];
-      
-    //    var reader = new FileReader();
-
-    //    reader.addEventListener("load", function () {
-
-    //        if (reader.result) {
-
-    //           // uploadImageService.uploadImage(reader.result);
-    //            $scope.slides.push({ image: reader.result });
-    //            $scope.$apply();
-    //        }
-    //    }, false);
-
-    //    if (file) {
-    //        reader.readAsDataURL(file);
-    //    }
-    //};
-    $scope.addFile = function () {
-        uploadImageService.uploadImage($scope.files[0], $scope.propertyId
-          );
-    }
-
-    $scope.uploadedFile = function (element) {
-        $scope.$apply(function ($scope) {
-            $scope.files = element.files;
-        });
-    }
 
 
     var init = function () {

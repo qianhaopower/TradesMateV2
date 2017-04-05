@@ -88,6 +88,14 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
     }
 
 
+
+    $scope.viewWorkItemAttachments = function (workItem) {
+        $state.go('base.workItemAttachments', {
+            workItemId: workItem.id,
+            propertyIdForWorkItem: $stateParams.propertyId,
+            sectionId: $stateParams.sectionId, });
+    }
+
     var init = function () {
         workItemDataService.getSectionAllWorkItems($stateParams.sectionId).then(function (result) {
             $scope.workItemList = result;

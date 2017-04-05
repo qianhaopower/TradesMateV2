@@ -38,6 +38,11 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
         $state.go('base.propertySections', { propertyId: property.id });
     }
 
+
+    $scope.viewPropertyAttachments = function (property) {
+        $state.go('base.propertyAttachments', { propertyId: property.id });
+    }
+
     $scope.goBack = function () {
         $state.go('base.clients');
     }

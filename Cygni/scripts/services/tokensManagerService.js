@@ -8,14 +8,14 @@ app.factory('tokensManagerService', ['$http','ngAuthSettings', function ($http,n
     var _getRefreshTokens = function () {
 
         return $http.get(serviceBase + 'api/refreshtokens').then(function (results) {
-            return results;
+            return results.data;
         });
     };
 
     var _deleteRefreshTokens = function (tokenid) {
 
         return $http.delete(serviceBase + 'api/refreshtokens/?tokenid=' + tokenid).then(function (results) {
-            return results;
+            return results.data;
         });
     };
 

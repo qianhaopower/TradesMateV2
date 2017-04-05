@@ -16,7 +16,7 @@ angular
     'ui-notification',
     'ngMessages',
     'angularModalService',
-    'angular-carousel',
+
     'LocalStorageModule',
     'isteven-multi-select',
     'pageslide-directive',
@@ -341,7 +341,14 @@ angular
                    templateUrl: 'views/sections/sectionDetail.html',
                    controller: 'propertySectionDetailController',
                    url: '/property/:propertyId/property-section/view/:sectionId'
-               })
+              })
+
+              //property  Attachments
+              .state('base.propertyAttachments', {
+                  templateUrl: 'views/attachment/attachments.html',
+                  controller: 'attachmentController',
+                  url: '/property/:propertyId/attachments'//property attachment
+              })
 
               //workItems
             
@@ -368,6 +375,14 @@ angular
              controller: 'workItemDetailController',
              url: '/property/:propertyId/section/:sectionId/workItems/view/:workItemId'
          })
+
+              //workItem  Attachments
+              .state('base.workItemAttachments', {
+                  templateUrl: 'views/attachment/attachments.html',
+                  controller: 'attachmentController',
+                  url: '/property/:propertyIdForWorkItem/section/:sectionId/workItems/:workItemId/attachments'//workItem attachment
+              })
+
 
           //profile
           .state(
