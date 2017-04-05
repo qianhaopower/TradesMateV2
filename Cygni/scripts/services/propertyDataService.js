@@ -15,7 +15,8 @@ app.factory('propertyDataService', ['$q', '$http', '$window', 'urls', 'ngAuthSet
                 method: 'GET',
                 url: path,
             }).then(function successCallback(response) {
-                if (response.data && response.status >= 200 && response.status <= 299) {             
+                if (response.data && response.status >= 200 && response.status <= 299) {      
+                    debugger;
                     deferred.resolve(response.data.value);
                 } else {
                     deferred.reject(error);
@@ -134,9 +135,9 @@ app.factory('propertyDataService', ['$q', '$http', '$window', 'urls', 'ngAuthSet
         createProperty: function (newProperty) {
             //var data = { property: propertyModel, messageId: messageId };
             var deferred = $q.defer();
-            $http.post(serviceBase + 'api/propertiesWebApi/CreatePropertyForClient', newProperty).success(function (response) {
-                deferred.resolve(response);
-            }).error(function (err, status) {
+            $http.post(serviceBase + 'api/propertiesWebApi/CreatePropertyForClient', newProperty).then(function (response) {
+                deferred.resolve(response.data);
+            },function (err, status) {
                 deferred.reject(err);
             });
             return deferred.promise;

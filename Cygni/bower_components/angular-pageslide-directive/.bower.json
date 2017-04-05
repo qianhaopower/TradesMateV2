@@ -28,15 +28,14 @@
     "karma-phantomjs-launcher": "1.0.1"
   },
   "homepage": "https://github.com/dpiccone/ng-pageslide",
-  "version": "2.1.1",
-  "_release": "2.1.1",
+  "version": "2.1.4",
+  "_release": "2.1.4",
   "_resolution": {
     "type": "version",
-    "tag": "v2.1.1",
-    "commit": "f0325d6fe62c5600021b9609da46c65c9c1bb7eb"
+    "tag": "v2.1.4",
+    "commit": "10f130f48d957737451a9fbff32e22b45250179f"
   },
   "_source": "https://github.com/dpiccone/ng-pageslide.git",
-  "_target": "^2.1.1",
-  "_originalSource": "angular-pageslide-directive",
-  "_direct": true
+  "_target": "^2.1.4",
+  "_originalSource": "angular-pageslide-directive"
 }

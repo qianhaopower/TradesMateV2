@@ -16,10 +16,11 @@ Modal service for AngularJS - supports creating popups and modals via a service.
 
 ## Usage
 
-Install with Bower or NPM:
+Install with Bower (or NPM):
 
-```
+```bash
 bower install angular-modal-service
+# or...
 npm install angular-modal-service
 ```
 
@@ -27,7 +28,6 @@ Then reference the minified script:
 
 ```html
 <script src="bower_components/angular-modal-service/dst/angular-modal-service.min.js"></script>
-<script src="./node_modules/angular-modal-service/dst/angular-modal-service.min.js"></script>
 ```
 
 Specify the modal service as a dependency of your application:
@@ -140,6 +140,7 @@ The `showModal` function takes an object with these fields:
   is injected into the controller constructor.
 * `appendElement`: The custom angular element to append the modal to instead of default `body` element.
 * `scope`: Optional. If provided, the modal controller will use a new scope as a child of `scope` (created by calling `scope.$new()`) rather than a new scope created as a child of `$rootScope`.
+* `bodyClass`: Optional. The custom css class to append to the body while the modal is open (optional, useful when not using Bootstrap).
 
 #### The Modal Object
 
@@ -234,6 +235,15 @@ npm run test-debug
 
 This will run the tests in Chrome, allowing you to debug.
 
+## Releasing
+
+To create a release:
+
+- Create the `dst` pack with `npm run build`
+- Merge your work to master
+- Use `npm version` to bump, e.g. `npm version patch`
+- Push and deploy `git push --tags && git push && npm deploy`
+
 ## FAQ
 
 Having problems? Check this FAQ first.
@@ -306,3 +316,4 @@ Thanks go the the following contributors:
 * [maxdow](https://github.com/maxdow) - Added support for controller inlining.
 * [kernowjoe](https://github.com/kernowjoe) - Robustness around locationChange
 * [arthur-xavier](https://github.com/arthur-xavier) - Robustness when `body` element changes.
+* [stormpooper](https://github.com/StormPooper) - The new `bodyClass` feature.

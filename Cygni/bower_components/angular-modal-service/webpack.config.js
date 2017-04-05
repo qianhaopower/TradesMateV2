@@ -21,17 +21,17 @@ module.exports = {
     angular: 'angular',
   },
 
-  //  Use babel for anything that is *.js or *.jsx.
   module: {
-    loaders: [
-      {
-        test: /\.jsx?$/,
-        exclude: /(node_modules|bower_components)/,
-        loader: 'babel',
-        query: {
-          presets: ['es2015']
-        }
-      }
-    ]
-  }
+    preLoaders: [{
+      test: /\.js$/,
+      exclude: [
+        path.resolve('node_modules/')
+      ],
+      loader: 'babel'
+    }]
+  },
+
+  babel: {
+    presets: ['es2015']
+  },
 };

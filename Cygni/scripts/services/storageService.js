@@ -23,9 +23,9 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageSer
                 headers: { 'Content-Type': undefined },
                 transformRequest: angular.identity
             }
-        ).success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
+        ).then(function (response) {
+            deferred.resolve(response.data);
+        },function (err, status) {
             deferred.reject(err);
         });
         return deferred.promise;
@@ -38,9 +38,9 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageSer
         let deleteUrl = serviceBase + 'api/storage/DeleteBlob?entityId=' + entityId + '&entityType=' + entityType + '&attachmentId=' + attachmentId;
         var deferred = $q.defer();
 
-        $http.delete(deleteUrl).success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
+        $http.delete(deleteUrl).then(function (response) {
+            deferred.resolve(response.data);
+        },function (err, status) {
             deferred.reject(err);
         });
 
@@ -56,10 +56,10 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageSer
         var deferred = $q.defer();
 
         $http.get(url, { responseType: 'arraybuffer', headers: headers })
-            .success(function (data, status, headers, config) {
-                var file = new Blob([data], { type: headers()['content-type'] });
+            .then(function (data) {
+                var file = new Blob([data.data], { type: data.headers()['content-type'] });
 
-                var disposition = headers()['content-disposition'];
+                var disposition = data.headers()['content-disposition'];
                 var fileName = undefined;
                 if (disposition && disposition.indexOf('attachment') !== -1) {
                     var filenameRegex = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/;
@@ -70,8 +70,8 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageSer
                 }
                 if (fileName)
                 saveAs(file, fileName);
-            }).error(function (data, status) {
-                console.log("Request failed with status: " + status);
+            },function (data) {
+                console.log("Request failed with status: " + data.status);
             });;
         return deferred.promise;
     }
@@ -95,9 +95,9 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageSer
         let getUrl = serviceBase + 'api/storage/GetBlobModels?entityId=' + entityId + '&entityType=' + entityType ;
         var deferred = $q.defer();
 
-        $http.get(getUrl).success(function (response) {
-            deferred.resolve(response);
-        }).error(function (err, status) {
+        $http.get(getUrl).then(function (response) {
+            deferred.resolve(response.data);
+        },function (err, status) {
             deferred.reject(err);
         });
 
@@ -115,9 +115,9 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageSer
     //        headers: { 'Authorization': 'Bearer ' + sessionStorage.tokenKey },
     //        responseType: 'arraybuffer'
     //    });
-    //    promise.success(function (data) {
+    //    promise.then(function (data) {
     //        return data;
-    //    }).error(function (data, status) {
+    //    },function (data, status) {
     //        console.log("Request failed with status: " + status);
     //    });
     //    return promise;
