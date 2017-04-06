@@ -432,7 +432,33 @@ angular
               templateUrl: 'views/company/allocateProperty.html',
               controller: 'allocatePropertyController',
               url: '/companymember/allocate/:memberId',
-          })
+              })
+
+
+              //manage workitem templates
+              .state('base.companyWorkItemTemplate', {
+                  templateUrl: 'views/workItemTemplate/companyWorkItemTemplate.html',
+                  controller: 'companyWorkItemTemplateController',
+                  url: '/companyWorkItemTemplate'
+              })
+              .state('base.editCompanyWorkItemTemplate', {
+                  templateUrl: 'views/workItemTemplate/companyWorkItemTemplateDetail.html',
+                  controller: 'companyWorkItemTemplateDetailController',
+                  url: '/companyWorkItemTemplate/edit/:templateId',
+              })
+              .state('base.createCompanyWorkItemTemplate', {
+                  templateUrl: 'views/workItemTemplate/companyWorkItemTemplateDetail.html',
+                  controller: 'companyWorkItemTemplateDetailController',
+                  url: '/companyWorkItemTemplate/create/:templateId',
+              })
+              .state('base.viewCompanyWorkItemTemplate', {
+                  templateUrl: 'views/workItemTemplate/companyWorkItemTemplateDetail.html',
+                  controller: 'companyWorkItemTemplateDetailController',
+                  url: '/companyWorkItemTemplate/view/:templateId',
+              })
+
+          
+
        
 
           //message

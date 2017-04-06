@@ -1,0 +1,83 @@
+
+<form class="form-horizontal">
+    <br />
+    <div class="row">
+        <div class="col-lg-6 col-sm-6">
+            <a class="btn btn-default" ng-click="goBack()">
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12" >
+            <h2 class="page-header">Work item templates</h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-6 col-md-9">
+            <button type="button" title="Add new work item template" id="loading-example-btn" class="btn btn-default btn-sm" ng-click="addNewTemplate()">
+                <i class="fa fa-plus "></i> Add work item template
+            </button>
+        </div>
+        <div class="col-xs-6  col-md-3 pull-right">
+            <input type="text" placeholder="Search..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+        </div>
+    </div>
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Created at</th>
+            </tr>
+        </thead>
+
+
+        <tbody>
+
+            <tr ng-repeat="template in templateList | filter:search">
+                <td class="col-md-2 col-xs-2" ng-click="openTemplateDetail(template,true)">
+                    <a>{{template.name}} </a>
+                </td>
+                <td class="col-md-6 col-xs-6">
+                    {{template.description}}
+                </td>
+                <td class="col-md-1 col-xs-1">
+                    {{template.type}}
+                </td>
+                <td class="col-md-1 col-xs-1">
+                    {{template.modifiedDateTime}}
+                </td>
+                <td class="col-md-1 col-xs-1">
+                    <a class="btn btn-primary btn-sm pull-right" title="Edit work item template " ng-click="openTemplateDetail(template,false)">Edit</a>
+                </td>
+                <td class="col-md-1 col-xs-1">
+                    <a class="btn btn-danger btn-sm" title="Delete work item template" ng-click="deleteTemplate(template)">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</form>
+
+<!-- The actual modal template, just a bit o bootstrap -->
+<script type="text/ng-template" id="deleteTemplateModal.html">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title danger">Delete work item template</h4>
+                </div>
+                <div class="modal-body">
+                    <p>You will not be able to create work item against this tempalte after delete. Proceed?</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>
+                    <button type="button" ng-click="close(true)" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

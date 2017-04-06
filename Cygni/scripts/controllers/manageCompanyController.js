@@ -9,6 +9,9 @@ angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$
         $scope.gotoManagerCompanyUser = function () {
             $state.go('base.companyMember');
         }
+        $scope.gotoManageWorkItemTemplate = function () {
+            $state.go('base.companyWorkItemTemplate');
+        }
         $scope.serviceTypes = companyService.getDefaultServices();
        
 
