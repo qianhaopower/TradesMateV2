@@ -120,6 +120,19 @@ angular.module('sbAdminApp').controller('createPropertyFromRequestController', f
     };
     $scope.save = function () {
         //fire the save
+        $scope.property.defaultSections = $scope.defaultSections;
         close($scope.property, 500);
     }
+    $scope.defaultSections = {
+        bedroomNumber: 0,
+        livingRoomNumber: 0,
+        bathroomNumber: 0,
+        kitchenNumber: 0,
+        laundryRoomNumber: 0,
+        hallWayNumber: 0,
+        deckNumber: 0,
+        basementNumber: 0,
+        gardenNumber: 0,
+        garageNumber: 0,
+    };
 });
