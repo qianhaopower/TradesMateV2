@@ -111,6 +111,7 @@ app.factory('propertyDataService', ['$q', '$http', '$window', 'urls', 'ngAuthSet
             return deferred.promise;
         },
         editProperty: function (property) {
+            property.address = undefined;
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
             var path = baseURL + '/Properties(' + property.id + ')';

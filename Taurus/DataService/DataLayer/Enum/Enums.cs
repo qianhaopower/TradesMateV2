@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EF.Data
 {
-   public  enum TradeType
+    public enum TradeType
     {
         Electrician,
         Handyman,
@@ -14,6 +14,20 @@ namespace EF.Data
         Builder,
         AirConditioning,
     }
+
+    public enum SectionType
+    {
+        Bedroom,
+        LivingRoom,
+        Bathroom,
+        Kitchen,
+        LaundryRoom,
+        HallWay,
+        Deck,
+        Basement,
+        Garden,
+        Garage,
+    }                  
 
     public enum UserType
     {

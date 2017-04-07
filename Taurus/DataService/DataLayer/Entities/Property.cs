@@ -46,13 +46,16 @@ namespace EF.Data
         {
             get
             {
-                return string.Format("{0} {1} {2} {3} {4} {5}",
-         Address.Line1,
-         Address.Line2,
-         Address.Line3,
-          Address.Suburb,
-          Address.State,
-         Address.PostCode);
+                if (Address != null)
+                    return string.Format("{0} {1} {2} {3} {4} {5}",
+             Address.Line1,
+             Address.Line2,
+             Address.Line3,
+              Address.Suburb,
+              Address.State,
+             Address.PostCode);
+                else
+                    return string.Empty;
             }
             set { }
             

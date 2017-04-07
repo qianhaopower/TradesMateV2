@@ -12,6 +12,8 @@ angular.module('sbAdminApp')
     $scope.property = undefined;
     $scope.clientId = undefined;
     $scope.client = undefined;
+    $scope.status = {};
+
 
     $scope.readOnly = $state.current.name == 'base.viewProperty';
 
@@ -30,6 +32,7 @@ angular.module('sbAdminApp')
         if ($scope.property.isNew) {
             var propertyCopy = angular.copy($scope.property);
             propertyCopy.clientId = $stateParams.clientId;
+            propertyCopy.defaultSections = $scope.defaultSections;
             propertyDataService.createProperty(propertyCopy).then(function (result) {
                 Notification.success({ message: 'Created', delay: 2000 });
                 $scope.goToPropertyIndex();
@@ -48,20 +51,6 @@ angular.module('sbAdminApp')
         else
             $state.go('base.properties');
     };
-
-
-    $scope.myInterval = 500000;
-    var slides = $scope.slides = [];
-    $scope.addSlide = function () {
-        var newWidth = 600 + slides.length + 1;
-        slides.push({
-            image: 'http://placekitten.com/' + newWidth + '/300',
-            text: ['More', 'Extra', 'Lots of', 'Surplus'][slides.length % 4] + ' ' +
-              ['Cats', 'Kittys', 'Felines', 'Cutes'][slides.length % 4]
-        });
-    };
- 
-
 
 
     var init = function () {
@@ -103,6 +92,18 @@ angular.module('sbAdminApp')
                 isNew: true,
                 address: {},
             }
+            $scope.defaultSections = {
+                bedroomNumber: 0,
+                livingRoomNumber: 0,
+                bathroomNumber: 0,
+                kitchenNumber: 0,
+                laundryRoomNumber: 0,
+                hallWayNumber: 0,
+                deckNumber: 0,
+                basementNumber: 0,
+                gardenNumber: 0,
+                garageNumber: 0,
+            };
         }
         //propertyDataService.getAllPropertys().then(function (result) {
         //    $scope.propertylist = result;

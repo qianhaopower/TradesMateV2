@@ -169,6 +169,8 @@ namespace EF.Data
 
             _ctx.Entry(clientPropertyNew).State = EntityState.Added;
 
+            new PropertyRepository(_ctx).CreateDefaultSections(model.DefaultSections, newProperty, _ctx);
+
             _ctx.SaveChanges();
 
         }
