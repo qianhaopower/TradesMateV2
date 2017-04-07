@@ -10,15 +10,7 @@
     </div>
     <fieldset ng-disabled="readOnly">
         <legend> {{clientId ? 'Property Details' :'Add Property'}}</legend>
-        <!--<div class="form-group">
-            <label class="col-sm-3 control-label">Address</label>
-            <div class="col-sm-9">
-                <input type="text" name="Address" class="form-control" placeholder="address" ng-model="property.addressDisplay" required disabled>
-                <div ng-messages="propertyForm.Address.$error">
-                    <div class="text-danger" ng-message="required">Address is required</div>
-                </div>
-            </div>
-        </div>-->
+       
         <div class="form-group">
             <label class="col-sm-3 control-label">Property Name *</label>
             <div class="col-sm-9">
@@ -118,83 +110,8 @@
                 </div>
             </div>
         </div>
-
-        <div class="form-group">
-            <uib-accordion close-others="false">
-              
-                <div uib-accordion-group class="panel-default" heading="Sections" is-open="status.isPanelOpen" ng-show="!readOnly">
-                    ﻿<div class="form-horizontal">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="form-group">
-                                    <label class="col-sm-3">Bedroom Numer</label>
-                                    <div class="col-sm-9">
-                                        <input type ="number" class="form-control" ng-model="defaultSections.bedroomNumber" min="0" max="10"/>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3">Living room Numer</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" ng-model="defaultSections.livingRoomNumber" min="0" max="10" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3">Bathroom Numer</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" ng-model="defaultSections.bathroomNumber" min="0" max="10" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3">Kitchen Numer</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" ng-model="defaultSections.kitchenNumber" min="0" max="10" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3">Laundry room Numer</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" ng-model="defaultSections.laundryRoomNumber" min="0" max="10" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3">Hallway Numer</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" ng-model="defaultSections.hallWayNumber" min="0" max="10" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3">Deck Numer</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" ng-model="defaultSections.deckNumber" min="0" max="10" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3">Basement Numer</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" ng-model="defaultSections.basementNumber" min="0" max="10" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3">Garden Numer</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" ng-model="defaultSections.gardenNumber" min="0" max="10" />
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <label class="col-sm-3">Garage Numer</label>
-                                    <div class="col-sm-9">
-                                        <input type="number" class="form-control" ng-model="defaultSections.garageNumber" min="0" max="10" />
-                                    </div>
-                                </div>
-
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </uib-accordion>
-        </div>
-    </fieldset>
+        <property-default-section></property-default-section>
+</fieldset>
 </form>
 <div class="" ng-hide="readOnly">
 

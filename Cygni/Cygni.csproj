@@ -670,6 +670,8 @@
     <Content Include="scripts\directives\messageDetail\messageDetailDirective.js" />
     <Content Include="scripts\directives\messagePanel\messagePanel.html" />
     <Content Include="scripts\directives\messagePanel\messagePanel.js" />
+    <Content Include="scripts\directives\propertyDefaultSecion\propertyDefaultSecion.html" />
+    <Content Include="scripts\directives\propertyDefaultSecion\propertyDefaultSecion.js" />
     <Content Include="scripts\directives\propertyInfo\propertyInfo.html" />
     <Content Include="scripts\directives\propertyInfo\propertyInfo.js" />
     <Content Include="scripts\directives\clientReadOnlyInfo\clientReadOnlyInfo.html" />
@@ -703,8 +705,6 @@
     <Content Include="views\authentication\associate.html" />
     <Content Include="views\workItemTemplate\companyWorkItemTemplateDetail.html" />
     <Content Include="views\workItemTemplate\companyWorkItemTemplate.html" />
-    <Content Include="views\work\sectionDetail.html" />
-    <Content Include="views\work\sections.html" />
     <Content Include="views\workRequest\workRequest.html" />
     <Content Include="views\company\companyMemberDetail.html" />
     <Content Include="views\company\companyMember.html" />
