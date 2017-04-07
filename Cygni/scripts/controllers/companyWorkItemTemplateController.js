@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sbAdminApp')
-    .controller('companyWorkItemTemplateController', ['$scope', 'workItemDataService', 'Notification', '$state', 'ModalService',  '$stateParams',
-        function ($scope, workItemDataService, Notification, $state, ModalService, $stateParams) {
+    .controller('companyWorkItemTemplateController', ['$scope', 'workItemTemplateService', 'Notification', '$state', 'ModalService',  '$stateParams',
+        function ($scope, workItemTemplateService, Notification, $state, ModalService, $stateParams) {
 
     $scope.filterTextModel = {
         searchText: undefined,
@@ -53,7 +53,7 @@ angular.module('sbAdminApp')
 
 
     $scope.proceedDelete = function (templateId) {
-        workItemDataService.deleteTemplate(templateId).then(function (result) {
+        workItemTemplateService.deleteTemplate(templateId).then(function (result) {
             Notification.success({ message: 'Deleted', delay: 2000 });
             init();// fetch data again
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
@@ -61,7 +61,7 @@ angular.module('sbAdminApp')
 
 
     var init = function () {
-        workItemDataService.getAllTemplates().then(function (result) {
+        workItemTemplateService.getAllTemplates().then(function (result) {
             $scope.templateList = result;
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     }

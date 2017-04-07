@@ -24,24 +24,34 @@ namespace DataService.Controllers
     {
 
 
-		[HttpGet]
-		private async Task<IEnumerable<WorkItemTemplateModel>> GetWorkItemTemplates()
+        [HttpGet]
+        public IEnumerable<WorkItemTemplateModel> GetWorkItemTemplates()
+        {
+
+            var workItemTemplates = new WorkItemTemplateRepository().GetWorkItemTemplateForUser(User.Identity.Name);
+
+            var returnList = workItemTemplates.Select(Mapper.Map<WorkItemTemplate, WorkItemTemplateModel>).ToList();
+
+            return returnList;
+        }
+
+
+        [HttpGet]
+        public IHttpActionResult GetWorkItemTemplateById(int templateId)
+        {
+
+            var workItemTemplate = new WorkItemTemplateRepository().GetWorkItemTemplateByIdForUser(User.Identity.Name, templateId);
+            return Ok(Mapper.Map<WorkItemTemplate, WorkItemTemplateModel>(workItemTemplate));
+        }
+
+
+
+
+        [HttpPatch]
+        public async Task<WorkItemTemplateModel> UpdateWorkItemTemplate(int templateId, WorkItemTemplateModel model)
 		{
 
-			var workItemTemplates = await new WorkItemTemplateRepository().GetWorkItemTemplateForUserAsync(User.Identity.Name);
-
-			var returnList = workItemTemplates.Select(Mapper.Map<WorkItemTemplate, WorkItemTemplateModel>).ToList();
-
-			return returnList;
-		}
-
-
-
-		[HttpPatch]
-		private async Task<WorkItemTemplateModel> UpdateWorkItemTemplates(int id, WorkItemTemplateModel model)
-		{
-
-			 await new WorkItemTemplateRepository().UpdateWorkItemTemplateForUserAsync(User.Identity.Name, id, model);
+			 await new WorkItemTemplateRepository().UpdateWorkItemTemplateForUserAsync(User.Identity.Name, templateId, model);
 
 			return model;
 		}
@@ -49,7 +59,7 @@ namespace DataService.Controllers
 
 
 		[HttpPost]
-		private async Task<WorkItemTemplateModel> CreateWorkItemTemplates( WorkItemTemplateModel model)
+        public async Task<WorkItemTemplateModel> CreateWorkItemTemplate( WorkItemTemplateModel model)
 		{
 
 			await new WorkItemTemplateRepository().CreateWorkItemTemplateForUserAsync(User.Identity.Name, model);
@@ -60,10 +70,10 @@ namespace DataService.Controllers
 
 
 		[HttpDelete]
-		private async Task<IHttpActionResult> DeleteWorkItemTemplates(int id)
+		public async Task<IHttpActionResult> DeleteWorkItemTemplate(int templateId)
 		{
 
-			await new WorkItemTemplateRepository().DeleteWorkItemTemplateForUserAsync(User.Identity.Name,id);
+			await new WorkItemTemplateRepository().DeleteWorkItemTemplateForUserAsync(User.Identity.Name, templateId);
 
 			return StatusCode(HttpStatusCode.NoContent);
 		}

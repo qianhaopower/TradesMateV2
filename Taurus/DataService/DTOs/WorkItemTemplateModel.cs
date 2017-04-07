@@ -15,7 +15,10 @@ namespace DataService.Models
 		public string Name { get; set; }
 
 		public TradeType TradeWorkType { get; set; }//user will have this type as well
-		public string TemplateType { get; set; }//public, private
+
+        public string TradeWorkTypeDisplay { get { return TradeWorkType.ToString(); } }//user will have this type as well
+
+        public string TemplateType { get; set; }//public, private
 
 		public int CompanyId { get; set; }
 		

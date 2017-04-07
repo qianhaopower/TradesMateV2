@@ -16,7 +16,7 @@ app.factory('propertyDataService', ['$q', '$http', '$window', 'urls', 'ngAuthSet
                 url: path,
             }).then(function successCallback(response) {
                 if (response.data && response.status >= 200 && response.status <= 299) {      
-                    debugger;
+                   
                     deferred.resolve(response.data.value);
                 } else {
                     deferred.reject(error);

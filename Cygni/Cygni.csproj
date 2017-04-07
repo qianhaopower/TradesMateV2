@@ -688,6 +688,7 @@
     <Content Include="scripts\directives\timeline\timeline.html" />
     <Content Include="scripts\directives\timeline\timeline.js" />
     <Content Include="scripts\services\authInterceptorService.js" />
+    <Content Include="scripts\services\workItemTemplateService.js" />
     <Content Include="scripts\services\storageService.js" />
     <Content Include="scripts\services\messageService.js" />
     <Content Include="scripts\services\companyService.js" />

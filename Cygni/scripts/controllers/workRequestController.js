@@ -86,7 +86,7 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
         var init = function () {
             //need get companyList, for now we can get all companies as there are not too many.
             companyService.getCompanies().then(function (result) {
-                debugger;
+               
                 $scope.companyList = result;
         
                 if (result.length > 0) {
@@ -98,7 +98,7 @@ angular.module('sbAdminApp').controller('workRequestController', ['$scope', '$lo
           
           
             propertyDataService.getAllProperties().then(function (result) {
-                debugger;
+              
                 $scope.propertyList = result;
                 if (result.length > 0) {
                     $scope.selectedProperty = result[0];

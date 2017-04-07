@@ -34,26 +34,46 @@ namespace EF.Data
            
         }
 
-		public async Task<List<WorkItemTemplate>> GetWorkItemTemplateForUserAsync(string userName)
-		{
-			var _repo = new AuthRepository(_ctx);
-			//var isUserAdminTask = await _repo.isUserAdminAsync(userName);
+        public List<WorkItemTemplate> GetWorkItemTemplateForUser(string userName)
+        {
+            var _repo = new AuthRepository(_ctx);
+            //var isUserAdminTask = await _repo.isUserAdminAsync(userName);
 
-			
-			//if (isUserAdminTask == false)
-			//{
-			//	throw new Exception("Only admin can get templates");
-			//}
-			var _companyRepo = new CompanyRepository(_ctx);
-			// get all the workItemTemplate for that company
-			var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
 
-			var list = _ctx.WorkItemTemplates.Where(p => p.CompanyId == companyId).ToList();
+            //if (isUserAdminTask == false)
+            //{
+            //	throw new Exception("Only admin can get templates");
+            //}
+            var _companyRepo = new CompanyRepository(_ctx);
+            // get all the workItemTemplate for that company
+            var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
 
-			return list;
-		}
+            var list = _ctx.WorkItemTemplates.Where(p => p.CompanyId == companyId).ToList();
+            // only return type that current company has, like electrician
+            var allowService = _ctx.CompanyServices.Where(p => p.CompanyId == companyId).Select(p => p.Type).ToList();
 
-		internal async Task CreateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
+            list = list.Where(p => allowService.Contains(p.TradeWorkType)).ToList();
+
+            return list;
+        }
+
+        public WorkItemTemplate GetWorkItemTemplateByIdForUser(string userName, int id)
+        {
+            var _repo = new AuthRepository(_ctx);
+
+            var _companyRepo = new CompanyRepository(_ctx);
+            // get all the workItemTemplate for that company
+            var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
+            var allowService = _ctx.CompanyServices.Where(p => p.CompanyId == companyId).Select(p => p.Type).ToList();
+
+            var oneItem = _ctx.WorkItemTemplates.Where(p =>
+            p.CompanyId == companyId
+            && p.Id == id
+            && allowService.Contains(p.TradeWorkType)).Single();
+            return oneItem;
+        }
+
+        internal async Task CreateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
 		{
 			var _repo = new AuthRepository(_ctx);
 			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
@@ -73,7 +93,7 @@ namespace EF.Data
 			    Description = model.Description,
 				TradeWorkType= model.TradeWorkType,
 				TemplateType = model.TemplateType,
-				CompanyId = model.CompanyId,
+				CompanyId = companyId,
 				AddedDateTime = DateTime.Now,
 				ModifiedDateTime = DateTime.Now,
 

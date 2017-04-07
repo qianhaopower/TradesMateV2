@@ -27,7 +27,6 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Description</th>
                 <th>Type</th>
                 <th>Created at</th>
             </tr>
@@ -39,15 +38,12 @@
             <tr ng-repeat="template in templateList | filter:search">
                 <td class="col-md-2 col-xs-2" ng-click="openTemplateDetail(template,true)">
                     <a>{{template.name}} </a>
-                </td>
-                <td class="col-md-6 col-xs-6">
-                    {{template.description}}
+                </td>               
+                <td class="col-md-1 col-xs-1">
+                    {{template.tradeWorkTypeDisplay}}
                 </td>
                 <td class="col-md-1 col-xs-1">
-                    {{template.type}}
-                </td>
-                <td class="col-md-1 col-xs-1">
-                    {{template.modifiedDateTime}}
+                    {{template.modifiedDateTime | date:'yyyy-MM-dd HH:mm:ss'}}
                 </td>
                 <td class="col-md-1 col-xs-1">
                     <a class="btn btn-primary btn-sm pull-right" title="Edit work item template " ng-click="openTemplateDetail(template,false)">Edit</a>
