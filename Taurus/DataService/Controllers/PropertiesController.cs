@@ -159,7 +159,7 @@ namespace DataService.Controllers
         [AcceptVerbs("PATCH", "MERGE")]
         public IHttpActionResult Patch([FromODataUri] int key, Delta<Property> patch)
         {
-            Validate(patch.GetEntity());
+            //Validate(patch.GetEntity());
 
             if (!ModelState.IsValid)
             {
@@ -171,7 +171,6 @@ namespace DataService.Controllers
             {
                 return NotFound();
             }
-
             patch.Patch(property);
 
             try
@@ -203,6 +202,10 @@ namespace DataService.Controllers
             }
 
             db.Properties.Remove(property);
+            db.ClientProperties.RemoveRange(db.ClientProperties.Where(p=> p.PropertyId == key).ToList());
+            db.PropertyCompanies.RemoveRange(db.PropertyCompanies.Where(p => p.PropertyId == key).ToList());
+            db.PropertyAllocations.RemoveRange(db.PropertyAllocations.Where(p => p.PropertyId == key).ToList());
+            db.Sections.RemoveRange(db.Sections.Where(p => p.PropertyId == key).ToList());
             db.SaveChanges();
 
             return StatusCode(HttpStatusCode.NoContent);

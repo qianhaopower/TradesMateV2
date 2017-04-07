@@ -4,7 +4,7 @@
     <div class="row">
         <div class="col-lg-6 col-sm-6">
             <a class="btn btn-default" ng-click="goBack()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Go Back
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
             </a>
         </div>
         <div class="col-lg-6 col-sm-6 ">
@@ -60,7 +60,7 @@
             <tr ng-repeat="workItem in workItemList | filter:search">
 
                 <td class="col-md-2 col-xs-2" ng-click="openWorkItemDetail(workItem, true)">
-                    <a>{{workItem.name}}</a>workItem
+                    <a>{{workItem.name}}</a>
                 </td>
                 <td class="col-md-5 col-xs-3">
                     {{workItem.description}}

@@ -95,10 +95,84 @@ namespace EF.Data
                 ModifiedDateTime = DateTime.Now,
             };
 
+            CreateDefaultSections(model.DefaultSections, newProperty, _ctx);
+
             _ctx.Entry(clientPropertyNew).State = EntityState.Added;
             _ctx.SaveChanges();
             return newProperty;
         }
+
+        internal void CreateDefaultSections(DefaultPropertySection model, Property parentProperty, EFDbContext context)
+        {
+
+            Func<int, SectionType, List<Section>> createFunc = (int number, SectionType type) => {
+                List<Section> result = new List<Section>();
+                for (int k = 0; k < number; k++)
+                {
+                    var name = GetSectionNameFromEnum(type);
+                    Section sec = new Section
+                    {
+                        Name = name + " " + (k+1),//start from bedroom 1
+                        Description = name + " " + (k + 1),
+                        Property = parentProperty,
+                        Type = name,
+                        AddedDateTime = DateTime.Now,
+                        ModifiedDateTime = DateTime.Now,
+                    };
+                    result.Add(sec);
+                    context.Entry(sec).State = EntityState.Added;
+                };
+                return result;
+            };
+
+            if (model != null)
+            {
+                createFunc(model.BasementNumber, SectionType.Basement);
+                createFunc(model.BathroomNumber, SectionType.Bathroom);
+                createFunc(model.BedroomNumber, SectionType.Bedroom);
+                createFunc(model.DeckNumber, SectionType.Deck);
+                createFunc(model.GarageNumber, SectionType.Garage);
+                createFunc(model.GardenNumber, SectionType.Garden);
+                createFunc(model.HallWayNumber, SectionType.HallWay);
+                createFunc(model.KitchenNumber, SectionType.Kitchen);
+                createFunc(model.LaundryRoomNumber, SectionType.LaundryRoom);
+                createFunc(model.LivingRoomNumber, SectionType.LivingRoom);
+            }
+
+        }
+
+
+
+
+        internal string GetSectionNameFromEnum(SectionType type)
+        {
+            switch (type) {
+                case SectionType.Basement:
+                    return "Basement";
+                case SectionType.Bathroom:
+                    return "Bathroom";
+                case SectionType.Bedroom:
+                    return "Bedroom";
+                case SectionType.Deck:
+                    return "Deck";
+                case SectionType.Garage:
+                    return "Garage";
+                case SectionType.Garden:
+                    return "Garden";
+                case SectionType.HallWay:
+                    return "Hallway";
+                case SectionType.Kitchen:
+                    return "Kitchen";
+                case SectionType.LaundryRoom:
+                    return "Laundry room";
+                case SectionType.LivingRoom:
+                    return "Living room";
+                default:
+                    throw new Exception("Invalid section type");
+            }
+
+        }
+
 
         public   IQueryable<Property> GetPropertyForUser(string userName)
         {

@@ -169,8 +169,6 @@ namespace EF.Data
 
             }
 
-
-
             var info = this.GetMemberByCompanyIdQuery(companyId, memberId).ToList().FirstOrDefault();
 
             if (info.CompanyMember.Role == CompanyRole.Admin)

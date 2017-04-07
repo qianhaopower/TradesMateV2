@@ -16,7 +16,7 @@ app.factory('propertyDataService', ['$q', '$http', '$window', 'urls', 'ngAuthSet
                 url: path,
             }).then(function successCallback(response) {
                 if (response.data && response.status >= 200 && response.status <= 299) {      
-                    debugger;
+                   
                     deferred.resolve(response.data.value);
                 } else {
                     deferred.reject(error);
@@ -111,6 +111,7 @@ app.factory('propertyDataService', ['$q', '$http', '$window', 'urls', 'ngAuthSet
             return deferred.promise;
         },
         editProperty: function (property) {
+            property.address = undefined;
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
             var path = baseURL + '/Properties(' + property.id + ')';

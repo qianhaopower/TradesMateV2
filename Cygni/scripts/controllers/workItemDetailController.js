@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('sbAdminApp')
-  .controller('workItemDetailController', ['$scope', 'workItemDataService',
+  .controller('workItemDetailController', ['$scope', 'workItemDataService', 'workItemTemplateService', 'companyService',
       'Notification', '$state', '$stateParams',
-function ($scope, workItemDataService, Notification, $state, $stateParams) {
+function ($scope, workItemDataService, workItemTemplateService, companyService, Notification, $state, $stateParams) {
 
     $scope.filterTextModel = {
         searchText: undefined,
@@ -52,11 +52,18 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
         $scope.workItem.quantity = 1;
     };
 
+    $scope.shouldHideOption = function (value) {
+        if ($scope.companyInfo && $scope.companyInfo.tradeTypes.indexOf(value) == -1) {
+            return true;
+        }
+        return false;
+    }
+
     //Electrician 0,
     //  Handyman 1,
     //  Plumber 2,
     $scope.userProfile = {
-        tradeType: 'Electrician',
+        tradeType: 0,
     };
 
     $scope.search = function (item) {
@@ -65,7 +72,11 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
         }
         return false;
     };
-
+    var getCompanyDetail = function () {
+        companyService.getCurrentCompany().then(function (company) {
+            $scope.companyInfo = company;
+        }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+    } 
 
     var init = function () {
 
@@ -95,11 +106,11 @@ function ($scope, workItemDataService, Notification, $state, $stateParams) {
             }
         }
 
-        workItemDataService.getAllWorkItemTemplates().then(function (result) {
+        workItemTemplateService.getAllTemplates().then(function (result) {
             $scope.templates = result;
 
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
-        
+        getCompanyDetail();
     }
 
 

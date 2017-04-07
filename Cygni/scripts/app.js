@@ -16,7 +16,7 @@ angular
     'ui-notification',
     'ngMessages',
     'angularModalService',
-
+      'bootstrapLightbox',
     'LocalStorageModule',
     'isteven-multi-select',
     'pageslide-directive',
@@ -30,8 +30,8 @@ angular
     })
   .service('urls', function (domain, api) { this.apiUrl = domain + api; })
 
-  .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', 'NotificationProvider','$httpProvider',
-      function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, NotificationProvider,$httpProvider) {
+    .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$httpProvider',
+      function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $httpProvider) {
           //$httpProvider.defaults.headers.common = {};
           //$httpProvider.defaults.headers.post = {};
           //$httpProvider.defaults.headers.put = {};
@@ -45,6 +45,8 @@ angular
               debug: false,
               events: true,
           });
+
+
 
           $urlRouterProvider.otherwise('/base/home');
 
@@ -430,7 +432,33 @@ angular
               templateUrl: 'views/company/allocateProperty.html',
               controller: 'allocatePropertyController',
               url: '/companymember/allocate/:memberId',
-          })
+              })
+
+
+              //manage workitem templates
+              .state('base.companyWorkItemTemplate', {
+                  templateUrl: 'views/workItemTemplate/companyWorkItemTemplate.html',
+                  controller: 'companyWorkItemTemplateController',
+                  url: '/companyWorkItemTemplate'
+              })
+              .state('base.editCompanyWorkItemTemplate', {
+                  templateUrl: 'views/workItemTemplate/companyWorkItemTemplateDetail.html',
+                  controller: 'companyWorkItemTemplateDetailController',
+                  url: '/companyWorkItemTemplate/edit/:templateId',
+              })
+              .state('base.createCompanyWorkItemTemplate', {
+                  templateUrl: 'views/workItemTemplate/companyWorkItemTemplateDetail.html',
+                  controller: 'companyWorkItemTemplateDetailController',
+                  url: '/companyWorkItemTemplate/create/:templateId',
+              })
+              .state('base.viewCompanyWorkItemTemplate', {
+                  templateUrl: 'views/workItemTemplate/companyWorkItemTemplateDetail.html',
+                  controller: 'companyWorkItemTemplateDetailController',
+                  url: '/companyWorkItemTemplate/view/:templateId',
+              })
+
+          
+
        
 
           //message

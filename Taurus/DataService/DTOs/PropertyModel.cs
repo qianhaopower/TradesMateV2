@@ -26,6 +26,26 @@ namespace DataService.Models
 
         public AddressModel Address { get; set; }
 
+        public DefaultPropertySection DefaultSections { get; set; }
+
+
+
+    }
+
+
+    public class DefaultPropertySection
+    {
+        public short BedroomNumber { get; set; }
+        public short LivingRoomNumber { get; set; }
+        public short BathroomNumber { get; set; }
+        public short KitchenNumber { get; set; }
+        public short LaundryRoomNumber { get; set; }
+        public short HallWayNumber { get; set; }
+        public short DeckNumber { get; set; }
+        public short BasementNumber { get; set; }
+        public short GardenNumber { get; set; }
+        public short GarageNumber { get; set; }
+
     }
 
 

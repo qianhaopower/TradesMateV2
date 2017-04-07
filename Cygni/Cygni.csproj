@@ -632,6 +632,8 @@
     <Content Include="scripts\controllers\chartContoller.js" />
     <Content Include="scripts\controllers\baseController.js" />
     <Content Include="scripts\controllers\attachmentController.js" />
+    <Content Include="scripts\controllers\companyWorkItemTemplateController.js" />
+    <Content Include="scripts\controllers\companyWorkItemTemplateDetailController.js" />
     <Content Include="scripts\controllers\workRequestController.js" />
     <Content Include="scripts\controllers\messageDetailController.js" />
     <Content Include="scripts\controllers\messageController.js" />
@@ -668,6 +670,8 @@
     <Content Include="scripts\directives\messageDetail\messageDetailDirective.js" />
     <Content Include="scripts\directives\messagePanel\messagePanel.html" />
     <Content Include="scripts\directives\messagePanel\messagePanel.js" />
+    <Content Include="scripts\directives\propertyDefaultSecion\propertyDefaultSecion.html" />
+    <Content Include="scripts\directives\propertyDefaultSecion\propertyDefaultSecion.js" />
     <Content Include="scripts\directives\propertyInfo\propertyInfo.html" />
     <Content Include="scripts\directives\propertyInfo\propertyInfo.js" />
     <Content Include="scripts\directives\clientReadOnlyInfo\clientReadOnlyInfo.html" />
@@ -686,6 +690,7 @@
     <Content Include="scripts\directives\timeline\timeline.html" />
     <Content Include="scripts\directives\timeline\timeline.js" />
     <Content Include="scripts\services\authInterceptorService.js" />
+    <Content Include="scripts\services\workItemTemplateService.js" />
     <Content Include="scripts\services\storageService.js" />
     <Content Include="scripts\services\messageService.js" />
     <Content Include="scripts\services\companyService.js" />
@@ -698,6 +703,8 @@
     <Content Include="scripts\services\workItemDataService.js" />
     <Content Include="views\attachment\attachments.html" />
     <Content Include="views\authentication\associate.html" />
+    <Content Include="views\workItemTemplate\companyWorkItemTemplateDetail.html" />
+    <Content Include="views\workItemTemplate\companyWorkItemTemplate.html" />
     <Content Include="views\workRequest\workRequest.html" />
     <Content Include="views\company\companyMemberDetail.html" />
     <Content Include="views\company\companyMember.html" />

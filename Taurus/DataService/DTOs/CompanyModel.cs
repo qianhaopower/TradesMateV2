@@ -18,6 +18,7 @@ namespace DataService.Models
         [Display(Name = "Description")]
         public string Description { get; set; }
 
+
    
         [Display(Name = "Credit Card Number")]
         public string CreditCard { get; set; }

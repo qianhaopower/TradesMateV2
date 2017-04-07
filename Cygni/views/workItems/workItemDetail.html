@@ -5,7 +5,7 @@
     <div class="row">
         <div class="col-lg-6 col-sm-6">
             <a class="btn btn-default" ng-click="goToWorkItemIndex()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Go Back
+                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
             </a>
         </div>
         <div class="col-lg-6 col-sm-6 ">
@@ -24,20 +24,41 @@
 
         <div class="row">
             <div class="col-lg-12">
-                <label>
-                    <input type="radio" ng-model="userProfile.tradeType" value="Electrician">
-                    Electrician
-                </label><br />
-                <label>
-                    <input type="radio" ng-model="userProfile.tradeType" value="Handyman">
-                    Handyman
-                </label><br />
-                <label>
-                    <input type="radio" ng-model="userProfile.tradeType" value="Plumber">
-                    Plumber
-                </label><br />
+                <div ng-hide="shouldHideOption(0)">
+                    <label>
+                        <input type="radio" ng-model="userProfile.tradeType" value="0">
+                        Electrician
+                    </label><br />
+                </div>
+
+                <div ng-hide="shouldHideOption(1)">
+                    <label>
+                        <input type="radio" ng-model="userProfile.tradeType" value="1">
+                        Handyman
+                    </label><br />
+                </div>
+
+                <div ng-hide="shouldHideOption(2)">
+                    <label>
+                        <input type="radio" ng-model="userProfile.tradeType" value="2">
+                        Plumber
+                    </label><br />
+                </div>
+
+                <div ng-hide="shouldHideOption(3)">
+                    <label>
+                        <input type="radio" ng-model="userProfile.tradeType" value="3">
+                        Builder
+                    </label><br />
+                </div>
+
+                <div ng-hide="shouldHideOption(4)">
+                    <label>
+                        <input type="radio" ng-model="userProfile.tradeType" value="4">
+                        Air Conditioning
+                    </label><br />
+                </div>
             </div>
-        </div>
         <span>Please select from work item template below.</span>
         <table class="table table-hover">
             <thead>
