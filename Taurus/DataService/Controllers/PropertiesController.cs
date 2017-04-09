@@ -210,13 +210,14 @@ namespace DataService.Controllers
           
 
             var messagesForProperty = db.Messages.Where(p => p.PropertyId == key).ToList();
-            var messagesResponseForProperty = db.MessageResponses.Where(p => p.Message != null && messagesForProperty.Select(w=> w.Id).Contains(p.Message.Id)).ToList();
+            var messagesResponseForProperty = db.Messages.Where(p => p.PropertyId == key && p.MessageResponse != null).Select(p=> p.MessageResponse).ToList();
+            //var messagesResponseForProperty = db.MessageResponses.Where(p => p.Message != null && messagesForProperty.Select(w=> w.Id).Contains(p.Message.Id)).ToList();
 
             db.Messages.RemoveRange(messagesForProperty);
             db.MessageResponses.RemoveRange(messagesResponseForProperty);
 
-            var sections = db.Sections.Where(p => p.PropertyId == key).ToList();
-            var workItemForSection = db.WorkItems.Where(p => sections.Select(w => w.Id).Contains(p.SectionId)).ToList();
+            var sections = db.Sections.Where(p => p.PropertyId == key).Include(p=> p.WorkItemList).ToList();
+            var workItemForSection = sections.SelectMany(p=> p.WorkItemList).ToList();
 
             db.WorkItems.RemoveRange(workItemForSection);
             db.Sections.RemoveRange(sections);
