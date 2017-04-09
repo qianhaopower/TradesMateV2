@@ -205,7 +205,23 @@ namespace DataService.Controllers
             db.ClientProperties.RemoveRange(db.ClientProperties.Where(p=> p.PropertyId == key).ToList());
             db.PropertyCompanies.RemoveRange(db.PropertyCompanies.Where(p => p.PropertyId == key).ToList());
             db.PropertyAllocations.RemoveRange(db.PropertyAllocations.Where(p => p.PropertyId == key).ToList());
-            db.Sections.RemoveRange(db.Sections.Where(p => p.PropertyId == key).ToList());
+           
+            db.Attchments.RemoveRange(db.Attchments.Where(p => p.EntityId == key && p.EntityType == AttachmentEntityType.Property).ToList());
+          
+
+            var messagesForProperty = db.Messages.Where(p => p.PropertyId == key).ToList();
+            var messagesResponseForProperty = db.MessageResponses.Where(p => p.Message != null && messagesForProperty.Select(w=> w.Id).Contains(p.Message.Id)).ToList();
+
+            db.Messages.RemoveRange(messagesForProperty);
+            db.MessageResponses.RemoveRange(messagesResponseForProperty);
+
+            var sections = db.Sections.Where(p => p.PropertyId == key).ToList();
+            var workItemForSection = db.WorkItems.Where(p => sections.Select(w => w.Id).Contains(p.SectionId)).ToList();
+
+            db.WorkItems.RemoveRange(workItemForSection);
+            db.Sections.RemoveRange(sections);
+           
+            
             db.SaveChanges();
 
             return StatusCode(HttpStatusCode.NoContent);
