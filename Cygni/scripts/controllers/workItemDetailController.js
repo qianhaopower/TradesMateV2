@@ -18,7 +18,7 @@ function ($scope, workItemDataService, workItemTemplateService, companyService, 
 
     $scope.save = function () {
         $scope.workItem.address = undefined;
-
+        $scope.workItem.status = _.pluck($scope.outputWorkItemStatus, 'enumValue')[0];
         if ($scope.workItem.isNew) {
             var workItemCopy = angular.copy($scope.workItem);
 
@@ -27,11 +27,15 @@ function ($scope, workItemDataService, workItemTemplateService, companyService, 
             //change this workItem TemplateId from UI
             //workItemCopy.workItemTemplateId = 1;
 
+         
             workItemDataService.createWorkItem(workItemCopy).then(function (result) {
                 Notification.success({ message: 'Created', delay: 2000 });
                 $scope.goToWorkItemIndex();
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
         } else {
+
+        //set the work item status value
+          
             workItemDataService.editWorkItem($scope.workItem).then(function (result) {
                 Notification.success({ message: 'Saved', delay: 2000 });
                 $scope.goToWorkItemIndex();
@@ -78,25 +82,40 @@ function ($scope, workItemDataService, workItemTemplateService, companyService, 
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     } 
 
+    //work item status
+    $scope.workItemStatusList = workItemDataService.getDefaultWorkItemStatuses();
+    $scope.outputWorkItemStatus = undefined
+
     var init = function () {
 
+       
         if ($state.current.name != 'base.createWorkItem') {
             $scope.workItemId = $stateParams.workItemId;
         }
 
         if ($state.current.name == 'base.editWorkItem'
             || $state.current.name == 'base.viewWorkItem') {
-            workItemDataService.getWorkItemById($scope.workItemId).then(function (result) {
-                $scope.workItem = result;
-                $scope.propertyId = result.propertyId;
+            workItemDataService.getWorkItemById($scope.workItemId).then(function (workItem) {
+                $scope.workItem = workItem;
+                $scope.propertyId = workItem.propertyId;
+
+                //set up the workItem status
+                angular.forEach($scope.workItemStatusList, function (value, key) {
+                    /* do your stuff here */
+                    if (workItem.status == value.enumValue) {
+                        value.ticked = true;
+                    } else {
+                        value.ticked = false;
+                    }
+                });
+
+
 
                 if ($scope.propertyId) {
                     propertyDataService.getPropertyById($scope.propertyId).then(function (result) {
                         $scope.property = result;
-
                     }, function (error) { Notification.error({ message: error, delay: 2000 }); });
                 }
-
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
         } else if ($state.current.name == 'base.createWorkItem') {
             //create new workItem

@@ -16,6 +16,7 @@ namespace EF.Data.Mapping
             Property(t => t.Description).HasMaxLength(3000);
             Property(t => t.Quantity);
             Property(t => t.TradeWorkType).IsRequired();
+            Property(t => t.Status).IsRequired();
 
 
 

@@ -7,6 +7,8 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
 
 
 
+    $scope.outputSelectedStatus = [];
+    $scope.availableStatus = workItemDataService.getDefaultWorkItemStatuses();
 
     $scope.filterTextModel = {
         searchText: undefined,
@@ -18,8 +20,15 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
         if (!$scope.filterTextModel.searchText
             || (item.name && (item.name.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
             || (item.description && (item.description.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
-            ) {
-            return true;
+        ) {
+
+            var selectedStatus = _.pluck($scope.outputSelectedStatus, 'enumValue');
+            if (_.contains(selectedStatus, item.status)) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         return false;
     };
@@ -43,7 +52,6 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
     };
     $scope.addNewWorkItem = function () {
         $state.go('base.createWorkItem', {
-          
             propertyId: $stateParams.propertyId,
             sectionId: $stateParams.sectionId,
         });
@@ -51,7 +59,6 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
 
     $scope.goBack = function () {
         $state.go('base.propertySections', {
-          
             propertyId: $stateParams.propertyId
            
         });
@@ -94,6 +101,35 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
             workItemId: workItem.id,
             propertyIdForWorkItem: $stateParams.propertyId,
             sectionId: $stateParams.sectionId, });
+    }
+
+
+    //work item status
+    $scope.workItemStatusList = workItemDataService.getDefaultWorkItemStatuses();
+
+    $scope.getWorkItemStatusDisplay = function (enumValue) {
+
+        var displayName = undefined;
+        //set up the workItem status
+        angular.forEach($scope.workItemStatusList, function (value, key) {
+            /* do your stuff here */
+            if (enumValue == value.enumValue) {
+                displayName =  value.name;
+            } 
+        });
+        return displayName;
+    }
+
+    $scope.getWorkItemStatusClass = function (enumValue) {
+        var displayName = undefined;
+        //set up the workItem status
+        angular.forEach($scope.workItemStatusList, function (value, key) {
+            /* do your stuff here */
+            if (enumValue == value.enumValue) {
+                displayName = value.class;
+            }
+        });
+        return displayName;
     }
 
     var init = function () {

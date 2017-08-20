@@ -1,0 +1,8 @@
+1) Permission on user level -> service type
+   allow  management from Admin
+
+2) Add service type layer into secions, only display service types that is availale
+
+3) Status into workitems, (Not Started,In progress, pending, Completed, Canceled)
+
+4) Report
