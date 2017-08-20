@@ -133,11 +133,11 @@ app.factory('workItemDataService', ['$q', '$http', '$window', 'urls', function (
 
         getDefaultWorkItemStatuses: function () {
             var result = [
-                { icon: "<i class=\"fa fa-bolt\" ></i>", name: "Not Started", ticked: true, enumValue: 'NotStarted', class:'btn btn-outline btn-default' },
-                { icon: "<i class=\"fa fa-wrench\" ></i>", name: "In Progress", ticked: false, enumValue: 'InProgress', class: 'btn btn-outline btn-warning' },
-                { icon: "<i class=\"fa fa-tint\" ></i>", name: "Pending", ticked: false, enumValue: 'Pending', class: 'btn btn-outline btn-info'},
-                { icon: "<i class=\"fa fa-home\" ></i>", name: "Completed", ticked: false, enumValue: 'Completed', class: 'btn btn-outline btn-success' },
-                { icon: "<i class=\"fa fa-snowflake-o\" ></i>", name: "Canceled", ticked: false, enumValue: 'Canceled', class: 'btn btn-outline btn-danger' }
+                { icon: "<i class=\"fa fa-stop\" ></i>", name: "Not Started", ticked: true, enumValue: 'NotStarted', class:'btn btn-outline btn-default' },
+                { icon: "<i class=\"fa fa-play-circle-o\" ></i>", name: "In Progress", ticked: false, enumValue: 'InProgress', class: 'btn btn-outline btn-warning' },
+                { icon: "<i class=\"fa fa-pause\" ></i>", name: "Pending", ticked: false, enumValue: 'Pending', class: 'btn btn-outline btn-info'},
+                { icon: "<i class=\"fa fa-check-circle-o\" ></i>", name: "Completed", ticked: false, enumValue: 'Completed', class: 'btn btn-outline btn-success' },
+                { icon: "<i class=\"fa fa-ban\" ></i>", name: "Canceled", ticked: false, enumValue: 'Canceled', class: 'btn btn-outline btn-danger' }
             ];
             return result;
         }
