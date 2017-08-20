@@ -14,6 +14,7 @@ namespace EF.Data
         public string Name { get; set; }
 
         public TradeType TradeWorkType { get; set; }
+        public WorkItemStatus Status { get; set; }
 
         public int WorkItemTemplateId { get; set; }
         public virtual WorkItemTemplate TemplateRecord { get; set; }

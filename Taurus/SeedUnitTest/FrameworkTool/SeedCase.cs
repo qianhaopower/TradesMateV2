@@ -942,7 +942,7 @@ namespace EF.UnitTest
                     Section = sec,
                     TemplateRecord = item,
                     TradeWorkType = TradeType.Electrician,
-
+                    Status = WorkItemStatus.NotStarted,
                     AddedDateTime = DateTime.Now,
                     ModifiedDateTime = DateTime.Now,
                 };

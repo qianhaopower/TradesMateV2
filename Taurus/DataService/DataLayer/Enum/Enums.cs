@@ -27,7 +27,16 @@ namespace EF.Data
         Basement,
         Garden,
         Garage,
-    }                  
+    }    
+    
+    public enum WorkItemStatus
+    {
+        NotStarted,
+        InProgress,
+        Pending,
+        Completed,
+        Canceled
+    }
 
     public enum UserType
     {

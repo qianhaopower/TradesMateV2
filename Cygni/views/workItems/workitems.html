@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-xs-6 col-md-9">
+        <div class="col-xs-6 col-md-6">
 
             <button type="button" title="Add new workItem"
                     id="loading-example-btn"
@@ -38,49 +38,72 @@
             </button>
 
         </div>
-        <div class="col-xs-6  col-md-3 pull-right">
+        <div class="col-xs-6  col-md-6 pull-right">
+          
             <input type="text" placeholder="Search work items..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+        </div> 
+    </div>
+    <div class="row">
+
+        <div class="col-xs-6  col-md-6 pull-right">
+
+            <div isteven-multi-select
+                 input-model="availableStatus"
+                 output-model="outputSelectedStatus"
+                 button-label="icon name"
+                 item-label="icon name"
+                 tick-property="ticked"
+                 helper-elements=""
+                 is-disabled="false"
+                 orientation="horizontal">
+            </div>
+
         </div>
     </div>
 
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th>Quantity</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
 
 
-        <tbody>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Quantity</th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
 
-            <tr ng-repeat="workItem in workItemList | filter:search">
 
-                <td class="col-md-2 col-xs-2" ng-click="openWorkItemDetail(workItem, true)">
-                    <a>{{workItem.name}}</a>
-                </td>
-                <td class="col-md-5 col-xs-3">
-                    {{workItem.description}}
-                </td>
-                <td class="col-md-2 col-xs-1">
-                    {{workItem.quantity}}
-                </td>
-                <td class="col-md-1 col-xs-2">
-                    <button class="btn btn-default btn-sm" value="Attachments" title="Manage Attachments" type="button" ng-click="viewWorkItemAttachments(workItem)">Attachments</button>
-                </td>
-                <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-primary btn-sm" title="Edit Work Item" ng-click="openWorkItemDetail(workItem,false)">Edit</a>
-                </td>
-                <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-danger btn-sm" title="Delete Work Item" ng-click="deleteWorkItem(workItem)">Delete</a>
-                </td>
+            <tbody>
 
-            </tr>
-        </tbody>
-    </table>
+                <tr ng-repeat="workItem in workItemList | filter:search">
+
+                    <td class="col-md-2 col-xs-2" ng-click="openWorkItemDetail(workItem, true)">
+                        <a>{{workItem.name}}</a>
+                    </td>
+                    <td class="col-md-5 col-xs-3">
+                        {{workItem.description}}
+                    </td>
+                    <td class="col-md-2 col-xs-1">
+                        {{workItem.quantity}}
+                    </td>
+                    <td class="col-md-1 col-xs-1">
+                        <a class="" title="Manage Attachments" ng-click="viewWorkItemAttachments(workItem)"><i class="fa fa-paperclip"></i></a>
+                    </td>
+                    <td class="col-md-1 col-xs-1">
+                        <button ng-class="getWorkItemStatusClass(workItem.status)" title="{{workItem.status}}">{{getWorkItemStatusDisplay(workItem.status)}}</button>
+                    </td>
+                    <td class="col-md-1 col-xs-2">
+                        <a class="btn btn-primary btn-sm" title="Edit Work Item" ng-click="openWorkItemDetail(workItem,false)">Edit</a>
+                    </td>
+                    <td class="col-md-1 col-xs-2">
+                        <a class="btn btn-danger btn-sm" title="Delete Work Item" ng-click="deleteWorkItem(workItem)">Delete</a>
+                    </td>
+
+                </tr>
+            </tbody>
+        </table>
 
 </form>
 

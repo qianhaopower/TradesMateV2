@@ -119,6 +119,29 @@ app.factory('workItemDataService', ['$q', '$http', '$window', 'urls', function (
             });
             return deferred.promise;
         },
+
+
+
+    //    public enum WorkItemStatus
+    //{
+    //    NotStarted,
+    //        Inprogress,
+    //        Pending,
+    //        Completed,
+    //        Canceled
+    //}
+
+        getDefaultWorkItemStatuses: function () {
+            var result = [
+                { icon: "<i class=\"fa fa-bolt\" ></i>", name: "Not Started", ticked: true, enumValue: 'NotStarted', class:'btn btn-outline btn-default' },
+                { icon: "<i class=\"fa fa-wrench\" ></i>", name: "In Progress", ticked: false, enumValue: 'InProgress', class: 'btn btn-outline btn-warning' },
+                { icon: "<i class=\"fa fa-tint\" ></i>", name: "Pending", ticked: false, enumValue: 'Pending', class: 'btn btn-outline btn-info'},
+                { icon: "<i class=\"fa fa-home\" ></i>", name: "Completed", ticked: false, enumValue: 'Completed', class: 'btn btn-outline btn-success' },
+                { icon: "<i class=\"fa fa-snowflake-o\" ></i>", name: "Canceled", ticked: false, enumValue: 'Canceled', class: 'btn btn-outline btn-danger' }
+            ];
+            return result;
+        }
+
         //#endregion
 
         //getAllWorkItemTemplates: function () {//need to filter by type later
