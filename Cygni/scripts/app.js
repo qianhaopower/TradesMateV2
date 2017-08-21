@@ -557,6 +557,12 @@ app.run(function ($rootScope, authService, $state) {
     //});
 })
 
+app.filter('to_trusted', ['$sce', function ($sce) {
+    return function (text) {
+        return $sce.trustAsHtml(text);
+    };
+}]);
+
 
 //global scripts outside angular, like polyfill
 if (!String.prototype.format) {

@@ -1,0 +1,102 @@
+
+
+
+<!-- The actual modal template, just a bit o bootstrap -->
+<script type="text/ng-template" id="propertyReportsModal.html">
+    <div class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+
+                    <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title danger">Property report</h4>
+                    <button type="button" onclick="return xepOnline.Formatter.Format('toPrint',{pageWidth:'216mm', pageHeight:'279mm',render:'download'});">
+                        <!--This is the A4 size-->
+                        Print
+                    </button>
+                </div>
+                <div class="modal-body" id="toPrint">
+                   
+                    
+
+
+
+
+
+                    <div class="container">
+                        <div class="row" id="report-header">
+                            <div class="col report-header">                             
+                                <p>Scope	of	Work                      </p>
+                                <p>provided	by:                           </p>
+                                <div>
+                                    <img src="content/images/CompanyLogo.PNG" alt="Company Logo" >
+                                </div>
+                                <h3>Trents Electrical Contracting Pty Ltd </h3> 
+                                <p>ABN: 36 934 669 079                    </p>
+                                <p>TEC ELECTRICAL                         </p>
+                                <p>PO BOX 613, BLACK ROCK                 </p>
+                                <p>VIC, 3193                              </p>
+                                <p>www.tecelectrical.com.au               </p>
+                            </div>
+                        </div>
+                        <hr/>
+                        <div class="row" id="property-address">
+                            <div class="col report-property-address">
+                                <p>Property	Address:                    </p>
+                                <h3>202 PAGE STREET, MIDDLE PARK, 3206 </h3>
+                                <div>
+                                    <img src="content/images/PropertyPhoto.PNG" alt="Company Logo">
+                                </div>
+                            </div>
+                        </div>
+                        <hr />
+                        <div class="row" id="report-menu">
+                            <div class="col">
+                                <div class="row text-centre">
+                                    SCOPE SUMMARY PAGE
+                                </div>
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Section</th>
+                                            <th>Task</th>
+                                            <th>Content</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="item in reportItems">                         
+                                            <td class="col-md-3">
+                                                {{item.sectionName}}
+                                            </td>
+                                            <td class="col-md-3">
+                                                {{item.taskNumber}}
+                                            </td>
+                                            <td class="col-md-6" >
+                                               <div ng-bind-html="item.comment | to_trusted"></div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                        <div class="row" id="report-content">
+                            <div class="col">
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</script>

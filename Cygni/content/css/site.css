@@ -62,3 +62,37 @@ a:hover,
 a:focus {
     cursor: pointer;
 }
+
+
+.report-modal .modal-content {
+    width: 210mm;
+    /*height: 297mm;*/
+}
+
+.report-header  p {
+    text-align:center;
+}
+ .report-header div {
+    text-align: center;
+}
+
+.report-header h3 {
+    text-align: center;
+}
+
+
+.report-property-address p {
+    text-align: center;
+}
+
+.report-property-address div {
+    text-align: center;
+}
+
+.report-property-address h3 {
+    text-align: center;
+}
+
+.text-centre {
+    text-align: center;
+}

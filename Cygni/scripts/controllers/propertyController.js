@@ -43,6 +43,24 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
         $state.go('base.propertyAttachments', { propertyId: property.id });
     }
 
+
+    $scope.viewPropertyReports = function (property) {
+        var propertyRef = property;
+        ModalService.showModal({
+            templateUrl: 'propertyReportsModal.html',
+            controller: "propertyReportsModalController",
+            bodyClass: 'report-modal',
+        }).then(function (modal) {
+            modal.element.modal();
+            modal.close.then(function (result) {
+                if (result) {
+                   //just close, nothing todo
+                }
+            });
+        });
+    }
+
+
     $scope.goBack = function () {
         $state.go('base.clients');
     }
@@ -51,7 +69,8 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
         var propertyRef = property;
         ModalService.showModal({
             templateUrl: 'deletePropertymodal.html',
-            controller: "deletePropertyModalController"
+            controller: "deletePropertyModalController",
+            
         }).then(function (modal) {
             modal.element.modal();
             modal.close.then(function (result) {
@@ -104,4 +123,73 @@ angular.module('sbAdminApp').controller('deletePropertyModalController', functio
     $scope.close = function (result) {
         close(result, 500); // close, but give 500ms for bootstrap to animate
     };
+});
+
+angular.module('sbAdminApp').controller('propertyReportsModalController', function ($scope, close) {
+
+
+    $scope.reportItems = [
+        {
+            sectionName: 'Master Bedroom', taskNumber: 1, comment: "Note 1- Wall lights are being removed <br/> Note 2- Pendant light is being moved 600mm towards the front<br/> Note 3- Addition switch for a 2 way.Above GPO @1000mm AFFL <br/>(blinds will switch from this point also) <br/>All other lighting is to be wired to the architectural spec's"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+        {
+            sectionName: 'FRONT PORCH', taskNumber: 2, comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
+        },
+
+    ];
+    $scope.close = function (result) {
+        close(result, 500); // close, but give 500ms for bootstrap to animate
+    };
+
+
+
+
 });
