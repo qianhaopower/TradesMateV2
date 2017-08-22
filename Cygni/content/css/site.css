@@ -96,3 +96,13 @@ a:focus {
 .text-centre {
     text-align: center;
 }
+
+.content-head{
+    background-color:black;
+    color:ghostwhite;
+}
+
+.report-picture {
+    padding-bottom: 2px;
+    padding-right:2px;
+}

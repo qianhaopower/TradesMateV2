@@ -12,10 +12,10 @@
                     <h4 class="modal-title danger">Property report</h4>
                     <button type="button" onclick="return xepOnline.Formatter.Format('toPrint',{pageWidth:'216mm', pageHeight:'279mm',render:'download'});">
                         <!--This is the A4 size-->
-                        Print
+                        Save as PDF
                     </button>
                 </div>
-                <div class="modal-body" id="toPrint">
+                <div class="modal-body" >
                    
                     
 
@@ -23,7 +23,7 @@
 
 
 
-                    <div class="container">
+                    <div class="container" id="toPrint">
                         <div class="row" id="report-header">
                             <div class="col report-header">                             
                                 <p>Scope	of	Work                      </p>
@@ -64,7 +64,7 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="item in reportItems">                         
+                                        <tr ng-repeat="item in reportItemsFlatten">                         
                                             <td class="col-md-3">
                                                 {{item.sectionName}}
                                             </td>
@@ -80,10 +80,68 @@
 
                             </div>
                         </div>
-
+                        <hr/>
                         <div class="row" id="report-content">
                             <div class="col">
-
+                                <div class="row" ng-repeat="group in reportItems">
+                                    <div class="col">
+                                        <div class="row content-head">
+                                            <div class="col">
+                                                <h3>{{group.sectionName}}</h3>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col">
+                                                <div class="container">
+                                                    <div class="row" ng-repeat="item in group.items">
+                                                        <div class="col">
+                                                            <div class="row">
+                                                                <div class="col-md-4">
+                                                                    {{item.taskNumber}}){{item.name}}
+                                                                </div>
+                                                                <div class="col-md-8">
+                                                                    {{item.comment}}
+                                                                </div>
+                                                            </div>
+                                                            <div class="row">
+                                                                <!--<div class="col-md-6 col-sm-6">
+                                                                    <div class="row"><img src="http://via.placeholder.com/10x10"></div>
+                                                                    <div class="row"><img src="http://via.placeholder.com/10x10"></div>
+                                                                </div>
+                                                                <div class="col-md-6 col-sm-6">
+                                                                    <div class="row"><img src="http://via.placeholder.com/10x10"></div>
+                                                                    <div class="row"><img src="http://via.placeholder.com/10x10"></div>
+                                                                </div>-->
+                                                                <table class="table table-hover">
+                                                                   
+                                                                    <tbody>
+                                                                        <tr>
+                                                                            <td class="col-md-6">
+                                                                                <img src="http://mr-travl.com/img/1385/gallery/4M1W5981.jpg" height="200" width="300" >
+                                                                            </td>
+                                                                            <td class="col-md-6">
+                                                                                <img src="http://mr-travl.com/img/1385/gallery/300-200-babyhumpback2.jpg"  height="200" width="300" >
+                                                                            </td>
+                                                                        </tr>
+                                                                        <tr>
+                                                                            <td class="col-md-6">
+                                                                                <img src="http://mr-travl.com/img/1385/gallery/300-200-lots-of-time-on-whitehaven-beach-powerplay.jpg"  height="200" width="300" >
+                                                                            </td>
+                                                                            <td class="col-md-6">
+                                                                                <img src="http://mr-travl.com/img/1385/gallery/300-200-findingdory900.jpg"  height="200" width="300" >
+                                                                            </td>
+                                                                        </tr>
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </div>
+                                                        <br/>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                 </div>
                             </div>
                         </div>
                     </div>
