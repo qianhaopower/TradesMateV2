@@ -282,6 +282,22 @@ namespace DataService.Controllers
             return Ok();
 
         }
+
+
+        [HttpGet]
+        public IHttpActionResult GetPropertyReportItems(int propertyId)
+        {
+            var repo = new PropertyRepository();
+
+            var hasPermission = repo.GetPropertyForUser(User.Identity.Name).Any(p=> p.Id == propertyId);
+
+            if (!hasPermission)
+                return  Unauthorized();
+
+            var result = repo.GetPropertyReportData(propertyId, User.Identity.Name);
+            return    Ok(result);
+
+        }
     }
 
 }

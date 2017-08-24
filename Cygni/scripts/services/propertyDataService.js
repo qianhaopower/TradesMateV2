@@ -143,6 +143,16 @@ app.factory('propertyDataService', ['$q', '$http', '$window', 'urls', 'ngAuthSet
             });
             return deferred.promise;
         },
+        getPropertyReportItems: function (propertyId) {
+          
+            var deferred = $q.defer();
+            $http.get(serviceBase + 'api/propertiesWebApi/GetPropertyReportItems?propertyid='+ propertyId).then(function (response) {
+                deferred.resolve(response.data);
+            }, function (err, status) {
+                deferred.reject(err);
+            });
+            return deferred.promise;
+        },
 
         deleteProperty: function (propertyId) {
             var deferred = $q.defer();

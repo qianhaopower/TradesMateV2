@@ -219,6 +219,36 @@ namespace EF.Data
 
         }
 
+        internal IEnumerable<PropertyReportGroupItem> GetPropertyReportData(int propertyId, string userName)
+        {
+            var hasPermission = GetPropertyForUser(userName).Any(p => p.Id == propertyId);
+            if (!hasPermission)
+                throw new Exception("No permission to view property with id " + propertyId);
+            var result = new List<PropertyReportGroupItem>();
+            var rawData = _ctx.Properties.Include(p => p.SectionList.Select(z => z.WorkItemList)).Single(p => p.Id == propertyId);
+
+            rawData.SectionList.ToList().ForEach(p => result.Add(new PropertyReportGroupItem()
+            {
+                SectionName = p.Name,
+                workItems = p.WorkItemList.Select(x => new WorkItemModel()
+                {
+                    Description = x.Description,
+                    Name = x.Name,
+                    Quantity = x.Quantity,
+                    Status = x.Status,
+                    TaskNumber = 0,
+                    TradeWorkType = x.TradeWorkType,
+
+                }).ToList(),
+            }));
+            int i = 1;
+            result.ForEach(p => p.workItems.ForEach(x => x.TaskNumber = i++));
+
+            return result;
+        }
+
+
+
         internal IQueryable<Company> GetAllCompanies()
         {
             return _ctx.Companies.Include(p => p.CompanyServices).AsQueryable();
