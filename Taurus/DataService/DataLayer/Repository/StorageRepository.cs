@@ -131,10 +131,32 @@ namespace EF.Data
 			return allBlobs;
 		}
 
-		
-		public bool IsImageExtension(string fileName)
+        public List<Attachment> GetPropertyWorkItemsAttachments(int propertyId, string userName)
         {
-            return _validExtensions.Any(p=> fileName.Contains(p));
+            if (!CheckUserPermissionForEntity(propertyId, AttachmentEntityType.Property, userName))
+                throw new Exception(string.Format("User {0} has no permission to download attachment on {1} with id {2}", userName, AttachmentEntityType.Property, propertyId));
+
+            var workItemIdsForProperty = new PropertyRepository(_ctx).GetAllPropertyWorkItems(propertyId).Select(p => p.Id).ToList();
+
+            if (workItemIdsForProperty.Any())
+            {
+                var allBlobs = _ctx.Attchments.Where(p =>  //add the type and entityId here just to make sure right attachment has been fetched.
+          p.EntityType == AttachmentEntityType.WorkItem
+          && workItemIdsForProperty.Contains(p.EntityId)
+          ).ToList();
+                return allBlobs;
+            }
+            return new List<Attachment>();
+
+
+        }
+
+
+
+
+        public bool IsImageExtension(string fileName)
+        {
+            return _validExtensions.Any(p=> fileName.ToLower().Contains(p));
         }
 
         /// <summary>

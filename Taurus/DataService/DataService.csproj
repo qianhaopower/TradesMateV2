@@ -348,6 +348,7 @@
     <Compile Include="DataLayer\Repository\PropertyRepository.cs" />
     <Compile Include="DTOs\AttachmentModel.cs" />
     <Compile Include="DTOs\AddressModel.cs" />
+    <Compile Include="DTOs\WorkItemModel.cs" />
     <Compile Include="DTOs\WorkItemTemplateModel.cs" />
     <Compile Include="DTOs\PropertyModel.cs" />
     <Compile Include="Helper.cs" />

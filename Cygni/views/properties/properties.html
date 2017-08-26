@@ -50,16 +50,20 @@
                     <br />
                     <small>{{property.condition}}</small>
                 </td>
-                <td class="col-md-6 col-xs-4">
+                <td class="col-md-4 col-xs-4">
                    {{property.address}}
 
+                </td>
+                <td class="col-md-1 col-xs-1">
+                    <a class="" title="Manage Attachments" ng-click="viewPropertyAttachments(property)"><i class="fa fa-paperclip"></i></a>
+                </td>
+                <td class="col-md-1 col-xs-1">
+                    <button class="btn btn-default btn-sm" value="Reports" title="View Reports" type="button" ng-click="viewPropertyReports(property)">Reports</button>
                 </td>
                 <td class="col-md-1 col-xs-2">
                     <button class="btn btn-default btn-sm" value="View Sections" title="Manage Sections" type="button" ng-click="viewPropertySections(property)">Sections</button>
                 </td>
-                <td class="col-md-1 col-xs-2">
-                    <button class="btn btn-default btn-sm" value="Attachments" title="Manage Attachments" type="button" ng-click="viewPropertyAttachments(property)">Attachments</button>
-                </td>
+              
                 <td class="col-md-1 col-xs-2">
                     <button class="btn btn-primary btn-sm" type="button" value="Edit" title="Edit Property" ng-click="openPropertyDetail(property,false)">Edit </button>
                 </td>
@@ -95,3 +99,5 @@
         </div>
     </div>
 </script>
+
+<div ng-include src="'views/properties/propertyReport.html'"></div>

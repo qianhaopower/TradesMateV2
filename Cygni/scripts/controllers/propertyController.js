@@ -43,6 +43,27 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
         $state.go('base.propertyAttachments', { propertyId: property.id });
     }
 
+
+    $scope.viewPropertyReports = function (property) {
+        var propertyRef = property;
+        ModalService.showModal({
+            templateUrl: 'propertyReportsModal.html',
+            controller: "propertyReportsModalController",
+            bodyClass: 'report-modal',
+            inputs: {
+                propertyId: propertyRef.id,
+            }
+        }).then(function (modal) {
+            modal.element.modal();
+            modal.close.then(function (result) {
+                if (result) {
+                   //just close, nothing todo
+                }
+            });
+        });
+    }
+
+
     $scope.goBack = function () {
         $state.go('base.clients');
     }
@@ -51,7 +72,8 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
         var propertyRef = property;
         ModalService.showModal({
             templateUrl: 'deletePropertymodal.html',
-            controller: "deletePropertyModalController"
+            controller: "deletePropertyModalController",
+            
         }).then(function (modal) {
             modal.element.modal();
             modal.close.then(function (result) {
@@ -104,4 +126,64 @@ angular.module('sbAdminApp').controller('deletePropertyModalController', functio
     $scope.close = function (result) {
         close(result, 500); // close, but give 500ms for bootstrap to animate
     };
+});
+
+angular.module('sbAdminApp').controller('propertyReportsModalController', function ($scope, propertyDataService, Notification, propertyId, close) {
+
+
+        $scope.propertyId = propertyId;
+
+        $scope.close = function (result) {
+            close(result, 500); // close, but give 500ms for bootstrap to animate
+        };
+
+        $scope.hasImage = function (workItem, sequence) {
+            if (!workItem.imageUrls)
+                return false;
+
+            if (!sequence)
+                return workItem.imageUrls[0];//has first one.
+
+            if (sequence == 1) 
+                return workItem.imageUrls[0];//has first one.
+            if (sequence == 2)
+                return workItem.imageUrls[1];//has second one.
+            if (sequence == 3)
+                return workItem.imageUrls[2];//has third one.
+            if (sequence == 4)
+                return workItem.imageUrls[3];//has fourth one.
+
+        }
+
+        var init = function () {
+            if ($scope.propertyId) {
+                //get client 
+
+                propertyDataService.getPropertyReportItems($scope.propertyId).then(function (result) {
+
+                    if (!result) return;
+                    $scope.reportItems = result;
+
+                    $scope.reportItemsFlatten = [];
+
+                    _.each($scope.reportItems, function (group) {
+                        _.each(group.workItems, function (aItem) {
+                            aItem.sectionName = group.sectionName;
+                            $scope.reportItemsFlatten.push(aItem);
+                        });
+                    });
+                }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+
+               
+
+            } 
+
+        }
+
+
+        init();
+
+       
+
+
 });

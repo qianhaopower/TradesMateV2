@@ -9,6 +9,9 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
 
     $scope.outputSelectedStatus = [];
     $scope.availableStatus = workItemDataService.getDefaultWorkItemStatuses();
+    _.each($scope.availableStatus, function (status) {
+        status.ticked = true;
+    });
 
     $scope.filterTextModel = {
         searchText: undefined,

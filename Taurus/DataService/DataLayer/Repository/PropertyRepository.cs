@@ -219,9 +219,64 @@ namespace EF.Data
 
         }
 
+        internal IEnumerable<PropertyReportGroupItem> GetPropertyReportData(int propertyId, string userName)
+        {
+            var hasPermission = GetPropertyForUser(userName).Any(p => p.Id == propertyId);
+            if (!hasPermission)
+                throw new Exception("No permission to view property with id " + propertyId);
+            var result = new List<PropertyReportGroupItem>();
+            var rawData = _ctx.Properties.Include(p => p.SectionList.Select(z => z.WorkItemList)).Single(p => p.Id == propertyId);
+
+            rawData.SectionList.ToList().ForEach(p => result.Add(new PropertyReportGroupItem()
+            {
+                SectionName = p.Name,
+                workItems = p.WorkItemList.Select(x => new WorkItemModel()
+                {
+                    Description = x.Description,
+                    Name = x.Name,
+                    Quantity = x.Quantity,
+                    Status = x.Status,
+                    TaskNumber = 0,
+                    TradeWorkType = x.TradeWorkType,
+                    workItemId = x.Id,
+
+                }).ToList(),
+            }));
+
+            //result.ForEach(p => p.workItems.ForEach(x => x.TaskNumber = i++));
+
+            //get attachments URL
+            //set up task number
+            int i = 1;
+            var repo = new StorageRepository(_ctx);
+            var images = repo.GetPropertyWorkItemsAttachments(propertyId, userName).Where(p=> p.Type == AttachmentType.Image);
+            result.ForEach(p => p.workItems.ForEach(x => {
+                x.TaskNumber = i++;
+                if(images.Any(w=> w.EntityId == x.workItemId))
+                {
+                    x.imageUrls = images.Where(w => w.EntityId == x.workItemId).Select(w => w.Url).ToList();
+                }
+            }));
+
+
+
+            return result;
+        }
+
+
+
         internal IQueryable<Company> GetAllCompanies()
         {
             return _ctx.Companies.Include(p => p.CompanyServices).AsQueryable();
+        }
+
+        internal IQueryable<WorkItem> GetAllPropertyWorkItems(int propertyId)
+        {
+            var workItems = _ctx.Properties
+                .Where(p => p.Id == propertyId)
+                .SelectMany(p => p.SectionList)
+                .SelectMany(p=> p.WorkItemList);
+            return workItems;
         }
 
         public AllocationModel UpdateMemberAllocation(string userName, int propertyId, int memberId, bool allocate)
