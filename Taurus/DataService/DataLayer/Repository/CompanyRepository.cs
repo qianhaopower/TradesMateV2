@@ -53,10 +53,12 @@ namespace EF.Data
             new MessageRepository(_ctx).GenerateAddMemberToCompany(model.MemberId, companyId, model.Text, CompanyRole.Contractor);//for now by default contractor.
         }
 
-        public IQueryable<MemberModel> GetMemberByUserName(string userName, int? memberId = null)
+        public IEnumerable<MemberModel> GetMemberByUserName(string userName, int? memberId = null)
         {
             var companyId = GetCompanyFoAdminUser(userName).Id;
-            var result = GetMemberByCompanyIdQuery(companyId, memberId);
+            var result = GetMemberByCompanyIdQuery(companyId, memberId).ToList();
+
+            var allCompanyServices = _ctx.Companies.First(p => p.Id == companyId).CompanyServices.Select(p => p.Type).ToList();
             return result.Select(p => new MemberModel
             {
                 FirstName = p.Member.FirstName,
@@ -65,7 +67,7 @@ namespace EF.Data
                 MemberRole = p.CompanyMember.Role.ToString(),
                 MemberId = p.Member.Id,
                 Username = p.User.UserName,
-
+                AllowedTradeTypes = p.CompanyMember.Role == CompanyRole.Admin ? allCompanyServices : p.CompanyMember.AllowedTradeTypes,//admin always have all service for the company
             });
 
         }

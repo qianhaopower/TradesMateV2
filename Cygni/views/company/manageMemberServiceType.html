@@ -22,12 +22,12 @@
         <thead>
             <tr>
                 <th>Service</th>
-                <th>Description</th>
+                <th></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="serviceType in serviceTypes | filter:search">
+            <tr ng-repeat="serviceType in serviceTypes | filter:search" ng-if="serviceType.visible">
 
                 <td class="col-md-3 col-xs-2">
                     {{serviceType.name}}
@@ -37,11 +37,9 @@
                     <!--{{serviceType.name}}-->
 
                 </td>
-                <td class="col-md-1 col-xs-2">
-                    <input type="checkbox" ng-model="serviceType.ticked" ng-change="updateServiceType(serviceType)" />
+                <td class="col-md-1 col-xs-2" >
+                    <input type="checkbox" ng-model="serviceType.ticked" ng-change="updateServiceType(serviceType)" ng-disabled="member.memberRole == 'Admin'"/>
                 </td>
-
-
             </tr>
         </tbody>
     </table>

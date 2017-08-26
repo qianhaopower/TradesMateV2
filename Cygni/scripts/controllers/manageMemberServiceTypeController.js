@@ -10,6 +10,7 @@ function ($scope, companyService, authService, Notification, $state, $stateParam
     };
     $scope.memberId = undefined;
     $scope.member = undefined;
+    $scope.companyDetail = undefined;
   
     $scope.serviceTypes = companyService.getDefaultServices();
    
@@ -28,26 +29,49 @@ function ($scope, companyService, authService, Notification, $state, $stateParam
             //});
         }
     }
-    
-
-    var init = function () {
-        $scope.memberId = $stateParams.memberId;
-        if ($scope.memberId ) {
-            companyService.getMemberById($scope.memberId).then(function (result) {
-                $scope.member = result;
-            }, function (error) {
-                Notification.error({ message: error, delay: 2000 });
+    var getCompanyDetail = function () {
+        companyService.getCurrentCompany().then(function (company) {
+            $scope.companyDetail = company;
+            angular.forEach($scope.serviceTypes, function (value, key) {
+               
+                if (company.tradeTypes.indexOf(value.enumValue) > -1) {
+                    value.visible = true;
+                } else {
+                    value.visible = false;
+                }
             });
 
-            //  var clientCopy= angular.copy($scope.client);
-            //propertyDataService.getMemberAllocation($scope.memberId).then(function (result) {
-            //    $scope.allocations = result;
-            //}, function (error) {
-            //    Notification.error({ message: error.message, delay: 2000 });
-            //});
-        } 
+            $scope.memberId = $stateParams.memberId;
+            if ($scope.memberId) {
+                companyService.getMemberById($scope.memberId).then(function (result) {
+                    $scope.member = result;
+
+                    angular.forEach($scope.serviceTypes, function (value, key) {
+
+                        if ($scope.member.allowedTradeTypes.indexOf(value.enumValue) > -1) {//AllowedTradeTypes
+                            value.ticked = true;
+                        } else {
+                            value.ticked = false;
+                        }
+                    });
+
+
+
+                }, function (error) {
+                    Notification.error({ message: error, delay: 2000 });
+                });
+            } 
+
+
+
+        }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
 
+    var init = function ()
+    {
+        getCompanyDetail();
+       
+    }
 
     init();
 
