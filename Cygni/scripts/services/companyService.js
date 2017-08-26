@@ -154,7 +154,6 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     { icon: "<i class=\"fa fa-snowflake-o\" ></i>", name: "Air Conditioning", ticked: false, enumValue: 4 }
         ];
         return result;
-
     }
  
 
