@@ -137,6 +137,24 @@ angular.module('sbAdminApp').controller('propertyReportsModalController', functi
             close(result, 500); // close, but give 500ms for bootstrap to animate
         };
 
+        $scope.hasImage = function (workItem, sequence) {
+            if (!workItem.imageUrls)
+                return false;
+
+            if (!sequence)
+                return workItem.imageUrls[0];//has first one.
+
+            if (sequence == 1) 
+                return workItem.imageUrls[0];//has first one.
+            if (sequence == 2)
+                return workItem.imageUrls[1];//has second one.
+            if (sequence == 3)
+                return workItem.imageUrls[2];//has third one.
+            if (sequence == 4)
+                return workItem.imageUrls[3];//has fourth one.
+
+        }
+
         var init = function () {
             if ($scope.propertyId) {
                 //get client 
@@ -165,49 +183,7 @@ angular.module('sbAdminApp').controller('propertyReportsModalController', functi
 
         init();
 
-        var bedroomSection = {
-            sectionName: 'Master Bedroom',
-            items: [
-                {
-                    taskNumber: 1, name: 'Light', comment: "Note 1- Wall lights are being removed <br/> Note 2- Pendant light is being moved 600mm towards the front<br/> Note 3- Addition switch for a 2 way.Above GPO @1000mm AFFL <br/>(blinds will switch from this point also) <br/>All other lighting is to be wired to the architectural spec's"
-                },
-                {
-                    taskNumber: 2, name: 'Light', comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
-                },
-                {
-                    taskNumber: 3, name: 'Light', comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
-                },
-                {
-                    taskNumber: 4, name: 'Light', comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
-                },
-                {
-                    taskNumber: 5, name: 'Light', comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
-                }
-            ]
-        };
-
-
-        var porchSection = {
-            sectionName: 'Front Porch',
-            items: [
-                {
-                    taskNumber: 1, name: 'Power', comment: "Note 1- Wall lights are being removed <br/> Note 2- Pendant light is being moved 600mm towards the front<br/> Note 3- Addition switch for a 2 way.Above GPO @1000mm AFFL <br/>(blinds will switch from this point also) <br/>All other lighting is to be wired to the architectural spec's"
-                },
-                {
-                    taskNumber: 2, name: 'Power', comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
-                },
-                {
-                    taskNumber: 3, name: 'Power', comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
-                },
-                {
-                    taskNumber: 4, name: 'Power', comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
-                },
-                {
-                    taskNumber: 5, name: 'Power', comment: "An individual 240v feed, for the porch lights and gate light, is to be run back to the comms (for potential Omni Bus)"
-                }
-            ]
-        };
-
+       
 
 
 });

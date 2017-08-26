@@ -14,10 +14,14 @@ namespace DataService.Models
 
         public string Name { get; set; }
 
+        public int workItemId { get; set; }
+
         public TradeType TradeWorkType { get; set; }
         public WorkItemStatus Status { get; set; }
 
         public int TaskNumber { get; set; }
+
+        public List<string> imageUrls { get; set; }
 
     }
 

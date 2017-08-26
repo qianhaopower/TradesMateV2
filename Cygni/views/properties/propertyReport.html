@@ -29,7 +29,7 @@
                                 <p>Scope	of	Work                      </p>
                                 <p>provided	by:                           </p>
                                 <div>
-                                    <img src="content/images/CompanyLogo.PNG" alt="Company Logo" >
+                                    <img src="https://tradesmate.blob.core.windows.net/image/CompanyLogo.PNG" alt="Company Logo" >
                                 </div>
                                 <h3>Trents Electrical Contracting Pty Ltd </h3> 
                                 <p>ABN: 36 934 669 079                    </p>
@@ -45,7 +45,7 @@
                                 <p>Property	Address:                    </p>
                                 <h3>202 PAGE STREET, MIDDLE PARK, 3206 </h3>
                                 <div>
-                                    <img src="content/images/PropertyPhoto.PNG" alt="Company Logo">
+                                    <img src="https://tradesmate.blob.core.windows.net/image/PropertyPhoto.PNG" alt="Company Logo">
                                 </div>
                             </div>
                         </div>
@@ -112,23 +112,23 @@
                                                                     <div class="row"><img src="http://via.placeholder.com/10x10"></div>
                                                                     <div class="row"><img src="http://via.placeholder.com/10x10"></div>
                                                                 </div>-->
-                                                                <table class="table table-hover">
+                                                                <table class="table table-hover" ng-if="hasImage(item)">
                                                                    
                                                                     <tbody>
                                                                         <tr>
-                                                                            <td class="col-md-6">
-                                                                                <img src="http://mr-travl.com/img/1385/gallery/4M1W5981.jpg" height="200" width="300" >
+                                                                            <td class="col-md-6" ng-if="hasImage(item,1)">
+                                                                                <img ng-src="{{item.imageUrls[0]}}" height="200" width="300" >
                                                                             </td>
-                                                                            <td class="col-md-6">
-                                                                                <img src="http://mr-travl.com/img/1385/gallery/300-200-babyhumpback2.jpg"  height="200" width="300" >
+                                                                            <td class="col-md-6" ng-if="hasImage(item,2)">
+                                                                                <img ng-src="{{item.imageUrls[1]}}"  height="200" width="300" >
                                                                             </td>
                                                                         </tr>
-                                                                        <tr>
-                                                                            <td class="col-md-6">
-                                                                                <img src="http://mr-travl.com/img/1385/gallery/300-200-lots-of-time-on-whitehaven-beach-powerplay.jpg"  height="200" width="300" >
+                                                                        <tr ng-if="hasImage(item,3)">
+                                                                            <td class="col-md-6" ng-if="hasImage(item,3)">
+                                                                                <img ng-src="{{item.imageUrls[2]}}"  height="200" width="300" >
                                                                             </td>
-                                                                            <td class="col-md-6">
-                                                                                <img src="http://mr-travl.com/img/1385/gallery/300-200-findingdory900.jpg"  height="200" width="300" >
+                                                                            <td class="col-md-6" ng-if="hasImage(item,4)">
+                                                                                <img ng-src="{{item.imageUrls[3]}}"  height="200" width="300" >
                                                                             </td>
                                                                         </tr>
                                                                     </tbody>
