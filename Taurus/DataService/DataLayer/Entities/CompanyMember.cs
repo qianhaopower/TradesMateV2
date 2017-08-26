@@ -37,7 +37,7 @@ namespace EF.Data
                     return new List<TradeType>();
                 }
 
-                return AllowedTradeTypesInternal.Split(',').ToList().Select(p => (TradeType)Convert.ToInt16(p)).ToList();
+                return AllowedTradeTypesInternal.Split(',').ToList().Select(p => (TradeType)Enum.Parse(typeof(TradeType), p)).ToList();
             }
             set
             {

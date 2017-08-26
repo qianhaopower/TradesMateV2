@@ -507,6 +507,20 @@ namespace EF.Data
                                      }).Distinct().Take(10);// search result get maximum 10.             
             return result;
         }
+
+
+        public void UpdateMemberServiceTypes(string userName, int memberId, List<TradeType> types)
+        {
+            var companyId = GetCompanyFoAdminUser(userName).Id;
+            var record = _ctx.CompanyMembers.Single(p => p.CompanyId == companyId && p.MemberId == memberId);
+            if(record.Role == CompanyRole.Admin)
+            {
+                throw new Exception("Permission for Admin cannot be modified");
+            }
+            record.AllowedTradeTypes = types;
+            _ctx.Entry(record).State = EntityState.Modified;
+            _ctx.SaveChanges();
+        }
         public void Dispose()
         {
             _ctx.Dispose();

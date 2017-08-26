@@ -157,6 +157,16 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     }
  
 
+    var _updateMemberServiceTypes = function (memberId, selectedService) {
+        var deferred = $q.defer();
+        $http.post(serviceBase + 'api/companies/UpdateMemberServiceTypes' ,{ memberId: memberId, selectedTypes: selectedService}).then(function (response) {
+            deferred.resolve(response.data);
+        }, function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+
   
     companyServiceFactory.updateCompany = _updateCompany;
     companyServiceFactory.getCurrentCompany = _getCurrentCompany;
@@ -172,6 +182,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     companyServiceFactory.getDefaultServices = _getDefaultServices;
     companyServiceFactory.getCompanies = _getCompanies;
+    companyServiceFactory.updateMemberServiceTypes = _updateMemberServiceTypes;
     
 
     

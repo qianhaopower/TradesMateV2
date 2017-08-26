@@ -251,7 +251,16 @@ namespace DataService.Controllers
             return (Ok());
 
         }
-        
+
+        [HttpPost]
+        public IHttpActionResult UpdateMemberServiceTypes(UpdateMemberServiceTypeModel model)
+        {
+            new CompanyRepository().UpdateMemberServiceTypes(User.Identity.Name, model.MemberId,model.SelectedTypes);
+            return (Ok());
+            
+
+        }
+
         [HttpDelete]
         public async Task<IHttpActionResult> RemoveMember(int memberId )
         {

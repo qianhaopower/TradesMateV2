@@ -2,8 +2,8 @@
 
 angular.module('sbAdminApp')
   .controller('manageMemberServiceTypeController', ['$scope', 'companyService', 'authService',
-      'Notification', '$state', '$stateParams', 'propertyDataService',
-function ($scope, companyService, authService, Notification, $state, $stateParams, propertyDataService) {
+      'Notification', '$state', '$stateParams',
+function ($scope, companyService, authService, Notification, $state, $stateParams) {
 
     $scope.filterTextModel = {
         searchText: undefined,
@@ -18,15 +18,18 @@ function ($scope, companyService, authService, Notification, $state, $stateParam
     $scope.goBack = function () {
         $state.go('base.companyMember');
     }
-    $scope.updateServiceType = function (info) {
+    $scope.updateServiceType = function (serviceType) {
         if ($scope.memberId) {
-            ////  var clientCopy= angular.copy($scope.client);
-            //propertyDataService.updateMemberAllocation(info.propertyId, $scope.memberId, info.allocated).then(function (result) {
-            //    Notification.success({ message: "Updated", delay: 2000 });
-            //    init();
-            //}, function (error) {
-            //    Notification.error({ message: error.message, delay: 2000 });
-            //});
+
+
+            var selectedServiceTypes = _.filter($scope.serviceTypes, function (item) { return item.ticked; });
+            selectedServiceTypes = _.pluck(selectedServiceTypes, 'enumValue');
+            companyService.updateMemberServiceTypes($scope.memberId, selectedServiceTypes).then(function (result) {
+                Notification.success({ message: "Updated", delay: 2000 });
+                init();
+            }, function (error) {
+                Notification.error({ message: error.message, delay: 2000 });
+            });
         }
     }
     var getCompanyDetail = function () {
