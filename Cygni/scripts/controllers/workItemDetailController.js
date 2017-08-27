@@ -54,7 +54,35 @@ function ($scope, workItemDataService, workItemTemplateService, companyService, 
         $scope.workItem.description = templateItem.description;
         $scope.workItem.workItemTemplateId = templateItem.id;
         $scope.workItem.quantity = 1;
+        $scope.workItem.tradeWorkType = getDefaultWorkItemStatuses( templateItem.tradeWorkType);
     };
+
+    var getDefaultWorkItemStatuses = function (tradeWorkTypeNumber) {
+
+        var type = undefined;
+        switch (tradeWorkTypeNumber) {
+            case 0:
+                type = "Electrician";
+                break;
+            case 1:
+                type = "Handyman";
+                break;
+            case 2:
+                type = "Plumber";
+                break;
+            case 3:
+                type = "Builder";
+                break;
+            case 4:
+                type = "AirConditioning";
+                break;
+        }
+       
+        return type;
+    }
+
+
+
 
     $scope.shouldHideOption = function (value) {
         if ($scope.companyInfo && $scope.companyInfo.tradeTypes.indexOf(value) == -1) {

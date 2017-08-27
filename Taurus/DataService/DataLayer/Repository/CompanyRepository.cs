@@ -438,8 +438,6 @@ namespace EF.Data
 
         private IQueryable<MemberInfo> GetMemberByCompanyIdQuery(int companyId, int? memberId = null)
         {
-
-
             var members = from com in _ctx.Companies
                           join cm in _ctx.CompanyMembers on com.Id equals cm.CompanyId
                           join mem in _ctx.Members on cm.MemberId equals mem.Id
@@ -461,8 +459,6 @@ namespace EF.Data
 
         public ApplicationUser GetCompanyAdminMember(int companyId)
         {
-
-
             var user = from com in _ctx.Companies
                           join cm in _ctx.CompanyMembers on com.Id equals cm.CompanyId
                           join mem in _ctx.Members on cm.MemberId equals mem.Id
@@ -478,21 +474,6 @@ namespace EF.Data
         {
             var search = searchText.ToLower();
             var companyId = GetCompanyFoAdminUser(userName).Id;
-            //var result = 
-            //              (from cm in _ctx.CompanyMembers 
-            //              join mem in _ctx.Members on cm.MemberId equals mem.Id
-            //              where cm.CompanyId != companyId //not in the company
-            //              && cm.Role != CompanyRole.Admin //cannot be Admin in any other company
-            //              &&(mem.FirstName.ToLower().Contains(search)
-            //              || mem.LastName.ToLower().Contains(search)
-            //              || mem.Email.ToLower().Contains(search))//search
-            //              select new MemberSearchModel
-            //              {
-            //                  FullName = mem.FirstName + " "+ mem.LastName ,
-            //                   Email = mem.Email,
-            //                    MemberId = mem.Id,
-            //              }).Distinct().Take(10);// search result get maximum 10. 
-
             var result = ( from mem in _ctx.Members 
                           where !mem.CompanyMembers.Any(p => p.CompanyId == companyId) //not in the company
                            && !mem.CompanyMembers.Any(p => p.Role == CompanyRole.Admin)  //cannot be Admin in any other company

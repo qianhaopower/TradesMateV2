@@ -132,11 +132,13 @@ namespace DataService
 			CreateMap<Attachment, AttachmentModel>()
 				.ForMember(dest => dest.CreatedDateTime, opts => opts.MapFrom(src => src.AddedDateTime));
 
-			CreateMap<WorkItemTemplate, WorkItemTemplateModel>()
+            CreateMap<WorkItemTemplate, WorkItemTemplateModel>();
+            CreateMap<WorkItem, WorkItemModel>()
+                .ForMember(dest => dest.Status, opts => opts.MapFrom(src => src.Status.ToString()))
 
 
 
-			;
+            ;
 		}
     }
 }
