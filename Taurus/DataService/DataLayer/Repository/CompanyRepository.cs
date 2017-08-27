@@ -53,10 +53,12 @@ namespace EF.Data
             new MessageRepository(_ctx).GenerateAddMemberToCompany(model.MemberId, companyId, model.Text, CompanyRole.Contractor);//for now by default contractor.
         }
 
-        public IQueryable<MemberModel> GetMemberByUserName(string userName, int? memberId = null)
+        public IEnumerable<MemberModel> GetMemberByUserName(string userName, int? memberId = null)
         {
             var companyId = GetCompanyFoAdminUser(userName).Id;
-            var result = GetMemberByCompanyIdQuery(companyId, memberId);
+            var result = GetMemberByCompanyIdQuery(companyId, memberId).ToList();
+
+            var allCompanyServices = _ctx.Companies.First(p => p.Id == companyId).CompanyServices.Select(p => p.Type).ToList();
             return result.Select(p => new MemberModel
             {
                 FirstName = p.Member.FirstName,
@@ -65,7 +67,7 @@ namespace EF.Data
                 MemberRole = p.CompanyMember.Role.ToString(),
                 MemberId = p.Member.Id,
                 Username = p.User.UserName,
-
+                AllowedTradeTypes = p.CompanyMember.Role == CompanyRole.Admin ? allCompanyServices : p.CompanyMember.AllowedTradeTypes,//admin always have all service for the company
             });
 
         }
@@ -436,8 +438,6 @@ namespace EF.Data
 
         private IQueryable<MemberInfo> GetMemberByCompanyIdQuery(int companyId, int? memberId = null)
         {
-
-
             var members = from com in _ctx.Companies
                           join cm in _ctx.CompanyMembers on com.Id equals cm.CompanyId
                           join mem in _ctx.Members on cm.MemberId equals mem.Id
@@ -459,8 +459,6 @@ namespace EF.Data
 
         public ApplicationUser GetCompanyAdminMember(int companyId)
         {
-
-
             var user = from com in _ctx.Companies
                           join cm in _ctx.CompanyMembers on com.Id equals cm.CompanyId
                           join mem in _ctx.Members on cm.MemberId equals mem.Id
@@ -476,21 +474,6 @@ namespace EF.Data
         {
             var search = searchText.ToLower();
             var companyId = GetCompanyFoAdminUser(userName).Id;
-            //var result = 
-            //              (from cm in _ctx.CompanyMembers 
-            //              join mem in _ctx.Members on cm.MemberId equals mem.Id
-            //              where cm.CompanyId != companyId //not in the company
-            //              && cm.Role != CompanyRole.Admin //cannot be Admin in any other company
-            //              &&(mem.FirstName.ToLower().Contains(search)
-            //              || mem.LastName.ToLower().Contains(search)
-            //              || mem.Email.ToLower().Contains(search))//search
-            //              select new MemberSearchModel
-            //              {
-            //                  FullName = mem.FirstName + " "+ mem.LastName ,
-            //                   Email = mem.Email,
-            //                    MemberId = mem.Id,
-            //              }).Distinct().Take(10);// search result get maximum 10. 
-
             var result = ( from mem in _ctx.Members 
                           where !mem.CompanyMembers.Any(p => p.CompanyId == companyId) //not in the company
                            && !mem.CompanyMembers.Any(p => p.Role == CompanyRole.Admin)  //cannot be Admin in any other company
@@ -504,6 +487,20 @@ namespace EF.Data
                                          MemberId = mem.Id,
                                      }).Distinct().Take(10);// search result get maximum 10.             
             return result;
+        }
+
+
+        public void UpdateMemberServiceTypes(string userName, int memberId, List<TradeType> types)
+        {
+            var companyId = GetCompanyFoAdminUser(userName).Id;
+            var record = _ctx.CompanyMembers.Single(p => p.CompanyId == companyId && p.MemberId == memberId);
+            if(record.Role == CompanyRole.Admin)
+            {
+                throw new Exception("Permission for Admin cannot be modified");
+            }
+            record.AllowedTradeTypes = types;
+            _ctx.Entry(record).State = EntityState.Modified;
+            _ctx.SaveChanges();
         }
         public void Dispose()
         {

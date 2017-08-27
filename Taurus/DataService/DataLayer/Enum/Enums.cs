@@ -8,11 +8,11 @@ namespace EF.Data
 {
     public enum TradeType
     {
-        Electrician,
-        Handyman,
-        Plumber,
-        Builder,
-        AirConditioning,
+        Electrician = 0,
+        Handyman = 1,
+        Plumber =2,
+        Builder =3,
+        AirConditioning =4,
     }
 
     public enum SectionType

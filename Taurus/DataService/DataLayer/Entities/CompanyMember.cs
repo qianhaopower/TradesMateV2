@@ -1,5 +1,6 @@
-﻿using System.Collections.Generic;
-
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 namespace EF.Data
 {
     //join table between company and member. 
@@ -25,12 +26,37 @@ namespace EF.Data
         //incase the company ask the member to join and need confirm
         public bool Confirmed { get; set; }
 
+        public string AllowedTradeTypesInternal { get; set; }
+
+        public IEnumerable<TradeType> AllowedTradeTypes
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(AllowedTradeTypesInternal))
+                {
+                    return new List<TradeType>();
+                }
+
+                return AllowedTradeTypesInternal.Split(',').ToList().Select(p => (TradeType)Enum.Parse(typeof(TradeType), p)).ToList();
+            }
+            set
+            {
+                if (value.Any())
+                    AllowedTradeTypesInternal = value.Select(p => p.ToString()).Aggregate((x, y) => x.ToString() + "," + y.ToString());
+                else
+                    AllowedTradeTypesInternal = null;
+
+            }
+        }
+
 
         public virtual Member Member { get; set; }
         public virtual Company Company { get; set; }
 
 
         public virtual ICollection<PropertyAllocation> PropertyAllocations { get; set; }
+
+
 
 
     }

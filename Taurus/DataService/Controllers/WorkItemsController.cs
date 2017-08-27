@@ -12,6 +12,8 @@ using System.Web.OData;
 using System.Web.OData.Query;
 using System.Web.OData.Routing;
 using EF.Data;
+using AutoMapper;
+using DataService.Models;
 
 namespace DataService.Controllers
 {
@@ -180,4 +182,20 @@ namespace DataService.Controllers
             return db.WorkItems.Count(e => e.Id == key) > 0;
         }
     }
-}
+
+
+
+    [Authorize]
+    public class WorkItemsWebApiController : ApiController
+    {
+
+        [HttpGet]
+        public IHttpActionResult GetWorkItems(int sectionId)
+        {
+            var repo = new WorkItemRepository();
+            var workItems = repo.GetSectionWorkItems(sectionId,User.Identity.Name);
+            return Ok(workItems.Select(Mapper.Map<WorkItem, WorkItemModel>));
+        }
+    }
+
+    }

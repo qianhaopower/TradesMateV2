@@ -1,4 +1,5 @@
-﻿using System;
+﻿using EF.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -32,6 +33,7 @@ namespace DataService.Models
         public int MemberId { get; set; }
 
         public string Username { get; set; }
+        public IEnumerable<TradeType> AllowedTradeTypes { get; set; }
 
     }
 

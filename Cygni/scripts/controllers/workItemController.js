@@ -2,13 +2,17 @@
 
 angular.module('sbAdminApp')
   .controller('workItemController', ['$scope', 'workItemDataService', 'Notification',
-      '$state', 'ModalService', '$stateParams', 'propertySectionDataService', 'propertyDataService',
-function ($scope, workItemDataService, Notification, $state, ModalService, $stateParams, propertySectionDataService, propertyDataService) {
+      '$state', 'ModalService', '$stateParams', 'propertySectionDataService', 'propertyDataService','companyService',
+      function ($scope, workItemDataService, Notification, $state, ModalService, $stateParams, propertySectionDataService, propertyDataService, companyService) {
 
 
 
     $scope.outputSelectedStatus = [];
+    $scope.outputSelectedServiceTypes = [];
     $scope.availableStatus = workItemDataService.getDefaultWorkItemStatuses();
+    $scope.availableServiceTypes = companyService.getDefaultServices();
+
+
     _.each($scope.availableStatus, function (status) {
         status.ticked = true;
     });
@@ -27,7 +31,13 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
 
             var selectedStatus = _.pluck($scope.outputSelectedStatus, 'enumValue');
             if (_.contains(selectedStatus, item.status)) {
-                return true;
+                var selectedServices = _.pluck($scope.outputSelectedServiceTypes, 'enumValue');
+                if (_.contains(selectedServices, item.tradeWorkType)) {
+                    return true;
+                }
+                else {
+                    return false;
+                }
             }
             else {
                 return false;
@@ -109,6 +119,7 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
 
     //work item status
     $scope.workItemStatusList = workItemDataService.getDefaultWorkItemStatuses();
+    
 
     $scope.getWorkItemStatusDisplay = function (enumValue) {
 
@@ -138,6 +149,15 @@ function ($scope, workItemDataService, Notification, $state, ModalService, $stat
     var init = function () {
         workItemDataService.getSectionAllWorkItems($stateParams.sectionId).then(function (result) {
             $scope.workItemList = result;
+
+            $scope.availableServiceTypes = _.filter($scope.availableServiceTypes, function (item) {
+                return _.some($scope.workItemList, function (aWorkItem) {
+                    return aWorkItem.tradeWorkType == item.enumValue;
+                });
+            })
+
+
+
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
 
         propertySectionDataService.getSectionById($stateParams.sectionId).then(function (result) {

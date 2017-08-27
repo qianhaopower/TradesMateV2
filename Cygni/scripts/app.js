@@ -433,7 +433,11 @@ angular
               controller: 'allocatePropertyController',
               url: '/companymember/allocate/:memberId',
               })
-
+              .state('base.manageMemberServiceType', {
+                  templateUrl: 'views/company/manageMemberServiceType.html',
+                  controller: 'manageMemberServiceTypeController',
+                  url: '/companymember/service/:memberId',
+              })     
 
               //manage workitem templates
               .state('base.companyWorkItemTemplate', {
@@ -479,7 +483,8 @@ angular
                controller: 'workRequestController',
                url: '/workRequests',
            })
-          
+
+           
 
 
           //NotificationProvider.setOptions({

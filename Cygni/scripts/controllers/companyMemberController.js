@@ -48,7 +48,12 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
             $state.go("base.createCompanyMember");
 
         }
+        $scope.manageMemberServiceType = function (member) {
 
+            $state.go("base.manageMemberServiceType", {
+                memberId: member.memberId
+            });
+        }
 
 
         $scope.allocate = function (member) {
@@ -56,7 +61,6 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
             $state.go("base.allocateProperty",{
             memberId: member.memberId
         });
-
         }
         $scope.fireUpdateRole = function (member) {
             companyService.updateMemberRole(member.memberId, member.memberRole).then(function (reply) {

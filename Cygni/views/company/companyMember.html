@@ -183,7 +183,7 @@
                 <td class="col-md-3 col-xs-2" ng-click="openMemberDetail(member)">
                     <a>{{member.firstName}} {{member.lastName}}</a>
                 </td>
-                <td class="col-md-6 col-xs-4">
+                <td class="col-md-6 col-xs-2">
                     <div ng-show="member.memberRole == 'Admin'">{{member.memberRole}}</div>
 
                     <div ng-show="member.memberRole != 'Admin'">
@@ -197,7 +197,10 @@
                 </td>-->
 
                 <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-primary btn-sm" title="Allocate property to contractor" ng-show="member.memberRole == 'Contractor'" ng-click="allocate(member)">Manage</a>
+                    <a class="btn btn-primary btn-sm" title="Allocate property to contractor" ng-show="member.memberRole == 'Contractor'" ng-click="allocate(member)">Property</a>
+                </td>
+                <td class="col-md-1 col-xs-2">
+                    <a class="btn btn-primary btn-sm" title="Manage service type"  ng-click="manageMemberServiceType(member)">Service</a>
                 </td>
                 <td class="col-md-1 col-xs-2">
                     <a class="btn btn-danger btn-sm" title="Delete member" ng-show="member.memberRole != 'Admin'" ng-click="deleteMember(member)">Delete</a>

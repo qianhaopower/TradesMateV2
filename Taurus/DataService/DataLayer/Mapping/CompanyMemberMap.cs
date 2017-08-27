@@ -17,6 +17,9 @@ namespace EF.Data.Mapping
             Property(t => t.Confirmed).IsRequired();
             Property(t => t.CompanyId).IsRequired();
             Property(t => t.MemberId).IsRequired();
+            Property(t => t.AllowedTradeTypesInternal).HasMaxLength(50);
+            Ignore(t => t.AllowedTradeTypes);
+
 
 
             Property(t => t.AddedDateTime).IsRequired();

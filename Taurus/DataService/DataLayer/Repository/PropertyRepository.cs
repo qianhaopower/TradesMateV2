@@ -235,10 +235,10 @@ namespace EF.Data
                     Description = x.Description,
                     Name = x.Name,
                     Quantity = x.Quantity,
-                    Status = x.Status,
+                    Status = x.Status.ToString(),
                     TaskNumber = 0,
                     TradeWorkType = x.TradeWorkType,
-                    workItemId = x.Id,
+                    Id = x.Id,
 
                 }).ToList(),
             }));
@@ -252,9 +252,9 @@ namespace EF.Data
             var images = repo.GetPropertyWorkItemsAttachments(propertyId, userName).Where(p=> p.Type == AttachmentType.Image);
             result.ForEach(p => p.workItems.ForEach(x => {
                 x.TaskNumber = i++;
-                if(images.Any(w=> w.EntityId == x.workItemId))
+                if(images.Any(w=> w.EntityId == x.Id))
                 {
-                    x.imageUrls = images.Where(w => w.EntityId == x.workItemId).Select(w => w.Url).ToList();
+                    x.imageUrls = images.Where(w => w.EntityId == x.Id).Select(w => w.Url).ToList();
                 }
             }));
 

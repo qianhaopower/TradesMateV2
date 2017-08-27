@@ -1,6 +1,6 @@
 ﻿'use strict';
 var app = angular.module('sbAdminApp');
-app.factory('workItemDataService', ['$q', '$http', '$window', 'urls', function ($q, $http, $window, urls) {
+app.factory('workItemDataService', ['$q', '$http', '$window', 'urls','ngAuthSettings', function ($q, $http, $window, urls, ngAuthSettings) {
 
     
   
@@ -8,24 +8,37 @@ app.factory('workItemDataService', ['$q', '$http', '$window', 'urls', function (
 
         //#region work item
        
-        getSectionAllWorkItems: function (sectionId) {
-            var deferred = $q.defer();
-            var baseURL = urls.apiUrl;
-            var path = baseURL + '/Sections(' + sectionId + ')/workItemList';//entity property should be lower case, as it is formatted already
-            var error = 'Error happened when getting section\'s workItems with id ' + sectionId;
-            $http({
-                method: 'GET',
-                url: path,
-            }).then(function successCallback(response) {
-                if (response.data && response.status >= 200 && response.status <= 299) {
-                    deferred.resolve(response.data.value);
-                } else {
-                    deferred.reject(error);
-                }
+        //getSectionAllWorkItems: function (sectionId) {
+        //    var deferred = $q.defer();
+        //    var baseURL = urls.apiUrl;
+        //    var path = baseURL + '/Sections(' + sectionId + ')/workItemList';//entity property should be lower case, as it is formatted already
+           
+        //    var error = 'Error happened when getting section\'s workItems with id ' + sectionId;
+        //    $http({
+        //        method: 'GET',
+        //        url: path,
+        //    }).then(function successCallback(response) {
+        //        if (response.data && response.status >= 200 && response.status <= 299) {
+        //            deferred.resolve(response.data.value);
+        //        } else {
+        //            deferred.reject(error);
+        //        }
 
-            }, function errorCallback(response) {
-                deferred.reject(error);
+        //    }, function errorCallback(response) {
+        //        deferred.reject(error);
+        //    });
+        //    return deferred.promise;
+        //},
+         getSectionAllWorkItems: function (sectionId) {
+
+            var deferred = $q.defer();
+            var serviceBase = ngAuthSettings.apiServiceBaseUri;
+            $http.get(serviceBase + 'api/WorkItemsWebApi/GetWorkItems?sectionId=' + sectionId).then(function (response) {
+                deferred.resolve(response.data);
+            }, function (err, status) {
+                deferred.reject(err);
             });
+
             return deferred.promise;
         },
 

@@ -340,6 +340,7 @@
     <Compile Include="DataLayer\Mapping\SubSectionTemplateMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemTemplateMap.cs" />
+    <Compile Include="DataLayer\Repository\WorkItemRepository.cs" />
     <Compile Include="DataLayer\Repository\WorkItemTemplateRepository.cs" />
     <Compile Include="DataLayer\Repository\MessageRepository.cs" />
     <Compile Include="DataLayer\Repository\ClientRepository.cs" />
@@ -348,6 +349,7 @@
     <Compile Include="DataLayer\Repository\PropertyRepository.cs" />
     <Compile Include="DTOs\AttachmentModel.cs" />
     <Compile Include="DTOs\AddressModel.cs" />
+    <Compile Include="DTOs\UpdateMemberServiceTypeModel.cs" />
     <Compile Include="DTOs\WorkItemModel.cs" />
     <Compile Include="DTOs\WorkItemTemplateModel.cs" />
     <Compile Include="DTOs\PropertyModel.cs" />
