@@ -31,6 +31,4 @@ namespace DataService.Models
 
         public List<WorkItemModel> workItems { get; set; }
     }
-
-
 }

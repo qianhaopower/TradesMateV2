@@ -29,7 +29,6 @@ namespace DataService.Controllers
 
 
         private ApplicationUserManager _AppUserManager = null;
-        //private ApplicationRoleManager _AppRoleManager = null;
 
         protected ApplicationUserManager AppUserManager
         {
@@ -38,14 +37,6 @@ namespace DataService.Controllers
                 return _AppUserManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
             }
         }
-
-        //protected ApplicationRoleManager AppRoleManager
-        //{
-        //    get
-        //    {
-        //        return _AppRoleManager ?? Request.GetOwinContext().GetUserManager<ApplicationRoleManager>();
-        //    }
-        //}
 
 
         private ModelFactory _modelFactory;
@@ -75,7 +66,6 @@ namespace DataService.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-      
         public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))

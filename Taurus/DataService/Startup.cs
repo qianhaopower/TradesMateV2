@@ -16,30 +16,7 @@ using EF.Data;
 [assembly: OwinStartup("DataService",typeof(DataService.Startup))]
 namespace DataService
 {
-    //public class Startup
-    //{
-
-    //    public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
-
-    //    public void Configuration(IAppBuilder app)
-    //    {
-    //        HttpConfiguration config = new HttpConfiguration();
-
-    //        ConfigureOAuth(app);
-
-    //        WebApiConfig.Register(config);
-    //        app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-    //        app.UseWebApi(config);
-
-    //    }
-
-    //    private void ConfigureOAuth(IAppBuilder app)
-    //    {
-    //        OAuthBearerOptions = new OAuthBearerAuthenticationOptions();
-    //        //Token Consumption
-    //        app.UseOAuthBearerAuthentication(OAuthBearerOptions);
-    //    }
-    //}
+    
 
     public class Startup
     {
@@ -56,21 +33,7 @@ namespace DataService
             WebApiConfig.Register(config);
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
-
-            //register auto mapper mappings here
-
             AutoMapperConfig.RegisterMappings();
-            //var mapperConfiguration = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.AddProfile(new MappingProfile());
-            //});
-            //var mapper = mapperConfiguration.CreateMapper();
-            //app.RegisterInstance(mapper).As<IMapper>();
-
-           
-
-
-            // Database.SetInitializer(new MigrateDatabaseToLatestVersion<AuthContext, AuthenticationService.API.Migrations.Configuration>());
 
         }
 
@@ -88,7 +51,6 @@ namespace DataService
 
             OAuthAuthorizationServerOptions OAuthServerOptions = new OAuthAuthorizationServerOptions()
             {
-
                 AllowInsecureHttp = true,
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),

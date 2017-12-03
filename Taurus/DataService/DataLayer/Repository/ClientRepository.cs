@@ -1,18 +1,9 @@
-﻿
-using DataService.Entities;
-using DataService.Infrastructure;
-using DataService.Models;
-
+﻿using DataService.Infrastructure;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security;
 using System;
-using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
+using Z.EntityFramework.Plus;
 
 namespace EF.Data
 {
@@ -22,7 +13,6 @@ namespace EF.Data
         private EFDbContext _ctx;
 
         private UserManager<ApplicationUser> _userManager;
-        //private RoleManager<IdentityRole> _roleManager;
 
         public ClientRepository(EFDbContext ctx = null)
         {
@@ -36,7 +26,6 @@ namespace EF.Data
             }
           
             _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
-            //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
 
         
@@ -114,7 +103,6 @@ namespace EF.Data
                 {
                     throw new Exception("Unknown user type");
                 }
-
               
             }
             else
@@ -126,6 +114,29 @@ namespace EF.Data
            
 
         }
+
+
+        public Client GetClient(string userName, int clientId)
+        {
+            return GetAccessibleClientForUser(userName).FirstOrDefault(c => c.Id == clientId);
+        }
+        public void DeleteClient(string userName, int clientId)
+        {
+            var _repo = new AuthRepository(_ctx);
+            var isUserAdmin = _repo.isUserAdmin(userName);
+            if (!isUserAdmin)
+            {
+                throw new Exception("Only Admin user can delete client");
+            }
+
+            var clientToDelete = GetAccessibleClientForUser(userName).FirstOrDefault(c => c.Id == clientId);
+            if(clientToDelete != null)
+            {
+                _ctx.Clients.Where(c => c.Id == clientToDelete.Id).Delete();
+                _ctx.SaveChanges();
+            }
+        }
+
 
         public IQueryable<Client> GetClientsForProperty(IQueryable<Property> list)
         {

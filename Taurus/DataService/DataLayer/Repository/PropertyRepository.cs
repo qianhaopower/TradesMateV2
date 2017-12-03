@@ -102,6 +102,47 @@ namespace EF.Data
             return newProperty;
         }
 
+       
+
+        internal void DeleteProperty(string username, int key)
+        {
+            var _repo = new AuthRepository(_ctx);
+            var isUserAdmin = _repo.isUserAdmin(username);
+            if (!isUserAdmin)
+            {
+                throw new Exception("Only Admin user can delete client");
+            }
+            Property property = _ctx.Properties.Find(key);
+            if (property == null)
+            {
+                throw new Exception($"Property with Id {key} cannot be found.");
+            }
+
+            _ctx.Properties.Remove(property);
+            _ctx.ClientProperties.RemoveRange(_ctx.ClientProperties.Where(p => p.PropertyId == key).ToList());
+            _ctx.PropertyCompanies.RemoveRange(_ctx.PropertyCompanies.Where(p => p.PropertyId == key).ToList());
+            _ctx.PropertyAllocations.RemoveRange(_ctx.PropertyAllocations.Where(p => p.PropertyId == key).ToList());
+
+            _ctx.Attchments.RemoveRange(_ctx.Attchments.Where(p => p.EntityId == key && p.EntityType == AttachmentEntityType.Property).ToList());
+
+
+            var messagesForProperty = _ctx.Messages.Where(p => p.PropertyId == key).ToList();
+            var messagesResponseForProperty = _ctx.Messages.Where(p => p.PropertyId == key && p.MessageResponse != null).Select(p => p.MessageResponse).ToList();
+            //var messagesResponseForProperty = _ctx.MessageResponses.Where(p => p.Message != null && messagesForProperty.Select(w=> w.Id).Contains(p.Message.Id)).ToList();
+
+            _ctx.Messages.RemoveRange(messagesForProperty);
+            _ctx.MessageResponses.RemoveRange(messagesResponseForProperty);
+
+            var sections = _ctx.Sections.Where(p => p.PropertyId == key).Include(p => p.WorkItemList).ToList();
+            var workItemForSection = sections.SelectMany(p => p.WorkItemList).ToList();
+
+            _ctx.WorkItems.RemoveRange(workItemForSection);
+            _ctx.Sections.RemoveRange(sections);
+
+
+            _ctx.SaveChanges();
+        }
+
         internal void CreateDefaultSections(DefaultPropertySection model, Property parentProperty, EFDbContext context)
         {
 
@@ -217,6 +258,17 @@ namespace EF.Data
             return properties;
            
 
+        }
+
+
+        internal List<Section> GetPropertySectionList(string name, int key)
+        {
+            var sections = this.GetPropertyForUser(name)
+                .Where(p => p.Id == key)
+                .Include(p=> p.SectionList)
+                .SelectMany(m => m.SectionList)
+                .ToList();
+            return sections; 
         }
 
         internal IEnumerable<PropertyReportGroupItem> GetPropertyReportData(int propertyId, string userName)

@@ -1,184 +1,60 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.ModelBinding;
 using System.Web.OData;
-using System.Web.OData.Query;
-using System.Web.OData.Routing;
 using EF.Data;
+using AutoMapper;
+using DataService.Models;
 
 namespace DataService.Controllers
 {
-	/*
-    The WebApiConfig class may require additional changes to add a route for this controller. Merge these statements into the Register method of the WebApiConfig class as applicable. Note that OData URLs are case sensitive.
-
-    using System.Web.OData.Builder;
-    using System.Web.OData.Extensions;
-    using EF.Data;
-    ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<Section>("Sections");
-    builder.EntitySet<Property>("Properties"); 
-    builder.EntitySet<WorkItem>("WorkItems"); 
-    config.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
-    */
-	[Authorize]
-	public class SectionsController : ODataController
+    [Authorize]
+    public class SectionsController : ApiController
     {
-        private EFDbContext db = new EFDbContext();
 
-        // GET: odata/Sections
-        [EnableQuery]
-        public IQueryable<Section> GetSections()
+        [HttpGet]
+        public IHttpActionResult GetSection(int key)
         {
-            return db.Sections;
+            var repo = new SectionRepository();
+            var section = repo.GetSectionById(User.Identity.Name, key);
+            return Ok(Mapper.Map<Section, SectionModel>(section));
         }
 
-        // GET: odata/Sections(5)
-        [EnableQuery]
-        public SingleResult<Section> GetSection([FromODataUri] int key)
+        [HttpPost]
+        public IHttpActionResult UpdateSection(SectionModel section)
         {
-            return SingleResult.Create(db.Sections.Where(section => section.Id == key));
+            var repo = new SectionRepository();
+            var sectionReasult = repo.UpdateSection(User.Identity.Name, section);
+            return Ok(Mapper.Map<Section, SectionModel>(sectionReasult));
         }
 
-        // PUT: odata/Sections(5)
-        public IHttpActionResult Put([FromODataUri] int key, Delta<Section> patch)
+
+
+        [HttpPost]
+        public IHttpActionResult Create(SectionModel section)
         {
-            Validate(patch.GetEntity());
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            Section section = db.Sections.Find(key);
-            if (section == null)
-            {
-                return NotFound();
-            }
-
-            patch.Put(section);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SectionExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return Updated(section);
+            var repo = new SectionRepository();
+            var sectionReasult = repo.CreateSection(User.Identity.Name, section);
+            return Ok();
         }
 
-        // POST: odata/Sections
-        public IHttpActionResult Post(Section section)
+        [HttpDelete]
+        public IHttpActionResult Delete(int sectionId)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            section.AddedDateTime = DateTime.Now;
-            section.ModifiedDateTime = DateTime.Now;
-
-
-            db.Sections.Add(section);
-            db.SaveChanges();
-
-            return Created(section);
+            var repo = new SectionRepository();
+            repo.DeleteSectionById(User.Identity.Name, sectionId);
+            return Ok();
         }
-
-        // PATCH: odata/Sections(5)
-        [AcceptVerbs("PATCH", "MERGE")]
-        public IHttpActionResult Patch([FromODataUri] int key, Delta<Section> patch)
+  
+        [HttpGet]
+        public IHttpActionResult GetWorkItemList(int sectionId)
         {
-            Validate(patch.GetEntity());
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            Section section = db.Sections.Find(key);
-            if (section == null)
-            {
-                return NotFound();
-            }
-
-            patch.Patch(section);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!SectionExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return Updated(section);
+            var repo = new SectionRepository();
+            var reasult = repo.GetSectionWorkItemList(User.Identity.Name, sectionId).Select(Mapper.Map<WorkItem, WorkItemModel>).ToList(); ;
+            return Ok(reasult);
         }
-
-        // DELETE: odata/Sections(5)
-        public IHttpActionResult Delete([FromODataUri] int key)
-        {
-            Section section = db.Sections.Find(key);
-            if (section == null)
-            {
-                return NotFound();
-            }
-
-            db.Sections.Remove(section);
-            db.SaveChanges();
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // GET: odata/Sections(5)/Property
-        [EnableQuery]
-        public SingleResult<Property> GetProperty([FromODataUri] int key)
-        {
-            return SingleResult.Create(db.Sections.Where(m => m.Id == key).Select(m => m.Property));
-        }
-
-        // GET: odata/Sections(5)/WorkItemList
-        [EnableQuery]
-        public IQueryable<WorkItem> GetWorkItemList([FromODataUri] int key)
-        {
-            return db.Sections.Where(m => m.Id == key).SelectMany(m => m.WorkItemList);
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool SectionExists(int key)
-        {
-            return db.Sections.Count(e => e.Id == key) > 0;
-        }
+   
     }
 }

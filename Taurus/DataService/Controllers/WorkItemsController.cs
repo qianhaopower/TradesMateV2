@@ -51,7 +51,7 @@ namespace DataService.Controllers
         // PUT: odata/WorkItems(5)
         public IHttpActionResult Put([FromODataUri] int key, Delta<WorkItem> patch)
         {
-            Validate(patch.GetEntity());
+           // Validate(patch.GetEntity());
 
             if (!ModelState.IsValid)
             {
@@ -105,7 +105,7 @@ namespace DataService.Controllers
         [AcceptVerbs("PATCH", "MERGE")]
         public IHttpActionResult Patch([FromODataUri] int key, Delta<WorkItem> patch)
         {
-            Validate(patch.GetEntity());
+            //Validate(patch.GetEntity());
 
             if (!ModelState.IsValid)
             {

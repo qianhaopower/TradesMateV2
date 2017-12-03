@@ -80,7 +80,6 @@ namespace EF.Data
 
         public  bool isUserAdmin(string userName)
         {
-
             var user =  this.GetUserByUserName(userName);
 
             _ctx.Entry(user).Reference(s => s.Member).Load();
@@ -99,7 +98,7 @@ namespace EF.Data
                 }
                 else if(company.Count() > 0)
                 {
-                    throw new Exception("Member can be admin for one company");
+                    throw new Exception("Member can only be admin for one company");
                 }else if (company.Count() == 0)
                 {
                     return false;

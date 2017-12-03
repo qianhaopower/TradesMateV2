@@ -1,0 +1,5 @@
+Add injection for service
+Add dbcontext per request singleton with  ninject
+Allow create new clients, (adding client/user record. send email to confirm)
+
+Check Different User permission for property/section/workitem (Create that permisson matrix)

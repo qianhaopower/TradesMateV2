@@ -13,9 +13,4 @@ namespace DataService.Models
         public string Text { get; set; }
 
     }
-
-   
-
-
-
 }

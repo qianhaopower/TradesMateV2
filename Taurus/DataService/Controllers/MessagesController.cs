@@ -25,12 +25,9 @@ namespace DataService.Controllers
     [Authorize]
     public class MessagesController : ApiController
     {
-
-
         public IHttpActionResult GetMessages()
         {
             return Ok(GetUserMessage());
-
         }
 
         public IHttpActionResult GetWorkRequestMessageForProperty(int propertyId)
@@ -50,11 +47,6 @@ namespace DataService.Controllers
 
             var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
 
-            //returnList.ForEach(p => p.ShouldDisplayUnread =
-            //(p.UserIdTo == userId && p.IsRead == false)
-            //|| (p.MessageResponse != null && p.MessageResponse.UserIdTo == userId && p.MessageResponse.IsRead == false)
-            //);
-
             foreach (var message in returnList)
             {
                 if (message.UserIdTo == userId && message.IsRead == false)
@@ -68,27 +60,21 @@ namespace DataService.Controllers
                     message.Title = "You have a new respond";
                     if (message.MessageResponse.IsRead == false)
                         message.ShouldDisplayUnread = true;
-
-
                 }
             }
             return returnList;
-
         }
-
 
         public IHttpActionResult GetMessage(int messageId)
         {
             var message = new MessageRepository().GetMessageForUser(User.Identity.Name).Where(p => p.Id == messageId).FirstOrDefault();
 
             return Ok(Mapper.Map<Message, MessageDetailModel>(message));
-
         }
         //called every 2 second
         public IHttpActionResult GetUnReadMessagesCount()
         {
             var count = new MessageRepository().GetUnReadMessageCountForUser(User.Identity.Name);
-
             return Ok(count);
         }
 
@@ -101,15 +87,6 @@ namespace DataService.Controllers
 
         }
 
-        //[HttpPost]
-        //public IHttpActionResult MarkResponseAsRead(int responseId)//this is wrong need change
-        //{
-        //    var current = User.Identity.GetUserId();
-        //    new MessageRepository().MarkResponseAsRead(responseId, current);
-        //    return Ok();
-
-        //}
-
         [HttpPost]
         public IHttpActionResult GenerateClientWorkRequest(MessageDetailModel model)
         {
@@ -118,7 +95,6 @@ namespace DataService.Controllers
             return (Ok());
 
         }
-
 
         [HttpPost]
         public IHttpActionResult CreatePropertyForWorkRequest(int messageId, PropertyModel property)
