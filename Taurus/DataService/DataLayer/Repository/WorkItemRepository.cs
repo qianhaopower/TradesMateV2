@@ -1,6 +1,8 @@
 ﻿
 
+using AutoMapper;
 using DataService.Infrastructure;
+using DataService.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
@@ -31,7 +33,7 @@ namespace EF.Data
         }
 
 
-        public IEnumerable<WorkItem> GetSectionWorkItems(int sectionId, string UserName)
+        public IEnumerable<WorkItem> GetSectionWorkItems(string UserName, int sectionId)
         {
             var propertyId = _ctx.Sections.Single(p => p.Id == sectionId).PropertyId;
             var repo = new PropertyRepository(_ctx);
@@ -76,7 +78,90 @@ namespace EF.Data
 
             return workItems;
         }
-       
+
+        internal WorkItem GetWorkItemById(string userName, int workItemId)
+        {
+            var workItem = _ctx.WorkItems.FirstOrDefault(w => w.Id == workItemId);
+            var sectionRepo = new SectionRepository(_ctx);
+            if (workItem != null && sectionRepo.HasPermissionForSection(userName, workItem.SectionId))
+            {
+                return workItem;
+            }
+            else
+            {
+                throw new Exception($"No permission to view workitem with id {workItemId}");
+            }
+        }
+        internal WorkItem CreateWorkItem(string userName, WorkItemModel model)
+        {
+            var sectionRepo = new SectionRepository(_ctx);
+            if (sectionRepo.HasPermissionForSection(userName, model.SectionId))
+            {
+                var newWorkItem = Mapper.Map<WorkItemModel, WorkItem>(model);//AutoMapper should have done it all
+                newWorkItem.AddedDateTime = DateTime.Now;
+                newWorkItem.ModifiedDateTime = DateTime.Now;
+                //newWorkItem.Name = model.Name;
+                //newWorkItem.Quantity = model.Quantity;
+                //newWorkItem.Description = model.Description;
+                //newWorkItem.WorkItemTemplateId = model.WorkItemTemplateId;
+                //newWorkItem.TradeWorkType = model.TradeWorkType;
+                //newWorkItem.SectionId = model.SectionId;
+                //newWorkItem.Status = model.Status;
+                _ctx.WorkItems.Add(newWorkItem);
+                _ctx.Entry(newWorkItem).State = EntityState.Added;
+                _ctx.SaveChanges();
+
+                return newWorkItem;
+            }
+            else
+            {
+                throw new Exception($"No permission to create workitemf for section {model.SectionId}");
+            }
+        }
+
+        internal WorkItem UpdateWorkItem(string userName, WorkItemModel model)
+        {
+            var sectionRepo = new SectionRepository(_ctx);
+            if (sectionRepo.HasPermissionForSection(userName, model.SectionId))
+            {
+                var toEdidWorkItem = _ctx.WorkItems.FirstOrDefault(w => w.Id == model.Id);
+                if(toEdidWorkItem != null)
+                {
+                    toEdidWorkItem.ModifiedDateTime = DateTime.Now;
+                    toEdidWorkItem.Name = model.Name;
+                    toEdidWorkItem.Quantity = model.Quantity;
+                    toEdidWorkItem.Description = model.Description;
+                    toEdidWorkItem.WorkItemTemplateId = model.WorkItemTemplateId;
+                    toEdidWorkItem.TradeWorkType = model.TradeWorkType;
+                    toEdidWorkItem.SectionId = model.SectionId;
+                    toEdidWorkItem.Status = (WorkItemStatus)Enum.Parse(typeof(WorkItemStatus), model.Status);
+                    _ctx.Entry(toEdidWorkItem).State = EntityState.Modified;
+                    _ctx.SaveChanges();
+                }
+                return toEdidWorkItem;
+            }
+            else
+            {
+                throw new Exception($"No permission to create workitemf for section {model.SectionId}");
+            }
+        }
+
+
+        internal void DeleteWorkItemById(string userName, int workItemId)
+        {
+            var workItem = _ctx.WorkItems.FirstOrDefault(w => w.Id == workItemId);
+            var sectionRepo = new SectionRepository(_ctx);
+            if (workItem != null && sectionRepo.HasPermissionForSection(userName, workItem.SectionId))
+            {
+                _ctx.WorkItems.Remove(workItem);
+                _ctx.SaveChanges();
+            }
+            else
+            {
+                throw new Exception($"No permission to delete workitem with id {workItemId}");
+            }
+        }
+
         public void Dispose()
         {
             _ctx.Dispose();

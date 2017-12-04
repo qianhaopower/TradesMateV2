@@ -1,9 +1,7 @@
 ﻿using System.Data;
 using System.Data.Entity;
 using System.Linq;
-using System.Net;
 using System.Web.Http;
-using System.Web.OData;
 using EF.Data;
 using AutoMapper;
 using DataService.Models;
@@ -86,7 +84,7 @@ namespace DataService.Controllers
           
         }
         [HttpGet]
-        public IHttpActionResult GetSectionList([FromODataUri] int key)
+        public IHttpActionResult GetSectionList(int key)
         {
             var repo = new PropertyRepository();
             var sections = repo.GetPropertySectionList(User.Identity.Name, key);

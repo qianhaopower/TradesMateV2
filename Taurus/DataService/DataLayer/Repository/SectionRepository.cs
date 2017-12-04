@@ -57,12 +57,17 @@ namespace EF.Data
             }
         }
 
-        internal Section DeleteSectionById(string userName, int sectionId)
+        internal void DeleteSectionById(string userName, int sectionId)
         {
 
             if (HasPermissionForSection(userName, sectionId))
             {
-                return _ctx.Sections.FirstOrDefault(s => s.Id == sectionId);
+               var toDelete =  _ctx.Sections.FirstOrDefault(s => s.Id == sectionId);
+                if(toDelete != null)
+                {
+                    _ctx.Sections.Remove(toDelete);
+                    _ctx.SaveChanges();
+                }
             }
             else
             {
@@ -94,6 +99,7 @@ namespace EF.Data
             if (HasPermissionForSection(userName, model.Id))
             {
                 var section = _ctx.Sections.FirstOrDefault(s => s.Id == model.Id);
+                section.ModifiedDateTime = DateTime.Now;
                 section.Name = model.Name;
                 section.Description = model.Description;
                 section.Type = model.Type;
@@ -107,12 +113,12 @@ namespace EF.Data
             }
         }
 
-        private bool HasPermissionForSection(string userName, int sectionId)
+        internal bool HasPermissionForSection(string userName, int sectionId)
         {
             var allowedPropertySections = new PropertyRepository(_ctx).GetPropertyForUser(userName).SelectMany(p => p.SectionList).Select(s => s.Id);
             return (allowedPropertySections.Any(p => p == sectionId));
         }
-        private bool HasPermissionForProperty(string userName, int propertyId)
+        internal bool HasPermissionForProperty(string userName, int propertyId)
         {
             var allowedProperty = new PropertyRepository(_ctx).GetPropertyForUser(userName);
             return (allowedProperty.Any(p => p.Id == propertyId));

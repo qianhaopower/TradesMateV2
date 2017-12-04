@@ -1,11 +1,7 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
 using System.Web.Http;
-using System.Web.OData;
 using EF.Data;
 using AutoMapper;
 using DataService.Models;

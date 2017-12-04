@@ -306,7 +306,7 @@ namespace EF.Data
                 x.TaskNumber = i++;
                 if(images.Any(w=> w.EntityId == x.Id))
                 {
-                    x.imageUrls = images.Where(w => w.EntityId == x.Id).Select(w => w.Url).ToList();
+                    x.ImageUrls = images.Where(w => w.EntityId == x.Id).Select(w => w.Url).ToList();
                 }
             }));
 
