@@ -113,6 +113,21 @@
     <Reference Include="Ninject, Version=3.3.4.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.3.4\lib\net45\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Extensions.NamedScope, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Extensions.NamedScope.3.3.0\lib\net45\Ninject.Extensions.NamedScope.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.3.3.0\lib\net45\Ninject.Web.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.Common.OwinHost, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.Common.OwinHost.3.3.0\lib\net45\Ninject.Web.Common.OwinHost.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.WebApi, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.3.3.0\lib\net45\Ninject.Web.WebApi.dll</HintPath>
+    </Reference>
+    <Reference Include="Ninject.Web.WebApi.OwinHost, Version=3.3.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Web.WebApi.OwinHost.3.3.0\lib\net45\Ninject.Web.WebApi.OwinHost.dll</HintPath>
+    </Reference>
     <Reference Include="SendGrid, Version=9.8.0.0, Culture=neutral, PublicKeyToken=4f047e93159395ca, processorArchitecture=MSIL">
       <HintPath>..\packages\Sendgrid.9.9.0\lib\net452\SendGrid.dll</HintPath>
     </Reference>
@@ -278,14 +293,25 @@
     <Compile Include="DataLayer\Mapping\SubSectionTemplateMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemTemplateMap.cs" />
+    <Compile Include="DataLayer\Repository\Interfaces\ICompanyRepository.cs" />
+    <Compile Include="DataLayer\Repository\Interfaces\IAuthRepository.cs" />
+    <Compile Include="DataLayer\Repository\BaseRepository.cs" />
+    <Compile Include="DataLayer\Repository\Interfaces\IClientRepository.cs" />
+    <Compile Include="DataLayer\Repository\Interfaces\IMessageRepository.cs" />
+    <Compile Include="DataLayer\Repository\Interfaces\IPropertyRepository.cs" />
+    <Compile Include="DataLayer\Repository\Interfaces\ISectionRepository.cs" />
     <Compile Include="DataLayer\Repository\SectionRepository.cs" />
+    <Compile Include="DataLayer\Repository\Interfaces\IStorageRepository.cs" />
+    <Compile Include="DataLayer\Repository\Interfaces\IWorkItemRepository.cs" />
     <Compile Include="DataLayer\Repository\WorkItemRepository.cs" />
+    <Compile Include="DataLayer\Repository\Interfaces\IWorkItemTemplateRepository.cs" />
     <Compile Include="DataLayer\Repository\WorkItemTemplateRepository.cs" />
     <Compile Include="DataLayer\Repository\MessageRepository.cs" />
     <Compile Include="DataLayer\Repository\ClientRepository.cs" />
     <Compile Include="DataLayer\Repository\CompanyRepository.cs" />
     <Compile Include="DataLayer\Repository\StorageRepository.cs" />
     <Compile Include="DataLayer\Repository\PropertyRepository.cs" />
+    <Compile Include="App_Start\DiModule.cs" />
     <Compile Include="DTOs\ClientModel.cs" />
     <Compile Include="DTOs\AttachmentModel.cs" />
     <Compile Include="DTOs\AddressModel.cs" />
@@ -333,7 +359,9 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DI\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
   </ItemGroup>

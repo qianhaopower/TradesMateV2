@@ -18,40 +18,30 @@ using System.Web;
 namespace EF.Data
 {
 
-    public class MessageRepository : IDisposable
+    public class MessageRepository : BaseRepository, IMessageRepository
     {
-        private EFDbContext _ctx;
 
+        #region messages
+                private const string AssignDefaultRoleMessage = "Dear {0}, You are assigned default role in {1}. Now you can view all {1}'s properties and related works.";
 
-        //private UserManager<ApplicationUser> _userManager;
-
-        //XXX(Admin name) has assigned you default role in YYY(company name), now you can view all YYY properties and related works
-        private const string AssignDefaultRoleMessage = "Dear {0}, You are assigned default role in {1}. Now you can view all {1}'s properties and related works.";
-
-        //XXX(Admin name) want to assign you defaut role in YYY(company name), if you accept you will become contractor in ZZZ,WWW and XXX(other company name).
-        private const string AssignDefaultRoleRequestMessage = "Dear {0}, {1} want to assign you defaut role, if you accept your role in {2} will become contractor.";
+                //XXX(Admin name) want to assign you defaut role in YYY(company name), if you accept you will become contractor in ZZZ,WWW and XXX(other company name).
+                private const string AssignDefaultRoleRequestMessage = "Dear {0}, {1} want to assign you defaut role, if you accept your role in {2} will become contractor.";
 
       
 
-        //XXX(Admin name) has assigned you contractor role in YYY(company name), now you can view YYY's properties and related works allocated to you.
-        private const string AssignContractorRoleMessage = "Dear {0}, You are assigned contractor role in {1}. Now you can view {1}'s properties allocated to you.";
+                //XXX(Admin name) has assigned you contractor role in YYY(company name), now you can view YYY's properties and related works allocated to you.
+                private const string AssignContractorRoleMessage = "Dear {0}, You are assigned contractor role in {1}. Now you can view {1}'s properties allocated to you.";
 
-        //XXX(Admin name) has invited you to join YYY(company name).
-        private const string InviteJoinCompanyRequestMessage = "Dear {0}, you are invited to join {1}. You can see {1}'s properties if  accept.";
+                //XXX(Admin name) has invited you to join YYY(company name).
+                private const string InviteJoinCompanyRequestMessage = "Dear {0}, you are invited to join {1}. You can see {1}'s properties if  accept.";
 
-        //AAA(ClientName) has granted you access to property WWW(propertyName, address)
-        private const string AddPropertyCoOwnerMessage = "Dear {0}, you are granted access to {1., You can see {1}'s works now.";
+                //AAA(ClientName) has granted you access to property WWW(propertyName, address)
+                private const string AddPropertyCoOwnerMessage = "Dear {0}, you are granted access to {1., You can see {1}'s works now.";
+        #endregion
 
-        public MessageRepository(EFDbContext ctx = null)
+        public MessageRepository(EFDbContext ctx = null) : base(ctx)
         {
-            if (ctx != null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
+
         }
 
 
@@ -94,7 +84,7 @@ namespace EF.Data
             return count;
         }
 
-        internal void CreatePropertyForWorkRequest(int messageId, PropertyModel model)
+        public void CreatePropertyForWorkRequest(int messageId, PropertyModel model)
         {
             var message = _ctx.Messages.Find(messageId);
             if(message == null)
@@ -533,12 +523,6 @@ namespace EF.Data
             _ctx.Entry<Message>(message).State = EntityState.Added;
             _ctx.SaveChanges();
         }
-
-
-        public void Dispose()
-        {
-            _ctx.Dispose();
-            //_userManager.Dispose();
-        }
+       
     }
 }

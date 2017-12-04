@@ -11,11 +11,18 @@ namespace DataService.Controllers
     [Authorize]
     public class ClientsController : ApiController
     {
+        private IClientRepository _clientRepo;
+        private IPropertyRepository _propertyRepo;
+        public ClientsController(IClientRepository clientRepo, IPropertyRepository propertyRepo)
+        {
+            _clientRepo = clientRepo;
+            _propertyRepo = propertyRepo;
+        }
+
         [HttpGet]
         public IHttpActionResult GetClients()
         {
-            var repo = new ClientRepository();
-            var clients =  repo.GetAccessibleClientForUser(User.Identity.Name)
+            var clients = _clientRepo.GetAccessibleClientForUser(User.Identity.Name)
                 .Select(Mapper.Map<Client, ClientModel>).ToList(); 
             return Ok(clients);
         }
@@ -23,8 +30,7 @@ namespace DataService.Controllers
         [HttpGet]
         public IHttpActionResult GetClient(int clientId)
         {
-            var repo = new ClientRepository();
-            var client = repo.GetClient(User.Identity.Name, clientId);
+            var client = _clientRepo.GetClient(User.Identity.Name, clientId);
             return Ok(Mapper.Map<Client, ClientModel>(client));
         }
 
@@ -32,8 +38,7 @@ namespace DataService.Controllers
         [HttpDelete]
         public IHttpActionResult Delete(int clientId)
         {
-            var repo = new ClientRepository();
-            repo.DeleteClient(User.Identity.Name, clientId);
+            _clientRepo.DeleteClient(User.Identity.Name, clientId);
             return Ok();
         }
 
@@ -42,9 +47,7 @@ namespace DataService.Controllers
         [HttpGet]
         public IHttpActionResult GetProperties( int key)
         {
-            var repo = new PropertyRepository();
-
-            var properties = repo.GetPropertyForUser(User.Identity.Name)
+            var properties = _propertyRepo.GetPropertyForUser(User.Identity.Name)
                 .Include(p => p.Address)
                 .Include(p=> p.ClientProperties)
                 .Where(p=>p.ClientProperties.Any(z=> z.ClientId == key));

@@ -11,10 +11,18 @@ namespace DataService.Controllers
     [Authorize]
     public class PropertiesWebApiController : ApiController
     {
+        private IAuthRepository _authRepo;
+        private IPropertyRepository _propRepo;
+        public PropertiesWebApiController(IAuthRepository authRepo, IPropertyRepository propRepo)
+        {
+            _authRepo = authRepo;
+            _propRepo = propRepo;
+        }
+
         [HttpGet]
         public IHttpActionResult GetProperties()
         {
-            var repo = new PropertyRepository();
+            var repo = _propRepo;
             var properties = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address);
             return Ok(properties.Select(Mapper.Map<Property, PropertyModel>).ToList());
         }
@@ -22,7 +30,7 @@ namespace DataService.Controllers
         [HttpPost]
         public IHttpActionResult CreatePropertyForClient(PropertyModel model)
         {
-            var property = new PropertyRepository().CreatePropertyForClient(User.Identity.Name, model);
+            var property = _propRepo.CreatePropertyForClient(User.Identity.Name, model);
             return Ok();
         }
 
@@ -30,7 +38,7 @@ namespace DataService.Controllers
         [HttpGet]
         public IHttpActionResult GetPropertyReportItems(int propertyId)
         {
-            var repo = new PropertyRepository();
+            var repo = _propRepo;
             var hasPermission = repo.GetPropertyForUser(User.Identity.Name).Any(p=> p.Id == propertyId);
             if (!hasPermission)
                 return  Unauthorized();
@@ -43,7 +51,7 @@ namespace DataService.Controllers
         [HttpGet]
         public IHttpActionResult GetMemberAllocation(int memberId)
         {
-            var memberList = new PropertyRepository().GetMemberAllocation(User.Identity.Name, memberId).ToList();
+            var memberList = _propRepo.GetMemberAllocation(User.Identity.Name, memberId).ToList();
             return (Ok(memberList));
         }
 
@@ -51,14 +59,14 @@ namespace DataService.Controllers
         [HttpPost]
         public IHttpActionResult UpdateMemberAllocation(int propertyId, int memberId, bool allocate)
         {
-            var allcation = new PropertyRepository().UpdateMemberAllocation(User.Identity.Name, propertyId, memberId, allocate);
+            var allcation = _propRepo.UpdateMemberAllocation(User.Identity.Name, propertyId, memberId, allocate);
             return (Ok(allcation));
         }
       
         [HttpGet]
         public IHttpActionResult GetCompanies(int propertyId)
         {
-            var repo = new PropertyRepository();
+            var repo = _propRepo;
             var companyModels = repo.GetCompanyForProperty(propertyId).Select(Mapper.Map<Company, CompanyModel>).ToList();
             //no need for the credit card field
             companyModels.ForEach(p => p.CreditCard = null);
@@ -68,7 +76,7 @@ namespace DataService.Controllers
         [HttpGet]
         public IHttpActionResult GetProperty(int key)
         {
-            var repo = new PropertyRepository();
+            var repo = _propRepo;
             var property = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address).FirstOrDefault(p => p.Id == key);
             var result = Mapper.Map<Property, PropertyModel>(property);
           
@@ -78,7 +86,7 @@ namespace DataService.Controllers
         [HttpDelete]
         public IHttpActionResult Delete(int key)
         {
-            var repo = new PropertyRepository();
+            var repo = _propRepo;
             repo.DeleteProperty(User.Identity.Name, key);
             return Ok();
           
@@ -86,7 +94,7 @@ namespace DataService.Controllers
         [HttpGet]
         public IHttpActionResult GetSectionList(int key)
         {
-            var repo = new PropertyRepository();
+            var repo = _propRepo;
             var sections = repo.GetPropertySectionList(User.Identity.Name, key);
             return Ok(sections.Select(Mapper.Map<Section, SectionModel>));
         }

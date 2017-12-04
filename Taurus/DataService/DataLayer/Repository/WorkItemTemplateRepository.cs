@@ -17,21 +17,12 @@ using System.Web;
 namespace EF.Data
 {
 
-    public class WorkItemTemplateRepository : IDisposable
+    public class WorkItemTemplateRepository : BaseRepository, IWorkItemTemplateRepository
     {
-        private EFDbContext _ctx;
-      
-        public WorkItemTemplateRepository(EFDbContext ctx = null)
+
+        public WorkItemTemplateRepository(EFDbContext ctx = null) : base(ctx)
         {
-            if (ctx != null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
-           
+
         }
 
         public List<WorkItemTemplate> GetWorkItemTemplateForUser(string userName)
@@ -73,7 +64,7 @@ namespace EF.Data
             return oneItem;
         }
 
-        internal async Task CreateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
+        public async Task CreateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
 		{
 			var _repo = new AuthRepository(_ctx);
 			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
@@ -103,7 +94,7 @@ namespace EF.Data
 
 		}
 
-		internal async Task UpdateWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId, WorkItemTemplateModel model)
+        public async Task UpdateWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId, WorkItemTemplateModel model)
 		{
 			var _repo = new AuthRepository(_ctx);
 			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
@@ -134,9 +125,7 @@ namespace EF.Data
 
 		}
 
-
-
-		internal async Task DeleteWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId)
+        public async Task DeleteWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId)
 		{
 			var _repo = new AuthRepository(_ctx);
 			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
@@ -153,18 +142,6 @@ namespace EF.Data
 
 			_ctx.WorkItemTemplates.Remove(workItemTemplate);
 			_ctx.SaveChanges();
-		}
-
-
-
-
-
-
-
-
-		public void Dispose()
-        {
-            _ctx.Dispose();
-        }
+		}	
     }
 }

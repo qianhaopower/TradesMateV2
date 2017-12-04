@@ -14,19 +14,25 @@ namespace DataService.Controllers
     [RoutePrefix("api/RefreshTokens")]
     public class RefreshTokensController : ApiController
     {
+        private IAuthRepository _authRepo;
+     
+        public RefreshTokensController(IAuthRepository authRepo)
+        {
+            _authRepo = authRepo;
+        }
 
-        private AuthRepository _repo = null;
+      
 
         public RefreshTokensController()
         {
-            _repo = new AuthRepository();
+            _authRepo = new AuthRepository();
         }
 
         [Authorize(Users="Admin")]
         [Route("")]
         public IHttpActionResult Get()
         {
-            return Ok(_repo.GetAllRefreshTokens());
+            return Ok(_authRepo.GetAllRefreshTokens());
         }
 
         //[Authorize(Users = "Admin")]
@@ -34,7 +40,7 @@ namespace DataService.Controllers
         [Route("")]
         public async Task<IHttpActionResult> Delete(string tokenId)
         {
-            var result = await _repo.RemoveRefreshToken(tokenId);
+            var result = await _authRepo.RemoveRefreshToken(tokenId);
             if (result)
             {
                 return Ok();
@@ -43,14 +49,5 @@ namespace DataService.Controllers
             
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _repo.Dispose();
-            }
-
-            base.Dispose(disposing);
-        }
     }
 }

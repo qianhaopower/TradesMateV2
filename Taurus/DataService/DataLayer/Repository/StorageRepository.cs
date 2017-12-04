@@ -20,28 +20,17 @@ using System.Web;
 namespace EF.Data
 {
 
-    public class StorageRepository : IDisposable
+    public class StorageRepository : BaseRepository, IStorageRepository
     {
-        private EFDbContext _ctx;
 
         // Interface in place so you can resolve with IoC container of your choice
         private readonly IBlobService _service = new BlobService();
 
-        private UserManager<ApplicationUser> _userManager;
-
         private  readonly string[] _validExtensions = { "jpg", "bmp", "gif", "png", "jpeg" }; //  etc
 
-        public StorageRepository(EFDbContext ctx = null)
+        public StorageRepository(EFDbContext ctx = null) : base(ctx)
         {
-            if (ctx != null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
+           
         }
 
 		public async Task<List<BlobUploadModel>> UploadBlobs(HttpContent content, int entityId, AttachmentEntityType type, string userName)
@@ -151,9 +140,6 @@ namespace EF.Data
 
         }
 
-
-
-
         public bool IsImageExtension(string fileName)
         {
             return _validExtensions.Any(p=> fileName.ToLower().Contains(p));
@@ -187,18 +173,7 @@ namespace EF.Data
             return valid;
 
         }
-
-
-
-
-        public void Dispose()
-        {
-            _ctx.Dispose();
-            _userManager.Dispose();
-
-        }
-
-      
+    
     }
 
     public interface IBlobService

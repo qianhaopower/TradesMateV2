@@ -17,29 +17,14 @@ using System.Web;
 namespace EF.Data
 {
 
-    public class PropertyRepository : IDisposable
+    public class PropertyRepository : BaseRepository, IPropertyRepository
     {
-        private EFDbContext _ctx;
       
-
-        private UserManager<ApplicationUser> _userManager;
-        // private RoleManager<IdentityRole> _roleManager;
-
-
-
-        public PropertyRepository(EFDbContext ctx = null)
+        public PropertyRepository(EFDbContext ctx = null) : base(ctx)
         {
-            if (ctx != null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
+           
         }
-        
+
         public Property CreatePropertyForClient(string userName, PropertyModel model)
         {
             var companyId = new CompanyRepository(_ctx).GetCompanyFoAdminUser(userName).Id;
@@ -102,9 +87,7 @@ namespace EF.Data
             return newProperty;
         }
 
-       
-
-        internal void DeleteProperty(string username, int key)
+        public void DeleteProperty(string username, int key)
         {
             var _repo = new AuthRepository(_ctx);
             var isUserAdmin = _repo.isUserAdmin(username);
@@ -143,7 +126,7 @@ namespace EF.Data
             _ctx.SaveChanges();
         }
 
-        internal void CreateDefaultSections(DefaultPropertySection model, Property parentProperty, EFDbContext context)
+        public void CreateDefaultSections(DefaultPropertySection model, Property parentProperty, EFDbContext context)
         {
 
             Func<int, SectionType, List<Section>> createFunc = (int number, SectionType type) => {
@@ -182,10 +165,7 @@ namespace EF.Data
 
         }
 
-
-
-
-        internal string GetSectionNameFromEnum(SectionType type)
+        public string GetSectionNameFromEnum(SectionType type)
         {
             switch (type) {
                 case SectionType.Basement:
@@ -214,8 +194,7 @@ namespace EF.Data
 
         }
 
-
-        public   IQueryable<Property> GetPropertyForUser(string userName)
+        public IQueryable<Property> GetPropertyForUser(string userName)
         {
             if (string.IsNullOrEmpty(userName))
             {
@@ -260,8 +239,7 @@ namespace EF.Data
 
         }
 
-
-        internal List<Section> GetPropertySectionList(string name, int key)
+        public List<Section> GetPropertySectionList(string name, int key)
         {
             var sections = this.GetPropertyForUser(name)
                 .Where(p => p.Id == key)
@@ -271,7 +249,7 @@ namespace EF.Data
             return sections; 
         }
 
-        internal IEnumerable<PropertyReportGroupItem> GetPropertyReportData(int propertyId, string userName)
+        public IEnumerable<PropertyReportGroupItem> GetPropertyReportData(int propertyId, string userName)
         {
             var hasPermission = GetPropertyForUser(userName).Any(p => p.Id == propertyId);
             if (!hasPermission)
@@ -315,14 +293,12 @@ namespace EF.Data
             return result;
         }
 
-
-
-        internal IQueryable<Company> GetAllCompanies()
+        public IQueryable<Company> GetAllCompanies()
         {
             return _ctx.Companies.Include(p => p.CompanyServices).AsQueryable();
         }
 
-        internal IQueryable<WorkItem> GetAllPropertyWorkItems(int propertyId)
+        public IQueryable<WorkItem> GetAllPropertyWorkItems(int propertyId)
         {
             var workItems = _ctx.Properties
                 .Where(p => p.Id == propertyId)
@@ -420,8 +396,6 @@ namespace EF.Data
 
         }
 
-
-
         private IQueryable<Property> GetClientProperties(int clientId)
         {
             var property = from client in _ctx.Clients
@@ -441,7 +415,6 @@ namespace EF.Data
             return propertyViaAllocation.Union(propertyViaCompany);
 
         }
-
 
         //this is for company role -> contractor only
         private IQueryable<Property> GetMemberPropertyViaAllocation(int memberId)
@@ -471,9 +444,6 @@ namespace EF.Data
 
         }
 
-
-
-
         public IQueryable<Client> GetPropertyOwnerClinet(int propertyId)
         {
            var ownerClient = _ctx.Properties.Where(p => p.Id == propertyId)
@@ -485,7 +455,6 @@ namespace EF.Data
 
         }
 
-
         public IQueryable<Company> GetCompanyForProperty(int propertyID)
         {
             // get the company that this property has been assigned to.
@@ -494,15 +463,5 @@ namespace EF.Data
 
 
         }
-
-
-        public void Dispose()
-        {
-            _ctx.Dispose();
-            _userManager.Dispose();
-
-        }
-
-      
     }
 }

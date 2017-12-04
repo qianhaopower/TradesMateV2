@@ -21,8 +21,15 @@ namespace DataService.Controllers
 {
 	[Authorize]
 	public class StorageController : ApiController
-{
-	
+    {
+        private IAuthRepository _authRepo;
+        private IStorageRepository _storageRepo;
+        public StorageController(IAuthRepository authRepo, IStorageRepository storageRepo)
+        {
+            _authRepo = authRepo;
+            _storageRepo = storageRepo;
+        }
+
         /// <summary>
         /// Uploads one or more blob files.
         /// </summary>
@@ -46,9 +53,9 @@ namespace DataService.Controllers
                     return BadRequest(string.Format("{0} is not a valid entity type for attachments", type)) ;
                 }
 
-                var repo = new StorageRepository();
+                
                 // Call service to perform upload, then check result to return as content
-                var result = await repo.UploadBlobs(Request.Content,  entityId, typeParsed, User.Identity.Name);
+                var result = await _storageRepo.UploadBlobs(Request.Content,  entityId, typeParsed, User.Identity.Name);
                 if (result != null && result.Count > 0)
                 {
                     return Ok(result);
@@ -73,8 +80,8 @@ namespace DataService.Controllers
 			{
 				return BadRequest(string.Format("{0} is not a valid entity type for attachments", entityType));
 			}
-			var repo = new StorageRepository();
-			var result =  repo.GetEntityAttachments(entityId, typeParsed,User.Identity.Name);
+			
+			var result = _storageRepo.GetEntityAttachments(entityId, typeParsed,User.Identity.Name);
 
 			var returnList = result.Select(Mapper.Map<Attachment, AttachmentModel>).ToList();
 			return Ok(returnList);
@@ -89,8 +96,8 @@ namespace DataService.Controllers
 			{
 				return BadRequest(string.Format("{0} is not a valid entity type for attachments", entityType));
 			}
-			var repo = new StorageRepository();
-			var result = await repo.DeleteBlob(attachmentId, entityId, typeParsed, User.Identity.Name);
+			
+			var result = await _storageRepo.DeleteBlob(attachmentId, entityId, typeParsed, User.Identity.Name);
 			if (result)
 			{
 				return StatusCode(HttpStatusCode.NoContent);
@@ -123,8 +130,8 @@ namespace DataService.Controllers
                 {
                     return Request.CreateResponse(HttpStatusCode.BadRequest, string.Format("{0} is not a valid entity type for attachments", type));
                 }
-                var repo = new StorageRepository();
-                var result = await repo.DownloadBlob(entityId, typeParsed, attachmentId, User.Identity.Name);
+                
+                var result = await _storageRepo.DownloadBlob(entityId, typeParsed, attachmentId, User.Identity.Name);
                 if (result == null)
                 {
                     return new HttpResponseMessage(HttpStatusCode.NotFound);

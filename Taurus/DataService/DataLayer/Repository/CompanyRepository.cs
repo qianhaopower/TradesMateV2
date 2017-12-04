@@ -13,23 +13,12 @@ using Z.EntityFramework.Plus;
 namespace EF.Data
 {
 
-    public class CompanyRepository : IDisposable
+    public class CompanyRepository : BaseRepository, ICompanyRepository
     {
-        private EFDbContext _ctx;
-
-        private UserManager<ApplicationUser> _userManager;
-        public CompanyRepository(EFDbContext ctx = null)
+       
+        public CompanyRepository(EFDbContext ctx = null) :base(ctx)
         {
-            if(ctx!= null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
-           
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
+          
         }
 
         public void CreateJoinCompanyRequest(string userName, InviteMemberModel model)
@@ -66,14 +55,6 @@ namespace EF.Data
             });
 
         }
-
-
-        //public Company GetCompanyForCurrentUser(string userName)
-        //{
-        //    var company = GetCompanyFoAdminUser(userName);
-        //    return company;
-
-        //}
 
         public IQueryable<Property> GetCompanyProperties(int companyId)
         {
@@ -497,12 +478,6 @@ namespace EF.Data
             _ctx.Entry(record).State = EntityState.Modified;
             _ctx.SaveChanges();
         }
-        public void Dispose()
-        {
-            _ctx.Dispose();
-            _userManager.Dispose();
-
-        }
-
+      
     }
 }

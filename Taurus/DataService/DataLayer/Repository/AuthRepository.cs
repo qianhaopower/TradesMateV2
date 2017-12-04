@@ -19,27 +19,11 @@ using System.Web;
 namespace EF.Data
 {
 
-    public class AuthRepository : IDisposable
+    public class AuthRepository : BaseRepository, IAuthRepository
     {
-        private EFDbContext _ctx;
-       // private EFDbContext _applicationContext;
-
-        private UserManager<ApplicationUser> _userManager;
-        //private RoleManager<IdentityRole> _roleManager;
-
-        public AuthRepository(EFDbContext ctx = null)
+      
+        public AuthRepository(EFDbContext ctx = null):base(ctx)
         {
-           
-            if(ctx != null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
-            //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
 
         public async Task<ApplicationUser> GetUserById(string userId)
@@ -434,11 +418,6 @@ namespace EF.Data
             }
             throw new Exception("Local IP Address Not Found!");
         }
-        public void Dispose()
-        {
-            _ctx.Dispose();
-            _userManager.Dispose();
 
-        }
     }
 }

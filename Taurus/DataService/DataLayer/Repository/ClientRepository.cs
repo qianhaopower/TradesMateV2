@@ -8,26 +8,12 @@ using Z.EntityFramework.Plus;
 namespace EF.Data
 {
 
-    public class ClientRepository : IDisposable
+    public class ClientRepository : BaseRepository, IClientRepository
     {
-        private EFDbContext _ctx;
-
-        private UserManager<ApplicationUser> _userManager;
-
-        public ClientRepository(EFDbContext ctx = null)
+        public ClientRepository(EFDbContext ctx = null) :base(ctx)
         {
-            if (ctx != null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
-          
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
+            
         }
-
         
         public Client GetClientForUser (string userId)
         {
@@ -57,15 +43,6 @@ namespace EF.Data
             }
 
         }
-
-
-
-
-        //decide what clients can this user see. 
-        //if the user is a client, then can only see client him/herself
-
-        //if the user is a member, he/she can see all the clients whose property he/she has access to.
-
         public IQueryable<Client> GetAccessibleClientForUser(string userName)
         {
             if (string.IsNullOrEmpty(userName))
@@ -115,7 +92,6 @@ namespace EF.Data
 
         }
 
-
         public Client GetClient(string userName, int clientId)
         {
             return GetAccessibleClientForUser(userName).FirstOrDefault(c => c.Id == clientId);
@@ -137,22 +113,13 @@ namespace EF.Data
             }
         }
 
-
-        public IQueryable<Client> GetClientsForProperty(IQueryable<Property> list)
+        private IQueryable<Client> GetClientsForProperty(IQueryable<Property> list)
         {
             var clients = from p in list
                           join cp in _ctx.ClientProperties on p.Id equals cp.PropertyId
                           join c in _ctx.Clients on cp.Id equals c.Id
                           select c;
             return clients;
-
-        }
-
-
-        public void Dispose()
-        {
-            _ctx.Dispose();
-            _userManager.Dispose();
 
         }
     }

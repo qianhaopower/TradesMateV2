@@ -12,6 +12,14 @@ namespace DataService.Controllers
     [Authorize]
     public class MessagesController : ApiController
     {
+        private IAuthRepository _authRepo;
+        private IMessageRepository _messageRepo;
+        public MessagesController(IAuthRepository authRepo, IMessageRepository messageRepo)
+        {
+            _authRepo = authRepo;
+            _messageRepo = messageRepo;
+        }
+
         public IHttpActionResult GetMessages()
         {
             return Ok(GetUserMessage());
@@ -26,13 +34,13 @@ namespace DataService.Controllers
 
         private IEnumerable<MessageDetailModel> GetUserMessage()
         {
-            var messages = new MessageRepository().GetMessageForUser(User.Identity.Name).ToList();
+            var messages = _messageRepo.GetMessageForUser(User.Identity.Name).ToList();
             //messages.ForEach(p => p.HasResponse = p.MessageResponse != null);
 
             var returnList = messages.Select(Mapper.Map<Message, MessageDetailModel>).ToList();
             returnList.ForEach(p => p.HasResponse = p.MessageResponse != null);
 
-            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
+            var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
 
             foreach (var message in returnList)
             {
@@ -54,22 +62,22 @@ namespace DataService.Controllers
 
         public IHttpActionResult GetMessage(int messageId)
         {
-            var message = new MessageRepository().GetMessageForUser(User.Identity.Name).Where(p => p.Id == messageId).FirstOrDefault();
+            var message = _messageRepo.GetMessageForUser(User.Identity.Name).Where(p => p.Id == messageId).FirstOrDefault();
 
             return Ok(Mapper.Map<Message, MessageDetailModel>(message));
         }
         //called every 2 second
         public IHttpActionResult GetUnReadMessagesCount()
         {
-            var count = new MessageRepository().GetUnReadMessageCountForUser(User.Identity.Name);
+            var count = _messageRepo.GetUnReadMessageCountForUser(User.Identity.Name);
             return Ok(count);
         }
 
         [HttpPost]
         public IHttpActionResult MarkMessageAsRead(int messageId)
         {
-            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
-            new MessageRepository().MarkMessageAsRead(messageId, userId);
+            var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
+            _messageRepo.MarkMessageAsRead(messageId, userId);
             return Ok();
 
         }
@@ -77,8 +85,8 @@ namespace DataService.Controllers
         [HttpPost]
         public IHttpActionResult GenerateClientWorkRequest(MessageDetailModel model)
         {
-            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
-            new MessageRepository().GenerateClientWorkRequest(model, userId);
+            var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
+            _messageRepo.GenerateClientWorkRequest(model, userId);
             return (Ok());
 
         }
@@ -86,15 +94,15 @@ namespace DataService.Controllers
         [HttpPost]
         public IHttpActionResult CreatePropertyForWorkRequest(int messageId, PropertyModel property)
         {
-            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
-            new MessageRepository().CreatePropertyForWorkRequest(messageId, property);
+            var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
+            _messageRepo.CreatePropertyForWorkRequest(messageId, property);
             return (Ok());
 
         }
         [HttpPost]
         public IHttpActionResult HandleMessageResponse(int messageId, ResponseAction  action)
         {
-            new MessageRepository().HandleMessageResponse(messageId, action);
+            _messageRepo.HandleMessageResponse(messageId, action);
             return Ok();
 
         }

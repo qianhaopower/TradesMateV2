@@ -12,12 +12,14 @@ using DataService.Infrastructure;
 using DataService.Providers;
 using AutoMapper;
 using EF.Data;
+using Ninject;
+using System.Reflection;
+using Ninject.Web.Common.OwinHost;
+using Ninject.Web.WebApi.OwinHost;
 
 [assembly: OwinStartup("DataService",typeof(DataService.Startup))]
 namespace DataService
 {
-    
-
     public class Startup
     {
         public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
@@ -31,13 +33,22 @@ namespace DataService
             ConfigureOAuth(app);
 
             WebApiConfig.Register(config);
+
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             app.UseWebApi(config);
             AutoMapperConfig.RegisterMappings();
+            app.UseNinjectMiddleware(CreateKernel).UseNinjectWebApi(config);
 
         }
 
-        public void ConfigureOAuth(IAppBuilder app)
+        private static StandardKernel CreateKernel()
+        {
+            var kernel = new StandardKernel();
+            kernel.Load(Assembly.GetExecutingAssembly());
+            return kernel;
+        }
+
+        private void ConfigureOAuth(IAppBuilder app)
         {
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(EFDbContext.Create);

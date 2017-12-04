@@ -1,6 +1,4 @@
-﻿
-
-using AutoMapper;
+﻿using AutoMapper;
 using DataService.Infrastructure;
 using DataService.Models;
 using Microsoft.AspNet.Identity;
@@ -13,26 +11,12 @@ using System.Linq;
 namespace EF.Data
 {
 
-    public class WorkItemRepository : IDisposable
+    public class WorkItemRepository : BaseRepository, IWorkItemRepository
     {
-        private EFDbContext _ctx;
-
-        private UserManager<ApplicationUser> _userManager;
-        public WorkItemRepository(EFDbContext ctx = null)
+        public WorkItemRepository(EFDbContext ctx = null) : base(ctx)
         {
-            if (ctx != null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
 
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
         }
-
-
         public IEnumerable<WorkItem> GetSectionWorkItems(string UserName, int sectionId)
         {
             var propertyId = _ctx.Sections.Single(p => p.Id == sectionId).PropertyId;
@@ -78,8 +62,7 @@ namespace EF.Data
 
             return workItems;
         }
-
-        internal WorkItem GetWorkItemById(string userName, int workItemId)
+        public WorkItem GetWorkItemById(string userName, int workItemId)
         {
             var workItem = _ctx.WorkItems.FirstOrDefault(w => w.Id == workItemId);
             var sectionRepo = new SectionRepository(_ctx);
@@ -92,7 +75,7 @@ namespace EF.Data
                 throw new Exception($"No permission to view workitem with id {workItemId}");
             }
         }
-        internal WorkItem CreateWorkItem(string userName, WorkItemModel model)
+        public WorkItem CreateWorkItem(string userName, WorkItemModel model)
         {
             var sectionRepo = new SectionRepository(_ctx);
             if (sectionRepo.HasPermissionForSection(userName, model.SectionId))
@@ -118,14 +101,13 @@ namespace EF.Data
                 throw new Exception($"No permission to create workitemf for section {model.SectionId}");
             }
         }
-
-        internal WorkItem UpdateWorkItem(string userName, WorkItemModel model)
+        public WorkItem UpdateWorkItem(string userName, WorkItemModel model)
         {
             var sectionRepo = new SectionRepository(_ctx);
             if (sectionRepo.HasPermissionForSection(userName, model.SectionId))
             {
                 var toEdidWorkItem = _ctx.WorkItems.FirstOrDefault(w => w.Id == model.Id);
-                if(toEdidWorkItem != null)
+                if (toEdidWorkItem != null)
                 {
                     toEdidWorkItem.ModifiedDateTime = DateTime.Now;
                     toEdidWorkItem.Name = model.Name;
@@ -145,9 +127,7 @@ namespace EF.Data
                 throw new Exception($"No permission to create workitemf for section {model.SectionId}");
             }
         }
-
-
-        internal void DeleteWorkItemById(string userName, int workItemId)
+        public void DeleteWorkItemById(string userName, int workItemId)
         {
             var workItem = _ctx.WorkItems.FirstOrDefault(w => w.Id == workItemId);
             var sectionRepo = new SectionRepository(_ctx);
@@ -161,13 +141,5 @@ namespace EF.Data
                 throw new Exception($"No permission to delete workitem with id {workItemId}");
             }
         }
-
-        public void Dispose()
-        {
-            _ctx.Dispose();
-            _userManager.Dispose();
-
-        }
-
     }
 }
