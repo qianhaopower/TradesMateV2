@@ -20,7 +20,7 @@ namespace EF.Data
     public class WorkItemTemplateRepository : BaseRepository, IWorkItemTemplateRepository
     {
 
-        public WorkItemTemplateRepository(EFDbContext ctx = null) : base(ctx)
+        public WorkItemTemplateRepository(EFDbContext ctx) : base(ctx)
         {
 
         }

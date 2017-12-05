@@ -39,7 +39,7 @@ namespace EF.Data
                 private const string AddPropertyCoOwnerMessage = "Dear {0}, you are granted access to {1., You can see {1}'s works now.";
         #endregion
 
-        public MessageRepository(EFDbContext ctx = null) : base(ctx)
+        public MessageRepository(EFDbContext ctx) : base(ctx)
         {
 
         }

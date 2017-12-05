@@ -20,7 +20,7 @@ namespace EF.Data
     public class PropertyRepository : BaseRepository, IPropertyRepository
     {
       
-        public PropertyRepository(EFDbContext ctx = null) : base(ctx)
+        public PropertyRepository(EFDbContext ctx) : base(ctx)
         {
            
         }

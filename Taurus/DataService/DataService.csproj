@@ -241,6 +241,8 @@
   <ItemGroup>
     <Compile Include="App_Start\AutoMapperConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="AuthProviders\IOAuthAuthorizationServerOptions.cs" />
+    <Compile Include="AuthProviders\MyOAuthAuthorizationServerOptions.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ClientsController.cs" />
     <Compile Include="Controllers\MessagesController.cs" />
@@ -347,6 +349,7 @@
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Services\EmailService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Startup.Auth.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Web.config">
@@ -367,6 +370,9 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Startup.Ninject.cs" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

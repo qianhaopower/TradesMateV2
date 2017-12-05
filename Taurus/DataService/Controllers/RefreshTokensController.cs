@@ -21,13 +21,6 @@ namespace DataService.Controllers
             _authRepo = authRepo;
         }
 
-      
-
-        public RefreshTokensController()
-        {
-            _authRepo = new AuthRepository();
-        }
-
         [Authorize(Users="Admin")]
         [Route("")]
         public IHttpActionResult Get()

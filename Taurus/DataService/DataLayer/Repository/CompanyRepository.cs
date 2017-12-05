@@ -16,7 +16,7 @@ namespace EF.Data
     public class CompanyRepository : BaseRepository, ICompanyRepository
     {
        
-        public CompanyRepository(EFDbContext ctx = null) :base(ctx)
+        public CompanyRepository(EFDbContext ctx) :base(ctx)
         {
           
         }

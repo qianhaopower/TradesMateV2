@@ -10,7 +10,7 @@ namespace EF.Data
 
     public class ClientRepository : BaseRepository, IClientRepository
     {
-        public ClientRepository(EFDbContext ctx = null) :base(ctx)
+        public ClientRepository(EFDbContext ctx) :base(ctx)
         {
             
         }

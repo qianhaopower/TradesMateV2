@@ -13,7 +13,7 @@ namespace EF.Data
 
     public class WorkItemRepository : BaseRepository, IWorkItemRepository
     {
-        public WorkItemRepository(EFDbContext ctx = null) : base(ctx)
+        public WorkItemRepository(EFDbContext ctx) : base(ctx)
         {
 
         }

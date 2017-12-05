@@ -28,7 +28,7 @@ namespace EF.Data
 
         private  readonly string[] _validExtensions = { "jpg", "bmp", "gif", "png", "jpeg" }; //  etc
 
-        public StorageRepository(EFDbContext ctx = null) : base(ctx)
+        public StorageRepository(EFDbContext ctx) : base(ctx)
         {
            
         }

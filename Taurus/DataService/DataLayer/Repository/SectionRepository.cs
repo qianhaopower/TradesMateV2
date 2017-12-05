@@ -15,7 +15,7 @@ namespace EF.Data
 
     public class SectionRepository : BaseRepository, ISectionRepository
     {
-        public SectionRepository(EFDbContext ctx = null) : base(ctx)
+        public SectionRepository(EFDbContext ctx) : base(ctx)
         {
            
         }

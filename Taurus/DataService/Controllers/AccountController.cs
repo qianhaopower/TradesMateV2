@@ -46,15 +46,15 @@ namespace DataService.Controllers
                 return _modelFactory;
             }
         }
-        private AuthRepository _authRepo;
-        private CompanyRepository _companyRepo;
+        private IAuthRepository _authRepo;
+        private ICompanyRepository _companyRepo;
 
         private IAuthenticationManager Authentication
         {
             get { return Request.GetOwinContext().Authentication; }
         }
 
-        public AccountController(AuthRepository authRepo, CompanyRepository companyRepo)
+        public AccountController(IAuthRepository authRepo, ICompanyRepository companyRepo)
         {
             _authRepo = authRepo;
             _companyRepo = companyRepo;
@@ -389,16 +389,6 @@ namespace DataService.Controllers
 
             return Ok(accessTokenResponse);
 
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _authRepo.Dispose();
-            }
-
-            base.Dispose(disposing);
         }
 
         #region Helpers

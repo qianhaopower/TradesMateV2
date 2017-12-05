@@ -22,7 +22,7 @@ namespace EF.Data
     public class AuthRepository : BaseRepository, IAuthRepository
     {
       
-        public AuthRepository(EFDbContext ctx = null):base(ctx)
+        public AuthRepository(EFDbContext ctx):base(ctx)
         {
         }
 
