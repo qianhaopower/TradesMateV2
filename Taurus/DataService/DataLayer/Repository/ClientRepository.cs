@@ -1,7 +1,9 @@
 ﻿using DataService.Infrastructure;
+using DataService.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using System.Data.Entity;
 using System.Linq;
 using Z.EntityFramework.Plus;
 
@@ -96,6 +98,32 @@ namespace EF.Data
         {
             return GetAccessibleClientForUser(userName).FirstOrDefault(c => c.Id == clientId);
         }
+        public Client UpdateClient(string username, ClientModel model)
+        {
+            if(GetAccessibleClientForUser(username).Where(p=> p.Id == model.Id).Any())
+            {
+                var toEditClient = _ctx.Clients.Where(p => p.Id == model.Id).First();
+                if (toEditClient != null)
+                {
+                    toEditClient.ModifiedDateTime = DateTime.Now;
+                    toEditClient.Description = model.Description;
+                    toEditClient.FirstName = model.FirstName;
+                    toEditClient.LastName = model.LastName;
+                    toEditClient.MobileNumber = model.MobileNumber;
+                    // All other properties are linked to the user record. Need change it when changing user.
+
+
+                    _ctx.Entry(toEditClient).State = EntityState.Modified;
+                    _ctx.SaveChanges();
+                }
+                return toEditClient;
+            }
+            else
+            {
+                throw new Exception($"No permission to edit client {model.Id}");
+            }
+        }
+
         public void DeleteClient(string userName, int clientId)
         {
             var _repo = new AuthRepository(_ctx);

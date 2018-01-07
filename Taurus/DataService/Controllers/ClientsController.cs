@@ -9,6 +9,7 @@ using DataService.Models;
 namespace DataService.Controllers
 {
     [Authorize]
+    [RoutePrefix("api/clients")]
     public class ClientsController : ApiController
     {
         private IClientRepository _clientRepo;
@@ -20,7 +21,8 @@ namespace DataService.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetClients()
+        [Route("")]
+        public IHttpActionResult Clients()
         {
             var clients = _clientRepo.GetAccessibleClientForUser(User.Identity.Name)
                 .Select(Mapper.Map<Client, ClientModel>).ToList(); 
@@ -28,31 +30,40 @@ namespace DataService.Controllers
         }
 
         [HttpGet]
-        public IHttpActionResult GetClient(int clientId)
+        [Route("{id:int}")]
+        public IHttpActionResult Client(int id)
         {
-            var client = _clientRepo.GetClient(User.Identity.Name, clientId);
+            var client = _clientRepo.GetClient(User.Identity.Name, id);
             return Ok(Mapper.Map<Client, ClientModel>(client));
+        }
+
+        [HttpPut]
+        [Route("")]
+        public IHttpActionResult UpdateClient (ClientModel model)
+        {
+            var client = _clientRepo.UpdateClient(User.Identity.Name, model);
+            return Ok(Mapper.Map <Client, ClientModel>(client));
         }
 
 
         [HttpDelete]
-        public IHttpActionResult Delete(int clientId)
+        [Route("{id:int}")]
+        public IHttpActionResult DeleteClient(int id)
         {
-            _clientRepo.DeleteClient(User.Identity.Name, clientId);
+            _clientRepo.DeleteClient(User.Identity.Name, id);
             return Ok();
         }
-
      
 
         [HttpGet]
-        public IHttpActionResult GetProperties( int key)
+        [Route("{id:int}/properties")]
+        public IHttpActionResult Properties( int id)
         {
             var properties = _propertyRepo.GetPropertyForUser(User.Identity.Name)
                 .Include(p => p.Address)
                 .Include(p=> p.ClientProperties)
-                .Where(p=>p.ClientProperties.Any(z=> z.ClientId == key));
+                .Where(p=>p.ClientProperties.Any(z=> z.ClientId == id));
             return Ok(properties.Select(Mapper.Map<Property, PropertyModel>).ToList());
         }
-
     }
 }

@@ -7,14 +7,14 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
         getAllClients: function () {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Clients?$expand=address';//Odata is case sensitive
+            var path = baseURL + '/clients';//Odata is case sensitive
             var error = 'Error happened when getting clients';  
             $http({
                 method: 'GET',
                 url: path,
             }).then(function successCallback(response) {
                 if (response.data && response.status >= 200 && response.status <= 299) {             
-                    deferred.resolve(response.data.value);
+                    deferred.resolve(response.data);
                 } else {
                     deferred.reject(error);
                 }
@@ -27,7 +27,7 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
         getClientById: function (clientId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Clients(' + clientId + ')?$expand=address';
+            var path = baseURL + '/clients/' + clientId;
             var error = 'Error happened when getting client with id ' + clientId;
             $http({
                 method: 'GET',
@@ -47,10 +47,10 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
         editClient: function (client) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Clients(' + client.id + ')';
+            var path = baseURL + '/clients';
             var error = 'Error happened when saving client with id ' + client.id;
             $http({
-                method: 'PATCH',
+                method: 'PUT',
                 url: path,
                 data:client,
             }).then(function successCallback(response) {
@@ -66,37 +66,37 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
             return deferred.promise;
         },
         
-        createClient: function (newClient) {
+        // createClient: function (newClient) {
 
-            //find out a way allow passing extra to server. 
-            //Or find a pattern to remove all extra property
-            newClient.isNew = undefined;
+        //     //find out a way allow passing extra to server. 
+        //     //Or find a pattern to remove all extra property
+        //     newClient.isNew = undefined;
 
-            var deferred = $q.defer();
-            var baseURL = urls.apiUrl;
-            var path = baseURL + '/Clients';
-            var error = 'Error happened when creating client';
-            $http({
-                method: 'POST',
-                url: path,
-                data: newClient,
-            }).then(function successCallback(response) {
-                if (response.status >= 200 && response.status <= 299) {
-                    deferred.resolve(response.data);
-                } else {
-                    deferred.reject(error);
-                }
+        //     var deferred = $q.defer();
+        //     var baseURL = urls.apiUrl;
+        //     var path = baseURL + '/clients';
+        //     var error = 'Error happened when creating client';
+        //     $http({
+        //         method: 'POST',
+        //         url: path,
+        //         data: newClient,
+        //     }).then(function successCallback(response) {
+        //         if (response.status >= 200 && response.status <= 299) {
+        //             deferred.resolve(response.data);
+        //         } else {
+        //             deferred.reject(error);
+        //         }
 
-            }, function errorCallback(response) {
-                deferred.reject(error);
-            });
-            return deferred.promise;
-        },
+        //     }, function errorCallback(response) {
+        //         deferred.reject(error);
+        //     });
+        //     return deferred.promise;
+        // },
 
         deleteClient: function (clientId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Clients(' + clientId + ')';
+            var path = baseURL + '/clients/' + clientId ;
             var error = 'Error happened when deleting client';
             $http({
                 method: 'DELETE',
@@ -117,14 +117,14 @@ app.factory('clientDataService', [ '$q', '$http', '$window', 'urls',function ( $
         getClientProperties: function (clientId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Clients(' + clientId + ')/properties';// property should be lower case, as it is formatted already
+            var path = baseURL + '/clients/' + clientId + '/properties';// property should be lower case, as it is formatted already
             var error = 'Error happened when getting client\'s properties with id ' + clientId;
             $http({
                 method: 'GET',
                 url: path,
             }).then(function successCallback(response) {
                 if (response.data && response.status >= 200 && response.status <= 299) {
-                    deferred.resolve(response.data.value);
+                    deferred.resolve(response.data);
                 } else {
                     deferred.reject(error);
                 }

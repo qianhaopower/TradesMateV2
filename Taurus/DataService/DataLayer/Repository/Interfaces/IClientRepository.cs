@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using DataService.Models;
+using System.Linq;
 
 namespace EF.Data
 {
@@ -10,6 +11,7 @@ namespace EF.Data
         IQueryable<Client> GetAccessibleClientForUser(string userName);
 
         Client GetClient(string userName, int clientId);
+        Client UpdateClient(string userName, ClientModel model);
         void DeleteClient(string userName, int clientId);
     }
 }

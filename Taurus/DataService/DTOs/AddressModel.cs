@@ -25,6 +25,9 @@ namespace DataService.Models
         public string Suburb { get; set; }
         public string City { get; set; }
 
+        public string AddressDisplay { get {
+                return $"{Line1} {Line2} {Line3} {Suburb} {PostCode}";
+            } }
 
     }
 

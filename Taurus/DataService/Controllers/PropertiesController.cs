@@ -9,17 +9,19 @@ using DataService.Models;
 namespace DataService.Controllers
 {
     [Authorize]
-    public class PropertiesWebApiController : ApiController
+    [RoutePrefix("api/properties")]
+    public class PropertiesController : ApiController
     {
         private IAuthRepository _authRepo;
         private IPropertyRepository _propRepo;
-        public PropertiesWebApiController(IAuthRepository authRepo, IPropertyRepository propRepo)
+        public PropertiesController(IAuthRepository authRepo, IPropertyRepository propRepo)
         {
             _authRepo = authRepo;
             _propRepo = propRepo;
         }
 
         [HttpGet]
+        [Route("")]
         public IHttpActionResult GetProperties()
         {
             var repo = _propRepo;
@@ -27,28 +29,59 @@ namespace DataService.Controllers
             return Ok(properties.Select(Mapper.Map<Property, PropertyModel>).ToList());
         }
 
+        [HttpPut]
+        [Route("")]
+        public IHttpActionResult UpdatePropertyForClient(PropertyModel model)
+        {
+            //var property = _propRepo.CreatePropertyForClient(User.Identity.Name, model);
+            return Ok();
+        }
+
+
         [HttpPost]
+        [Route("")]
         public IHttpActionResult CreatePropertyForClient(PropertyModel model)
         {
             var property = _propRepo.CreatePropertyForClient(User.Identity.Name, model);
             return Ok();
         }
-
-
         [HttpGet]
-        public IHttpActionResult GetPropertyReportItems(int propertyId)
+        [Route("{id:int}")]
+        public IHttpActionResult GetProperty(int id)
         {
             var repo = _propRepo;
-            var hasPermission = repo.GetPropertyForUser(User.Identity.Name).Any(p=> p.Id == propertyId);
+            var property = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address).FirstOrDefault(p => p.Id == id);
+            var result = Mapper.Map<Property, PropertyModel>(property);
+
+            return Ok(result);
+        }
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public IHttpActionResult Delete(int id)
+        {
+            var repo = _propRepo;
+            repo.DeleteProperty(User.Identity.Name, id);
+            return Ok();
+
+        }
+
+        [HttpGet]
+        [Route("{id:int}/report")]
+        public IHttpActionResult GetPropertyReportItems(int id)
+        {
+            var repo = _propRepo;
+            var hasPermission = repo.GetPropertyForUser(User.Identity.Name).Any(p=> p.Id == id);
             if (!hasPermission)
                 return  Unauthorized();
-            var result = repo.GetPropertyReportData(propertyId, User.Identity.Name);
+            var result = repo.GetPropertyReportData(id, User.Identity.Name);
             return    Ok(result);
 
         }
 
 
         [HttpGet]
+        [Route("{memberId:int}/allocation")]
         public IHttpActionResult GetMemberAllocation(int memberId)
         {
             var memberList = _propRepo.GetMemberAllocation(User.Identity.Name, memberId).ToList();
@@ -57,45 +90,32 @@ namespace DataService.Controllers
 
 
         [HttpPost]
-        public IHttpActionResult UpdateMemberAllocation(int propertyId, int memberId, bool allocate)
+        [Route("{id:int}/allocation/{memberId:int}/{allocate:bool}")]
+        public IHttpActionResult UpdateMemberAllocation(int id, int memberId, bool allocate)
         {
-            var allcation = _propRepo.UpdateMemberAllocation(User.Identity.Name, propertyId, memberId, allocate);
+            var allcation = _propRepo.UpdateMemberAllocation(User.Identity.Name, id, memberId, allocate);
             return (Ok(allcation));
         }
       
         [HttpGet]
-        public IHttpActionResult GetCompanies(int propertyId)
+        [Route("{id:int}/company")]
+        public IHttpActionResult GetCompanies(int id)
         {
             var repo = _propRepo;
-            var companyModels = repo.GetCompanyForProperty(propertyId).Select(Mapper.Map<Company, CompanyModel>).ToList();
+            var companyModels = repo.GetCompanyForProperty(id).Select(Mapper.Map<Company, CompanyModel>).ToList();
             //no need for the credit card field
             companyModels.ForEach(p => p.CreditCard = null);
             return Ok(companyModels);
         }
 
-        [HttpGet]
-        public IHttpActionResult GetProperty(int key)
-        {
-            var repo = _propRepo;
-            var property = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address).FirstOrDefault(p => p.Id == key);
-            var result = Mapper.Map<Property, PropertyModel>(property);
-          
-            return Ok(result);
-        }
+     
 
-        [HttpDelete]
-        public IHttpActionResult Delete(int key)
-        {
-            var repo = _propRepo;
-            repo.DeleteProperty(User.Identity.Name, key);
-            return Ok();
-          
-        }
         [HttpGet]
-        public IHttpActionResult GetSectionList(int key)
+        [Route("{id:int}/section")]
+        public IHttpActionResult GetSectionList(int id)
         {
             var repo = _propRepo;
-            var sections = repo.GetPropertySectionList(User.Identity.Name, key);
+            var sections = repo.GetPropertySectionList(User.Identity.Name, id);
             return Ok(sections.Select(Mapper.Map<Section, SectionModel>));
         }
 
