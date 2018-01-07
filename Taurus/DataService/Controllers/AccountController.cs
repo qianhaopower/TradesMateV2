@@ -22,37 +22,19 @@ using System.Web.Http;
 
 namespace DataService.Controllers
 {
+    [RoutePrefix("api/account")]
     public class AccountController : ApiController
     {
         private ApplicationUserManager _AppUserManager = null;
-        protected ApplicationUserManager AppUserManager
-        {
-            get
-            {
-                return _AppUserManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-        }
+        protected ApplicationUserManager AppUserManager => _AppUserManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
 
         private ModelFactory _modelFactory;
-        protected ModelFactory TheModelFactory
-        {
-            get
-            {
-                if (_modelFactory == null)
-                {
-                    _modelFactory = new ModelFactory(this.Request);
-                }
-                return _modelFactory;
-            }
-        }
+        protected ModelFactory TheModelFactory => _modelFactory ?? (_modelFactory = new ModelFactory(this.Request));
         private IAuthRepository _authRepo;
         private ICompanyRepository _companyRepo;
 
-        private IAuthenticationManager Authentication
-        {
-            get { return Request.GetOwinContext().Authentication; }
-        }
+        private IAuthenticationManager Authentication => Request.GetOwinContext().Authentication;
 
         public AccountController(IAuthRepository authRepo, ICompanyRepository companyRepo)
         {
@@ -93,9 +75,9 @@ namespace DataService.Controllers
                 return BadRequest(ModelState);
             }
 
-             IdentityResult result = await _authRepo.RegisterUser(userModel, AppUserManager);
+             var result = await _authRepo.RegisterUser(userModel, AppUserManager);
 
-            IHttpActionResult errorResult = GetErrorResult(result);
+            var errorResult = GetErrorResult(result);
 
              if (errorResult != null)
              {
@@ -125,31 +107,20 @@ namespace DataService.Controllers
             //admin user can only register user for its company
           
             var user = await _authRepo.GetUserByUserNameAsync(User.Identity.Name);
-            if (user != null)
-            {
-                //user must be admin to create user, the check is in GetCompanyForCurrentUser
+            if (user == null) throw new Exception("User cannot be found");
+            //user must be admin to create user, the check is in GetCompanyForCurrentUser
 
                
-                var companyId = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name).Id;
-                    IdentityResult result = await _authRepo.RegisterUser(userModel, AppUserManager, companyId, userModel.IsContractor);
+            var companyId = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name).Id;
+            var result = await _authRepo.RegisterUser(userModel, AppUserManager, companyId, userModel.IsContractor);
 
-                    IHttpActionResult errorResult = GetErrorResult(result);
+            var errorResult = GetErrorResult(result);
 
-                    if (errorResult != null)
-                    {
-                        return errorResult;
-                    }
-
-                    return Ok();
-            }
-            else
-            {
-                throw new Exception("User cannot be found");
-            }
+            return errorResult ?? Ok();
         }
 
         //GET api/Account/GetCurrentUser   
-        //[Route("getcurrentuser")]
+        [Route("getcurrentuser")]
         public async Task<IHttpActionResult> GetCurrentUser()
         {
             //Only SuperAdmin or Admin can delete users (Later when implement roles)
@@ -424,9 +395,6 @@ namespace DataService.Controllers
 
         private string ValidateClientAndRedirectUri(HttpRequestMessage request, ref string redirectUriOutput)
         {
-
-            Uri redirectUri;
-
             var redirectUriString = GetQueryString(Request, "redirect_uri");
 
             if (string.IsNullOrWhiteSpace(redirectUriString))
@@ -434,7 +402,7 @@ namespace DataService.Controllers
                 return "redirect_uri is required";
             }
 
-            bool validUri = Uri.TryCreate(redirectUriString, UriKind.Absolute, out redirectUri);
+            bool validUri = Uri.TryCreate(redirectUriString, UriKind.Absolute, out var redirectUri);
 
             if (!validUri)
             {

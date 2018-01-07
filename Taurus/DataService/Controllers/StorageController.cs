@@ -20,22 +20,20 @@ using DataService.Models;
 namespace DataService.Controllers
 {
 	[Authorize]
-	public class StorageController : ApiController
+	[RoutePrefix("api/storage")]
+    public class StorageController : ApiController
     {
         private IAuthRepository _authRepo;
-        private IStorageRepository _storageRepo;
+        private readonly IStorageRepository _storageRepo;
         public StorageController(IAuthRepository authRepo, IStorageRepository storageRepo)
         {
             _authRepo = authRepo;
             _storageRepo = storageRepo;
         }
 
-        /// <summary>
-        /// Uploads one or more blob files.
-        /// </summary>
-        /// <returns></returns>
         [HttpPost]
         [ResponseType(typeof(List<BlobUploadModel>))]
+        [Route("upload")]
         public async Task<IHttpActionResult> PostBlobUpload(int entityId, string type)
         {
             try
@@ -46,11 +44,10 @@ namespace DataService.Controllers
                     return StatusCode(HttpStatusCode.UnsupportedMediaType);
                 }
 
-                AttachmentEntityType typeParsed;
-                bool typeValid = Enum.TryParse<AttachmentEntityType>(type, out typeParsed);
+                bool typeValid = Enum.TryParse<AttachmentEntityType>(type, out var typeParsed);
                 if (typeValid == false)
                 {
-                    return BadRequest(string.Format("{0} is not a valid entity type for attachments", type)) ;
+                    return BadRequest($"{type} is not a valid entity type for attachments") ;
                 }
 
                 
@@ -72,7 +69,8 @@ namespace DataService.Controllers
 
 
 		[HttpGet]
-		public IHttpActionResult GetBlobModels(int entityId, string entityType)
+		[Route("")]
+        public IHttpActionResult GetBlobModels(int entityId, string entityType)
 		{
 			AttachmentEntityType typeParsed;
 			bool typeValid = Enum.TryParse<AttachmentEntityType>(entityType, out typeParsed);
@@ -88,7 +86,8 @@ namespace DataService.Controllers
 		}
 
 		[HttpDelete]
-		public async Task<IHttpActionResult> DeleteBlob(int entityId, string entityType, int attachmentId)
+		[Route("")]
+        public async Task<IHttpActionResult> DeleteBlob(int entityId, string entityType, int attachmentId)
 		{
 			AttachmentEntityType typeParsed;
 			bool typeValid = Enum.TryParse<AttachmentEntityType>(entityType, out typeParsed);
@@ -117,6 +116,7 @@ namespace DataService.Controllers
 		/// <param name="blobId">The ID of the blob.</param>
 		/// <returns></returns>
 		[HttpGet]
+		[Route("download")]
         public async Task<HttpResponseMessage> GetBlobDownload(int entityId, string type, int attachmentId)
         {
             // IMPORTANT: This must return HttpResponseMessage instead of IHttpActionResult

@@ -12,8 +12,8 @@ namespace DataService.Controllers
     [RoutePrefix("api/clients")]
     public class ClientsController : ApiController
     {
-        private IClientRepository _clientRepo;
-        private IPropertyRepository _propertyRepo;
+        private readonly IClientRepository _clientRepo;
+        private readonly IPropertyRepository _propertyRepo;
         public ClientsController(IClientRepository clientRepo, IPropertyRepository propertyRepo)
         {
             _clientRepo = clientRepo;
@@ -24,7 +24,7 @@ namespace DataService.Controllers
         [Route("")]
         public IHttpActionResult Clients()
         {
-            var clients = _clientRepo.GetAccessibleClientForUser(User.Identity.Name)
+            var clients = _clientRepo.GetAccessibleClientForUser(User.Identity.Name).AsEnumerable()
                 .Select(Mapper.Map<Client, ClientModel>).ToList(); 
             return Ok(clients);
         }
@@ -63,7 +63,7 @@ namespace DataService.Controllers
                 .Include(p => p.Address)
                 .Include(p=> p.ClientProperties)
                 .Where(p=>p.ClientProperties.Any(z=> z.ClientId == id));
-            return Ok(properties.Select(Mapper.Map<Property, PropertyModel>).ToList());
+            return Ok(properties.AsEnumerable().Select(Mapper.Map<Property, PropertyModel>).ToList());
         }
     }
 }

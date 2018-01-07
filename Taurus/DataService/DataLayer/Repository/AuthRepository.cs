@@ -76,16 +76,19 @@ namespace EF.Data
                              join c in _ctx.Companies on cm.CompanyId equals c.Id
                              where cm.Role == CompanyRole.Admin && m.Id == user.Member.Id
                              select c;
-                if(company.Count() == 1)
+                switch (company.Count())
                 {
-                    return true;
-                }
-                else if(company.Count() > 0)
-                {
-                    throw new Exception("Member can only be admin for one company");
-                }else if (company.Count() == 0)
-                {
-                    return false;
+                    case 1:
+                        return true;
+                    default:
+                        if(company.Any())
+                        {
+                            throw new Exception("Member can only be admin for one company");
+                        }else if (!company.Any())
+                        {
+                            return false;
+                        }
+                        break;
                 }
             }
             return false;

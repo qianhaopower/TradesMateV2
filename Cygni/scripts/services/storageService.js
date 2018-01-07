@@ -10,7 +10,7 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageSer
         //    return response;
         //});
       
-        let uploadUrl = serviceBase + 'api/storage/PostBlobUpload?entityId=' + entityId + '&type=' + type;
+        let uploadUrl = serviceBase + 'api/storage/upload?entityId=' + entityId + '&type=' + type;
 
         let formData = new FormData();
         //Take the first selected file
@@ -35,7 +35,7 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageSer
 
     var _deleteFile = function (entityId, entityType, attachmentId) {
 
-        let deleteUrl = serviceBase + 'api/storage/DeleteBlob?entityId=' + entityId + '&entityType=' + entityType + '&attachmentId=' + attachmentId;
+        let deleteUrl = serviceBase + 'api/storage?entityId=' + entityId + '&entityType=' + entityType + '&attachmentId=' + attachmentId;
         var deferred = $q.defer();
 
         $http.delete(deleteUrl).then(function (response) {
@@ -84,7 +84,7 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageSer
 
     var _downloadFile = function ( entityId, type, attachmentId) {
 
-        let downUrl = serviceBase + 'api/storage/GetBlobDownload?entityId=' + entityId + '&type=' + type + '&attachmentId=' + attachmentId;
+        let downUrl = serviceBase + 'api/storage/download?entityId=' + entityId + '&type=' + type + '&attachmentId=' + attachmentId;
 
         downLoadFromUrl(downUrl);
       
@@ -92,7 +92,7 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageSer
 
     var _downloadAttachmentForEntity = function (entityId, entityType) {
 
-        let getUrl = serviceBase + 'api/storage/GetBlobModels?entityId=' + entityId + '&entityType=' + entityType ;
+        let getUrl = serviceBase + 'api/storage?entityId=' + entityId + '&entityType=' + entityType ;
         var deferred = $q.defer();
 
         $http.get(getUrl).then(function (response) {

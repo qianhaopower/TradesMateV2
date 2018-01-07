@@ -87,6 +87,25 @@ namespace EF.Data
             return newProperty;
         }
 
+        public Property UpdatePropertyForClient(string username, PropertyModel model)
+        {
+            if (!GetPropertyForUser(username).Any(p => p.Id == model.Id))
+                throw new Exception($"No permission to edit client {model.Id}");
+
+            var toEditProperty = _ctx.Properties.First(p => p.Id == model.Id);
+            if (toEditProperty == null) return null;
+
+            toEditProperty.ModifiedDateTime = DateTime.Now;
+            toEditProperty.Description = model.Description;
+            toEditProperty.Comment = model.Comment;
+            toEditProperty.Condition = model.Condition;
+            toEditProperty.Name = model.Name;
+            toEditProperty.Narrative = model.Narrative;
+            _ctx.Entry(toEditProperty).State = EntityState.Modified;
+            _ctx.SaveChanges();
+            return toEditProperty;
+        }
+
         public void DeleteProperty(string username, int key)
         {
             var _repo = new AuthRepository(_ctx);
@@ -463,5 +482,7 @@ namespace EF.Data
 
 
         }
+
+     
     }
 }

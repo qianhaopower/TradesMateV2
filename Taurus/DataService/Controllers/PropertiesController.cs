@@ -13,7 +13,7 @@ namespace DataService.Controllers
     public class PropertiesController : ApiController
     {
         private IAuthRepository _authRepo;
-        private IPropertyRepository _propRepo;
+        private readonly IPropertyRepository _propRepo;
         public PropertiesController(IAuthRepository authRepo, IPropertyRepository propRepo)
         {
             _authRepo = authRepo;
@@ -26,15 +26,15 @@ namespace DataService.Controllers
         {
             var repo = _propRepo;
             var properties = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address);
-            return Ok(properties.Select(Mapper.Map<Property, PropertyModel>).ToList());
+            return Ok(properties.AsEnumerable().Select(Mapper.Map<Property, PropertyModel>).ToList());
         }
 
         [HttpPut]
         [Route("")]
         public IHttpActionResult UpdatePropertyForClient(PropertyModel model)
         {
-            //var property = _propRepo.CreatePropertyForClient(User.Identity.Name, model);
-            return Ok();
+            var property = _propRepo.UpdatePropertyForClient(User.Identity.Name, model);
+            return Ok(property);
         }
 
 
@@ -43,7 +43,7 @@ namespace DataService.Controllers
         public IHttpActionResult CreatePropertyForClient(PropertyModel model)
         {
             var property = _propRepo.CreatePropertyForClient(User.Identity.Name, model);
-            return Ok();
+            return Ok();//need use created and pass in the url for the new resource
         }
         [HttpGet]
         [Route("{id:int}")]

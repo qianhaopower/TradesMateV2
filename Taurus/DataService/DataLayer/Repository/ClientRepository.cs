@@ -100,28 +100,24 @@ namespace EF.Data
         }
         public Client UpdateClient(string username, ClientModel model)
         {
-            if(GetAccessibleClientForUser(username).Where(p=> p.Id == model.Id).Any())
-            {
-                var toEditClient = _ctx.Clients.Where(p => p.Id == model.Id).First();
-                if (toEditClient != null)
-                {
-                    toEditClient.ModifiedDateTime = DateTime.Now;
-                    toEditClient.Description = model.Description;
-                    toEditClient.FirstName = model.FirstName;
-                    toEditClient.LastName = model.LastName;
-                    toEditClient.MobileNumber = model.MobileNumber;
-                    // All other properties are linked to the user record. Need change it when changing user.
-
-
-                    _ctx.Entry(toEditClient).State = EntityState.Modified;
-                    _ctx.SaveChanges();
-                }
-                return toEditClient;
-            }
-            else
-            {
+            if (!GetAccessibleClientForUser(username).Any(p => p.Id == model.Id))
                 throw new Exception($"No permission to edit client {model.Id}");
-            }
+            
+            var toEditClient = _ctx.Clients.First(p => p.Id == model.Id);
+            if (toEditClient == null) return toEditClient;
+
+            toEditClient.ModifiedDateTime = DateTime.Now;
+            toEditClient.Description = model.Description;
+            toEditClient.FirstName = model.FirstName;
+            toEditClient.LastName = model.LastName;
+            toEditClient.MobileNumber = model.MobileNumber;
+            // All other properties are linked to the user record. Need change it when changing user.
+
+
+            _ctx.Entry(toEditClient).State = EntityState.Modified;
+            _ctx.SaveChanges();
+            return toEditClient;
+            
         }
 
         public void DeleteClient(string userName, int clientId)

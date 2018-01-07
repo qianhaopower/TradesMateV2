@@ -50,5 +50,6 @@ namespace EF.Data
 
         IQueryable<Company> GetCompanyForProperty(int propertyID);
 
+        Property UpdatePropertyForClient(string username, PropertyModel model);
     }
 }
