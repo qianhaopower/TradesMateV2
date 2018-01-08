@@ -9,38 +9,37 @@ namespace DataService.Controllers
 {
 
     [Authorize]
+    [RoutePrefix("api/workitems")]
     public class WorkItemsController : ApiController
     {
 
-        private IAuthRepository _authRepo;
-        private IWorkItemRepository _workItemRepo;
+        private readonly IAuthRepository _authRepo;
+        private readonly IWorkItemRepository _workItemRepo;
         public WorkItemsController(IAuthRepository authRepo, IWorkItemRepository workItemRepo)
         {
             _authRepo = authRepo;
             _workItemRepo = workItemRepo;
         }
-        [HttpGet]
-        public IHttpActionResult GetWorkItemBySectionId(int sectionId)
-        {
-            var workItems = _workItemRepo.GetSectionWorkItems(User.Identity.Name, sectionId);
-            return Ok(workItems.Select(Mapper.Map<WorkItem, WorkItemModel>));
-        }
+      
 
         [HttpGet]
-        public IHttpActionResult GetWorkItem(int workItemId)
+        [Route("{id:int}")]
+        public IHttpActionResult GetWorkItem(int id)
         {
-            var workItem = _workItemRepo.GetWorkItemById(User.Identity.Name, workItemId);
+            var workItem = _workItemRepo.GetWorkItemById(User.Identity.Name, id);
             return Ok(Mapper.Map<WorkItem, WorkItemModel>(workItem));
         }
 
 
         [HttpPost]
+        [Route("")]
         public IHttpActionResult Create(WorkItemModel model)
         {
             var workItem = _workItemRepo.CreateWorkItem(User.Identity.Name, model);
             return Ok(Mapper.Map<WorkItem, WorkItemModel>(workItem));
         }
-        [HttpPost]
+        [HttpPut]
+        [Route("")]
         public IHttpActionResult Update(WorkItemModel model)
         {
             var workItem = _workItemRepo.UpdateWorkItem(User.Identity.Name, model);
@@ -48,9 +47,10 @@ namespace DataService.Controllers
         }
 
         [HttpDelete]
-        public IHttpActionResult Delete(int workItemId)
+        [Route("{id:int}")]
+        public IHttpActionResult Delete(int id)
         {
-            _workItemRepo.DeleteWorkItemById(User.Identity.Name, workItemId);
+            _workItemRepo.DeleteWorkItemById(User.Identity.Name, id);
             return Ok();
         }
 

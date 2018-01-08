@@ -8,24 +8,28 @@ using DataService.Models;
 namespace DataService.Controllers
 {
     [Authorize]
+    [RoutePrefix("api/sections")]
     public class SectionsController : ApiController
     {
         private IAuthRepository _authRepo;
-        private ISectionRepository _sectionRepo;
-        public SectionsController(IAuthRepository authRepo, ISectionRepository sectionRepo)
+        private readonly ISectionRepository _sectionRepo;
+        private readonly IWorkItemRepository _workItemRepo;
+        public SectionsController(IAuthRepository authRepo, ISectionRepository sectionRepo, IWorkItemRepository workItemRepo)
         {
             _authRepo = authRepo;
             _sectionRepo = sectionRepo;
+            _workItemRepo = workItemRepo;
         }
         [HttpGet]
-        public IHttpActionResult GetSection(int key)
+        [Route("{id:int}")]
+        public IHttpActionResult GetSection(int id)
         {
-            
-            var section = _sectionRepo.GetSectionById(User.Identity.Name, key);
+            var section = _sectionRepo.GetSectionById(User.Identity.Name, id);
             return Ok(Mapper.Map<Section, SectionModel>(section));
         }
 
-        [HttpPost]
+        [HttpPut]
+        [Route("")]
         public IHttpActionResult UpdateSection(SectionModel section)
         {
           
@@ -33,9 +37,8 @@ namespace DataService.Controllers
             return Ok(Mapper.Map<Section, SectionModel>(sectionReasult));
         }
 
-
-
         [HttpPost]
+        [Route("")]
         public IHttpActionResult Create(SectionModel section)
         {
            
@@ -44,19 +47,27 @@ namespace DataService.Controllers
         }
 
         [HttpDelete]
-        public IHttpActionResult Delete(int sectionId)
+        [Route("{id:int}")]
+        public IHttpActionResult Delete(int id)
         {
-            _sectionRepo.DeleteSectionById(User.Identity.Name, sectionId);
+            _sectionRepo.DeleteSectionById(User.Identity.Name, id);
             return Ok();
         }
   
+        //[HttpGet]
+        //[Route("{id:int}/workitems")]
+        //public IHttpActionResult GetWorkItemList(int id)
+        //{
+        //    var reasult = _sectionRepo.GetSectionWorkItemList(User.Identity.Name, id).Select(Mapper.Map<WorkItem, WorkItemModel>).ToList(); ;
+        //    return Ok(reasult);
+        //}
         [HttpGet]
-        public IHttpActionResult GetWorkItemList(int sectionId)
+        [Route("{sectionId:int}/workitems")]
+        public IHttpActionResult GetWorkItemBySectionId(int sectionId)
         {
-           
-            var reasult = _sectionRepo.GetSectionWorkItemList(User.Identity.Name, sectionId).Select(Mapper.Map<WorkItem, WorkItemModel>).ToList(); ;
-            return Ok(reasult);
+            var workItems = _workItemRepo.GetSectionWorkItems(User.Identity.Name, sectionId);
+            return Ok(workItems.Select(Mapper.Map<WorkItem, WorkItemModel>));
         }
-   
+
     }
 }

@@ -32,8 +32,9 @@ app.factory('workItemDataService', ['$q', '$http', '$window', 'urls','ngAuthSett
          getSectionAllWorkItems: function (sectionId) {
 
             var deferred = $q.defer();
-            var serviceBase = ngAuthSettings.apiServiceBaseUri;
-            $http.get(serviceBase + 'api/WorkItemsWebApi/GetWorkItems?sectionId=' + sectionId).then(function (response) {
+            var baseURL = urls.apiUrl;
+            var path = baseURL + '/sections/' + sectionId +'/workitems';
+            $http.get(path).then(function (response) {
                 deferred.resolve(response.data);
             }, function (err, status) {
                 deferred.reject(err);
@@ -45,7 +46,7 @@ app.factory('workItemDataService', ['$q', '$http', '$window', 'urls','ngAuthSett
         getWorkItemById: function (workItemId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/WorkItems(' + workItemId + ')';
+            var path = baseURL + '/workItems/' + workItemId;
             var error = 'Error happened when getting workItem with id ' + workItemId;
             $http({
                 method: 'GET',
@@ -65,10 +66,10 @@ app.factory('workItemDataService', ['$q', '$http', '$window', 'urls','ngAuthSett
         editWorkItem: function (workItem) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/WorkItems(' + workItem.id + ')';
+            var path = baseURL + '/WorkItems';
             var error = 'Error happened when saving workItem with id ' + workItem.id;
             $http({
-                method: 'PATCH',
+                method: 'PUT',
                 url: path,
                 data: workItem,
             }).then(function successCallback(response) {
@@ -92,7 +93,7 @@ app.factory('workItemDataService', ['$q', '$http', '$window', 'urls','ngAuthSett
 
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/WorkItems';
+            var path = baseURL + '/workItems';
             var error = 'Error happened when creating workItem';
             $http({
                 method: 'POST',
@@ -114,7 +115,7 @@ app.factory('workItemDataService', ['$q', '$http', '$window', 'urls','ngAuthSett
         deleteWorkItem: function (workItemId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/WorkItems(' + workItemId + ')';
+            var path = baseURL + '/workItems/' + workItemId;
             var error = 'Error happened when deleting workItem';
             $http({
                 method: 'DELETE',
