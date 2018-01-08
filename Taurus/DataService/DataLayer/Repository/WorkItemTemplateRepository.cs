@@ -17,21 +17,12 @@ using System.Web;
 namespace EF.Data
 {
 
-    public class WorkItemTemplateRepository : IDisposable
+    public class WorkItemTemplateRepository : BaseRepository, IWorkItemTemplateRepository
     {
-        private EFDbContext _ctx;
-      
-        public WorkItemTemplateRepository(EFDbContext ctx = null)
+
+        public WorkItemTemplateRepository(EFDbContext ctx) : base(ctx)
         {
-            if (ctx != null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
-           
+
         }
 
         public List<WorkItemTemplate> GetWorkItemTemplateForUser(string userName)
@@ -73,7 +64,7 @@ namespace EF.Data
             return oneItem;
         }
 
-        internal async Task CreateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
+        public async Task CreateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
 		{
 			var _repo = new AuthRepository(_ctx);
 			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
@@ -103,7 +94,7 @@ namespace EF.Data
 
 		}
 
-		internal async Task UpdateWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId, WorkItemTemplateModel model)
+        public async Task UpdateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
 		{
 			var _repo = new AuthRepository(_ctx);
 			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
@@ -116,7 +107,7 @@ namespace EF.Data
 			// get all the workItemTemplate for that company
 			var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
 
-			var workItemTemplate = _ctx.WorkItemTemplates.Single(p => p.Id == wormItemTemplateId && p.CompanyId == companyId);
+			var workItemTemplate = _ctx.WorkItemTemplates.Single(p => p.Id == model.Id && p.CompanyId == companyId);
 
 
 			workItemTemplate.Name = model.Name;
@@ -124,7 +115,6 @@ namespace EF.Data
 			workItemTemplate.TradeWorkType = model.TradeWorkType;
 			workItemTemplate.TemplateType = model.TemplateType;
 			workItemTemplate.CompanyId = model.CompanyId;
-			workItemTemplate.AddedDateTime = DateTime.Now;
 			workItemTemplate.ModifiedDateTime = DateTime.Now;
 
 			
@@ -134,9 +124,7 @@ namespace EF.Data
 
 		}
 
-
-
-		internal async Task DeleteWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId)
+        public async Task DeleteWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId)
 		{
 			var _repo = new AuthRepository(_ctx);
 			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
@@ -145,9 +133,9 @@ namespace EF.Data
 			{
 				throw new Exception("Only admin can delete work item templates");
 			}
-			var _companyRepo = new CompanyRepository(_ctx);
+			var companyRepo = new CompanyRepository(_ctx);
 			// get all the workItemTemplate for that company
-			var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
+			var companyId = companyRepo.GetCompanyFoAdminUser(userName).Id;
 
 			var workItemTemplate = _ctx.WorkItemTemplates.Single(p => p.Id == wormItemTemplateId && p.CompanyId== companyId);
 
@@ -155,16 +143,5 @@ namespace EF.Data
 			_ctx.SaveChanges();
 		}
 
-
-
-
-
-
-
-
-		public void Dispose()
-        {
-            _ctx.Dispose();
-        }
     }
 }

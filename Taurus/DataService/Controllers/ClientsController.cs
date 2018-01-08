@@ -1,193 +1,69 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System.Data;
 using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.ModelBinding;
-using System.Web.OData;
-using System.Web.OData.Query;
-using System.Web.OData.Routing;
 using EF.Data;
+using AutoMapper;
+using DataService.Models;
 
 namespace DataService.Controllers
 {
-    /*
-    The WebApiConfig class may require additional changes to add a route for this controller. Merge these statements into the Register method of the WebApiConfig class as applicable. Note that OData URLs are case sensitive.
-
-    using System.Web.OData.Builder;
-    using System.Web.OData.Extensions;
-    using EF.Data;
-    ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
-    builder.EntitySet<Client>("Clients");
-    builder.EntitySet<Address>("Addresses"); 
-    builder.EntitySet<Property>("Properties"); 
-    config.MapODataServiceRoute("odata", "odata", builder.GetEdmModel());
-    */
     [Authorize]
-    public class ClientsController : ODataController
+    [RoutePrefix("api/clients")]
+    public class ClientsController : ApiController
     {
-        private EFDbContext db = new EFDbContext();
-
-        // GET: odata/Clients
-        [EnableQuery]
-        public IQueryable<Client> GetClients()
+        private readonly IClientRepository _clientRepo;
+        private readonly IPropertyRepository _propertyRepo;
+        public ClientsController(IClientRepository clientRepo, IPropertyRepository propertyRepo)
         {
-            var repo = new ClientRepository();
-            return repo.GetAccessibleClientForUser(User.Identity.Name);
+            _clientRepo = clientRepo;
+            _propertyRepo = propertyRepo;
         }
 
-        // GET: odata/Clients(5)
-        [EnableQuery]
-        public SingleResult<Client> GetClient([FromODataUri] int key)
+        [HttpGet]
+        [Route("")]
+        public IHttpActionResult Clients()
         {
-            var repo = new ClientRepository();
-            return SingleResult.Create(repo.GetAccessibleClientForUser(User.Identity.Name).Where(property => property.Id == key));
+            var clients = _clientRepo.GetAccessibleClientForUser(User.Identity.Name).AsEnumerable()
+                .Select(Mapper.Map<Client, ClientModel>).ToList(); 
+            return Ok(clients);
         }
 
-        // PUT: odata/Clients(5)
-        public IHttpActionResult Put([FromODataUri] int key, Delta<Client> patch)
+        [HttpGet]
+        [Route("{id:int}")]
+        public IHttpActionResult Client(int id)
         {
-            Validate(patch.GetEntity());
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            Client client = db.Clients.Find(key);
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            patch.Put(client);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClientExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return Updated(client);
+            var client = _clientRepo.GetClient(User.Identity.Name, id);
+            return Ok(Mapper.Map<Client, ClientModel>(client));
         }
 
-        // POST: odata/Clients
-        public IHttpActionResult Post(Client client)
+        [HttpPut]
+        [Route("")]
+        public IHttpActionResult UpdateClient (ClientModel model)
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            client.AddedDateTime = DateTime.Now;
-            client.ModifiedDateTime = DateTime.Now;
-
-            db.Clients.Add(client);
-            db.SaveChanges();
-
-            return Created(client);
+            var client = _clientRepo.UpdateClient(User.Identity.Name, model);
+            return Ok(Mapper.Map <Client, ClientModel>(client));
         }
 
-        // PATCH: odata/Clients(5)
-        [AcceptVerbs("PATCH", "MERGE")]
-        public IHttpActionResult Patch([FromODataUri] int key, Delta<Client> patch)
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public IHttpActionResult DeleteClient(int id)
         {
-            Validate(patch.GetEntity());
-
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            Client client = db.Clients.Find(key);
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            patch.Patch(client);
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ClientExists(key))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return Updated(client);
+            _clientRepo.DeleteClient(User.Identity.Name, id);
+            return Ok();
         }
+     
 
-        // DELETE: odata/Clients(5)
-        public IHttpActionResult Delete([FromODataUri] int key)
+        [HttpGet]
+        [Route("{id:int}/properties")]
+        public IHttpActionResult Properties( int id)
         {
-            Client client = db.Clients.Find(key);
-            if (client == null)
-            {
-                return NotFound();
-            }
-
-            db.Clients.Remove(client);
-            db.SaveChanges();
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // GET: odata/Clients(5)/Address
-        [EnableQuery]
-        public SingleResult<Address> GetAddress([FromODataUri] int key)
-        {
-            return SingleResult.Create(db.Clients.Where(m => m.Id == key).Select(m => m.Address));
-        }
-
-        // GET: odata/Clients(5)/Properties
-        [EnableQuery]
-        public IQueryable<Property> GetProperties([FromODataUri] int key)
-        {
-            //return db.Clients.Where(m => m.Id == key).SelectMany(m => m.Properties);
-            var repo = new PropertyRepository();
-
-            var properties = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address).Include(p=> p.ClientProperties).Where(p=>p.ClientProperties.Any(z=> z.ClientId == key));
-
-            // bing the property model back when we decide to use normal model or OData EDM model.
-            //var results= properties.Select(Mapper.Map<Property, PropertyModel>).ToList();
-            return properties;
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool ClientExists(int key)
-        {
-            return db.Clients.Count(e => e.Id == key) > 0;
+            var properties = _propertyRepo.GetPropertyForUser(User.Identity.Name)
+                .Include(p => p.Address)
+                .Include(p=> p.ClientProperties)
+                .Where(p=>p.ClientProperties.Any(z=> z.ClientId == id));
+            return Ok(properties.AsEnumerable().Select(Mapper.Map<Property, PropertyModel>).ToList());
         }
     }
 }

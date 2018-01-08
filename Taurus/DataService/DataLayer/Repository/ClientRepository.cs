@@ -1,44 +1,21 @@
-﻿
-using DataService.Entities;
-using DataService.Infrastructure;
+﻿using DataService.Infrastructure;
 using DataService.Models;
-
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using Microsoft.Owin.Security;
 using System;
-using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
+using Z.EntityFramework.Plus;
 
 namespace EF.Data
 {
 
-    public class ClientRepository : IDisposable
+    public class ClientRepository : BaseRepository, IClientRepository
     {
-        private EFDbContext _ctx;
-
-        private UserManager<ApplicationUser> _userManager;
-        //private RoleManager<IdentityRole> _roleManager;
-
-        public ClientRepository(EFDbContext ctx = null)
+        public ClientRepository(EFDbContext ctx) :base(ctx)
         {
-            if (ctx != null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
-          
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
-            //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
+            
         }
-
         
         public Client GetClientForUser (string userId)
         {
@@ -68,15 +45,6 @@ namespace EF.Data
             }
 
         }
-
-
-
-
-        //decide what clients can this user see. 
-        //if the user is a client, then can only see client him/herself
-
-        //if the user is a member, he/she can see all the clients whose property he/she has access to.
-
         public IQueryable<Client> GetAccessibleClientForUser(string userName)
         {
             if (string.IsNullOrEmpty(userName))
@@ -114,7 +82,6 @@ namespace EF.Data
                 {
                     throw new Exception("Unknown user type");
                 }
-
               
             }
             else
@@ -127,21 +94,56 @@ namespace EF.Data
 
         }
 
-        public IQueryable<Client> GetClientsForProperty(IQueryable<Property> list)
+        public Client GetClient(string userName, int clientId)
+        {
+            return GetAccessibleClientForUser(userName).FirstOrDefault(c => c.Id == clientId);
+        }
+        public Client UpdateClient(string username, ClientModel model)
+        {
+            if (!GetAccessibleClientForUser(username).Any(p => p.Id == model.Id))
+                throw new Exception($"No permission to edit client {model.Id}");
+            
+            var toEditClient = _ctx.Clients.First(p => p.Id == model.Id);
+            if (toEditClient == null) return toEditClient;
+
+            toEditClient.ModifiedDateTime = DateTime.Now;
+            toEditClient.Description = model.Description;
+            toEditClient.FirstName = model.FirstName;
+            toEditClient.LastName = model.LastName;
+            toEditClient.MobileNumber = model.MobileNumber;
+            // All other properties are linked to the user record. Need change it when changing user.
+
+
+            _ctx.Entry(toEditClient).State = EntityState.Modified;
+            _ctx.SaveChanges();
+            return toEditClient;
+            
+        }
+
+        public void DeleteClient(string userName, int clientId)
+        {
+            var _repo = new AuthRepository(_ctx);
+            var isUserAdmin = _repo.isUserAdmin(userName);
+            if (!isUserAdmin)
+            {
+                throw new Exception("Only Admin user can delete client");
+            }
+
+            var clientToDelete = GetAccessibleClientForUser(userName).FirstOrDefault(c => c.Id == clientId);
+            if(clientToDelete != null)
+            {
+                _ctx.Clients.Where(c => c.Id == clientToDelete.Id).Delete();
+                _ctx.SaveChanges();
+            }
+        }
+
+        private IQueryable<Client> GetClientsForProperty(IQueryable<Property> list)
         {
             var clients = from p in list
                           join cp in _ctx.ClientProperties on p.Id equals cp.PropertyId
                           join c in _ctx.Clients on cp.Id equals c.Id
                           select c;
             return clients;
-
-        }
-
-
-        public void Dispose()
-        {
-            _ctx.Dispose();
-            _userManager.Dispose();
 
         }
     }

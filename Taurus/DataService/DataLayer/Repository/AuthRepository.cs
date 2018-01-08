@@ -19,27 +19,11 @@ using System.Web;
 namespace EF.Data
 {
 
-    public class AuthRepository : IDisposable
+    public class AuthRepository : BaseRepository, IAuthRepository
     {
-        private EFDbContext _ctx;
-       // private EFDbContext _applicationContext;
-
-        private UserManager<ApplicationUser> _userManager;
-        //private RoleManager<IdentityRole> _roleManager;
-
-        public AuthRepository(EFDbContext ctx = null)
+      
+        public AuthRepository(EFDbContext ctx):base(ctx)
         {
-           
-            if(ctx != null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
-            //_roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new EFDbContext()));
         }
 
         public async Task<ApplicationUser> GetUserById(string userId)
@@ -80,7 +64,6 @@ namespace EF.Data
 
         public  bool isUserAdmin(string userName)
         {
-
             var user =  this.GetUserByUserName(userName);
 
             _ctx.Entry(user).Reference(s => s.Member).Load();
@@ -93,16 +76,19 @@ namespace EF.Data
                              join c in _ctx.Companies on cm.CompanyId equals c.Id
                              where cm.Role == CompanyRole.Admin && m.Id == user.Member.Id
                              select c;
-                if(company.Count() == 1)
+                switch (company.Count())
                 {
-                    return true;
-                }
-                else if(company.Count() > 0)
-                {
-                    throw new Exception("Member can be admin for one company");
-                }else if (company.Count() == 0)
-                {
-                    return false;
+                    case 1:
+                        return true;
+                    default:
+                        if(company.Any())
+                        {
+                            throw new Exception("Member can only be admin for one company");
+                        }else if (!company.Any())
+                        {
+                            return false;
+                        }
+                        break;
                 }
             }
             return false;
@@ -435,11 +421,6 @@ namespace EF.Data
             }
             throw new Exception("Local IP Address Not Found!");
         }
-        public void Dispose()
-        {
-            _ctx.Dispose();
-            _userManager.Dispose();
 
-        }
     }
 }

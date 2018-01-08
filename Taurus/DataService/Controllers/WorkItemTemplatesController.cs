@@ -1,16 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.ModelBinding;
-using System.Web.OData;
-using System.Web.OData.Query;
-using System.Web.OData.Routing;
 using EF.Data;
 using DataService.Models;
 using AutoMapper;
@@ -18,62 +10,66 @@ using System.Threading.Tasks;
 
 namespace DataService.Controllers
 {
-	
-	[Authorize]
-	public class WorkItemTemplatesController : ApiController
-    {
 
+    [Authorize]
+    [RoutePrefix("api/workitemtemplates")]
+    public class WorkItemTemplatesController : ApiController
+    {
+        private IAuthRepository _authRepo;
+        private readonly IWorkItemTemplateRepository _workItemTempRepo;
+        public WorkItemTemplatesController(IAuthRepository authRepo, IWorkItemTemplateRepository workItemTempRepo)
+        {
+            _authRepo = authRepo;
+            _workItemTempRepo = workItemTempRepo;
+        }
 
         [HttpGet]
+        [Route("")]
         public IEnumerable<WorkItemTemplateModel> GetWorkItemTemplates()
         {
 
-            var workItemTemplates = new WorkItemTemplateRepository().GetWorkItemTemplateForUser(User.Identity.Name);
+            var workItemTemplates = _workItemTempRepo.GetWorkItemTemplateForUser(User.Identity.Name);
 
             var returnList = workItemTemplates.Select(Mapper.Map<WorkItemTemplate, WorkItemTemplateModel>).ToList();
 
             return returnList;
         }
 
-
         [HttpGet]
-        public IHttpActionResult GetWorkItemTemplateById(int templateId)
+        [Route("{id:int}")]
+        public IHttpActionResult GetWorkItemTemplateById(int id)
         {
 
-            var workItemTemplate = new WorkItemTemplateRepository().GetWorkItemTemplateByIdForUser(User.Identity.Name, templateId);
+            var workItemTemplate = _workItemTempRepo.GetWorkItemTemplateByIdForUser(User.Identity.Name, id);
             return Ok(Mapper.Map<WorkItemTemplate, WorkItemTemplateModel>(workItemTemplate));
         }
 
-
-
-
-        [HttpPatch]
-        public async Task<WorkItemTemplateModel> UpdateWorkItemTemplate(int templateId, WorkItemTemplateModel model)
+        [HttpPut]
+        [Route("")]
+        public async Task<WorkItemTemplateModel> UpdateWorkItemTemplate(WorkItemTemplateModel model)
 		{
 
-			 await new WorkItemTemplateRepository().UpdateWorkItemTemplateForUserAsync(User.Identity.Name, templateId, model);
+			 await _workItemTempRepo.UpdateWorkItemTemplateForUserAsync(User.Identity.Name, model);
 
 			return model;
 		}
 
-
-
 		[HttpPost]
+		[Route("")]
         public async Task<WorkItemTemplateModel> CreateWorkItemTemplate( WorkItemTemplateModel model)
 		{
 
-			await new WorkItemTemplateRepository().CreateWorkItemTemplateForUserAsync(User.Identity.Name, model);
+			await _workItemTempRepo.CreateWorkItemTemplateForUserAsync(User.Identity.Name, model);
 
 			return model;
 		}
 
-
-
 		[HttpDelete]
-		public async Task<IHttpActionResult> DeleteWorkItemTemplate(int templateId)
+		[Route("{id:int}")]
+        public async Task<IHttpActionResult> DeleteWorkItemTemplate(int id)
 		{
 
-			await new WorkItemTemplateRepository().DeleteWorkItemTemplateForUserAsync(User.Identity.Name, templateId);
+			await _workItemTempRepo.DeleteWorkItemTemplateForUserAsync(User.Identity.Name, id);
 
 			return StatusCode(HttpStatusCode.NoContent);
 		}

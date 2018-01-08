@@ -19,7 +19,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/companies/GetCompanyForCurrentUser').then(function (response) {
+        $http.get(serviceBase + 'api/companies').then(function (response) {
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);
@@ -32,7 +32,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     var _updateMemberRole = function (memberId, role) {
 
         var deferred = $q.defer();
-        $http.post(serviceBase + 'api/companies/UpdateCompanyMemberRole?memberId=' + memberId + '&role=' + role).then(function (response) {
+        $http.put(serviceBase + 'api/companies/member/' + memberId + '?role=' + role).then(function (response) {
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);
@@ -44,7 +44,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/companies/GetCurrentCompanyMembers').then(function (response) {
+        $http.get(serviceBase + 'api/companies/member').then(function (response) {
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);
@@ -58,7 +58,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/Companies/getcompanies').then(function (response) {
+        $http.get(serviceBase + 'api/companies').then(function (response) {
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);
@@ -71,7 +71,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/companies/SearchMemberForJoinCompany?searchText=' + searchText).then(function (response) {
+        $http.get(serviceBase + 'api/companies/member/search?searchText=' + searchText).then(function (response) {
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);
@@ -86,7 +86,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/companies/GetCurrentCompanyMember?memberId=' + memberId).then(function (response) {
+        $http.get(serviceBase + 'api/companies/member/' + memberId).then(function (response) {
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);
@@ -102,7 +102,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
 
         //start from here
-        $http.delete(serviceBase + 'api/companies/RemoveMember?memberId=' + memberId).then(function (response) {//here we just delete the join between company and member, we never delete user.
+        $http.delete(serviceBase + 'api/companies/member/' + memberId).then(function (response) {//here we just delete the join between company and member, we never delete user.
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);
@@ -116,7 +116,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     var _addNewMemberToCompany = function (userInfo) {
         var deferred = $q.defer();
-        $http.post(serviceBase + 'api/account/registerCompanyUser', userInfo).then(function (response) {
+        $http.post(serviceBase + 'api/account/register', userInfo).then(function (response) {
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);
@@ -129,7 +129,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     var _addExistingMemberToCompany = function (addMemberModel) {
         var deferred = $q.defer();
-        $http.post(serviceBase + 'api/companies/AddExistingMemberToCompany', addMemberModel).then(function (response) {
+        $http.post(serviceBase + 'api/companies/member/add', addMemberModel).then(function (response) {
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);
@@ -159,7 +159,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     var _updateMemberServiceTypes = function (memberId, selectedService) {
         var deferred = $q.defer();
-        $http.post(serviceBase + 'api/companies/UpdateMemberServiceTypes' ,{ memberId: memberId, selectedTypes: selectedService}).then(function (response) {
+        $http.post(serviceBase + 'api/companies/memeber/update' ,{ memberId: memberId, selectedTypes: selectedService}).then(function (response) {
             deferred.resolve(response.data);
         }, function (err, status) {
             deferred.reject(err);

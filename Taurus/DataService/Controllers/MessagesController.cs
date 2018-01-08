@@ -1,38 +1,42 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
-using System.Data.Entity.Infrastructure;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using System.Web.ModelBinding;
-using System.Web.OData;
-using System.Web.OData.Query;
-using System.Web.OData.Routing;
 using EF.Data;
-using DataService.Infrastructure;
-using System.Threading.Tasks;
-using System.Web.Http.Description;
 using DataService.Models;
 using AutoMapper;
-using Microsoft.AspNet.Identity;
 
 namespace DataService.Controllers
 {
 
     [Authorize]
+    [RoutePrefix("api/messages")]
     public class MessagesController : ApiController
     {
+        private readonly IAuthRepository _authRepo;
+        private readonly IMessageRepository _messageRepo;
+        public MessagesController(IAuthRepository authRepo, IMessageRepository messageRepo)
+        {
+            _authRepo = authRepo;
+            _messageRepo = messageRepo;
+        }
 
-
+        [HttpGet]
+        [Route("")]
         public IHttpActionResult GetMessages()
         {
             return Ok(GetUserMessage());
-
         }
 
+        [Route("{messageId:int}")]
+        public IHttpActionResult GetMessage(int messageId)
+        {
+            var message = _messageRepo.GetMessageForUser(User.Identity.Name).Where(p => p.Id == messageId).FirstOrDefault();
+
+            return Ok(Mapper.Map<Message, MessageDetailModel>(message));
+        }
+
+        [Route("property/{propertyId:int}")]
         public IHttpActionResult GetWorkRequestMessageForProperty(int propertyId)
         {
             var messages = GetUserMessage().Where(p => p.MessageType == MessageType.WorkRequest
@@ -40,20 +44,17 @@ namespace DataService.Controllers
             return Ok(messages);
         }
 
+        [HttpGet]
+        [Route("user")]
         private IEnumerable<MessageDetailModel> GetUserMessage()
         {
-            var messages = new MessageRepository().GetMessageForUser(User.Identity.Name).ToList();
+            var messages = _messageRepo.GetMessageForUser(User.Identity.Name).ToList();
             //messages.ForEach(p => p.HasResponse = p.MessageResponse != null);
 
             var returnList = messages.Select(Mapper.Map<Message, MessageDetailModel>).ToList();
             returnList.ForEach(p => p.HasResponse = p.MessageResponse != null);
 
-            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
-
-            //returnList.ForEach(p => p.ShouldDisplayUnread =
-            //(p.UserIdTo == userId && p.IsRead == false)
-            //|| (p.MessageResponse != null && p.MessageResponse.UserIdTo == userId && p.MessageResponse.IsRead == false)
-            //);
+            var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
 
             foreach (var message in returnList)
             {
@@ -68,70 +69,55 @@ namespace DataService.Controllers
                     message.Title = "You have a new respond";
                     if (message.MessageResponse.IsRead == false)
                         message.ShouldDisplayUnread = true;
-
-
                 }
             }
             return returnList;
-
         }
 
-
-        public IHttpActionResult GetMessage(int messageId)
-        {
-            var message = new MessageRepository().GetMessageForUser(User.Identity.Name).Where(p => p.Id == messageId).FirstOrDefault();
-
-            return Ok(Mapper.Map<Message, MessageDetailModel>(message));
-
-        }
         //called every 2 second
+        [HttpGet]
+        [Route("unread")]
         public IHttpActionResult GetUnReadMessagesCount()
         {
-            var count = new MessageRepository().GetUnReadMessageCountForUser(User.Identity.Name);
-
+            var count = _messageRepo.GetUnReadMessageCountForUser(User.Identity.Name);
             return Ok(count);
         }
 
-        [HttpPost]
+        [HttpPut]
+        [Route("{messageId:int}/mark")]
         public IHttpActionResult MarkMessageAsRead(int messageId)
         {
-            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
-            new MessageRepository().MarkMessageAsRead(messageId, userId);
+            var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
+            _messageRepo.MarkMessageAsRead(messageId, userId);
             return Ok();
 
         }
 
-        //[HttpPost]
-        //public IHttpActionResult MarkResponseAsRead(int responseId)//this is wrong need change
-        //{
-        //    var current = User.Identity.GetUserId();
-        //    new MessageRepository().MarkResponseAsRead(responseId, current);
-        //    return Ok();
-
-        //}
-
         [HttpPost]
+        [Route("")]
         public IHttpActionResult GenerateClientWorkRequest(MessageDetailModel model)
         {
-            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
-            new MessageRepository().GenerateClientWorkRequest(model, userId);
+            var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
+            _messageRepo.GenerateClientWorkRequest(model, userId);
             return (Ok());
 
         }
 
-
         [HttpPost]
+        [Route("{messageId:int}/property/create")]
         public IHttpActionResult CreatePropertyForWorkRequest(int messageId, PropertyModel property)
         {
-            var userId = new AuthRepository().GetUserByUserName(User.Identity.Name).Id;
-            new MessageRepository().CreatePropertyForWorkRequest(messageId, property);
+            var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
+            _messageRepo.CreatePropertyForWorkRequest(messageId, property);
             return (Ok());
 
         }
+
         [HttpPost]
+        [Route("{messageId:int}/handle")]
         public IHttpActionResult HandleMessageResponse(int messageId, ResponseAction  action)
         {
-            new MessageRepository().HandleMessageResponse(messageId, action);
+            _messageRepo.HandleMessageResponse(messageId, action);
             return Ok();
 
         }

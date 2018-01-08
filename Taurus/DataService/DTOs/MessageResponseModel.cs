@@ -17,9 +17,6 @@ namespace DataService.Models
         public bool IsRead { get; set; }
         public string UserIdTo { get; set; }
 
-
-
-
     }
 
 

@@ -13,9 +13,4 @@ namespace DataService.Models
         public List<TradeType> SelectedTypes { get; set; }
 
     }
-
-   
-
-
-
 }

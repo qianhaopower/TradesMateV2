@@ -9,14 +9,14 @@ app.factory('propertySectionDataService', [ '$q', '$http', '$window', 'urls',fun
         getPropertyAllSections: function (propertyId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Properties(' + propertyId + ')/sectionList';//entity property should be lower case, as it is formatted already
+            var path = baseURL + '/properties/' + propertyId + '/section';//entity property should be lower case, as it is formatted already
             var error = 'Error happened when getting property\'s sections with id ' + propertyId;
             $http({
                 method: 'GET',
                 url: path,
             }).then(function successCallback(response) {
                 if (response.data && response.status >= 200 && response.status <= 299) {
-                    deferred.resolve(response.data.value);
+                    deferred.resolve(response.data);
                 } else {
                     deferred.reject(error);
                 }
@@ -30,7 +30,7 @@ app.factory('propertySectionDataService', [ '$q', '$http', '$window', 'urls',fun
         getSectionById: function (sectionId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Sections(' + sectionId + ')';
+            var path = baseURL + '/sections/' + sectionId ;
             var error = 'Error happened when getting section with id ' + sectionId;
             $http({
                 method: 'GET',
@@ -50,10 +50,10 @@ app.factory('propertySectionDataService', [ '$q', '$http', '$window', 'urls',fun
         editSection: function (section) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Sections(' + section.id + ')';
+            var path = baseURL + '/sections';
             var error = 'Error happened when saving section with id ' + section.id;
             $http({
-                method: 'PATCH',
+                method: 'PUT',
                 url: path,
                 data: section,
             }).then(function successCallback(response) {
@@ -77,7 +77,7 @@ app.factory('propertySectionDataService', [ '$q', '$http', '$window', 'urls',fun
 
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Sections';
+            var path = baseURL + '/sections';
             var error = 'Error happened when creating section';
             $http({
                 method: 'POST',
@@ -99,7 +99,7 @@ app.factory('propertySectionDataService', [ '$q', '$http', '$window', 'urls',fun
         deleteSection: function (sectionId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/Sections(' + sectionId + ')';
+            var path = baseURL + '/sections/' + sectionId ;
             var error = 'Error happened when deleting section';
             $http({
                 method: 'DELETE',

@@ -3,6 +3,7 @@ using DataService.Infrastructure;
 using EF.Data;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
+using Ninject;
 using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
@@ -14,7 +15,13 @@ namespace DataService.Providers
 {
     public class SimpleRefreshTokenProvider : IAuthenticationTokenProvider
     {
+      
+        IAuthRepository _authRepo {  get; }
 
+        public SimpleRefreshTokenProvider(IAuthRepository repo)
+        {
+            _authRepo = repo;
+        }
         public async Task CreateAsync(AuthenticationTokenCreateContext context)
         {
             var clientid = context.Ticket.Properties.Dictionary["as:client_id"];
@@ -26,8 +33,7 @@ namespace DataService.Providers
 
             var refreshTokenId = Guid.NewGuid().ToString("n");
 
-            using (AuthRepository _repo = new AuthRepository())
-            {
+            
                 var refreshTokenLifeTime = context.OwinContext.Get<string>("as:clientRefreshTokenLifeTime"); 
                
                 var token = new RefreshToken() 
@@ -44,14 +50,14 @@ namespace DataService.Providers
                 
                 token.ProtectedTicket = context.SerializeTicket();
 
-                var result = await _repo.AddRefreshToken(token);
+                var result = await _authRepo.AddRefreshToken(token);
 
                 if (result)
                 {
                     context.SetToken(refreshTokenId);
                 }
              
-            }
+            
         }
 
         public async Task ReceiveAsync(AuthenticationTokenReceiveContext context)
@@ -62,17 +68,16 @@ namespace DataService.Providers
 
             string hashedTokenId = Helper.GetHash(context.Token);
 
-            using (AuthRepository _repo = new AuthRepository())
-            {
-                var refreshToken = await _repo.FindRefreshToken(hashedTokenId);
+          
+                var refreshToken = await _authRepo.FindRefreshToken(hashedTokenId);
 
                 if (refreshToken != null )
                 {
                     //Get protectedTicket from refreshToken class
                     context.DeserializeTicket(refreshToken.ProtectedTicket);
-                    var result = await _repo.RemoveRefreshToken(hashedTokenId);
+                    var result = await _authRepo.RemoveRefreshToken(hashedTokenId);
                 }
-            }
+            
         }
 
         public void Create(AuthenticationTokenCreateContext context)

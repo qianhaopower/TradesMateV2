@@ -15,6 +15,8 @@ namespace DataService.Models
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public int Id { get; set; }
+
         public string Condition { get; set; }
 
         public string Narrative { get; set; }

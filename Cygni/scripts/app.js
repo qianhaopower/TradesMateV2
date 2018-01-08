@@ -23,7 +23,7 @@ angular
  
   ])
   .constant('domain', 'http://' + window.location.hostname)
-  .constant('api', '/DataService/odata')
+  .constant('api', '/DataService/api')
   .constant("constants", {
       "userType": {client:0, trade:1},
         

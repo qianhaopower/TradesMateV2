@@ -17,29 +17,14 @@ using System.Web;
 namespace EF.Data
 {
 
-    public class PropertyRepository : IDisposable
+    public class PropertyRepository : BaseRepository, IPropertyRepository
     {
-        private EFDbContext _ctx;
       
-
-        private UserManager<ApplicationUser> _userManager;
-        // private RoleManager<IdentityRole> _roleManager;
-
-
-
-        public PropertyRepository(EFDbContext ctx = null)
+        public PropertyRepository(EFDbContext ctx) : base(ctx)
         {
-            if (ctx != null)
-            {
-                _ctx = ctx;
-            }
-            else
-            {
-                _ctx = new EFDbContext();
-            }
-            _userManager = new UserManager<ApplicationUser>(new UserStore<ApplicationUser>(_ctx));
+           
         }
-        
+
         public Property CreatePropertyForClient(string userName, PropertyModel model)
         {
             var companyId = new CompanyRepository(_ctx).GetCompanyFoAdminUser(userName).Id;
@@ -102,7 +87,65 @@ namespace EF.Data
             return newProperty;
         }
 
-        internal void CreateDefaultSections(DefaultPropertySection model, Property parentProperty, EFDbContext context)
+        public Property UpdatePropertyForClient(string username, PropertyModel model)
+        {
+            if (!GetPropertyForUser(username).Any(p => p.Id == model.Id))
+                throw new Exception($"No permission to edit client {model.Id}");
+
+            var toEditProperty = _ctx.Properties.First(p => p.Id == model.Id);
+            if (toEditProperty == null) return null;
+
+            toEditProperty.ModifiedDateTime = DateTime.Now;
+            toEditProperty.Description = model.Description;
+            toEditProperty.Comment = model.Comment;
+            toEditProperty.Condition = model.Condition;
+            toEditProperty.Name = model.Name;
+            toEditProperty.Narrative = model.Narrative;
+            _ctx.Entry(toEditProperty).State = EntityState.Modified;
+            _ctx.SaveChanges();
+            return toEditProperty;
+        }
+
+        public void DeleteProperty(string username, int key)
+        {
+            var _repo = new AuthRepository(_ctx);
+            var isUserAdmin = _repo.isUserAdmin(username);
+            if (!isUserAdmin)
+            {
+                throw new Exception("Only Admin user can delete client");
+            }
+            Property property = _ctx.Properties.Find(key);
+            if (property == null)
+            {
+                throw new Exception($"Property with Id {key} cannot be found.");
+            }
+
+            _ctx.Properties.Remove(property);
+            _ctx.ClientProperties.RemoveRange(_ctx.ClientProperties.Where(p => p.PropertyId == key).ToList());
+            _ctx.PropertyCompanies.RemoveRange(_ctx.PropertyCompanies.Where(p => p.PropertyId == key).ToList());
+            _ctx.PropertyAllocations.RemoveRange(_ctx.PropertyAllocations.Where(p => p.PropertyId == key).ToList());
+
+            _ctx.Attchments.RemoveRange(_ctx.Attchments.Where(p => p.EntityId == key && p.EntityType == AttachmentEntityType.Property).ToList());
+
+
+            var messagesForProperty = _ctx.Messages.Where(p => p.PropertyId == key).ToList();
+            var messagesResponseForProperty = _ctx.Messages.Where(p => p.PropertyId == key && p.MessageResponse != null).Select(p => p.MessageResponse).ToList();
+            //var messagesResponseForProperty = _ctx.MessageResponses.Where(p => p.Message != null && messagesForProperty.Select(w=> w.Id).Contains(p.Message.Id)).ToList();
+
+            _ctx.Messages.RemoveRange(messagesForProperty);
+            _ctx.MessageResponses.RemoveRange(messagesResponseForProperty);
+
+            var sections = _ctx.Sections.Where(p => p.PropertyId == key).Include(p => p.WorkItemList).ToList();
+            var workItemForSection = sections.SelectMany(p => p.WorkItemList).ToList();
+
+            _ctx.WorkItems.RemoveRange(workItemForSection);
+            _ctx.Sections.RemoveRange(sections);
+
+
+            _ctx.SaveChanges();
+        }
+
+        public void CreateDefaultSections(DefaultPropertySection model, Property parentProperty, EFDbContext context)
         {
 
             Func<int, SectionType, List<Section>> createFunc = (int number, SectionType type) => {
@@ -141,10 +184,7 @@ namespace EF.Data
 
         }
 
-
-
-
-        internal string GetSectionNameFromEnum(SectionType type)
+        public string GetSectionNameFromEnum(SectionType type)
         {
             switch (type) {
                 case SectionType.Basement:
@@ -173,8 +213,7 @@ namespace EF.Data
 
         }
 
-
-        public   IQueryable<Property> GetPropertyForUser(string userName)
+        public IQueryable<Property> GetPropertyForUser(string userName)
         {
             if (string.IsNullOrEmpty(userName))
             {
@@ -219,7 +258,17 @@ namespace EF.Data
 
         }
 
-        internal IEnumerable<PropertyReportGroupItem> GetPropertyReportData(int propertyId, string userName)
+        public List<Section> GetPropertySectionList(string name, int key)
+        {
+            var sections = this.GetPropertyForUser(name)
+                .Where(p => p.Id == key)
+                .Include(p=> p.SectionList)
+                .SelectMany(m => m.SectionList)
+                .ToList();
+            return sections; 
+        }
+
+        public IEnumerable<PropertyReportGroupItem> GetPropertyReportData(int propertyId, string userName)
         {
             var hasPermission = GetPropertyForUser(userName).Any(p => p.Id == propertyId);
             if (!hasPermission)
@@ -254,7 +303,7 @@ namespace EF.Data
                 x.TaskNumber = i++;
                 if(images.Any(w=> w.EntityId == x.Id))
                 {
-                    x.imageUrls = images.Where(w => w.EntityId == x.Id).Select(w => w.Url).ToList();
+                    x.ImageUrls = images.Where(w => w.EntityId == x.Id).Select(w => w.Url).ToList();
                 }
             }));
 
@@ -263,14 +312,12 @@ namespace EF.Data
             return result;
         }
 
-
-
-        internal IQueryable<Company> GetAllCompanies()
+        public IQueryable<Company> GetAllCompanies()
         {
             return _ctx.Companies.Include(p => p.CompanyServices).AsQueryable();
         }
 
-        internal IQueryable<WorkItem> GetAllPropertyWorkItems(int propertyId)
+        public IQueryable<WorkItem> GetAllPropertyWorkItems(int propertyId)
         {
             var workItems = _ctx.Properties
                 .Where(p => p.Id == propertyId)
@@ -368,8 +415,6 @@ namespace EF.Data
 
         }
 
-
-
         private IQueryable<Property> GetClientProperties(int clientId)
         {
             var property = from client in _ctx.Clients
@@ -389,7 +434,6 @@ namespace EF.Data
             return propertyViaAllocation.Union(propertyViaCompany);
 
         }
-
 
         //this is for company role -> contractor only
         private IQueryable<Property> GetMemberPropertyViaAllocation(int memberId)
@@ -419,9 +463,6 @@ namespace EF.Data
 
         }
 
-
-
-
         public IQueryable<Client> GetPropertyOwnerClinet(int propertyId)
         {
            var ownerClient = _ctx.Properties.Where(p => p.Id == propertyId)
@@ -433,7 +474,6 @@ namespace EF.Data
 
         }
 
-
         public IQueryable<Company> GetCompanyForProperty(int propertyID)
         {
             // get the company that this property has been assigned to.
@@ -443,14 +483,6 @@ namespace EF.Data
 
         }
 
-
-        public void Dispose()
-        {
-            _ctx.Dispose();
-            _userManager.Dispose();
-
-        }
-
-      
+     
     }
 }

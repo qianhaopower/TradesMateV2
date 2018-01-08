@@ -22,60 +22,29 @@ using System.Web.Http;
 
 namespace DataService.Controllers
 {
-
-  
+    [RoutePrefix("api/account")]
     public class AccountController : ApiController
     {
-
-
         private ApplicationUserManager _AppUserManager = null;
-        //private ApplicationRoleManager _AppRoleManager = null;
-
-        protected ApplicationUserManager AppUserManager
-        {
-            get
-            {
-                return _AppUserManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-        }
-
-        //protected ApplicationRoleManager AppRoleManager
-        //{
-        //    get
-        //    {
-        //        return _AppRoleManager ?? Request.GetOwinContext().GetUserManager<ApplicationRoleManager>();
-        //    }
-        //}
+        protected ApplicationUserManager AppUserManager => _AppUserManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
 
         private ModelFactory _modelFactory;
-        protected ModelFactory TheModelFactory
-        {
-            get
-            {
-                if (_modelFactory == null)
-                {
-                    _modelFactory = new ModelFactory(this.Request);
-                }
-                return _modelFactory;
-            }
-        }
-        private AuthRepository _repo = null;
+        protected ModelFactory TheModelFactory => _modelFactory ?? (_modelFactory = new ModelFactory(this.Request));
+        private IAuthRepository _authRepo;
+        private ICompanyRepository _companyRepo;
 
-        private IAuthenticationManager Authentication
-        {
-            get { return Request.GetOwinContext().Authentication; }
-        }
+        private IAuthenticationManager Authentication => Request.GetOwinContext().Authentication;
 
-        public AccountController()
+        public AccountController(IAuthRepository authRepo, ICompanyRepository companyRepo)
         {
-            _repo = new AuthRepository();
+            _authRepo = authRepo;
+            _companyRepo = companyRepo;
         }
 
 
-        [AllowAnonymous]
+       
         [HttpGet]
-      
         public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
@@ -97,7 +66,7 @@ namespace DataService.Controllers
         }
 
         // POST api/Account/Register
-        [AllowAnonymous]
+      
         //[Route("Register")]
         public async Task<IHttpActionResult> Register(UserModel userModel)
         {
@@ -106,9 +75,9 @@ namespace DataService.Controllers
                 return BadRequest(ModelState);
             }
 
-             IdentityResult result = await _repo.RegisterUser(userModel, AppUserManager);
+             var result = await _authRepo.RegisterUser(userModel, AppUserManager);
 
-            IHttpActionResult errorResult = GetErrorResult(result);
+            var errorResult = GetErrorResult(result);
 
              if (errorResult != null)
              {
@@ -118,7 +87,7 @@ namespace DataService.Controllers
              return Ok();
         }
 
-
+        [Route("register")]
         public async Task<IHttpActionResult> RegisterCompanyUser(UserModel userModel)
         {
             //Company user must be the type of Trade;
@@ -137,36 +106,25 @@ namespace DataService.Controllers
 
             //admin user can only register user for its company
           
-            var user = await _repo.GetUserByUserNameAsync(User.Identity.Name);
-            if (user != null)
-            {
-                //user must be admin to create user, the check is in GetCompanyForCurrentUser
+            var user = await _authRepo.GetUserByUserNameAsync(User.Identity.Name);
+            if (user == null) throw new Exception("User cannot be found");
+            //user must be admin to create user, the check is in GetCompanyForCurrentUser
 
                
-                var companyId = new CompanyRepository().GetCompanyFoAdminUser(User.Identity.Name).Id;
-                    IdentityResult result = await _repo.RegisterUser(userModel, AppUserManager, companyId, userModel.IsContractor);
+            var companyId = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name).Id;
+            var result = await _authRepo.RegisterUser(userModel, AppUserManager, companyId, userModel.IsContractor);
 
-                    IHttpActionResult errorResult = GetErrorResult(result);
+            var errorResult = GetErrorResult(result);
 
-                    if (errorResult != null)
-                    {
-                        return errorResult;
-                    }
-
-                    return Ok();
-            }
-            else
-            {
-                throw new Exception("User cannot be found");
-            }
+            return errorResult ?? Ok();
         }
 
         //GET api/Account/GetCurrentUser   
-        //[Route("getcurrentuser")]
+        [Route("getcurrentuser")]
         public async Task<IHttpActionResult> GetCurrentUser()
         {
             //Only SuperAdmin or Admin can delete users (Later when implement roles)
-            var user = await this._repo.GetUserByUserNameAsync(User.Identity.Name);
+            var user = await this._authRepo.GetUserByUserNameAsync(User.Identity.Name);
 
             if (user != null)
             {
@@ -182,9 +140,9 @@ namespace DataService.Controllers
         public async Task<IHttpActionResult> GetUserById(string id)
         {
 
-            if (await _repo.isUserAdminAsync(User.Identity.Name))
+            if (await _authRepo.isUserAdminAsync(User.Identity.Name))
             {
-                var user = await this._repo.GetUserById(id);
+                var user = await this._authRepo.GetUserById(id);
 
                 if (user != null)
                 {
@@ -201,19 +159,19 @@ namespace DataService.Controllers
         public async Task<IHttpActionResult> DeleteUserById(string id)
         {
 
-            if (await _repo.isUserAdminAsync(User.Identity.Name))
+            if (await _authRepo.isUserAdminAsync(User.Identity.Name))
             {
-                var user = await this._repo.GetUserById(id);
+                var user = await this._authRepo.GetUserById(id);
 
                 if (user != null)
                 {
-                    if (await _repo.isUserAdminAsync(user.UserName))
+                    if (await _authRepo.isUserAdminAsync(user.UserName))
                     {
                         throw new Exception("Cannot delete Admin user");
                     }
                     else
                     {
-                       await _repo.DeleteUser(id);
+                       await _authRepo.DeleteUser(id);
                         return Ok();
                     }
                 }
@@ -233,7 +191,7 @@ namespace DataService.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await this._repo.UpdateUser(User.Identity.Name, model);
+            IdentityResult result = await this._authRepo.UpdateUser(User.Identity.Name, model);
 
             if (!result.Succeeded)
             {
@@ -251,7 +209,7 @@ namespace DataService.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await this._repo.UpdateUser(model.UserName, model);
+            IdentityResult result = await this._authRepo.UpdateUser(model.UserName, model);
 
             if (!result.Succeeded)
             {
@@ -301,7 +259,7 @@ namespace DataService.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            ApplicationUser user = await _repo.FindAsync(new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
+            ApplicationUser user = await _authRepo.FindAsync(new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
 
             bool hasRegistered = user != null;
 
@@ -333,7 +291,7 @@ namespace DataService.Controllers
                 return BadRequest("Invalid Provider or External Access Token");
             }
 
-            ApplicationUser user = await _repo.FindAsync(new UserLoginInfo(model.Provider, verifiedAccessToken.user_id));
+            ApplicationUser user = await _authRepo.FindAsync(new UserLoginInfo(model.Provider, verifiedAccessToken.user_id));
 
             bool hasRegistered = user != null;
 
@@ -344,10 +302,10 @@ namespace DataService.Controllers
 
             //user = new ApplicationUser() { UserName = model.UserName };
   
-            IdentityResult result = await _repo.RegisterUserWithExternalLogin(model, AppUserManager);
+            IdentityResult result = await _authRepo.RegisterUserWithExternalLogin(model, AppUserManager);
 
             //IdentityResult result = await _repo.CreateAsync(user);
-            user = await _repo.GetUserByUserNameAsync(model.UserName);
+            user = await _authRepo.GetUserByUserNameAsync(model.UserName);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -359,7 +317,7 @@ namespace DataService.Controllers
                 Login = new UserLoginInfo(model.Provider, verifiedAccessToken.user_id)
             };
 
-            result = await _repo.AddLoginAsync(user.Id, info.Login);
+            result = await _authRepo.AddLoginAsync(user.Id, info.Login);
             if (!result.Succeeded)
             {
                 return GetErrorResult(result);
@@ -388,7 +346,7 @@ namespace DataService.Controllers
                 return BadRequest("Invalid Provider or External Access Token");
             }
 
-            ApplicationUser user = await _repo.FindAsync(new UserLoginInfo(provider, verifiedAccessToken.user_id));
+            ApplicationUser user = await _authRepo.FindAsync(new UserLoginInfo(provider, verifiedAccessToken.user_id));
 
             bool hasRegistered = user != null;
 
@@ -402,16 +360,6 @@ namespace DataService.Controllers
 
             return Ok(accessTokenResponse);
 
-        }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _repo.Dispose();
-            }
-
-            base.Dispose(disposing);
         }
 
         #region Helpers
@@ -447,9 +395,6 @@ namespace DataService.Controllers
 
         private string ValidateClientAndRedirectUri(HttpRequestMessage request, ref string redirectUriOutput)
         {
-
-            Uri redirectUri;
-
             var redirectUriString = GetQueryString(Request, "redirect_uri");
 
             if (string.IsNullOrWhiteSpace(redirectUriString))
@@ -457,7 +402,7 @@ namespace DataService.Controllers
                 return "redirect_uri is required";
             }
 
-            bool validUri = Uri.TryCreate(redirectUriString, UriKind.Absolute, out redirectUri);
+            bool validUri = Uri.TryCreate(redirectUriString, UriKind.Absolute, out var redirectUri);
 
             if (!validUri)
             {
@@ -471,7 +416,7 @@ namespace DataService.Controllers
                 return "client_Id is required";
             }
 
-            var client = _repo.FindClient(clientId);
+            var client = _authRepo.FindClient(clientId);
 
             //if (client == null)
             //{
