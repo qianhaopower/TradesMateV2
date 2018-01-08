@@ -12,10 +12,11 @@ namespace DataService.Controllers
 {
 
     [Authorize]
-	public class WorkItemTemplatesController : ApiController
+    [RoutePrefix("api/workitemtemplates")]
+    public class WorkItemTemplatesController : ApiController
     {
         private IAuthRepository _authRepo;
-        private IWorkItemTemplateRepository _workItemTempRepo;
+        private readonly IWorkItemTemplateRepository _workItemTempRepo;
         public WorkItemTemplatesController(IAuthRepository authRepo, IWorkItemTemplateRepository workItemTempRepo)
         {
             _authRepo = authRepo;
@@ -23,6 +24,7 @@ namespace DataService.Controllers
         }
 
         [HttpGet]
+        [Route("")]
         public IEnumerable<WorkItemTemplateModel> GetWorkItemTemplates()
         {
 
@@ -33,30 +35,27 @@ namespace DataService.Controllers
             return returnList;
         }
 
-
         [HttpGet]
-        public IHttpActionResult GetWorkItemTemplateById(int templateId)
+        [Route("{id:int}")]
+        public IHttpActionResult GetWorkItemTemplateById(int id)
         {
 
-            var workItemTemplate = _workItemTempRepo.GetWorkItemTemplateByIdForUser(User.Identity.Name, templateId);
+            var workItemTemplate = _workItemTempRepo.GetWorkItemTemplateByIdForUser(User.Identity.Name, id);
             return Ok(Mapper.Map<WorkItemTemplate, WorkItemTemplateModel>(workItemTemplate));
         }
 
-
-
-
-        [HttpPatch]
-        public async Task<WorkItemTemplateModel> UpdateWorkItemTemplate(int templateId, WorkItemTemplateModel model)
+        [HttpPut]
+        [Route("")]
+        public async Task<WorkItemTemplateModel> UpdateWorkItemTemplate(WorkItemTemplateModel model)
 		{
 
-			 await _workItemTempRepo.UpdateWorkItemTemplateForUserAsync(User.Identity.Name, templateId, model);
+			 await _workItemTempRepo.UpdateWorkItemTemplateForUserAsync(User.Identity.Name, model);
 
 			return model;
 		}
 
-
-
 		[HttpPost]
+		[Route("")]
         public async Task<WorkItemTemplateModel> CreateWorkItemTemplate( WorkItemTemplateModel model)
 		{
 
@@ -65,13 +64,12 @@ namespace DataService.Controllers
 			return model;
 		}
 
-
-
 		[HttpDelete]
-		public async Task<IHttpActionResult> DeleteWorkItemTemplate(int templateId)
+		[Route("{id:int}")]
+        public async Task<IHttpActionResult> DeleteWorkItemTemplate(int id)
 		{
 
-			await _workItemTempRepo.DeleteWorkItemTemplateForUserAsync(User.Identity.Name, templateId);
+			await _workItemTempRepo.DeleteWorkItemTemplateForUserAsync(User.Identity.Name, id);
 
 			return StatusCode(HttpStatusCode.NoContent);
 		}

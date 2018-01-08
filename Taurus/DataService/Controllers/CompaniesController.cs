@@ -10,17 +10,20 @@ using AutoMapper;
 namespace DataService.Controllers
 {
     [Authorize]
+    [RoutePrefix("api/companies")]
     public class CompaniesController : ApiController
     {
 
         private IAuthRepository _authRepo;
-        private ICompanyRepository _companyRepo;
+        private readonly ICompanyRepository _companyRepo;
         public CompaniesController(IAuthRepository authRepo, ICompanyRepository companyRepo)
         {
             _authRepo = authRepo;
             _companyRepo = companyRepo;
         }
 
+        [HttpGet]
+        [Route("")]
         public IHttpActionResult GetCompanyForCurrentUser()
         {
             var company = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name);
@@ -28,6 +31,8 @@ namespace DataService.Controllers
         }
 
 
+        [HttpGet]
+        [Route("member")]
         public  IHttpActionResult GetCurrentCompanyMembers()
         {
 
@@ -43,6 +48,7 @@ namespace DataService.Controllers
         }
 
         [HttpGet]
+        [Route("member/search")]
         public IHttpActionResult SearchMemberForJoinCompany(string searchText)
         {
             var searchList = _companyRepo.SearchMemberForJoinCompany(User.Identity.Name, searchText);
@@ -52,10 +58,11 @@ namespace DataService.Controllers
 
 
 
-        [HttpPost]
-        public   IHttpActionResult UpdateCompanyMemberRole(int memberId, string role)
+        [HttpPut]
+        [Route("member/{id:int}")]
+        public   IHttpActionResult UpdateCompanyMemberRole(int id, string role)
         {
-            var messageType = _companyRepo.UpdateCompanyMemberRole(User.Identity.Name, memberId, role);
+            var messageType = _companyRepo.UpdateCompanyMemberRole(User.Identity.Name, id, role);
 
             string result = messageType == MessageType.AssignDefaultRoleRequest ?
                 "Member has default role in other company, we have send a request to him/her." : string.Empty;  
@@ -65,6 +72,7 @@ namespace DataService.Controllers
 
 
         [HttpPost]
+        [Route("member/add")]
         public IHttpActionResult AddExistingMemberToCompany(InviteMemberModel model)
         {
 
@@ -77,6 +85,7 @@ namespace DataService.Controllers
         }
 
         [HttpPost]
+        [Route("memeber/update")]
         public IHttpActionResult UpdateMemberServiceTypes(UpdateMemberServiceTypeModel model)
         {
             _companyRepo.UpdateMemberServiceTypes(User.Identity.Name, model.MemberId,model.SelectedTypes);
@@ -84,22 +93,24 @@ namespace DataService.Controllers
         }
 
         [HttpDelete]
-        public async Task<IHttpActionResult> RemoveMember(int memberId )
+        [Route("member/{id:int}")]
+        public async Task<IHttpActionResult> RemoveMember(int id)
         {
-            await _companyRepo.RemoveMemberFromCompnay(User.Identity.Name, memberId);
+            await _companyRepo.RemoveMemberFromCompnay(User.Identity.Name, id);
             return (Ok());
 
         }
 
         [HttpGet]
-        public IHttpActionResult GetCurrentCompanyMember(int memberId)
+        [Route("member/{id:int}")]
+        public IHttpActionResult GetCurrentCompanyMember(int id)
         {
            
 
             //get the current user's company members
 
             // the user must be of type trades, also the user need to be Admin. The check is in GetMemberByUserName
-            var member = _companyRepo.GetMemberByUserName(User.Identity.Name, memberId).First();
+            var member = _companyRepo.GetMemberByUserName(User.Identity.Name, id).First();
 
             // var modelList = memberList.ToList().Select(Mapper.Map<Member, MemberModel>);
             return Ok(member);
@@ -109,6 +120,7 @@ namespace DataService.Controllers
        
         [HttpPut]
         [ResponseType(typeof(void))]
+        [Route("")]
         public IHttpActionResult ModifyCompany( CompanyModel companyModel)
         {
             _companyRepo.UpdateCompany(companyModel);

@@ -94,7 +94,7 @@ namespace EF.Data
 
 		}
 
-        public async Task UpdateWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId, WorkItemTemplateModel model)
+        public async Task UpdateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
 		{
 			var _repo = new AuthRepository(_ctx);
 			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
@@ -107,7 +107,7 @@ namespace EF.Data
 			// get all the workItemTemplate for that company
 			var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
 
-			var workItemTemplate = _ctx.WorkItemTemplates.Single(p => p.Id == wormItemTemplateId && p.CompanyId == companyId);
+			var workItemTemplate = _ctx.WorkItemTemplates.Single(p => p.Id == model.Id && p.CompanyId == companyId);
 
 
 			workItemTemplate.Name = model.Name;
@@ -115,7 +115,6 @@ namespace EF.Data
 			workItemTemplate.TradeWorkType = model.TradeWorkType;
 			workItemTemplate.TemplateType = model.TemplateType;
 			workItemTemplate.CompanyId = model.CompanyId;
-			workItemTemplate.AddedDateTime = DateTime.Now;
 			workItemTemplate.ModifiedDateTime = DateTime.Now;
 
 			
@@ -134,14 +133,15 @@ namespace EF.Data
 			{
 				throw new Exception("Only admin can delete work item templates");
 			}
-			var _companyRepo = new CompanyRepository(_ctx);
+			var companyRepo = new CompanyRepository(_ctx);
 			// get all the workItemTemplate for that company
-			var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
+			var companyId = companyRepo.GetCompanyFoAdminUser(userName).Id;
 
 			var workItemTemplate = _ctx.WorkItemTemplates.Single(p => p.Id == wormItemTemplateId && p.CompanyId== companyId);
 
 			_ctx.WorkItemTemplates.Remove(workItemTemplate);
 			_ctx.SaveChanges();
-		}	
+		}
+
     }
 }

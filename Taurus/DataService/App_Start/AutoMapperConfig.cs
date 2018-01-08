@@ -99,7 +99,7 @@ namespace DataService
             .ForMember(dest => dest.CreatedDateTime, opts => opts.MapFrom(src => src.AddedDateTime));
 
             CreateMap<WorkItemTemplate, WorkItemTemplateModel>();
-            CreateMap<WorkItem, WorkItemModel>()
+            CreateMap<WorkItem, WorkItemModel>().ReverseMap()
             .ForMember(dest => dest.Status, opts => opts.MapFrom(src => src.Status.ToString()));
             CreateMap<Client, ClientModel>();
             CreateMap<Section, SectionModel>().ReverseMap();

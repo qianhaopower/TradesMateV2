@@ -6,7 +6,7 @@ app.factory('workItemTemplateService', ['$http', '$q', 'ngAuthSettings', functio
     
     var _deleteTemplate = function (templateId) {
         var deferred = $q.defer();
-        $http.delete(serviceBase + 'api/WorkItemTemplates/DeleteWorkItemTemplate?templateId=' + templateId).then(function (response) {
+        $http.delete(serviceBase + 'api/workitemtemplates/' + templateId).then(function (response) {
             deferred.resolve(response.data);
         }, function (err, status) {
             deferred.reject(err);
@@ -16,7 +16,7 @@ app.factory('workItemTemplateService', ['$http', '$q', 'ngAuthSettings', functio
     
     var _getAllTemplates = function () {
         var deferred = $q.defer();
-        $http.get(serviceBase + 'api/WorkItemTemplates/GetWorkItemTemplates').then(function (response) {
+        $http.get(serviceBase + 'api/workitemtemplates').then(function (response) {
             deferred.resolve(response.data);
         }, function (err, status) {
             deferred.reject(err);
@@ -27,7 +27,7 @@ app.factory('workItemTemplateService', ['$http', '$q', 'ngAuthSettings', functio
 
     var _createTemplate = function (templateModel) {
         var deferred = $q.defer();
-        $http.post(serviceBase + 'api/WorkItemTemplates/CreateWorkItemTemplate', templateModel).then(function (response) {
+        $http.post(serviceBase + 'api/workitemtemplates', templateModel).then(function (response) {
             deferred.resolve(response.data);
         }, function (err, status) {
             deferred.reject(err);
@@ -36,7 +36,7 @@ app.factory('workItemTemplateService', ['$http', '$q', 'ngAuthSettings', functio
     }
     var _editTemplate = function (templateId, templateModel) {
         var deferred = $q.defer();
-        $http.patch(serviceBase + 'api/WorkItemTemplates/UpdateWorkItemTemplate?templateId=' + templateId, templateModel).then(function (response) {
+        $http.put(serviceBase + 'api/workitemtemplates', templateModel).then(function (response) {
             deferred.resolve(response.data);
         }, function (err, status) {
             deferred.reject(err);
@@ -46,7 +46,7 @@ app.factory('workItemTemplateService', ['$http', '$q', 'ngAuthSettings', functio
     }
     var _getTemplateById = function (templateId) {
         var deferred = $q.defer();
-        $http.get(serviceBase + 'api/WorkItemTemplates/GetWorkItemTemplateById?templateId=' + templateId).then(function (response) {
+        $http.get(serviceBase + 'api/WorkItemTemplates/' + templateId).then(function (response) {
             deferred.resolve(response.data);
         }, function (err, status) {
             deferred.reject(err);

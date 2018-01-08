@@ -10,21 +10,33 @@ namespace DataService.Controllers
 {
 
     [Authorize]
+    [RoutePrefix("api/messages")]
     public class MessagesController : ApiController
     {
-        private IAuthRepository _authRepo;
-        private IMessageRepository _messageRepo;
+        private readonly IAuthRepository _authRepo;
+        private readonly IMessageRepository _messageRepo;
         public MessagesController(IAuthRepository authRepo, IMessageRepository messageRepo)
         {
             _authRepo = authRepo;
             _messageRepo = messageRepo;
         }
 
+        [HttpGet]
+        [Route("")]
         public IHttpActionResult GetMessages()
         {
             return Ok(GetUserMessage());
         }
 
+        [Route("{messageId:int}")]
+        public IHttpActionResult GetMessage(int messageId)
+        {
+            var message = _messageRepo.GetMessageForUser(User.Identity.Name).Where(p => p.Id == messageId).FirstOrDefault();
+
+            return Ok(Mapper.Map<Message, MessageDetailModel>(message));
+        }
+
+        [Route("property/{propertyId:int}")]
         public IHttpActionResult GetWorkRequestMessageForProperty(int propertyId)
         {
             var messages = GetUserMessage().Where(p => p.MessageType == MessageType.WorkRequest
@@ -32,6 +44,8 @@ namespace DataService.Controllers
             return Ok(messages);
         }
 
+        [HttpGet]
+        [Route("user")]
         private IEnumerable<MessageDetailModel> GetUserMessage()
         {
             var messages = _messageRepo.GetMessageForUser(User.Identity.Name).ToList();
@@ -60,20 +74,17 @@ namespace DataService.Controllers
             return returnList;
         }
 
-        public IHttpActionResult GetMessage(int messageId)
-        {
-            var message = _messageRepo.GetMessageForUser(User.Identity.Name).Where(p => p.Id == messageId).FirstOrDefault();
-
-            return Ok(Mapper.Map<Message, MessageDetailModel>(message));
-        }
         //called every 2 second
+        [HttpGet]
+        [Route("unread")]
         public IHttpActionResult GetUnReadMessagesCount()
         {
             var count = _messageRepo.GetUnReadMessageCountForUser(User.Identity.Name);
             return Ok(count);
         }
 
-        [HttpPost]
+        [HttpPut]
+        [Route("{messageId:int}/mark")]
         public IHttpActionResult MarkMessageAsRead(int messageId)
         {
             var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
@@ -83,6 +94,7 @@ namespace DataService.Controllers
         }
 
         [HttpPost]
+        [Route("")]
         public IHttpActionResult GenerateClientWorkRequest(MessageDetailModel model)
         {
             var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
@@ -92,6 +104,7 @@ namespace DataService.Controllers
         }
 
         [HttpPost]
+        [Route("{messageId:int}/property/create")]
         public IHttpActionResult CreatePropertyForWorkRequest(int messageId, PropertyModel property)
         {
             var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
@@ -99,7 +112,9 @@ namespace DataService.Controllers
             return (Ok());
 
         }
+
         [HttpPost]
+        [Route("{messageId:int}/handle")]
         public IHttpActionResult HandleMessageResponse(int messageId, ResponseAction  action)
         {
             _messageRepo.HandleMessageResponse(messageId, action);

@@ -43,7 +43,7 @@ namespace DataService.Controllers
         }
 
 
-        [AllowAnonymous]
+       
         [HttpGet]
         public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
         {
@@ -66,7 +66,7 @@ namespace DataService.Controllers
         }
 
         // POST api/Account/Register
-        [AllowAnonymous]
+      
         //[Route("Register")]
         public async Task<IHttpActionResult> Register(UserModel userModel)
         {
@@ -87,7 +87,7 @@ namespace DataService.Controllers
              return Ok();
         }
 
-
+        [Route("register")]
         public async Task<IHttpActionResult> RegisterCompanyUser(UserModel userModel)
         {
             //Company user must be the type of Trade;

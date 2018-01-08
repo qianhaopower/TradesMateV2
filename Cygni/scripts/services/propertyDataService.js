@@ -50,7 +50,7 @@ app.factory('propertyDataService', ['$q', '$http', '$window', 'urls', 'ngAuthSet
         getMemberAllocation: function (memberId) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/' + memberId + '/allocation';
+            var path = baseURL + '/properties/member/' + memberId + '/allocation';
             var error = 'Error happened when getting property allocations';
             $http({
                 method: 'GET',
@@ -70,14 +70,14 @@ app.factory('propertyDataService', ['$q', '$http', '$window', 'urls', 'ngAuthSet
         updateMemberAllocation: function (propertyId , memberId, allocated) {
             var deferred = $q.defer();
             var baseURL = urls.apiUrl;
-            var path = baseURL + '/' + propertyId + '/allocation/' + memberId + '/' +allocated ;
+            var path = baseURL + '/properties/' + propertyId + '/allocation/' + memberId + '/' +allocated ;
 
             var error = 'Error happened when updating property allocations';
             $http({
                 method: 'POST',
                 url: path,
             }).then(function successCallback(response) {
-                if (response.data && response.status >= 200 && response.status <= 299) {
+                if ( response.status >= 200 && response.status <= 299) {
                     deferred.resolve(response.data);
                 } else {
                     deferred.reject(error);

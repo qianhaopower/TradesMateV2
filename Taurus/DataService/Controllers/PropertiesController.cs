@@ -81,7 +81,7 @@ namespace DataService.Controllers
 
 
         [HttpGet]
-        [Route("{memberId:int}/allocation")]
+        [Route("member/{memberId:int}/allocation")]
         public IHttpActionResult GetMemberAllocation(int memberId)
         {
             var memberList = _propRepo.GetMemberAllocation(User.Identity.Name, memberId).ToList();
@@ -94,7 +94,7 @@ namespace DataService.Controllers
         public IHttpActionResult UpdateMemberAllocation(int id, int memberId, bool allocate)
         {
             var allcation = _propRepo.UpdateMemberAllocation(User.Identity.Name, id, memberId, allocate);
-            return (Ok(allcation));
+            return Ok();
         }
       
         [HttpGet]

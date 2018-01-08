@@ -25,7 +25,7 @@ namespace EF.Data
 
         Task CreateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model);
 
-        Task UpdateWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId, WorkItemTemplateModel model);
+        Task UpdateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model);
 
         Task DeleteWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId);
     }
