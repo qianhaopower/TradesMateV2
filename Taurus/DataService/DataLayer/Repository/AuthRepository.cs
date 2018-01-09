@@ -329,9 +329,9 @@ namespace EF.Data
             }
         }
 
-        public async Task<ApplicationUser> FindUser(string userName, string password)
+        public  ApplicationUser FindUser(string userName, string password)
         {
-            ApplicationUser user = await _userManager.FindAsync(userName, password);
+            ApplicationUser user =  _userManager.Find(userName, password);
 
             return user;
         }

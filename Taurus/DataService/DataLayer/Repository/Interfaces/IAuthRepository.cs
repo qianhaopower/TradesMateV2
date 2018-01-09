@@ -41,7 +41,7 @@ namespace EF.Data
 
 
 
-        Task<ApplicationUser> FindUser(string userName, string password);
+        ApplicationUser FindUser(string userName, string password);
 
         ClientApplicaiton FindClient(string clientId);
 

@@ -109,7 +109,7 @@ namespace DataService.Providers
             UserType userType = UserType.Client;
             //using (AuthRepository _repo = new AuthRepository())
             //{
-                ApplicationUser user = await _authRepo.FindUser(context.UserName, context.Password);
+                ApplicationUser user =  _authRepo.FindUser(context.UserName, context.Password);
               
 
                 if (user == null)

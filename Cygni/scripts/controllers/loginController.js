@@ -19,7 +19,7 @@ app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuth
 
         },
          function (err) {
-             $scope.message = err.error_description;
+             $scope.message = err.data.error_description;
          });
     };
 
@@ -67,7 +67,7 @@ app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuth
 
                 },
              function (err) {
-                 $scope.message = err.error_description;
+                 $scope.message = err.data.error_description;
              });
             }
 
