@@ -22,8 +22,8 @@ namespace EF.Data
 
         public void Dispose()
         {
-            _ctx.Dispose();
-            _userManager.Dispose();
+            //_ctx.Dispose();
+            //_userManager.Dispose();
 
         }
 
