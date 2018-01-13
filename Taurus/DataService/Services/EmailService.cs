@@ -8,19 +8,33 @@ using System;
 using System.Web.Script.Serialization;
 using SendGrid;
 using SendGrid.Helpers.Mail; // Include if you want to use the Mail Helper
-
+using EF.Data;
 
 namespace DataService.Services
 {
     public class EmailService : IIdentityMessageService
     {
+        IEmailRepository _emailRepo;
+        public EmailService(IEmailRepository emailRepo)
+        {
+            _emailRepo = emailRepo;
+        }
         public async Task SendAsync(IdentityMessage message)
         {
-            await configSendGridasync(message);
+            await SendEmailAsync(message);
+            var emailHistory = new EmailHistory()
+            {
+                Body = message.Body,
+                ToEmailAddress = message.Destination,
+                Subject = message.Subject,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now
+            };
+            _emailRepo.Save(emailHistory);
         }
 
         // Use NuGet to install SendGrid (Basic C# client lib)
-        private async Task configSendGridasync(IdentityMessage message)
+        private async Task SendEmailAsync(IdentityMessage message)
         {
             string apiKey = ConfigurationManager.AppSettings["emailService:SendGridApiKey"];
             var client = new SendGridClient(apiKey);

@@ -25,6 +25,9 @@ function ($scope, $location, $timeout, $state, authService,constants, companySer
         companyName: undefined,
         isTrade: false,
     };
+    $scope.goback = function () {
+        $state.go('login');
+    }
 
     $scope.signUp = function () {
 

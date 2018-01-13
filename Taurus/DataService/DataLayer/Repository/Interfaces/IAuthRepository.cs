@@ -61,6 +61,10 @@ namespace EF.Data
 
         Task<IdentityResult> AddLoginAsync(string userId, UserLoginInfo login);
 
+        Task SendResetPasswordCode(ApplicationUserManager appUserManager, string email);
+        Task<IdentityResult> ResetPassword(ApplicationUserManager appUserManager,ResetPasswordDTO request);
+        
+
 
 
     }

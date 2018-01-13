@@ -257,6 +257,7 @@
     <Compile Include="DataLayer\Entities\Address.cs" />
     <Compile Include="DataLayer\Entities\BaseEntity.cs" />
     <Compile Include="DataLayer\Entities\Attachment.cs" />
+    <Compile Include="DataLayer\Entities\EmailHistory.cs" />
     <Compile Include="DataLayer\Entities\CompanyService.cs" />
     <Compile Include="DataLayer\Entities\MessageResponse.cs" />
     <Compile Include="DataLayer\Entities\Message.cs" />
@@ -271,14 +272,12 @@
     <Compile Include="DataLayer\Entities\Property.cs" />
     <Compile Include="DataLayer\Entities\RefreshToken.cs" />
     <Compile Include="DataLayer\Entities\Section.cs" />
-    <Compile Include="DataLayer\Entities\SectionTemplate.cs" />
-    <Compile Include="DataLayer\Entities\SubSection.cs" />
-    <Compile Include="DataLayer\Entities\SubSectionTemplate.cs" />
     <Compile Include="DataLayer\Entities\WorkItem.cs" />
     <Compile Include="DataLayer\Entities\WorkItemTemplate.cs" />
     <Compile Include="DataLayer\Enum\Enums.cs" />
     <Compile Include="DataLayer\Mapping\AddressMapping.cs" />
     <Compile Include="DataLayer\Mapping\AttachmentMapping.cs" />
+    <Compile Include="DataLayer\Mapping\EmailHistoryMapping.cs" />
     <Compile Include="DataLayer\Mapping\CompanyServiceMap.cs" />
     <Compile Include="DataLayer\Mapping\MessageResponseMap.cs" />
     <Compile Include="DataLayer\Mapping\MessageMap.cs" />
@@ -295,6 +294,8 @@
     <Compile Include="DataLayer\Mapping\SubSectionTemplateMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemTemplateMap.cs" />
+    <Compile Include="DataLayer\Repository\EmailRepository.cs" />
+    <Compile Include="DataLayer\Repository\Interfaces\IEmailRepository.cs" />
     <Compile Include="DataLayer\Repository\Interfaces\ICompanyRepository.cs" />
     <Compile Include="DataLayer\Repository\Interfaces\IAuthRepository.cs" />
     <Compile Include="DataLayer\Repository\BaseRepository.cs" />
@@ -314,6 +315,7 @@
     <Compile Include="DataLayer\Repository\StorageRepository.cs" />
     <Compile Include="DataLayer\Repository\PropertyRepository.cs" />
     <Compile Include="App_Start\DiModule.cs" />
+    <Compile Include="DTOs\AddressModel - Copy.cs" />
     <Compile Include="DTOs\ClientModel.cs" />
     <Compile Include="DTOs\AttachmentModel.cs" />
     <Compile Include="DTOs\AddressModel.cs" />

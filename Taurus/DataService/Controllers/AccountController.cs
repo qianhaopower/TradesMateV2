@@ -22,6 +22,7 @@ using System.Web.Http;
 
 namespace DataService.Controllers
 {
+    [Authorize]
     [RoutePrefix("api/account")]
     public class AccountController : ApiController
     {
@@ -43,7 +44,7 @@ namespace DataService.Controllers
         }
 
 
-       
+
         [HttpGet]
         public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
         {
@@ -66,25 +67,25 @@ namespace DataService.Controllers
         }
 
         // POST api/Account/Register
-      
+
         //[Route("Register")]
         public async Task<IHttpActionResult> Register(UserModel userModel)
         {
-             if (!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-             var result = await _authRepo.RegisterUser(userModel, AppUserManager);
+            var result = await _authRepo.RegisterUser(userModel, AppUserManager);
 
             var errorResult = GetErrorResult(result);
 
-             if (errorResult != null)
-             {
-                 return errorResult;
-             }
+            if (errorResult != null)
+            {
+                return errorResult;
+            }
 
-             return Ok();
+            return Ok();
         }
 
         [Route("register")]
@@ -98,19 +99,19 @@ namespace DataService.Controllers
             {
                 userModel.Password = "123456";
             }
-           
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
             //admin user can only register user for its company
-          
+
             var user = await _authRepo.GetUserByUserNameAsync(User.Identity.Name);
             if (user == null) throw new Exception("User cannot be found");
             //user must be admin to create user, the check is in GetCompanyForCurrentUser
 
-               
+
             var companyId = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name).Id;
             var result = await _authRepo.RegisterUser(userModel, AppUserManager, companyId, userModel.IsContractor);
 
@@ -148,7 +149,7 @@ namespace DataService.Controllers
                 {
                     return Ok(this.TheModelFactory.Create(user));
                 }
-                
+
             }
             //Only SuperAdmin or Admin can delete users (Later when implement roles)
             return NotFound();
@@ -171,7 +172,7 @@ namespace DataService.Controllers
                     }
                     else
                     {
-                       await _authRepo.DeleteUser(id);
+                        await _authRepo.DeleteUser(id);
                         return Ok();
                     }
                 }
@@ -224,7 +225,7 @@ namespace DataService.Controllers
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
         [HttpGet]
-       // [Route("ExternalLogin", Name = "ExternalLogin")]
+        // [Route("ExternalLogin", Name = "ExternalLogin")]
         public async Task<IHttpActionResult> ExternalLogin(string provider, string error = null)
         {
             string redirectUri = string.Empty;
@@ -301,7 +302,7 @@ namespace DataService.Controllers
             }
 
             //user = new ApplicationUser() { UserName = model.UserName };
-  
+
             IdentityResult result = await _authRepo.RegisterUserWithExternalLogin(model, AppUserManager);
 
             //IdentityResult result = await _repo.CreateAsync(user);
@@ -360,6 +361,37 @@ namespace DataService.Controllers
 
             return Ok(accessTokenResponse);
 
+        }
+
+
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("resetpassword")]
+        public async Task<IHttpActionResult> HandleResetPasswordRequest(string email)
+        {
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                return BadRequest("User's email required.");
+            }
+            await _authRepo.SendResetPasswordCode(AppUserManager, email);
+            return Ok();
+
+        }
+        [AllowAnonymous]
+        [HttpPost]
+        [Route("resetpassword/callback")]
+        public async Task<IHttpActionResult> HandleResetPasswordCallback(ResetPasswordDTO request)
+        {
+            if (string.IsNullOrWhiteSpace(request.UserId) || string.IsNullOrWhiteSpace(request.Code))
+            {
+                return BadRequest("");
+            }
+            var result = await _authRepo.ResetPassword(AppUserManager, request);
+            if (result.Succeeded)
+            {
+                return Ok("Your password has been reset successfully");
+            }
+            return BadRequest(result.Errors.Aggregate((x,y)=> $"{x},{y}"));
         }
 
         #region Helpers
@@ -579,3 +611,4 @@ namespace DataService.Controllers
         #endregion
     }
 }
+

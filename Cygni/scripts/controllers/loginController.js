@@ -26,6 +26,9 @@ app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuth
     $scope.signup = function () {
         $state.go('signup');
     }
+    $scope.forgetPassword = function () {
+        $state.go('resetPassword');
+    }
 
     $scope.authExternalProvider = function (provider) {
 
