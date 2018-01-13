@@ -134,18 +134,6 @@ angular
                     }
                 }
             })
-            //.state('base.form', {
-            //    templateUrl: 'views/pages/form.html',
-            //    url: '/form'
-            //})
-            //.state('base.blank', {
-            //    templateUrl: 'views/pages/blank.html',
-            //    url: '/blank'
-            //})
-            //.state('login', {
-            //    templateUrl: 'views/pages/login.html',
-            //    url: '/login'
-            //})
             .state('base.chart', {
                 templateUrl: 'views/chart.html',
                 url: '/chart',
@@ -212,6 +200,17 @@ angular
               templateUrl: "views/authentication/login.html",
               url: '/login',
           })
+
+          .state("resetPassword", {
+            controller: "resetPasswordController",
+            templateUrl: "views/authentication/resetPassword.html",
+            url: '/resetpassword',
+        })
+        .state("resetpasswordcallback", {
+            controller: "resetPasswordCallbackController",
+            templateUrl: "views/authentication/resetPasswordCallback.html",
+            url: '/resetpasswordcallback',
+        })
 
           .state("signup", {
               controller: "signupController",
@@ -534,11 +533,12 @@ app.run(function ($rootScope, authService, $state) {
 
               } else {
                   //not loggedin 
-                  if (toState.name == 'signup') {
+                  if (toState.name == 'signup'||
+                  toState.name == 'associate' ||
+                  toState.name == 'resetPassword'||
+                  toState.name =='resetpasswordcallback'
+                ) {
                       //allow go to sign up when not signed in 
-                  }
-                  else if (toState.name == 'associate') {
-                      //allow go to associate, no auth info yet
                   }
                   else if (toState.name != 'login') {
                      

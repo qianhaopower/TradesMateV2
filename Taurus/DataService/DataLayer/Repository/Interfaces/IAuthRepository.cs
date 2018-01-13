@@ -41,7 +41,7 @@ namespace EF.Data
 
 
 
-        Task<ApplicationUser> FindUser(string userName, string password);
+        ApplicationUser FindUser(string userName, string password);
 
         ClientApplicaiton FindClient(string clientId);
 
@@ -60,6 +60,10 @@ namespace EF.Data
         Task<IdentityResult> CreateAsync(ApplicationUser user);
 
         Task<IdentityResult> AddLoginAsync(string userId, UserLoginInfo login);
+
+        Task SendResetPasswordCode(ApplicationUserManager appUserManager, string email);
+        Task<IdentityResult> ResetPassword(ApplicationUserManager appUserManager,ResetPasswordDTO request);
+        
 
 
 

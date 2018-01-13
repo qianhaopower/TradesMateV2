@@ -38,6 +38,7 @@ namespace EF.Data
         public DbSet<MessageResponse> MessageResponses { get; set; }
         public DbSet<CompanyService> CompanyServices { get; set; }
         public DbSet<Attachment> Attchments { get; set; }
+        public DbSet<EmailHistory> EmailHistories { get; set; }
 
 
 
@@ -58,8 +59,6 @@ namespace EF.Data
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-
-
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
@@ -72,36 +71,6 @@ namespace EF.Data
                 modelBuilder.Configurations.Add(configurationInstance);
 
             }
-
-
-            //modelBuilder.Entity<IdentityUser>()
-            //     .ToTable("ApplicationUser");
-            //modelBuilder.Entity<Client>();
-            //modelBuilder.Entity<ApplicationUser>();
-            //modelBuilder.Entity<ClientCompany>();
-            //modelBuilder.Entity<Address>();
-            //modelBuilder.Entity<Company>();
-            //modelBuilder.Entity<Property>();
-            //modelBuilder.Entity<Section>();
-            //modelBuilder.Entity<WorkItem>();
-            //modelBuilder.Entity<WorkItemTemplate>();
-
-            //   modelBuilder.Configurations.Add(new ClientMap());
-
-
-            //modelBuilder.Entity<SectionTemplate>();
-            //modelBuilder.Entity<SubSection>();
-            //modelBuilder.Entity<SubSectionTemplate>();
-
-            //modelBuilder.Entity<ApplicationUser>();
-
-            //modelBuilder.Entity<IdentityUserLogin>();
-            //modelBuilder.Entity<IdentityRole>();
-            //modelBuilder.Entity<IdentityUserRole>();
-
-
-
-
             //turn off cascade delete globally
             modelBuilder.Conventions.Remove<ManyToManyCascadeDeleteConvention>();
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
@@ -115,12 +84,6 @@ namespace EF.Data
             modelBuilder.Entity<ApplicationUser>()
            .HasOptional(c => c.Member)
            .WithOptionalDependent(d => d.User);
-
-
-            //modelBuilder.Entity<IdentityUserLogin>().HasKey<string>(l => l.UserId);
-            //modelBuilder.Entity<IdentityRole>().HasKey<string>(r => r.Id);
-            //modelBuilder.Entity<IdentityUserRole>().HasKey(r => new { r.RoleId, r.UserId });
-
             base.OnModelCreating(modelBuilder);
 
         }

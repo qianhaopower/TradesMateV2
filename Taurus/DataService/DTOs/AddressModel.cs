@@ -6,29 +6,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataService.Models
 {
-  
 
-    public class AddressModel
+
+    public class ResetPasswordDTO
     {
-        [Required]
-        public string Line1 { get; set; }
-        public string Line2 { get; set; }
-        public string Line3 { get; set; }
-
-        [Required]
-        public string PostCode { get; set; }
-
-        [Required]
-        public string State { get; set; }
-
-        [Required]
-        public string Suburb { get; set; }
-        public string City { get; set; }
-
-        public string AddressDisplay { get {
-                return $"{Line1} {Line2} {Line3} {Suburb} {PostCode}";
-            } }
-
+        public string UserId { get; set; }
+        public string Code { get; set; }
+        public string Password { get; set; }
     }
 
 

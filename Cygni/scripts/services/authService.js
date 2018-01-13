@@ -200,6 +200,28 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
         return deferred.promise;
 
     };
+    var _sendResetPasswordRequest = function (email) {
+
+        var deferred = $q.defer();
+
+        $http.post(serviceBase + 'api/account/resetpassword?email='+ email  ).then(function (response) {
+            deferred.resolve(response.data);
+
+        },function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+    var _sendResetPasswordCallBack = function (userId, code, password) {
+        var deferred = $q.defer();
+        var data =  {userId:userId,code:code,password:password};
+        $http.post(serviceBase + 'api/account/resetpassword/callback',data).then(function (response) {
+            deferred.resolve(response.data);
+        },function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    };
 
     authServiceFactory.saveRegistration = _saveRegistration;
     authServiceFactory.login = _login;
@@ -213,6 +235,8 @@ app.factory('authService', ['$http', '$q', 'localStorageService', 'ngAuthSetting
     authServiceFactory.registerExternal = _registerExternal;
     authServiceFactory.updateUser = _updateUser;
     authServiceFactory.getCurrentUser = _getCurrentUser;
+    authServiceFactory.sendResetPasswordRequest =_sendResetPasswordRequest;
+    authServiceFactory.sendResetPasswordCallBack =_sendResetPasswordCallBack;
 
     return authServiceFactory;
 }]);

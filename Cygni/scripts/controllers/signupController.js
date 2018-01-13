@@ -25,6 +25,9 @@ function ($scope, $location, $timeout, $state, authService,constants, companySer
         companyName: undefined,
         isTrade: false,
     };
+    $scope.goback = function () {
+        $state.go('login');
+    }
 
     $scope.signUp = function () {
 
@@ -70,7 +73,7 @@ function ($scope, $location, $timeout, $state, authService,constants, companySer
 
             },
         function (err) {
-            $scope.message = err.error_description;
+            $scope.message = err.data.error_description;
         });
 
 

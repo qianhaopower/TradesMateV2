@@ -8,6 +8,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.Owin.Security;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
@@ -316,9 +317,9 @@ namespace EF.Data
             {
                 string code = await appUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                 code = HttpUtility.UrlEncode(code);
-                var ip = GetLocalIPAddress();
+                var serviceUrl = ConfigurationManager.AppSettings["DataServiceBaseUrl"];
                 // var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
-                var callbackUrl = string.Format("{2}/DataService/api/account/ConfirmEmail?userId={0}&code={1}", user.Id, code, ip);
+                var callbackUrl = string.Format("{2}/DataService/api/account/ConfirmEmail?userId={0}&code={1}", user.Id, code, serviceUrl);
 
 
                 await appUserManager.SendEmailAsync(user.Id,
@@ -329,9 +330,41 @@ namespace EF.Data
             }
         }
 
-        public async Task<ApplicationUser> FindUser(string userName, string password)
+        public async Task SendResetPasswordCode(ApplicationUserManager appUserManager, string email)
         {
-            ApplicationUser user = await _userManager.FindAsync(userName, password);
+            var userResetting =  await appUserManager.FindByEmailAsync(email);
+            if (userResetting == null || !(await appUserManager.IsEmailConfirmedAsync(userResetting.Id)))
+            {
+                // Don't reveal that the user does not exist or is not confirmed
+                throw new Exception("Cannot find user or user's email not confirmed");
+            }
+            var code = await appUserManager.GeneratePasswordResetTokenAsync(userResetting.Id);
+            code = WebUtility.UrlEncode(code);
+            var serviceUrl = ConfigurationManager.AppSettings["UIBaseUrl"];
+            var callbackUrl = string.Format("{2}/#!/resetpasswordcallback?userId={0}&code={1}", userResetting.Id, code, serviceUrl);
+        
+            await appUserManager.SendEmailAsync(userResetting.Id, "Reset Password",
+            "Please reset your password by clicking here: <a href=\"" + callbackUrl + "\">link</a>");
+           
+
+        }
+
+        public async Task<IdentityResult> ResetPassword(ApplicationUserManager appUserManager, ResetPasswordDTO request)
+        {
+            var userResetting = await appUserManager.FindByIdAsync(request.UserId);
+            if (userResetting == null || !(await appUserManager.IsEmailConfirmedAsync(userResetting.Id)))
+            {
+                // Don't reveal that the user does not exist or is not confirmed
+                throw new Exception("Cannot find user or user's email not confirmed");
+            }
+            var result = await appUserManager.ResetPasswordAsync(request.UserId, request.Code, request.Password);
+            return result;
+        }
+
+
+        public ApplicationUser FindUser(string userName, string password)
+        {
+            ApplicationUser user =  _userManager.Find(userName, password);
 
             return user;
         }
@@ -409,18 +442,19 @@ namespace EF.Data
             return result;
         }
 
-        public static string GetLocalIPAddress()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-            throw new Exception("Local IP Address Not Found!");
-        }
+     
+        //public static string GetLocalIPAddress()
+        //{
+        //    var host = Dns.GetHostEntry(Dns.GetHostName());
+        //    foreach (var ip in host.AddressList)
+        //    {
+        //        if (ip.AddressFamily == AddressFamily.InterNetwork)
+        //        {
+        //            return ip.ToString();
+        //        }
+        //    }
+        //    throw new Exception("Local IP Address Not Found!");
+        //}
 
     }
 }

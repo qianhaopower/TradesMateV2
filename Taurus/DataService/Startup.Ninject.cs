@@ -55,6 +55,7 @@ namespace DataService
             this.Bind<IStorageRepository>().To<StorageRepository>();
             this.Bind<IWorkItemRepository>().To<WorkItemRepository>();
             this.Bind<IWorkItemTemplateRepository>().To<WorkItemTemplateRepository>();
+            this.Bind<IEmailRepository>().To<EmailRepository>();
 
             this.Bind<EFDbContext>().ToSelf().InRequestScope();
             //this.Bind<DbContext>().To<EFDbContext>().InRequestScope();

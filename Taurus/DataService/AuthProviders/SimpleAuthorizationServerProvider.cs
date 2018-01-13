@@ -19,12 +19,12 @@ namespace DataService.Providers
     public class SimpleAuthorizationServerProvider : OAuthAuthorizationServerProvider
     {
        
-        private IAuthRepository _authRepo {  get;  }
+        //private IAuthRepository _authRepo {  get;  }
 
-        public SimpleAuthorizationServerProvider(IAuthRepository repo)
-        {
-            _authRepo = repo;
-        }
+        //public SimpleAuthorizationServerProvider(IAuthRepository repo)
+        //{
+        //    _authRepo = repo;
+        //}
         public override Task AuthorizationEndpointResponse(OAuthAuthorizationEndpointResponseContext context)
         {
             return base.AuthorizationEndpointResponse(context);
@@ -55,10 +55,10 @@ namespace DataService.Providers
                 return Task.FromResult<object>(null);
             }
 
-            //using (AuthRepository _repo = new AuthRepository())
-            //{
-                client = _authRepo.FindClient(context.ClientId);
-            //}
+            using (AuthRepository _repo = new AuthRepository(new EFDbContext()))
+            {
+                client = _repo.FindClient(context.ClientId);
+            }
 
             if (client == null)
             {
@@ -107,22 +107,24 @@ namespace DataService.Providers
 
             var userRole = "user";
             UserType userType = UserType.Client;
-            //using (AuthRepository _repo = new AuthRepository())
-            //{
-                ApplicationUser user = await _authRepo.FindUser(context.UserName, context.Password);
-              
+            using (AuthRepository _repo = new AuthRepository(new EFDbContext()))
+            {
+                //{
+                ApplicationUser user = _repo.FindUser(context.UserName, context.Password);
+
 
                 if (user == null)
                 {
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
-                var isUserAdmin = await _authRepo.isUserAdminAsync(user.UserName);
+                var isUserAdmin = await _repo.isUserAdminAsync(user.UserName);
                 if (isUserAdmin)
                     userRole = "Admin";
 
                 userType = user.UserType;
-            //}
+                //}
+            }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
             identity.AddClaim(new Claim(ClaimTypes.Name, context.UserName));

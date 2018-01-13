@@ -19,12 +19,15 @@ app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuth
 
         },
          function (err) {
-             $scope.message = err.error_description;
+             $scope.message = err.data.error_description;
          });
     };
 
     $scope.signup = function () {
         $state.go('signup');
+    }
+    $scope.forgetPassword = function () {
+        $state.go('resetPassword');
     }
 
     $scope.authExternalProvider = function (provider) {
@@ -67,7 +70,7 @@ app.controller('loginController', ['$scope', '$location', 'authService', 'ngAuth
 
                 },
              function (err) {
-                 $scope.message = err.error_description;
+                 $scope.message = err.data.error_description;
              });
             }
 
