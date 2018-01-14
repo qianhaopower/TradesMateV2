@@ -21,25 +21,11 @@ namespace DataService
             app.CreatePerOwinContext(EFDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             // app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
-
-
-            //use a cookie to temporarily store information about a user logging in with a third party login provider
-            app.UseExternalSignInCookie(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalCookie);
-
-
-            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
-            var kernel = ConfigureNinject(app);
-            ConfigureOAuth(app, kernel);
-
+            ConfigureAuth(app);
+            ConfigureNinject(app);//note both ninject and web api are configured here. Challange results will not work if this is before configure Oauth.
             app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-            
             AutoMapperConfig.RegisterMappings();
-           
         }
-
-
-      
     }
 }
 
