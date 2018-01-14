@@ -38,9 +38,17 @@ namespace DataService.Services
         {
             string apiKey = ConfigurationManager.AppSettings["emailService:SendGridApiKey"];
             var client = new SendGridClient(apiKey);
-            var from = new EmailAddress("noreply@TradesMate.com", "Example User");
+            var from = new EmailAddress("noreply@TradesMate.com", "TradesMate Admin");
             var subject = message.Subject;
-            var to = new EmailAddress(message.Destination);
+            EmailAddress to = null;
+            if (!string.IsNullOrEmpty(ConfigurationManager.AppSettings["emailService:CompulsoryEmail"]))
+            {
+                 to = new EmailAddress(ConfigurationManager.AppSettings["emailService:CompulsoryEmail"]);
+            }
+            else
+            {
+                 to = new EmailAddress(message.Destination);
+            }
             var plainTextContent = message.Body;
             var htmlContent = message.Body;
             var msg = MailHelper.CreateSingleEmail(from, to, subject, plainTextContent, htmlContent);

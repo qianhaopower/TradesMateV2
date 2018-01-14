@@ -15,6 +15,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -46,6 +47,8 @@ namespace DataService.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
+        [Route("confirmemail")]
         public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
@@ -58,17 +61,19 @@ namespace DataService.Controllers
 
             if (result.Succeeded)
             {
-                return Ok("Your email has been confirmed");
+                return base.Content(HttpStatusCode.OK, "Your email has been confirmed", new JsonMediaTypeFormatter(), "text/plain");
             }
+            //return Ok("Your email has been confirmed");
+            
             else
             {
                 return GetErrorResult(result);
             }
         }
 
-        // POST api/Account/Register
 
-        //[Route("Register")]
+        [AllowAnonymous]
+        [Route("register")]
         public async Task<IHttpActionResult> Register(UserModel userModel)
         {
             if (!ModelState.IsValid)
@@ -87,40 +92,42 @@ namespace DataService.Controllers
 
             return Ok();
         }
+        //[AllowAnonymous]
+        //[HttpPost]
+        //[Route("register/company")]
+        //public async Task<IHttpActionResult> RegisterCompanyUser(UserModel userModel)
+        //{
+        //    //Company user must be the type of Trade;
+        //    userModel.UserType = (int)UserType.Trade;
 
-        [Route("register")]
-        public async Task<IHttpActionResult> RegisterCompanyUser(UserModel userModel)
-        {
-            //Company user must be the type of Trade;
-            userModel.UserType = (int)UserType.Trade;
+        //    //todo generate random password
+        //    if (userModel.Password == null)
+        //    {
+        //        userModel.Password = "123456";
+        //    }
 
-            //todo generate random password
-            if (userModel.Password == null)
-            {
-                userModel.Password = "123456";
-            }
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
 
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
+        //    //admin user can only register user for its company
 
-            //admin user can only register user for its company
-
-            var user = await _authRepo.GetUserByUserNameAsync(User.Identity.Name);
-            if (user == null) throw new Exception("User cannot be found");
-            //user must be admin to create user, the check is in GetCompanyForCurrentUser
+        //    var user = await _authRepo.GetUserByUserNameAsync(User.Identity.Name);
+        //    if (user == null) throw new Exception("User cannot be found");
+        //    //user must be admin to create user, the check is in GetCompanyForCurrentUser
 
 
-            var companyId = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name).Id;
-            var result = await _authRepo.RegisterUser(userModel, AppUserManager, companyId, userModel.IsContractor);
+        //    var companyId = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name).Id;
+        //    var result = await _authRepo.RegisterUser(userModel, AppUserManager, companyId, userModel.IsContractor);
 
-            var errorResult = GetErrorResult(result);
+        //    var errorResult = GetErrorResult(result);
 
-            return errorResult ?? Ok();
-        }
+        //    return errorResult ?? Ok();
+        //}
 
-        //GET api/Account/GetCurrentUser   
+       
+        [HttpGet]
         [Route("getcurrentuser")]
         public async Task<IHttpActionResult> GetCurrentUser()
         {
@@ -136,7 +143,7 @@ namespace DataService.Controllers
 
         }
 
-        //GET api/Account/GetUserById   
+        
         [HttpGet]
         public async Task<IHttpActionResult> GetUserById(string id)
         {
@@ -182,9 +189,9 @@ namespace DataService.Controllers
             return NotFound();
         }
 
-        // POST api/Account/updateUser
+       
         [Authorize]
-        //[Route("UpdateUser")]
+        [Route("updateuser")]
         public async Task<IHttpActionResult> UpdateUser(UserModel model)
         {
             if (!ModelState.IsValid)
@@ -201,7 +208,7 @@ namespace DataService.Controllers
 
             return Ok();
         }
-        // POST api/Account/UpdateCompanyUser
+       
         [Authorize]
         public async Task<IHttpActionResult> UpdateCompanyUser(UserModel model)
         {
@@ -220,12 +227,12 @@ namespace DataService.Controllers
             return Ok();
         }
 
-        // GET api/Account/ExternalLogin
+       
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
         [HttpGet]
-        // [Route("ExternalLogin", Name = "ExternalLogin")]
+        [Route("externallogin", Name = "ExternalLogin")]
         public async Task<IHttpActionResult> ExternalLogin(string provider, string error = null)
         {
             string redirectUri = string.Empty;
@@ -275,7 +282,7 @@ namespace DataService.Controllers
 
         }
 
-        // POST api/Account/RegisterExternal
+       
         [AllowAnonymous]
         [Route("RegisterExternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)

@@ -136,13 +136,31 @@ namespace EF.Data
             var user = await _userManager.FindByNameAsync(userName);
 
             //put all the updatable field here. Interestingly we can update user name. 
-            user.UserName = userModel.UserName;
+            //user.UserName = userModel.UserName;
             user.Email = userModel.Email;
             user.FirstName = userModel.FirstName;
             user.LastName = userModel.LastName;
            
           
             var result = await _userManager.UpdateAsync(user);
+            var client = _ctx.Clients.FirstOrDefault(c => c.UserId == user.Id);
+            if(client != null)
+            {
+                //client.UserName = userModel.UserName;
+                client.Email = userModel.Email;
+                client.FirstName = userModel.FirstName;
+                client.LastName = userModel.LastName;
+            }
+
+            var member = _ctx.Clients.FirstOrDefault(m => m.UserId == user.Id);
+            if (member != null)
+            {
+                //client.UserName = userModel.UserName;
+                member.Email = userModel.Email;
+                member.FirstName = userModel.FirstName;
+                member.LastName = userModel.LastName;
+            }
+            _ctx.SaveChanges();
             return result;
         }
 
@@ -319,7 +337,7 @@ namespace EF.Data
                 code = HttpUtility.UrlEncode(code);
                 var serviceUrl = ConfigurationManager.AppSettings["DataServiceBaseUrl"];
                 // var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
-                var callbackUrl = string.Format("{2}/DataService/api/account/ConfirmEmail?userId={0}&code={1}", user.Id, code, serviceUrl);
+                var callbackUrl = string.Format("{2}/api/account/ConfirmEmail?userId={0}&code={1}", user.Id, code, serviceUrl);
 
 
                 await appUserManager.SendEmailAsync(user.Id,
