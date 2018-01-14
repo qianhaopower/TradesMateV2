@@ -21,6 +21,12 @@ namespace DataService
             app.CreatePerOwinContext(EFDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             // app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
+
+
+            //use a cookie to temporarily store information about a user logging in with a third party login provider
+            app.UseExternalSignInCookie(Microsoft.AspNet.Identity.DefaultAuthenticationTypes.ExternalCookie);
+
+
             app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
 
             var kernel = ConfigureNinject(app);
