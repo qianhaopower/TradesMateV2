@@ -17,13 +17,13 @@ namespace DataService
 
         public void Configuration(IAppBuilder app)
         {
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(EFDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             // app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
             ConfigureAuth(app);
             ConfigureNinject(app);//note both ninject and web api are configured here. Challange results will not work if this is before configure Oauth.
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             AutoMapperConfig.RegisterMappings();
         }
     }

@@ -23,12 +23,16 @@ angular
  
   ])
   .constant('domain', 'http://' + window.location.hostname)
-  .constant('api', '/DataService/api')
+  .constant('api', '/api')
   .constant("constants", {
       "userType": {client:0, trade:1},
         
     })
-  .service('urls', function (domain, api) { this.apiUrl = domain + api; })
+    .constant("ngAuthSettings", {
+        apiServiceBaseUri: 'http://taurus.com/',
+        clientId: 'ngAuthApp'
+    })
+  .service('urls', function (domain, api) { this.apiUrl = 'http://taurus.com/api'; })
 
     .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$httpProvider',
       function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $httpProvider) {
@@ -501,12 +505,6 @@ angular
 
 //var app = angular.module('AngularAuthApp', ['ngRoute', 'LocalStorageModule', 'angular-loading-bar']);
 var app = angular.module('sbAdminApp');
-var serviceBase = 'http://localhost/DataService/'; //base for authentication
-//var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
-app.constant('ngAuthSettings', {
-    apiServiceBaseUri: serviceBase,
-    clientId: 'ngAuthApp'
-});
 
 app.config(function ($httpProvider) {
     $httpProvider.interceptors.push('authInterceptorService');

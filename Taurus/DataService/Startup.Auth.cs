@@ -8,6 +8,7 @@ using Microsoft.Owin.Security.OAuth;
 using Ninject;
 using Owin;
 using System;
+using System.Configuration;
 
 namespace DataService
 {
@@ -34,8 +35,8 @@ namespace DataService
             //Configure Google External Login
             GoogleAuthOptions = new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "154249831186-0ieu1cvimgqnbbu7h7ul2d5cmc0ldun9.apps.googleusercontent.com",
-                ClientSecret = "Qd9Yh5ch2gdARXkw5JPMXm02",
+                ClientId = ConfigurationManager.AppSettings["GoogleClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["GoogleClientSecret"],
                 Provider = new GoogleAuthProvider()
             };
             app.UseGoogleAuthentication(GoogleAuthOptions);
@@ -43,8 +44,8 @@ namespace DataService
             //Configure Facebook External Login
             FacebookAuthOptions = new FacebookAuthenticationOptions()
             {
-                AppId = "202526469786564",
-                AppSecret = "bd798ef4d55ee25365b9a28e23ac9f00",
+                AppId = ConfigurationManager.AppSettings["FacebookAppId"],
+                AppSecret = ConfigurationManager.AppSettings["FacebookAppSecret"],
                 Provider = new FacebookAuthProvider()
             };
             app.UseFacebookAuthentication(FacebookAuthOptions);

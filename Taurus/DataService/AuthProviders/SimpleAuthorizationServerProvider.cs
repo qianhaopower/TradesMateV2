@@ -101,9 +101,9 @@ namespace DataService.Providers
 
             var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
 
-            if (allowedOrigin == null) allowedOrigin = "*";
+            //if (allowedOrigin == null) allowedOrigin = "*";
 
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
+            //context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
             var userRole = "user";
             UserType userType = UserType.Client;
