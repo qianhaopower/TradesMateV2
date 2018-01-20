@@ -36,12 +36,9 @@ namespace EF.Data
 
         Task<IdentityResult> RegisterUser(UserModel userModel, ApplicationUserManager appUserManager, int? companyId = null, bool isContractor = false);
 
-        //external login with no password required
         Task<IdentityResult> RegisterUserWithExternalLogin(RegisterExternalBindingModel userModel, ApplicationUserManager appUserManager, int? companyId = null);
 
-
-
-        ApplicationUser FindUser(string userName, string password);
+        ApplicationUser FindUser(string userName, string password = null);
 
         ClientApplicaiton FindClient(string clientId);
 

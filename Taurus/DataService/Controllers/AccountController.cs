@@ -284,7 +284,7 @@ namespace DataService.Controllers
 
        
         [AllowAnonymous]
-        [Route("RegisterExternal")]
+        [Route("registerexternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
 
@@ -525,7 +525,7 @@ namespace DataService.Controllers
                     parsedToken.user_id = jObj["data"]["user_id"];
                     parsedToken.app_id = jObj["data"]["app_id"];
 
-                    if (!string.Equals(Startup.facebookAuthOptions.AppId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
+                    if (!string.Equals(Startup.FacebookAuthOptions.AppId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
                     {
                         return null;
                     }
@@ -535,7 +535,7 @@ namespace DataService.Controllers
                     parsedToken.user_id = jObj["user_id"];
                     parsedToken.app_id = jObj["audience"];
 
-                    if (!string.Equals(Startup.googleAuthOptions.ClientId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
+                    if (!string.Equals(Startup.GoogleAuthOptions.ClientId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
                     {
                         return null;
                     }
@@ -553,9 +553,20 @@ namespace DataService.Controllers
             var tokenExpiration = TimeSpan.FromDays(1);
 
             ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+            var userRole = "user";
+            UserType userType = UserType.Client;
 
+            ApplicationUser user = _authRepo.FindUser(userName);
+            if (user == null)
+            {
+                throw new Exception("The user name is incorrect.");
+            }
+            var isUserAdmin = _authRepo.isUserAdmin(user.UserName);
+            if (isUserAdmin)
+                userRole = "Admin";
+            userType = user.UserType;
             identity.AddClaim(new Claim(ClaimTypes.Name, userName));
-            identity.AddClaim(new Claim("role", "user"));
+            identity.AddClaim(new Claim(ClaimTypes.Role, userRole));
 
             var props = new AuthenticationProperties()
             {
@@ -568,7 +579,9 @@ namespace DataService.Controllers
             var accessToken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
 
             JObject tokenResponse = new JObject(
-                                        new JProperty("userName", userName),
+                                        new JProperty("userName",userName),
+                                         new JProperty("userRole", userRole),
+                                        new JProperty("userType", userType.ToString()),
                                         new JProperty("access_token", accessToken),
                                         new JProperty("token_type", "bearer"),
                                         new JProperty("expires_in", tokenExpiration.TotalSeconds.ToString()),

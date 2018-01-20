@@ -231,8 +231,13 @@ namespace EF.Data
                         Description = string.Format("A company created by user {0} {1}", userModel.FirstName, userModel.LastName)
                     };
 
+                    if (userModel.TradeTypes == null)
+                    {
+                        //defualt add electrician
+                        userModel.TradeTypes = new List<TradeType>() { TradeType.Electrician };
+                    }
                     //add the company service records here
-                    if (userModel.TradeTypes.Any())
+                    if (userModel.TradeTypes != null && userModel.TradeTypes.Any())
                     {
                         userModel.TradeTypes.ForEach(p => {
                             CompanyService cs = new CompanyService()
@@ -311,7 +316,6 @@ namespace EF.Data
      
         }
 
-        //external login with no password required
         public async Task<IdentityResult> RegisterUserWithExternalLogin(RegisterExternalBindingModel userModel, ApplicationUserManager appUserManager, int? companyId = null)
         {
             var convertedUserModel = new UserModel()
@@ -321,6 +325,7 @@ namespace EF.Data
                 LastName = userModel.LastName,
                 UserType = userModel.UserType,
                 CompanyName = userModel.CompanyName,
+                Password = Guid.NewGuid().ToString(),//user will not use this as they login with google or facebook
             };
 
 
@@ -380,10 +385,17 @@ namespace EF.Data
         }
 
 
-        public ApplicationUser FindUser(string userName, string password)
+        public ApplicationUser FindUser(string userName, string password = null)
         {
-            ApplicationUser user =  _userManager.Find(userName, password);
-
+            ApplicationUser user;
+            if (string.IsNullOrEmpty(password))
+            {
+                user = _userManager.FindByName(userName);
+            }
+            else
+            {
+                user = _userManager.Find(userName, password);
+            }
             return user;
         }
 

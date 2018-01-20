@@ -109,10 +109,7 @@ namespace DataService.Providers
             UserType userType = UserType.Client;
             using (AuthRepository _repo = new AuthRepository(new EFDbContext()))
             {
-                //{
                 ApplicationUser user = _repo.FindUser(context.UserName, context.Password);
-
-
                 if (user == null)
                 {
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
@@ -121,9 +118,7 @@ namespace DataService.Providers
                 var isUserAdmin = await _repo.isUserAdminAsync(user.UserName);
                 if (isUserAdmin)
                     userRole = "Admin";
-
                 userType = user.UserType;
-                //}
             }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
