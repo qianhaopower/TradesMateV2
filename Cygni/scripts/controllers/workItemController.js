@@ -166,6 +166,7 @@ angular.module('sbAdminApp')
 
         propertyDataService.getPropertyById($stateParams.propertyId).then(function (result) {
             $scope.propertyName = result.name;
+            $scope.propertyAddress= result.addressDisplay;
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
 
     }

@@ -16,7 +16,7 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
         if (!$scope.filterTextModel.searchText
             || (item.name && (item.name.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
             || (item.description && (item.description.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
-            || (item.address && (item.address.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
+            || (item.addressDisplay && (item.addressDisplay.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
             ) {
             return true;
         }

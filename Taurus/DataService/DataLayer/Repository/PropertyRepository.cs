@@ -92,7 +92,7 @@ namespace EF.Data
             if (!GetPropertyForUser(username).Any(p => p.Id == model.Id))
                 throw new Exception($"No permission to edit client {model.Id}");
 
-            var toEditProperty = _ctx.Properties.First(p => p.Id == model.Id);
+            var toEditProperty = _ctx.Properties.Include(a => a.Address).First(p => p.Id == model.Id);
             if (toEditProperty == null) return null;
 
             toEditProperty.ModifiedDateTime = DateTime.Now;
@@ -101,6 +101,18 @@ namespace EF.Data
             toEditProperty.Condition = model.Condition;
             toEditProperty.Name = model.Name;
             toEditProperty.Narrative = model.Narrative;
+            if(model.Address != null)
+            {
+                toEditProperty.Address.ModifiedDateTime = DateTime.Now;
+                toEditProperty.Address.Line1 = model.Address.Line1;
+                toEditProperty.Address.Line2 = model.Address.Line2;
+                toEditProperty.Address.Line3 = model.Address.Line3;
+                toEditProperty.Address.PostCode = model.Address.PostCode;
+                toEditProperty.Address.State = model.Address.State;
+                toEditProperty.Address.City = model.Address.City;
+            }
+            toEditProperty.Address.ModifiedDateTime = DateTime.Now;
+            toEditProperty.Address.Line1 = model.Address.Line1;
             _ctx.Entry(toEditProperty).State = EntityState.Modified;
             _ctx.SaveChanges();
             return toEditProperty;

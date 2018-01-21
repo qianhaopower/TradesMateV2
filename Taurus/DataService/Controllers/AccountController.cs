@@ -93,6 +93,28 @@ namespace DataService.Controllers
 
             return Ok();
         }
+
+        [AllowAnonymous]
+        [Route("register/company")]
+        public async Task<IHttpActionResult> RegisterCompanyUser(UserModel userModel)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var companyId = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name).Id;
+            userModel.UserType = 1;
+            var result = await _authRepo.RegisterUser(userModel, AppUserManager, companyId,true);
+
+            var errorResult = GetErrorResult(result);
+
+            if (errorResult != null)
+            {
+                return errorResult;
+            }
+
+            return Ok();
+        }
         //[AllowAnonymous]
         //[HttpPost]
         //[Route("register/company")]
@@ -127,7 +149,7 @@ namespace DataService.Controllers
         //    return errorResult ?? Ok();
         //}
 
-       
+
         [HttpGet]
         [Route("getcurrentuser")]
         public async Task<IHttpActionResult> GetCurrentUser()

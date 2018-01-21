@@ -19,11 +19,11 @@ namespace DataService.Models
         [Required]
         public string LastName { get; set; }
 
-      
+
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-       
+
         public string ConfirmPassword { get; set; }
 
         [Required]
@@ -40,6 +40,8 @@ namespace DataService.Models
         public bool IsContractor { get; set; }
 
         public List<TradeType> TradeTypes { get; set; }
+
+        public bool PasswordAllocated {get;set;}
 
 
 

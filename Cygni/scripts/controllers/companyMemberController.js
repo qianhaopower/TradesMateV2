@@ -3,12 +3,7 @@
 
 angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$location', '$timeout', '$state', 'Notification', 'companyService',
     function ($scope, $location, $timeout, $state, Notification, companyService) {
-
         $scope.editMode = false;
-
-      
-
-
         $scope.filterTextModel = {
             searchText: undefined,
         };
@@ -22,9 +17,7 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
             }
             return false;
         };
-
         $scope.memberList = [];
-    
         $scope.companyInfo = {
             companyName: "Company",
             description: undefined,
@@ -154,7 +147,8 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
                 lastName: undefined,
                 email: $scope.selected,
                 isContractor : true,
-             
+                userType:1,//trade
+                
 
             };
 
@@ -170,7 +164,6 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
     }
     $scope.sendNewMember = function () {
         addNewMemberToCompany();
-
     }
 
 
@@ -198,8 +191,6 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
         if ($scope.selected
             && typeof ($scope.selected == 'string')
             && /\S+@\S+\.\S+/.test($scope.selected)) {
-
-            
             companyService.addNewMemberToCompany($scope.newMember).then(function () {
                 $scope.sendingRequestStatus = undefined;
                 Notification.success({ message: 'Member created', delay: 2000 });

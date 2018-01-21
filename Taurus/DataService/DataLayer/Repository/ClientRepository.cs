@@ -90,8 +90,6 @@ namespace EF.Data
             }
 
             return clients;
-           
-
         }
 
         public Client GetClient(string userName, int clientId)

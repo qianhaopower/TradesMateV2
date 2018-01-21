@@ -34,7 +34,8 @@ namespace DataService.Controllers
         public IHttpActionResult UpdatePropertyForClient(PropertyModel model)
         {
             var property = _propRepo.UpdatePropertyForClient(User.Identity.Name, model);
-            return Ok(property);
+            var result = Mapper.Map<Property, PropertyModel>(property);
+            return Ok(result);
         }
 
 

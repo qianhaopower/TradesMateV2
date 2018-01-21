@@ -26,6 +26,7 @@ namespace DataService.Services
             {
                 Body = message.Body,
                 ToEmailAddress = message.Destination,
+                From = "noreply@TradesMate.com",
                 Subject = message.Subject,
                 AddedDateTime = DateTime.Now,
                 ModifiedDateTime = DateTime.Now

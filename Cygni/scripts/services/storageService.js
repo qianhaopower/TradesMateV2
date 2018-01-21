@@ -6,10 +6,6 @@ app.factory('storageService', ['$http', '$q', 'ngAuthSettings', 'localStorageSer
 
     var _uploadFile = function (imageFile, entityId, type) {
 
-        //return $http.put(serviceBase + 'api/companies/ModifyCompany' , companyInfo).then(function (response) {
-        //    return response;
-        //});
-      
         let uploadUrl = serviceBase + 'api/storage/upload?entityId=' + entityId + '&type=' + type;
 
         let formData = new FormData();

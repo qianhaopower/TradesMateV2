@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sbAdminApp')
-  .controller('propertySectionController', ['$scope', 'propertySectionDataService', 'Notification', '$state', 'ModalService',  '$stateParams',
-function ($scope, propertySectionDataService, Notification, $state, ModalService, $stateParams) {
+  .controller('propertySectionController', ['$scope', 'propertySectionDataService','propertyDataService', 'Notification', '$state', 'ModalService',  '$stateParams',
+function ($scope, propertySectionDataService, propertyDataService,Notification, $state, ModalService, $stateParams) {
 
     $scope.filterTextModel = {
         searchText: undefined,
@@ -70,9 +70,15 @@ function ($scope, propertySectionDataService, Notification, $state, ModalService
         propertySectionDataService.getPropertyAllSections($stateParams.propertyId).then(function (result) {
             $scope.sectionlist = result;
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+        propertyDataService.getPropertyById($stateParams.propertyId).then(function (result) {
+            $scope.propertyName = result.name;
+            $scope.propertyAddress = result.addressDisplay;
+        }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+        // clientDataService.getClientById($scope.clientId).then(function (result) {
+        //     $scope.client = result;
+        //     $scope.clientName = $scope.client.firstName + ' ' + $scope.client.lastName;
+        // }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     }
-
-
     init();
 
 }]);
