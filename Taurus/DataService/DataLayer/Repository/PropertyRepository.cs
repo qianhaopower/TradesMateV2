@@ -324,10 +324,7 @@ namespace EF.Data
             return result;
         }
 
-        public IQueryable<Company> GetAllCompanies()
-        {
-            return _ctx.Companies.Include(p => p.CompanyServices).AsQueryable();
-        }
+     
 
         public IQueryable<WorkItem> GetAllPropertyWorkItems(int propertyId)
         {

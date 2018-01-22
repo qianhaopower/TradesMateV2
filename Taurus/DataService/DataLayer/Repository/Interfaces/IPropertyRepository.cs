@@ -38,7 +38,7 @@ namespace EF.Data
 
 
 
-        IQueryable<Company> GetAllCompanies();
+       
 
         IQueryable<WorkItem> GetAllPropertyWorkItems(int propertyId);
 

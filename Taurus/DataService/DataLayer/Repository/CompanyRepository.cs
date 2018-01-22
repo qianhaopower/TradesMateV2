@@ -21,6 +21,11 @@ namespace EF.Data
           
         }
 
+        public IQueryable<Company> GetAllCompanies()
+        {
+            return _ctx.Companies.Include(p => p.CompanyServices).AsQueryable();
+        }
+
         public void CreateJoinCompanyRequest(string userName, InviteMemberModel model)
         {
             var companyId = GetCompanyFoAdminUser(userName).Id;

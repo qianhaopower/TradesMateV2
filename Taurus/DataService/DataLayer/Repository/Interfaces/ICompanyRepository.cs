@@ -15,7 +15,7 @@ namespace EF.Data
 
     public interface ICompanyRepository 
     {
-
+        IQueryable<Company> GetAllCompanies();
         void CreateJoinCompanyRequest(string userName, InviteMemberModel model);
 
         IEnumerable<MemberModel> GetMemberByUserName(string userName, int? memberId = null);
