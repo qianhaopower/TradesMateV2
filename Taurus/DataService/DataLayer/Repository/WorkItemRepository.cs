@@ -24,19 +24,18 @@ namespace EF.Data
             var hasPermission = propertyRepo.GetPropertyForUser(userName).Any(p => p.Id == propertyId);
             if (!hasPermission)
                 throw new Exception(string.Format("No permission to view work items for section with Id {0}", sectionId));
-            //var authRepo = new AuthRepository(_ctx);
-            //var isUserClient = authRepo.IsUserClient(userName);
+            var user = this._userManager.FindByName(userName);
+            _ctx.Entry(user).Reference(s => s.Member).Load();
+            if (user.Client != null)
+            {
+                    var workItemsForclient = _ctx.Sections
+                        .Include(z => z.WorkItemList)
+                        .Single(p => p.Id == sectionId)
+                        .WorkItemList
+                        .ToList();
 
-            //if (isUserClient)
-            //{
-            //    var workItemsForclient = _ctx.Sections
-            //        .Include(z => z.WorkItemList)
-            //        .Single(p => p.Id == sectionId)
-            //        .WorkItemList
-            //        .ToList();
-
-            //    return workItemsForclient;
-            //}
+                    return workItemsForclient;
+            }
 
             var companyMembers = from m in _ctx.Members
                                  join cm in _ctx.CompanyMembers on m.Id equals cm.MemberId
