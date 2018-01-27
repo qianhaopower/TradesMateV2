@@ -390,6 +390,15 @@ namespace EF.Data
 
         public Company GetCompanyFoAdminUser(string userName)
         {
+            return GetCompanyForUser(userName, new List<CompanyRole> { CompanyRole.Admin });
+        } 
+        public Company GetCompanyForUser(string userName)
+        {
+            return GetCompanyForUser(userName ,new List<CompanyRole> { CompanyRole.Default, CompanyRole.Admin});
+        }
+
+        private Company GetCompanyForUser(string userName, List<CompanyRole> roles)
+        {
             var _repo = new AuthRepository(_ctx);
 
             //user must be admin.
@@ -405,14 +414,14 @@ namespace EF.Data
                 throw new Exception("Only member can view company members");
 
             _ctx.Entry(user.Member).Collection(s => s.CompanyMembers).Load();
-            var company = user.Member.CompanyMembers.ToList().FirstOrDefault(p => p.Role == CompanyRole.Admin);
+            var company = user.Member.CompanyMembers.ToList().FirstOrDefault(r => roles.Contains(r.Role));
 
             if (company == null)
-                throw new Exception("Only admin member can view company members");
+                throw new Exception("Cannot find company for user");
 
 
             _ctx.Entry(company).Reference(s => s.Company).Load();
-           // var result = _ctx.Companies.Find(company.CompanyId);
+            // var result = _ctx.Companies.Find(company.CompanyId);
             _ctx.Entry(company.Company).Collection(s => s.CompanyServices).Load();
             return company.Company;
         }

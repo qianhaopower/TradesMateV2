@@ -26,7 +26,7 @@ namespace DataService.Controllers
         [Route("")]
         public IHttpActionResult GetCompanyForCurrentUser()
         {
-            var company = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name);
+            var company = _companyRepo.GetCompanyForUser(User.Identity.Name);
             return Ok(Mapper.Map<Company, CompanyModel>(company));
         }
         [HttpGet]

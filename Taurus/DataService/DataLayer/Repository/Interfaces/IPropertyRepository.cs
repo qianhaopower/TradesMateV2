@@ -36,10 +36,6 @@ namespace EF.Data
 
         IEnumerable<PropertyReportGroupItem> GetPropertyReportData(int propertyId, string userName);
 
-
-
-       
-
         IQueryable<WorkItem> GetAllPropertyWorkItems(int propertyId);
 
         AllocationModel UpdateMemberAllocation(string userName, int propertyId, int memberId, bool allocate);

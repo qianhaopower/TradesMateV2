@@ -28,16 +28,10 @@ namespace EF.Data
         public List<WorkItemTemplate> GetWorkItemTemplateForUser(string userName)
         {
             var _repo = new AuthRepository(_ctx);
-            //var isUserAdminTask = await _repo.isUserAdminAsync(userName);
-
-
-            //if (isUserAdminTask == false)
-            //{
-            //	throw new Exception("Only admin can get templates");
-            //}
+            
             var _companyRepo = new CompanyRepository(_ctx);
             // get all the workItemTemplate for that company
-            var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
+            var companyId = _companyRepo.GetCompanyForUser(userName).Id;
 
             var list = _ctx.WorkItemTemplates.Where(p => p.CompanyId == companyId).ToList();
             // only return type that current company has, like electrician

@@ -67,7 +67,7 @@
                 <td class="col-md-1 col-xs-2">
                     <button class="btn btn-primary btn-sm" type="button" value="Edit" title="Edit Property" ng-click="openPropertyDetail(property,false)">Edit </button>
                 </td>
-                <td class="col-md-1 col-xs-2">
+                <td class="col-md-1 col-xs-2" ng-show="isAdmin">
                     <button class="btn btn-danger btn-sm" value="Delete" title="Delete Property" type="button" ng-click="deleteProperty(property)">Delete</button>
                 </td>
 

@@ -124,7 +124,7 @@ namespace EF.Data
             var isUserAdmin = _repo.isUserAdmin(username);
             if (!isUserAdmin)
             {
-                throw new Exception("Only Admin user can delete client");
+                throw new Exception("Only Admin user can delete property");
             }
             Property property = _ctx.Properties.Find(key);
             if (property == null)

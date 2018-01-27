@@ -149,6 +149,7 @@ namespace DataService.Controllers
                 // Set content headers
                 message.Content.Headers.ContentLength = result.BlobLength;
                 message.Content.Headers.ContentType = new MediaTypeHeaderValue(result.BlobContentType);
+                message.Content.Headers.Add("Access-Control-Expose-Headers", "content-disposition");
                 message.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
                 {
                     FileName = HttpUtility.UrlDecode(result.BlobFileName),
