@@ -2,8 +2,9 @@
 
 angular.module('sbAdminApp')
   .controller('workItemController', ['$scope', 'workItemDataService', 'Notification',
-      '$state', 'ModalService', '$stateParams', 'propertySectionDataService', 'propertyDataService','companyService',
-      function ($scope, workItemDataService, Notification, $state, ModalService, $stateParams, propertySectionDataService, propertyDataService, companyService) {
+      '$state', 'ModalService', '$stateParams', 'propertySectionDataService', 'propertyDataService','companyService','authService',
+      function ($scope, workItemDataService, Notification, $state, ModalService,
+         $stateParams, propertySectionDataService, propertyDataService, companyService,authService) {
 
 
 
@@ -11,7 +12,8 @@ angular.module('sbAdminApp')
     $scope.outputSelectedServiceTypes = [];
     $scope.availableStatus = workItemDataService.getDefaultWorkItemStatuses();
     $scope.availableServiceTypes = companyService.getDefaultServices();
-
+    $scope.allowAddWorkItem = authService.authentication.userRole != 'Contractor';//contractor cannot add new work items for now
+    $scope.isClient = authService.authentication.userRole == 'Client';
 
     _.each($scope.availableStatus, function (status) {
         status.ticked = true;
@@ -69,6 +71,7 @@ angular.module('sbAdminApp')
             sectionId: $stateParams.sectionId,
         });
     }
+    
 
     $scope.goBack = function () {
         $state.go('base.propertySections', {

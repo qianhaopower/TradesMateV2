@@ -142,7 +142,7 @@ namespace EF.Data
         private async Task<string> RemoveMemberValidation(string userName, int companyId, int memberId)
         {
             var _repo = new AuthRepository(_ctx);
-            var isUserAdminTask = await _repo.isUserAdminAsync(userName);
+            var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
 
             // For Task (not Task<T>): will block until the task is completed...
             //isUserAdminTask.RunSynchronously();

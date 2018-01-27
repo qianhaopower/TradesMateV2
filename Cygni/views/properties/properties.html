@@ -21,7 +21,7 @@
     </div>
     <div class="row">
         <div class="col-xs-6 col-md-9">
-            <button type="button" title="Add new property" ng-show="clientId"
+            <button type="button" title="Add new property" ng-show="clientId && !isClient"
                     class="btn btn-default btn-sm" ng-click="addNewProperty()">
                 <i class="fa fa-plus "></i> Add Property
             </button>
@@ -55,20 +55,20 @@
 
                 </td>
                 <td class="col-md-1 col-xs-1">
-                    <a class="" title="Manage Attachments" ng-click="viewPropertyAttachments(property)"><i class="fa fa-paperclip"></i></a>
+                    <a class="" title="Manage Attachments" ng-show="!isClient"  ng-click="viewPropertyAttachments(property)"><i class="fa fa-paperclip"></i></a>
                 </td>
                 <td class="col-md-1 col-xs-1">
-                    <button class="btn btn-default btn-sm" value="Reports" title="View Reports" type="button" ng-click="viewPropertyReports(property)">Reports</button>
+                    <button class="btn btn-default btn-sm"  ng-show="!isClient" value="Reports" title="View Reports" type="button" ng-click="viewPropertyReports(property)">Reports</button>
                 </td>
                 <td class="col-md-1 col-xs-2">
                     <button class="btn btn-default btn-sm" value="View Sections" title="Manage Sections" type="button" ng-click="viewPropertySections(property)">Sections</button>
                 </td>
               
                 <td class="col-md-1 col-xs-2">
-                    <button class="btn btn-primary btn-sm" type="button" value="Edit" title="Edit Property" ng-click="openPropertyDetail(property,false)">Edit </button>
+                    <button class="btn btn-primary btn-sm" ng-show="!isClient" type="button" value="Edit" title="Edit Property" ng-click="openPropertyDetail(property,false)">Edit </button>
                 </td>
                 <td class="col-md-1 col-xs-2" ng-show="isAdmin">
-                    <button class="btn btn-danger btn-sm" value="Delete" title="Delete Property" type="button" ng-click="deleteProperty(property)">Delete</button>
+                    <button class="btn btn-danger btn-sm" ng-show="!isClient" value="Delete" title="Delete Property" type="button" ng-click="deleteProperty(property)">Delete</button>
                 </td>
 
             </tr>

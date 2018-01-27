@@ -61,7 +61,7 @@ namespace EF.Data
         public async Task CreateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
 		{
 			var _repo = new AuthRepository(_ctx);
-			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
+			var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
 
 
 			if (isUserAdminTask == false)
@@ -91,7 +91,7 @@ namespace EF.Data
         public async Task UpdateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
 		{
 			var _repo = new AuthRepository(_ctx);
-			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
+			var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
 
 			if (isUserAdminTask == false)
 			{
@@ -121,7 +121,7 @@ namespace EF.Data
         public async Task DeleteWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId)
 		{
 			var _repo = new AuthRepository(_ctx);
-			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
+			var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
 
 			if (isUserAdminTask == false)
 			{

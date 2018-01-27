@@ -1,13 +1,13 @@
 'use strict';
 
 angular.module('sbAdminApp')
-  .controller('propertySectionController', ['$scope', 'propertySectionDataService','propertyDataService', 'Notification', '$state', 'ModalService',  '$stateParams',
-function ($scope, propertySectionDataService, propertyDataService,Notification, $state, ModalService, $stateParams) {
+  .controller('propertySectionController', ['$scope', 'propertySectionDataService','propertyDataService', 'Notification', '$state', 'ModalService',  '$stateParams','authService',
+function ($scope, propertySectionDataService, propertyDataService,Notification, $state, ModalService, $stateParams,authService) {
 
     $scope.filterTextModel = {
         searchText: undefined,
     };
-
+    $scope.isClient = authService.authentication.userRole == 'Client';
     $scope.propertyId = $stateParams.propertyId;
     $scope.search = function (item) {
         if (!$scope.filterTextModel.searchText

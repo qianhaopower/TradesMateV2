@@ -171,7 +171,7 @@ namespace DataService.Controllers
         public async Task<IHttpActionResult> GetUserById(string id)
         {
 
-            if (await _authRepo.isUserAdminAsync(User.Identity.Name))
+            if (await _authRepo.IsUserAdminAsync(User.Identity.Name))
             {
                 var user = await this._authRepo.GetUserById(id);
 
@@ -190,13 +190,13 @@ namespace DataService.Controllers
         public async Task<IHttpActionResult> DeleteUserById(string id)
         {
 
-            if (await _authRepo.isUserAdminAsync(User.Identity.Name))
+            if (await _authRepo.IsUserAdminAsync(User.Identity.Name))
             {
                 var user = await this._authRepo.GetUserById(id);
 
                 if (user != null)
                 {
-                    if (await _authRepo.isUserAdminAsync(user.UserName))
+                    if (await _authRepo.IsUserAdminAsync(user.UserName))
                     {
                         throw new Exception("Cannot delete Admin user");
                     }
@@ -584,9 +584,7 @@ namespace DataService.Controllers
             {
                 throw new Exception("The user name is incorrect.");
             }
-            var isUserAdmin = _authRepo.isUserAdmin(user.UserName);
-            if (isUserAdmin)
-                userRole = "Admin";
+            userRole = _authRepo.GetUserRoleAsync(userName).Result;
             userType = user.UserType;
             identity.AddClaim(new Claim(ClaimTypes.Name, userName));
             identity.AddClaim(new Claim(ClaimTypes.Role, userRole));

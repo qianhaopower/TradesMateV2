@@ -95,7 +95,7 @@ namespace EF.Data
             return false;
         }
 
-        public async Task<bool> isUserAdminAsync(string userName)
+        public async Task<bool> IsUserAdminAsync(string userName)
         {
 
             var user = await this.GetUserByUserNameAsync(userName);
@@ -125,6 +125,56 @@ namespace EF.Data
             }
             return false;
         }
+
+        public async Task<bool> IsUserContractorAsync(string userName)
+        {
+
+            var user = await this.GetUserByUserNameAsync(userName);
+
+            _ctx.Entry(user).Reference(s => s.Member).Load();
+            if (user != null && user.Member != null)
+            {
+                var company = from m in _ctx.Members
+                              join cm in _ctx.CompanyMembers on m.Id equals cm.MemberId
+                              join c in _ctx.Companies on cm.CompanyId equals c.Id
+                              where cm.Role == CompanyRole.Contractor && m.Id == user.Member.Id
+                              select c;
+                if (company.Count() >0 )
+                {
+                    return true;
+                }
+                else if (company.Count() == 0)
+                {
+                    return false;
+                }
+            }
+            return false;
+        }
+        public async Task<bool> IsUserClientAsync(string userName)
+        {
+            var user = await this.GetUserByUserNameAsync(userName);
+            _ctx.Entry(user).Reference(s => s.Client).Load();
+            return user != null && user.Client != null;
+        }
+
+        public  bool IsUserClient(string userName)
+        {
+            var user =  GetUserByUserNameAsync(userName).Result;
+            _ctx.Entry(user).Reference(s => s.Client).Load();
+            return user != null && user.Client != null;
+        }
+        public async Task<string> GetUserRoleAsync(string userName)
+        {    
+            if (await IsUserAdminAsync(userName))
+                return "Admin";
+            if (await IsUserContractorAsync(userName))
+                return "Contractor";
+            if (await IsUserClientAsync(userName))
+                return "Client";
+            
+                return "Default";
+        }
+
 
 
         public async Task<IdentityResult> UpdateUser(string userName, UserModel userModel)

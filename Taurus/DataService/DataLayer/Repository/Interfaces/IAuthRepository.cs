@@ -16,19 +16,14 @@ namespace EF.Data
 
 
         Task<ApplicationUser> GetUserById(string userId);
-
-
-
         ApplicationUser GetUserByUserName(string userName);
-
-
-
         Task<ApplicationUser> GetUserByUserNameAsync(string userName);
-
         bool isUserAdmin(string userName);
 
-        Task<bool> isUserAdminAsync(string userName);
-
+        Task<bool> IsUserAdminAsync(string userName);
+        Task<bool> IsUserContractorAsync(string userName);
+        Task<bool> IsUserClientAsync(string userName);
+        Task<string> GetUserRoleAsync(string userName);
 
         Task<IdentityResult> UpdateUser(string userName, UserModel userModel);
 

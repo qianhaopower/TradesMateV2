@@ -17,13 +17,26 @@ namespace EF.Data
         {
 
         }
-        public IEnumerable<WorkItem> GetSectionWorkItems(string UserName, int sectionId)
+        public IEnumerable<WorkItem> GetSectionWorkItems(string userName, int sectionId)
         {
             var propertyId = _ctx.Sections.Single(p => p.Id == sectionId).PropertyId;
-            var repo = new PropertyRepository(_ctx);
-            var hasPermission = repo.GetPropertyForUser(UserName).Any(p => p.Id == propertyId);
+            var propertyRepo = new PropertyRepository(_ctx);
+            var hasPermission = propertyRepo.GetPropertyForUser(userName).Any(p => p.Id == propertyId);
             if (!hasPermission)
                 throw new Exception(string.Format("No permission to view work items for section with Id {0}", sectionId));
+            //var authRepo = new AuthRepository(_ctx);
+            //var isUserClient = authRepo.IsUserClient(userName);
+
+            //if (isUserClient)
+            //{
+            //    var workItemsForclient = _ctx.Sections
+            //        .Include(z => z.WorkItemList)
+            //        .Single(p => p.Id == sectionId)
+            //        .WorkItemList
+            //        .ToList();
+
+            //    return workItemsForclient;
+            //}
 
             var companyMembers = from m in _ctx.Members
                                  join cm in _ctx.CompanyMembers on m.Id equals cm.MemberId
@@ -32,7 +45,7 @@ namespace EF.Data
                                  join p in _ctx.Properties on cp.PropertyId equals p.Id
                                  join cms in _ctx.CompanyServices on company.Id equals cms.CompanyId
                                  join u in _ctx.Users on m equals u.Member
-                                 where u.UserName == UserName
+                                 where u.UserName == userName
                                  && p.Id == propertyId
 
                                  select cm;

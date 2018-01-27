@@ -12,6 +12,7 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
     $scope.client = undefined;
     $scope.clientId = $stateParams.param;
     $scope.isAdmin = authService.authentication.userRole == 'Admin';
+    $scope.isClient = authService.authentication.userRole == 'Client';
 
     $scope.search = function (item) {
         if (!$scope.filterTextModel.searchText

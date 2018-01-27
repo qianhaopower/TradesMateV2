@@ -115,10 +115,9 @@ namespace DataService.Providers
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
-                var isUserAdmin = await _repo.isUserAdminAsync(user.UserName);
-                if (isUserAdmin)
-                    userRole = "Admin";
-                userType = user.UserType;
+                userRole = await _repo.GetUserRoleAsync(context.UserName);
+
+                 userType = user.UserType;
             }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
@@ -145,7 +144,6 @@ namespace DataService.Providers
 
             var ticket = new AuthenticationTicket(identity, props);
             context.Validated(ticket);
-
         }
 
         public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)
