@@ -16,10 +16,6 @@ angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$
        
 
     $scope.companyInfo = {
-        companyName: undefined,
-        description: undefined,
-        creditCard: undefined,
-        companyId: undefined,
         tradeTypes: $scope.serviceTypes,
     };
     $scope.companyInfoClone = {};
@@ -48,6 +44,9 @@ angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$
             $scope.companyInfo.description = company.description;
             $scope.companyInfo.creditCard = company.creditCard;
             $scope.companyInfo.companyId = company.companyId;
+            $scope.companyInfo.abn = company.abn;
+            $scope.companyInfo.address = company.address;
+            $scope.companyInfo.website = company.website;
 
             //grab all of the default
             $scope.companyInfo.tradeTypes = $scope.serviceTypes;

@@ -15,7 +15,11 @@ namespace EF.Data.Mapping
 
             Property(t => t.Name).HasMaxLength(100);
             Property(t => t.Description).HasMaxLength(3000);
+
             Property(t => t.CreditCard).HasMaxLength(50);
+            Property(t => t.AddressString).HasMaxLength(500);
+            Property(t => t.ABN).HasMaxLength(50);
+            Property(t => t.Website).HasMaxLength(500);
 
 
 

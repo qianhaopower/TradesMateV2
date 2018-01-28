@@ -82,6 +82,9 @@ namespace EF.Data
             company.Description = companyModel.Description;
             company.Name = companyModel.CompanyName;
             company.CreditCard = companyModel.CreditCard;
+            company.AddressString = companyModel.Address;
+            company.ABN = companyModel.ABN;
+            company.Website = companyModel.Website;
 
             if (!companyModel.TradeTypes.Any())
             {

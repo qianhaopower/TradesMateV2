@@ -46,12 +46,12 @@
 
                     <div class="form-group">
                         <label class="control-label"> Description</label>
-                        <textarea type="text" class="form-control" placeholder="Description" data-ng-model="companyInfo.description" ng-disabled="!editMode" autofocus></textarea>
+                        <textarea type="text" class="form-control" placeholder="Description" data-ng-model="companyInfo.description" ng-disabled="!editMode" ></textarea>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label">Credit Card</label>
-                        <input type="text" class="form-control" placeholder="Credit card number" data-ng-model="companyInfo.creditCard" ng-disabled="!editMode" autofocus>
+                        <input type="text" class="form-control" placeholder="Credit card number" data-ng-model="companyInfo.creditCard" ng-disabled="!editMode" >
                     </div>
 
                     <div class="form-group" >
@@ -67,6 +67,22 @@
                         </div>
 
                     </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label"> ABN</label>
+                        <input type="text" class="form-control" placeholder="ABN" data-ng-model="companyInfo.abn" ng-disabled="!editMode" >
+                    </div>
+                       
+                    <div class="form-group">
+                        <label class="control-label"> Address</label>
+                        <input type="text" class="form-control" placeholder="Address" data-ng-model="companyInfo.address" ng-disabled="!editMode" >
+                    </div>
+
+                    <div class="form-group">
+                        <label class="control-label"> Website</label>
+                        <input type="text" class="form-control" placeholder="Website" data-ng-model="companyInfo.website" ng-disabled="!editMode" >
+                    </div>
+                    
 
                     <div class="form-group">
                         <button class="btn btn-md btn-primary btn-block" type="submit" data-ng-click="updateCompany()" ng-disabled="companyInfoForm.$invalid"

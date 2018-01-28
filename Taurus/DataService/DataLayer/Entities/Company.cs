@@ -22,6 +22,9 @@ namespace EF.Data
         public string Description { get; set; }
 
         public string CreditCard { get; set; }
+        public string ABN { get; set; }
+        public string Website { get; set; }
+        public string AddressString { get; set; }
 
         public ICollection<WorkItemTemplate> WorkItemTemplateList {get;set;}
 
