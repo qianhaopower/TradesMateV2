@@ -13,6 +13,7 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
     $scope.clientId = $stateParams.param;
     $scope.isAdmin = authService.authentication.userRole == 'Admin';
     $scope.isClient = authService.authentication.userRole == 'Client';
+    $scope.isContractor = authService.authentication.userRole == 'Contractor';
 
     $scope.search = function (item) {
         if (!$scope.filterTextModel.searchText
@@ -164,7 +165,7 @@ angular.module('sbAdminApp').controller('propertyReportsModalController', functi
                 propertyDataService.getPropertyReportItems($scope.propertyId).then(function (result) {
 
                     if (!result) return;
-                    $scope.reportItems = result;
+                    $scope.reportItems = result.reportGroupitem;
 
                     $scope.reportItemsFlatten = [];
 
@@ -174,6 +175,10 @@ angular.module('sbAdminApp').controller('propertyReportsModalController', functi
                             $scope.reportItemsFlatten.push(aItem);
                         });
                     });
+
+                    $scope.propertyInfo = result.propertyInfo;
+                    $scope.companyInfo = result.companyInfo;
+
                 }, function (error) { Notification.error({ message: error, delay: 2000 }); });
 
                

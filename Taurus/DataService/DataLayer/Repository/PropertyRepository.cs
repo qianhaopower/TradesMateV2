@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using DataService.Entities;
 using DataService.Infrastructure;
 using DataService.Models;
@@ -280,11 +281,35 @@ namespace EF.Data
             return sections; 
         }
 
-        public IEnumerable<PropertyReportGroupItem> GetPropertyReportData(int propertyId, string userName)
+        public async Task<PropertyReport> GetPropertyReportData(int propertyId, string userName)
         {
+            var isContractor = await new AuthRepository(_ctx).IsUserContractorAsync(userName);
             var hasPermission = GetPropertyForUser(userName).Any(p => p.Id == propertyId);
-            if (!hasPermission)
-                throw new Exception("No permission to view property with id " + propertyId);
+            if (!hasPermission || isContractor)
+                throw new Exception("No permission to get report for property with id " + propertyId);
+
+            var groups = GetReportGroups(propertyId,userName);
+            var propertyInfo = this.GetProperty(userName, propertyId);
+            var companyRepo = new CompanyRepository(_ctx);
+            var company = companyRepo.GetCompanyForUser(userName);
+
+            return new PropertyReport()
+            {
+                CompanyInfo = Mapper.Map<Company, CompanyModel>(company),
+                PropertyInfo = propertyInfo,
+                ReportGroupitem = groups
+            };
+        }
+
+        public PropertyModel GetProperty(string userName, int propertyId)
+        {
+            var property = GetPropertyForUser(userName).Include(p => p.Address).FirstOrDefault(p => p.Id == propertyId);
+             return Mapper.Map<Property, PropertyModel>(property);
+        }
+
+
+        private List<PropertyReportGroupItem> GetReportGroups(int propertyId, string userName)
+        {
             var result = new List<PropertyReportGroupItem>();
             var rawData = _ctx.Properties.Include(p => p.SectionList.Select(z => z.WorkItemList)).Single(p => p.Id == propertyId);
 
@@ -310,20 +335,16 @@ namespace EF.Data
             //set up task number
             int i = 1;
             var repo = new StorageRepository(_ctx);
-            var images = repo.GetPropertyWorkItemsAttachments(propertyId, userName).Where(p=> p.Type == AttachmentType.Image);
+            var images = repo.GetPropertyWorkItemsAttachments(propertyId, userName).Where(p => p.Type == AttachmentType.Image);
             result.ForEach(p => p.workItems.ForEach(x => {
                 x.TaskNumber = i++;
-                if(images.Any(w=> w.EntityId == x.Id))
+                if (images.Any(w => w.EntityId == x.Id))
                 {
                     x.ImageUrls = images.Where(w => w.EntityId == x.Id).Select(w => w.Url).ToList();
                 }
             }));
-
-
-
-            return result;
+            return result.ToList();
         }
-
      
 
         public IQueryable<WorkItem> GetAllPropertyWorkItems(int propertyId)

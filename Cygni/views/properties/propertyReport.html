@@ -16,13 +16,6 @@
                     </button>
                 </div>
                 <div class="modal-body" >
-                   
-                    
-
-
-
-
-
                     <div class="container" id="toPrint">
                         <div class="row" id="report-header">
                             <div class="col report-header">                             
@@ -31,19 +24,18 @@
                                 <div>
                                     <img src="https://tradesmate.blob.core.windows.net/image/CompanyLogo.PNG" alt="Company Logo" >
                                 </div>
-                                <h3>Trents Electrical Contracting Pty Ltd </h3> 
-                                <p>ABN: 36 934 669 079                    </p>
-                                <p>TEC ELECTRICAL                         </p>
-                                <p>PO BOX 613, BLACK ROCK                 </p>
-                                <p>VIC, 3193                              </p>
-                                <p>www.tecelectrical.com.au               </p>
+                                <h3>{{companyInfo.companyName}} </h3> 
+                                <p>ABN: {{companyInfo.abn}}         </p>
+                                <p> {{companyInfo.description}}                     </p>
+                                <p> {{companyInfo.address}}               </p>
+                                <p>{{companyInfo.website}}           </p>
                             </div>
                         </div>
                         <hr/>
                         <div class="row" id="property-address">
                             <div class="col report-property-address">
                                 <p>Property	Address:                    </p>
-                                <h3>202 PAGE STREET, MIDDLE PARK, 3206 </h3>
+                                <h3>{{propertyInfo.addressDisplay}}</h3>
                                 <div>
                                     <img src="https://tradesmate.blob.core.windows.net/image/PropertyPhoto.PNG" alt="Company Logo">
                                 </div>

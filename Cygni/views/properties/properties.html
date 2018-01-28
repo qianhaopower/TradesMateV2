@@ -58,7 +58,7 @@
                     <a class="" title="Manage Attachments" ng-show="!isClient"  ng-click="viewPropertyAttachments(property)"><i class="fa fa-paperclip"></i></a>
                 </td>
                 <td class="col-md-1 col-xs-1">
-                    <button class="btn btn-default btn-sm"  ng-show="!isClient" value="Reports" title="View Reports" type="button" ng-click="viewPropertyReports(property)">Reports</button>
+                    <button class="btn btn-default btn-sm"  ng-show="!isClient && !isContractor" value="Reports" title="View Reports" type="button" ng-click="viewPropertyReports(property)">Reports</button>
                 </td>
                 <td class="col-md-1 col-xs-2">
                     <button class="btn btn-default btn-sm" value="View Sections" title="Manage Sections" type="button" ng-click="viewPropertySections(property)">Sections</button>

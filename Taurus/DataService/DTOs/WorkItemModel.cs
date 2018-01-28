@@ -34,4 +34,11 @@ namespace DataService.Models
 
         public List<WorkItemModel> workItems { get; set; }
     }
+
+    public class PropertyReport
+    {
+        public List<PropertyReportGroupItem> ReportGroupitem { get; set; }
+        public CompanyModel CompanyInfo { get; set; }
+        public PropertyModel PropertyInfo { get; set; }
+    }
 }
