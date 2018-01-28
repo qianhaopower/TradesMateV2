@@ -17,5 +17,6 @@ namespace DataService.Models
         public string ABN { get; set; }
         public string Website { get; set; }
         public string Address { get; set; }
+        public string CompanyLogoUrl { get; set; }
     }
 }

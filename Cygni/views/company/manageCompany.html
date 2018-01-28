@@ -34,6 +34,7 @@
                         <div class="col-xs-2">
                             <div class="pull-right"  ng-click="editMode = true" ng-show="!editMode" title="Edit"> <i class="fa fa-pencil" aria-hidden="true"></i></div>
                         </div>
+                      
                     </div>
 
 
@@ -82,18 +83,23 @@
                         <label class="control-label"> Website</label>
                         <input type="text" class="form-control" placeholder="Website" data-ng-model="companyInfo.website" ng-disabled="!editMode" >
                     </div>
-                    
-
+                    <div class="form-group" ng-show="companyInfo.companyLogoUrl">
+                            <!-- <label class="control-label"></label> -->
+                            <div  title="Upload company logo">
+                                    Company Logo (Suggest 200 *200 px)
+                                    <label class="btn btn-default btn-file">
+                                            <i class="fa fa-upload"></i>
+                                             <input type="file" name="file" onchange="angular.element(this).scope().uploadedFile(this)" hidden />
+                                    </label>
+                            </div>
+                            <div><img ng-src="{{companyInfo.companyLogoUrl}}" alt="CompanyLogo" height="200" width="200"/></div>
+                            
+                    </div>
                     <div class="form-group">
                         <button class="btn btn-md btn-primary btn-block" type="submit" data-ng-click="updateCompany()" ng-disabled="companyInfoForm.$invalid"
                                  ng-show="editMode">Save</button>
                         <button class="btn btn-md btn-info btn-block" ng-click="cancelEdit()" ng-show="editMode">Cancel</button>
                     </div> 
-
-                   
- 
-               
-
                 </form>
             </div>
 

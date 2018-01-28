@@ -51,7 +51,6 @@ namespace EF.Data
 					SizeInBytes = item.FileSizeInBytes,
 					EntityType = type,
 					EntityId = entityId,
-
 					Type = IsImageExtension(item.FileName) ? AttachmentType.Image : AttachmentType.Document,
 					AddedDateTime = DateTime.Now,
 					ModifiedDateTime = DateTime.Now,
@@ -153,7 +152,13 @@ namespace EF.Data
         {
             var valid = false;
             var propertyId = 0;
-            if(type == AttachmentEntityType.Property)
+            if (type == AttachmentEntityType.CompanyLogo)
+            {
+                var company = new CompanyRepository(_ctx).GetCompanyFoAdminUser(userName);
+                if (company != null && company.Id == entityId)
+                    valid = true;
+                return valid;
+            }else if (type == AttachmentEntityType.Property)
             {
                 propertyId = entityId;
             }
@@ -168,6 +173,7 @@ namespace EF.Data
                         propertyId = section.PropertyId;
                 }
             }
+            
             var allowedProperties = new PropertyRepository(_ctx).GetPropertyForUser(userName).ToList().Select(p => p.Id);
             valid = allowedProperties.Where(p => p == propertyId).Count() == 1;//found
             return valid;

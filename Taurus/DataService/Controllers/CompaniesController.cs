@@ -29,9 +29,11 @@ namespace DataService.Controllers
             var company = _companyRepo.GetCompanyForUser(User.Identity.Name);
             if(company == null)
             {
-
+                throw new System.Exception("Cannot decide user's company. User might be a contractor.");
             }
-            return Ok(Mapper.Map<Company, CompanyModel>(company));
+            var companyModel = Mapper.Map<Company, CompanyModel>(company);
+            companyModel.CompanyLogoUrl = _companyRepo.GetCompanyLogoUrl(company.Id);
+            return Ok(companyModel);
         }
         [HttpGet]
         [Route("all")]

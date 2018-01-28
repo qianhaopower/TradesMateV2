@@ -290,16 +290,26 @@ namespace EF.Data
 
             var groups = GetReportGroups(propertyId,userName);
             var propertyInfo = this.GetProperty(userName, propertyId);
+            propertyInfo.PropertyLogoUrl = this.GetPropertyLogoUrl(propertyId);
+
             var companyRepo = new CompanyRepository(_ctx);
             var company = companyRepo.GetCompanyForUser(userName);
-
+            var companyModel = Mapper.Map<Company, CompanyModel>(company);
+            companyModel.CompanyLogoUrl = companyRepo.GetCompanyLogoUrl(company.Id);
             return new PropertyReport()
             {
-                CompanyInfo = Mapper.Map<Company, CompanyModel>(company),
+                CompanyInfo = companyModel,
                 PropertyInfo = propertyInfo,
                 ReportGroupitem = groups
             };
         }
+        private string GetPropertyLogoUrl(int propertyId)
+        {
+            var logo = _ctx.Attchments.OrderByDescending(p => p.AddedDateTime)
+                .FirstOrDefault(p => p.EntityType == AttachmentEntityType.Property && p.EntityId == propertyId);
+            return logo?.Url;
+        }
+
 
         public PropertyModel GetProperty(string userName, int propertyId)
         {

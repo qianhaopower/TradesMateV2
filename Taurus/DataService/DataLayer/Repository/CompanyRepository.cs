@@ -399,6 +399,11 @@ namespace EF.Data
         {
             return GetCompanyForUser(userName ,new List<CompanyRole> { CompanyRole.Default, CompanyRole.Admin});
         }
+        public string GetCompanyLogoUrl(int companyId)
+        {
+            var logo =  _ctx.Attchments.OrderByDescending(p=> p.AddedDateTime).FirstOrDefault(p => p.EntityType == AttachmentEntityType.CompanyLogo && p.EntityId == companyId);
+            return logo?.Url;
+        }
 
         private Company GetCompanyForUser(string userName, List<CompanyRole> roles)
         {

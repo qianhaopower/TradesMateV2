@@ -84,6 +84,7 @@ namespace EF.Data
     public enum AttachmentEntityType {
         Property  = 0,
         WorkItem  =1 ,
+        CompanyLogo = 1,
     }
 
     public enum AttachmentType

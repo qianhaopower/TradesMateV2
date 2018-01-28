@@ -29,6 +29,7 @@ namespace DataService.Models
         public AddressModel Address { get; set; }
 
         public DefaultPropertySection DefaultSections { get; set; }
+        public string PropertyLogoUrl { get; set; }
 
 
 
