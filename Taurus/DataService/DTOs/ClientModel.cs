@@ -18,7 +18,13 @@ namespace DataService.Models
 
         public string MobileNumber { get; set; }
         public string Email { get; set; }
+    }
 
+    public class CreateNewClientRequestModel
+    {
+        public AddressModel Address { get; set; }
+        public ClientModel Client { get; set; }
+        public int PropertyId { get; set; }
     }
 
 

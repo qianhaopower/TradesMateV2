@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Threading.Tasks;
 using Z.EntityFramework.Plus;
 
 namespace EF.Data
@@ -29,6 +30,20 @@ namespace EF.Data
                 throw new Exception("User is not a client");
             }
            
+        }
+        public Client GetClientByUserName(string userName)
+        {
+            var user = _userManager.FindByName(userName);
+            if (user.UserType == UserType.Client)
+            {
+                _ctx.Entry(user).Reference(s => s.Client).Load();
+                return _ctx.Clients.First(p => p.Id == user.Client.Id);
+            }
+            else
+            {
+                throw new Exception("User is not a client");
+            }
+
         }
 
         public Member GetMemberForUser(string userId)
@@ -118,9 +133,10 @@ namespace EF.Data
             
         }
 
-        public void DeleteClient(string userName, int clientId)
+        public void RemoveClient(string userName, int clientId)
         {
             var _repo = new AuthRepository(_ctx);
+            var company = new CompanyRepository(_ctx).GetCompanyFoAdminUser(userName);
             var isUserAdmin = _repo.isUserAdmin(userName);
             if (!isUserAdmin)
             {
@@ -130,7 +146,9 @@ namespace EF.Data
             var clientToDelete = GetAccessibleClientForUser(userName).FirstOrDefault(c => c.Id == clientId);
             if(clientToDelete != null)
             {
-                _ctx.Clients.Where(c => c.Id == clientToDelete.Id).Delete();
+                //need remove all propertyCompnay records for that company, for that client's property
+                var propertyIdsForClient = _ctx.ClientProperties.Where(p => p.ClientId == clientId).Select(p=> p.PropertyId);
+                _ctx.PropertyCompanies.Where(c => propertyIdsForClient.Contains(c.PropertyId) && c.CompanyId == company.Id).Delete();
                 _ctx.SaveChanges();
             }
         }
@@ -143,6 +161,94 @@ namespace EF.Data
                           select c;
             return clients;
 
+        }
+
+        public string CreateClient(string adminUserName, CreateNewClientRequestModel model, ApplicationUserManager manager)
+        {
+
+            if (model.Client == null || !IsValidEmail(model.Client.Email))
+            {
+                throw new Exception("Client must have a valid email");
+            }
+            var existingClient = _ctx.Clients.FirstOrDefault(c => c.Email == model.Client.Email);
+            if (existingClient != null)
+            {
+                if (model.PropertyId  == 0)
+                {
+                    throw new Exception("Must request for a property");
+                }
+
+                var propertyClient = new ClientProperty()
+                {
+                    PropertyId = model.PropertyId,
+                    ClientId = existingClient.Id
+                };
+                _ctx.ClientProperties.Add(propertyClient);
+                _ctx.SaveChanges();
+                return "Client attached to your company";
+            }
+            else
+            {
+                return CreateNewClient(model, manager, adminUserName).Result;
+            }
+        }
+        private async Task<string> CreateNewClient(CreateNewClientRequestModel model, ApplicationUserManager manger, string adminUserName)
+        {
+            if (model.Address == null)
+            {
+                throw new Exception("New client must have a property");
+            }
+            if (model.Client.FirstName == null)
+            {
+                throw new Exception("New client must have a first name");
+            }
+            if (model.Client.LastName == null)
+            {
+                throw new Exception("New client must have a last name");
+            }
+
+            if (model.Client.MobileNumber == null)
+            {
+                throw new Exception("New client must have a mobile number");
+            }
+
+            //1 create client
+            var authRepo = new AuthRepository(_ctx);
+            var userName = $"{model.Client.FirstName.ToLower()}.{model.Client.LastName.ToLower()}";
+            var result = await authRepo.RegisterUser(new UserModel
+            {
+                Email = model.Client.Email,
+                FirstName = model.Client.FirstName,
+                LastName = model.Client.LastName,
+                UserName = userName,
+                UserType = (int)UserType.Client
+            }, manger);
+            if (result.Succeeded)
+            {
+                //2 create property
+                var newClient = new ClientRepository(_ctx).GetClientByUserName(userName);
+                var propertyRepo = new PropertyRepository(_ctx);
+                var newProperty = propertyRepo.CreatePropertyForClient(adminUserName, new PropertyModel
+                {
+                    Address = model.Address,
+                    ClientId = newClient.Id,
+                    Name = $"{model.Client.FirstName}'s property"
+                });
+            }
+            return "New client created";
+        }
+
+        bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
         }
     }
 }
