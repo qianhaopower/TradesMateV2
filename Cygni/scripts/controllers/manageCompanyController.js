@@ -1,8 +1,8 @@
 ﻿'use strict';
 
 
-angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$location', '$timeout', '$state', 'Notification', 'companyService',
-    function ($scope, $location, $timeout, $state, Notification, companyService) {
+angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$location', '$timeout', '$state', 'Notification', 'companyService','storageService',
+    function ($scope, $location, $timeout, $state, Notification, companyService,storageService) {
 
         $scope.editMode = false;
 
@@ -16,10 +16,6 @@ angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$
        
 
     $scope.companyInfo = {
-        companyName: undefined,
-        description: undefined,
-        creditCard: undefined,
-        companyId: undefined,
         tradeTypes: $scope.serviceTypes,
     };
     $scope.companyInfoClone = {};
@@ -41,13 +37,28 @@ angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$
         //change it back to original.
         $scope.companyInfo = $scope.companyInfoClone;
     }
+    $scope.attachmentType  = 'CompanyLogo';
+    $scope.uploadedFile = function (element) {
+        $scope.$apply(function ($scope) {
+            $scope.files = element.files;
 
+            storageService.uploadFile($scope.files[0],  $scope.companyInfo.companyId,$scope.attachmentType)
+                .then(function () {
+                    Notification.success({ message: "Upload successful", delay: 2000 });
+                    getCompanyDetail();
+            }, function (error) { Notification.error({ message: error, delay: 2000 }); });
+        });
+    }
     var getCompanyDetail = function () {
         companyService.getCurrentCompany().then(function (company) {
             $scope.companyInfo.companyName = company.companyName;
             $scope.companyInfo.description = company.description;
             $scope.companyInfo.creditCard = company.creditCard;
             $scope.companyInfo.companyId = company.companyId;
+            $scope.companyInfo.abn = company.abn;
+            $scope.companyInfo.address = company.address;
+            $scope.companyInfo.website = company.website;
+            $scope.companyInfo.companyLogoUrl = company.companyLogoUrl;
 
             //grab all of the default
             $scope.companyInfo.tradeTypes = $scope.serviceTypes;

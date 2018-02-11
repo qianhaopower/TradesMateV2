@@ -16,19 +16,14 @@ namespace EF.Data
 
 
         Task<ApplicationUser> GetUserById(string userId);
-
-
-
         ApplicationUser GetUserByUserName(string userName);
-
-
-
         Task<ApplicationUser> GetUserByUserNameAsync(string userName);
-
         bool isUserAdmin(string userName);
 
-        Task<bool> isUserAdminAsync(string userName);
-
+        Task<bool> IsUserAdminAsync(string userName);
+        Task<bool> IsUserContractorAsync(string userName);
+        Task<bool> IsUserClientAsync(string userName);
+        Task<string> GetUserRoleAsync(string userName);
 
         Task<IdentityResult> UpdateUser(string userName, UserModel userModel);
 
@@ -36,12 +31,9 @@ namespace EF.Data
 
         Task<IdentityResult> RegisterUser(UserModel userModel, ApplicationUserManager appUserManager, int? companyId = null, bool isContractor = false);
 
-        //external login with no password required
         Task<IdentityResult> RegisterUserWithExternalLogin(RegisterExternalBindingModel userModel, ApplicationUserManager appUserManager, int? companyId = null);
 
-
-
-        ApplicationUser FindUser(string userName, string password);
+        ApplicationUser FindUser(string userName, string password = null);
 
         ClientApplicaiton FindClient(string clientId);
 

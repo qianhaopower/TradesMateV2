@@ -21,6 +21,11 @@ namespace EF.Data
           
         }
 
+        public IQueryable<Company> GetAllCompanies()
+        {
+            return _ctx.Companies.Include(p => p.CompanyServices).AsQueryable();
+        }
+
         public void CreateJoinCompanyRequest(string userName, InviteMemberModel model)
         {
             var companyId = GetCompanyFoAdminUser(userName).Id;
@@ -77,6 +82,9 @@ namespace EF.Data
             company.Description = companyModel.Description;
             company.Name = companyModel.CompanyName;
             company.CreditCard = companyModel.CreditCard;
+            company.AddressString = companyModel.Address;
+            company.ABN = companyModel.ABN;
+            company.Website = companyModel.Website;
 
             if (!companyModel.TradeTypes.Any())
             {
@@ -137,7 +145,7 @@ namespace EF.Data
         private async Task<string> RemoveMemberValidation(string userName, int companyId, int memberId)
         {
             var _repo = new AuthRepository(_ctx);
-            var isUserAdminTask = await _repo.isUserAdminAsync(userName);
+            var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
 
             // For Task (not Task<T>): will block until the task is completed...
             //isUserAdminTask.RunSynchronously();
@@ -385,6 +393,20 @@ namespace EF.Data
 
         public Company GetCompanyFoAdminUser(string userName)
         {
+            return GetCompanyForUser(userName, new List<CompanyRole> { CompanyRole.Admin });
+        } 
+        public Company GetCompanyForUser(string userName)
+        {
+            return GetCompanyForUser(userName ,new List<CompanyRole> { CompanyRole.Default, CompanyRole.Admin});
+        }
+        public string GetCompanyLogoUrl(int companyId)
+        {
+            var logo =  _ctx.Attchments.OrderByDescending(p=> p.AddedDateTime).FirstOrDefault(p => p.EntityType == AttachmentEntityType.CompanyLogo && p.EntityId == companyId);
+            return logo?.Url;
+        }
+
+        private Company GetCompanyForUser(string userName, List<CompanyRole> roles)
+        {
             var _repo = new AuthRepository(_ctx);
 
             //user must be admin.
@@ -400,14 +422,14 @@ namespace EF.Data
                 throw new Exception("Only member can view company members");
 
             _ctx.Entry(user.Member).Collection(s => s.CompanyMembers).Load();
-            var company = user.Member.CompanyMembers.ToList().FirstOrDefault(p => p.Role == CompanyRole.Admin);
+            var company = user.Member.CompanyMembers.ToList().FirstOrDefault(r => roles.Contains(r.Role));
 
             if (company == null)
-                throw new Exception("Only admin member can view company members");
+                throw new Exception("Cannot find company for user");
 
 
             _ctx.Entry(company).Reference(s => s.Company).Load();
-           // var result = _ctx.Companies.Find(company.CompanyId);
+            // var result = _ctx.Companies.Find(company.CompanyId);
             _ctx.Entry(company.Company).Collection(s => s.CompanyServices).Load();
             return company.Company;
         }

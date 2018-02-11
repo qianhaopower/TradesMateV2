@@ -5,10 +5,16 @@ app.controller('associateController', ['$scope', '$location', '$timeout', 'authS
     $scope.message = "";
 
     $scope.registerData = {
-        userName: authService.externalAuthData.userName,
+        userName: authService.externalAuthData.userName.replace(/\s/g, '').toLowerCase(),
         provider: authService.externalAuthData.provider,
         externalAccessToken: authService.externalAuthData.externalAccessToken
     };
+    if(authService.externalAuthData.userName.indexOf(' ' > 0))
+    {
+        //set the user first name and last name
+        $scope.registerData.firstName = authService.externalAuthData.userName.split(' ')[0];
+        $scope.registerData.lastName = authService.externalAuthData.userName.split(' ')[1];
+    }
 
     $scope.registerExternal = function () {
         $scope.registerData.userType = $scope.registerData.isTrade ? constants.userType.trade : constants.userType.client;

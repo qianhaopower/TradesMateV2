@@ -28,16 +28,10 @@ namespace EF.Data
         public List<WorkItemTemplate> GetWorkItemTemplateForUser(string userName)
         {
             var _repo = new AuthRepository(_ctx);
-            //var isUserAdminTask = await _repo.isUserAdminAsync(userName);
-
-
-            //if (isUserAdminTask == false)
-            //{
-            //	throw new Exception("Only admin can get templates");
-            //}
+            
             var _companyRepo = new CompanyRepository(_ctx);
             // get all the workItemTemplate for that company
-            var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
+            var companyId = _companyRepo.GetCompanyForUser(userName).Id;
 
             var list = _ctx.WorkItemTemplates.Where(p => p.CompanyId == companyId).ToList();
             // only return type that current company has, like electrician
@@ -67,7 +61,7 @@ namespace EF.Data
         public async Task CreateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
 		{
 			var _repo = new AuthRepository(_ctx);
-			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
+			var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
 
 
 			if (isUserAdminTask == false)
@@ -97,7 +91,7 @@ namespace EF.Data
         public async Task UpdateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
 		{
 			var _repo = new AuthRepository(_ctx);
-			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
+			var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
 
 			if (isUserAdminTask == false)
 			{
@@ -127,7 +121,7 @@ namespace EF.Data
         public async Task DeleteWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId)
 		{
 			var _repo = new AuthRepository(_ctx);
-			var isUserAdminTask = await _repo.isUserAdminAsync(userName);
+			var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
 
 			if (isUserAdminTask == false)
 			{

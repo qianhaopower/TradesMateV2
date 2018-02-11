@@ -14,7 +14,9 @@ namespace DataService.Models
         public string CreditCard { get; set; }
         public int CompanyId { get; set; }
         public List<TradeType> TradeTypes { get; set; }
+        public string ABN { get; set; }
+        public string Website { get; set; }
+        public string Address { get; set; }
+        public string CompanyLogoUrl { get; set; }
     }
-
-
 }

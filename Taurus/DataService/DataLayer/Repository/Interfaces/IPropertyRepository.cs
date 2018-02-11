@@ -34,11 +34,7 @@ namespace EF.Data
 
         List<Section> GetPropertySectionList(string name, int key);
 
-        IEnumerable<PropertyReportGroupItem> GetPropertyReportData(int propertyId, string userName);
-
-
-
-        IQueryable<Company> GetAllCompanies();
+        Task<PropertyReport> GetPropertyReportData(int propertyId, string userName);
 
         IQueryable<WorkItem> GetAllPropertyWorkItems(int propertyId);
 
@@ -51,5 +47,6 @@ namespace EF.Data
         IQueryable<Company> GetCompanyForProperty(int propertyID);
 
         Property UpdatePropertyForClient(string username, PropertyModel model);
+        PropertyModel GetProperty(string userName, int propertyId);
     }
 }

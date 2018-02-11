@@ -5,6 +5,7 @@ using System.Web.Http;
 using EF.Data;
 using AutoMapper;
 using DataService.Models;
+using System.Threading.Tasks;
 
 namespace DataService.Controllers
 {
@@ -34,7 +35,8 @@ namespace DataService.Controllers
         public IHttpActionResult UpdatePropertyForClient(PropertyModel model)
         {
             var property = _propRepo.UpdatePropertyForClient(User.Identity.Name, model);
-            return Ok(property);
+            var result = Mapper.Map<Property, PropertyModel>(property);
+            return Ok(result);
         }
 
 
@@ -49,11 +51,7 @@ namespace DataService.Controllers
         [Route("{id:int}")]
         public IHttpActionResult GetProperty(int id)
         {
-            var repo = _propRepo;
-            var property = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address).FirstOrDefault(p => p.Id == id);
-            var result = Mapper.Map<Property, PropertyModel>(property);
-
-            return Ok(result);
+            return Ok(_propRepo.GetProperty(User.Identity.Name, id));
         }
 
         [HttpDelete]
@@ -68,13 +66,13 @@ namespace DataService.Controllers
 
         [HttpGet]
         [Route("{id:int}/report")]
-        public IHttpActionResult GetPropertyReportItems(int id)
+        public async Task<IHttpActionResult> GetPropertyReportItems(int id)
         {
             var repo = _propRepo;
             var hasPermission = repo.GetPropertyForUser(User.Identity.Name).Any(p=> p.Id == id);
             if (!hasPermission)
                 return  Unauthorized();
-            var result = repo.GetPropertyReportData(id, User.Identity.Name);
+            var result = await repo.GetPropertyReportData(id, User.Identity.Name);
             return    Ok(result);
 
         }

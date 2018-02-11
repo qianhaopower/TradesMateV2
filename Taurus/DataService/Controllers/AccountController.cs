@@ -12,9 +12,11 @@ using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Formatting;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
@@ -46,6 +48,8 @@ namespace DataService.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
+        [Route("confirmemail")]
         public async Task<IHttpActionResult> ConfirmEmail(string userId = "", string code = "")
         {
             if (string.IsNullOrWhiteSpace(userId) || string.IsNullOrWhiteSpace(code))
@@ -58,17 +62,19 @@ namespace DataService.Controllers
 
             if (result.Succeeded)
             {
-                return Ok("Your email has been confirmed");
+                return base.Content(HttpStatusCode.OK, "Your email has been confirmed", new JsonMediaTypeFormatter(), "text/plain");
             }
+            //return Ok("Your email has been confirmed");
+            
             else
             {
                 return GetErrorResult(result);
             }
         }
 
-        // POST api/Account/Register
 
-        //[Route("Register")]
+        [AllowAnonymous]
+        [Route("register")]
         public async Task<IHttpActionResult> Register(UserModel userModel)
         {
             if (!ModelState.IsValid)
@@ -88,39 +94,63 @@ namespace DataService.Controllers
             return Ok();
         }
 
-        [Route("register")]
+        [AllowAnonymous]
+        [Route("register/company")]
         public async Task<IHttpActionResult> RegisterCompanyUser(UserModel userModel)
         {
-            //Company user must be the type of Trade;
-            userModel.UserType = (int)UserType.Trade;
-
-            //todo generate random password
-            if (userModel.Password == null)
-            {
-                userModel.Password = "123456";
-            }
-
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
-
-            //admin user can only register user for its company
-
-            var user = await _authRepo.GetUserByUserNameAsync(User.Identity.Name);
-            if (user == null) throw new Exception("User cannot be found");
-            //user must be admin to create user, the check is in GetCompanyForCurrentUser
-
-
             var companyId = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name).Id;
-            var result = await _authRepo.RegisterUser(userModel, AppUserManager, companyId, userModel.IsContractor);
+            userModel.UserType = 1;
+            var result = await _authRepo.RegisterUser(userModel, AppUserManager, companyId,true);
 
             var errorResult = GetErrorResult(result);
 
-            return errorResult ?? Ok();
-        }
+            if (errorResult != null)
+            {
+                return errorResult;
+            }
 
-        //GET api/Account/GetCurrentUser   
+            return Ok();
+        }
+        //[AllowAnonymous]
+        //[HttpPost]
+        //[Route("register/company")]
+        //public async Task<IHttpActionResult> RegisterCompanyUser(UserModel userModel)
+        //{
+        //    //Company user must be the type of Trade;
+        //    userModel.UserType = (int)UserType.Trade;
+
+        //    //todo generate random password
+        //    if (userModel.Password == null)
+        //    {
+        //        userModel.Password = "123456";
+        //    }
+
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(ModelState);
+        //    }
+
+        //    //admin user can only register user for its company
+
+        //    var user = await _authRepo.GetUserByUserNameAsync(User.Identity.Name);
+        //    if (user == null) throw new Exception("User cannot be found");
+        //    //user must be admin to create user, the check is in GetCompanyForCurrentUser
+
+
+        //    var companyId = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name).Id;
+        //    var result = await _authRepo.RegisterUser(userModel, AppUserManager, companyId, userModel.IsContractor);
+
+        //    var errorResult = GetErrorResult(result);
+
+        //    return errorResult ?? Ok();
+        //}
+
+
+        [HttpGet]
         [Route("getcurrentuser")]
         public async Task<IHttpActionResult> GetCurrentUser()
         {
@@ -136,12 +166,12 @@ namespace DataService.Controllers
 
         }
 
-        //GET api/Account/GetUserById   
+        
         [HttpGet]
         public async Task<IHttpActionResult> GetUserById(string id)
         {
 
-            if (await _authRepo.isUserAdminAsync(User.Identity.Name))
+            if (await _authRepo.IsUserAdminAsync(User.Identity.Name))
             {
                 var user = await this._authRepo.GetUserById(id);
 
@@ -160,13 +190,13 @@ namespace DataService.Controllers
         public async Task<IHttpActionResult> DeleteUserById(string id)
         {
 
-            if (await _authRepo.isUserAdminAsync(User.Identity.Name))
+            if (await _authRepo.IsUserAdminAsync(User.Identity.Name))
             {
                 var user = await this._authRepo.GetUserById(id);
 
                 if (user != null)
                 {
-                    if (await _authRepo.isUserAdminAsync(user.UserName))
+                    if (await _authRepo.IsUserAdminAsync(user.UserName))
                     {
                         throw new Exception("Cannot delete Admin user");
                     }
@@ -182,9 +212,9 @@ namespace DataService.Controllers
             return NotFound();
         }
 
-        // POST api/Account/updateUser
+       
         [Authorize]
-        //[Route("UpdateUser")]
+        [Route("updateuser")]
         public async Task<IHttpActionResult> UpdateUser(UserModel model)
         {
             if (!ModelState.IsValid)
@@ -201,7 +231,7 @@ namespace DataService.Controllers
 
             return Ok();
         }
-        // POST api/Account/UpdateCompanyUser
+       
         [Authorize]
         public async Task<IHttpActionResult> UpdateCompanyUser(UserModel model)
         {
@@ -220,12 +250,12 @@ namespace DataService.Controllers
             return Ok();
         }
 
-        // GET api/Account/ExternalLogin
+       
         [OverrideAuthentication]
         [HostAuthentication(DefaultAuthenticationTypes.ExternalCookie)]
         [AllowAnonymous]
         [HttpGet]
-        // [Route("ExternalLogin", Name = "ExternalLogin")]
+        [Route("externallogin", Name = "ExternalLogin")]
         public async Task<IHttpActionResult> ExternalLogin(string provider, string error = null)
         {
             string redirectUri = string.Empty;
@@ -275,9 +305,9 @@ namespace DataService.Controllers
 
         }
 
-        // POST api/Account/RegisterExternal
+       
         [AllowAnonymous]
-        [Route("RegisterExternal")]
+        [Route("registerexternal")]
         public async Task<IHttpActionResult> RegisterExternal(RegisterExternalBindingModel model)
         {
 
@@ -489,7 +519,7 @@ namespace DataService.Controllers
             {
                 //You can get it from here: https://developers.facebook.com/tools/accesstoken/
                 //More about debug_tokn here: http://stackoverflow.com/questions/16641083/how-does-one-get-the-app-access-token-for-debug-token-inspection-on-facebook
-                var appToken = "202526469786564|6sQLNFUBejgj95o8JIlDG2PCa3w";
+                var appToken = ConfigurationManager.AppSettings["FacebookAppToken"];
                 verifyTokenEndPoint = string.Format("https://graph.facebook.com/debug_token?input_token={0}&access_token={1}", accessToken, appToken);
             }
             else if (provider == "Google")
@@ -518,7 +548,7 @@ namespace DataService.Controllers
                     parsedToken.user_id = jObj["data"]["user_id"];
                     parsedToken.app_id = jObj["data"]["app_id"];
 
-                    if (!string.Equals(Startup.facebookAuthOptions.AppId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
+                    if (!string.Equals(Startup.FacebookAuthOptions.AppId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
                     {
                         return null;
                     }
@@ -528,7 +558,7 @@ namespace DataService.Controllers
                     parsedToken.user_id = jObj["user_id"];
                     parsedToken.app_id = jObj["audience"];
 
-                    if (!string.Equals(Startup.googleAuthOptions.ClientId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
+                    if (!string.Equals(Startup.GoogleAuthOptions.ClientId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
                     {
                         return null;
                     }
@@ -546,9 +576,18 @@ namespace DataService.Controllers
             var tokenExpiration = TimeSpan.FromDays(1);
 
             ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+            var userRole = "user";
+            UserType userType = UserType.Client;
 
+            ApplicationUser user = _authRepo.FindUser(userName);
+            if (user == null)
+            {
+                throw new Exception("The user name is incorrect.");
+            }
+            userRole = _authRepo.GetUserRoleAsync(userName).Result;
+            userType = user.UserType;
             identity.AddClaim(new Claim(ClaimTypes.Name, userName));
-            identity.AddClaim(new Claim("role", "user"));
+            identity.AddClaim(new Claim(ClaimTypes.Role, userRole));
 
             var props = new AuthenticationProperties()
             {
@@ -561,7 +600,9 @@ namespace DataService.Controllers
             var accessToken = Startup.OAuthBearerOptions.AccessTokenFormat.Protect(ticket);
 
             JObject tokenResponse = new JObject(
-                                        new JProperty("userName", userName),
+                                        new JProperty("userName",userName),
+                                         new JProperty("userRole", userRole),
+                                        new JProperty("userType", userType.ToString()),
                                         new JProperty("access_token", accessToken),
                                         new JProperty("token_type", "bearer"),
                                         new JProperty("expires_in", tokenExpiration.TotalSeconds.ToString()),

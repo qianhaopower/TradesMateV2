@@ -5,6 +5,10 @@ using System.Web.Http;
 using EF.Data;
 using AutoMapper;
 using DataService.Models;
+using DataService.Infrastructure;
+using Microsoft.AspNet.Identity.Owin;
+using System.Net.Http;
+using System.Web;
 
 namespace DataService.Controllers
 {
@@ -14,6 +18,9 @@ namespace DataService.Controllers
     {
         private readonly IClientRepository _clientRepo;
         private readonly IPropertyRepository _propertyRepo;
+        private ApplicationUserManager _AppUserManager;
+
+        protected ApplicationUserManager AppUserManager => _AppUserManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
         public ClientsController(IClientRepository clientRepo, IPropertyRepository propertyRepo)
         {
             _clientRepo = clientRepo;
@@ -45,12 +52,19 @@ namespace DataService.Controllers
             return Ok(Mapper.Map <Client, ClientModel>(client));
         }
 
+        [HttpPost]
+        [Route("")]
+        public IHttpActionResult CreateClient(CreateNewClientRequestModel model)
+        {
+            var result = _clientRepo.CreateClient(User.Identity.Name, model, _AppUserManager);
+            return Ok(result);
+        }
 
         [HttpDelete]
         [Route("{id:int}")]
-        public IHttpActionResult DeleteClient(int id)
+        public IHttpActionResult RemoveClient(int id)
         {
-            _clientRepo.DeleteClient(User.Identity.Name, id);
+            _clientRepo.RemoveClient(User.Identity.Name, id);
             return Ok();
         }
      

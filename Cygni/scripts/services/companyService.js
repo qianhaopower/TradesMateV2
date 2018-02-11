@@ -8,8 +8,10 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     var _updateCompany = function (companyInfo) {
 
-        return $http.put(serviceBase + 'api/companies/ModifyCompany' , companyInfo).then(function (response) {
+        return $http.put(serviceBase + 'api/companies' , companyInfo).then(function (response) {
             return response.data;
+        },function (err, status) {
+            deferred.reject(err);
         });
 
     };
@@ -58,7 +60,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
         var deferred = $q.defer();
 
-        $http.get(serviceBase + 'api/companies').then(function (response) {
+        $http.get(serviceBase + 'api/companies/all').then(function (response) {
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);
@@ -116,7 +118,8 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
 
     var _addNewMemberToCompany = function (userInfo) {
         var deferred = $q.defer();
-        $http.post(serviceBase + 'api/account/register', userInfo).then(function (response) {
+        userInfo.userType =1;//trade
+        $http.post(serviceBase + 'api/account/register/company', userInfo).then(function (response) {
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);

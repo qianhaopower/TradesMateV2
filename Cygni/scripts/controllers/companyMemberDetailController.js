@@ -60,6 +60,8 @@ function ($scope, companyService, authService, Notification, $state, $stateParam
                 password:undefined,
                 email: undefined,
                 isNew: true,
+                userType: 1,//trade
+
             }
         }
      

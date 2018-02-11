@@ -101,29 +101,23 @@ namespace DataService.Providers
 
             var allowedOrigin = context.OwinContext.Get<string>("as:clientAllowedOrigin");
 
-            if (allowedOrigin == null) allowedOrigin = "*";
+            //if (allowedOrigin == null) allowedOrigin = "*";
 
-            context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
+            //context.OwinContext.Response.Headers.Add("Access-Control-Allow-Origin", new[] { allowedOrigin });
 
             var userRole = "user";
             UserType userType = UserType.Client;
             using (AuthRepository _repo = new AuthRepository(new EFDbContext()))
             {
-                //{
                 ApplicationUser user = _repo.FindUser(context.UserName, context.Password);
-
-
                 if (user == null)
                 {
                     context.SetError("invalid_grant", "The user name or password is incorrect.");
                     return;
                 }
-                var isUserAdmin = await _repo.isUserAdminAsync(user.UserName);
-                if (isUserAdmin)
-                    userRole = "Admin";
+                userRole = await _repo.GetUserRoleAsync(context.UserName);
 
-                userType = user.UserType;
-                //}
+                 userType = user.UserType;
             }
 
             var identity = new ClaimsIdentity(context.Options.AuthenticationType);
@@ -150,7 +144,6 @@ namespace DataService.Providers
 
             var ticket = new AuthenticationTicket(identity, props);
             context.Validated(ticket);
-
         }
 
         public override Task GrantRefreshToken(OAuthGrantRefreshTokenContext context)

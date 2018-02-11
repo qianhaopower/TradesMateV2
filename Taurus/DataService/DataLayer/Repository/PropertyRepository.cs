@@ -1,4 +1,5 @@
 ﻿
+using AutoMapper;
 using DataService.Entities;
 using DataService.Infrastructure;
 using DataService.Models;
@@ -92,7 +93,7 @@ namespace EF.Data
             if (!GetPropertyForUser(username).Any(p => p.Id == model.Id))
                 throw new Exception($"No permission to edit client {model.Id}");
 
-            var toEditProperty = _ctx.Properties.First(p => p.Id == model.Id);
+            var toEditProperty = _ctx.Properties.Include(a => a.Address).First(p => p.Id == model.Id);
             if (toEditProperty == null) return null;
 
             toEditProperty.ModifiedDateTime = DateTime.Now;
@@ -101,6 +102,18 @@ namespace EF.Data
             toEditProperty.Condition = model.Condition;
             toEditProperty.Name = model.Name;
             toEditProperty.Narrative = model.Narrative;
+            if(model.Address != null)
+            {
+                toEditProperty.Address.ModifiedDateTime = DateTime.Now;
+                toEditProperty.Address.Line1 = model.Address.Line1;
+                toEditProperty.Address.Line2 = model.Address.Line2;
+                toEditProperty.Address.Line3 = model.Address.Line3;
+                toEditProperty.Address.PostCode = model.Address.PostCode;
+                toEditProperty.Address.State = model.Address.State;
+                toEditProperty.Address.City = model.Address.City;
+            }
+            toEditProperty.Address.ModifiedDateTime = DateTime.Now;
+            toEditProperty.Address.Line1 = model.Address.Line1;
             _ctx.Entry(toEditProperty).State = EntityState.Modified;
             _ctx.SaveChanges();
             return toEditProperty;
@@ -112,7 +125,7 @@ namespace EF.Data
             var isUserAdmin = _repo.isUserAdmin(username);
             if (!isUserAdmin)
             {
-                throw new Exception("Only Admin user can delete client");
+                throw new Exception("Only Admin user can delete property");
             }
             Property property = _ctx.Properties.Find(key);
             if (property == null)
@@ -268,11 +281,45 @@ namespace EF.Data
             return sections; 
         }
 
-        public IEnumerable<PropertyReportGroupItem> GetPropertyReportData(int propertyId, string userName)
+        public async Task<PropertyReport> GetPropertyReportData(int propertyId, string userName)
         {
+            var isContractor = await new AuthRepository(_ctx).IsUserContractorAsync(userName);
             var hasPermission = GetPropertyForUser(userName).Any(p => p.Id == propertyId);
-            if (!hasPermission)
-                throw new Exception("No permission to view property with id " + propertyId);
+            if (!hasPermission || isContractor)
+                throw new Exception("No permission to get report for property with id " + propertyId);
+
+            var groups = GetReportGroups(propertyId,userName);
+            var propertyInfo = this.GetProperty(userName, propertyId);
+            propertyInfo.PropertyLogoUrl = this.GetPropertyLogoUrl(propertyId);
+
+            var companyRepo = new CompanyRepository(_ctx);
+            var company = companyRepo.GetCompanyForUser(userName);
+            var companyModel = Mapper.Map<Company, CompanyModel>(company);
+            companyModel.CompanyLogoUrl = companyRepo.GetCompanyLogoUrl(company.Id);
+            return new PropertyReport()
+            {
+                CompanyInfo = companyModel,
+                PropertyInfo = propertyInfo,
+                ReportGroupitem = groups
+            };
+        }
+        private string GetPropertyLogoUrl(int propertyId)
+        {
+            var logo = _ctx.Attchments.OrderByDescending(p => p.AddedDateTime)
+                .FirstOrDefault(p => p.EntityType == AttachmentEntityType.Property && p.EntityId == propertyId);
+            return logo?.Url;
+        }
+
+
+        public PropertyModel GetProperty(string userName, int propertyId)
+        {
+            var property = GetPropertyForUser(userName).Include(p => p.Address).FirstOrDefault(p => p.Id == propertyId);
+             return Mapper.Map<Property, PropertyModel>(property);
+        }
+
+
+        private List<PropertyReportGroupItem> GetReportGroups(int propertyId, string userName)
+        {
             var result = new List<PropertyReportGroupItem>();
             var rawData = _ctx.Properties.Include(p => p.SectionList.Select(z => z.WorkItemList)).Single(p => p.Id == propertyId);
 
@@ -298,24 +345,17 @@ namespace EF.Data
             //set up task number
             int i = 1;
             var repo = new StorageRepository(_ctx);
-            var images = repo.GetPropertyWorkItemsAttachments(propertyId, userName).Where(p=> p.Type == AttachmentType.Image);
+            var images = repo.GetPropertyWorkItemsAttachments(propertyId, userName).Where(p => p.Type == AttachmentType.Image);
             result.ForEach(p => p.workItems.ForEach(x => {
                 x.TaskNumber = i++;
-                if(images.Any(w=> w.EntityId == x.Id))
+                if (images.Any(w => w.EntityId == x.Id))
                 {
                     x.ImageUrls = images.Where(w => w.EntityId == x.Id).Select(w => w.Url).ToList();
                 }
             }));
-
-
-
-            return result;
+            return result.ToList();
         }
-
-        public IQueryable<Company> GetAllCompanies()
-        {
-            return _ctx.Companies.Include(p => p.CompanyServices).AsQueryable();
-        }
+     
 
         public IQueryable<WorkItem> GetAllPropertyWorkItems(int propertyId)
         {

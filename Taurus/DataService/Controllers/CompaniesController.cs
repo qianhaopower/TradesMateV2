@@ -26,9 +26,26 @@ namespace DataService.Controllers
         [Route("")]
         public IHttpActionResult GetCompanyForCurrentUser()
         {
-            var company = _companyRepo.GetCompanyFoAdminUser(User.Identity.Name);
-            return Ok(Mapper.Map<Company, CompanyModel>(company));
+            var company = _companyRepo.GetCompanyForUser(User.Identity.Name);
+            if(company == null)
+            {
+                throw new System.Exception("Cannot decide user's company. User might be a contractor.");
+            }
+            var companyModel = Mapper.Map<Company, CompanyModel>(company);
+            companyModel.CompanyLogoUrl = _companyRepo.GetCompanyLogoUrl(company.Id);
+            return Ok(companyModel);
         }
+        [HttpGet]
+        [Route("all")]
+        public IHttpActionResult GetCompanies()
+        {
+            var result = _companyRepo.GetAllCompanies()
+             .Select(Mapper.Map<Company, CompanyModel>).ToList();
+            //no need for the credit card field
+            result.ForEach(p => p.CreditCard = null);
+            return Ok(result);
+        }
+
 
 
         [HttpGet]

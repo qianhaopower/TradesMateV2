@@ -47,7 +47,7 @@ namespace DataService.Controllers
                 bool typeValid = Enum.TryParse<AttachmentEntityType>(type, out var typeParsed);
                 if (typeValid == false)
                 {
-                    return BadRequest($"{type} is not a valid entity type for attachments") ;
+                    return BadRequest($"{type} is not a valid entity type for upload") ;
                 }
 
                 
@@ -149,6 +149,7 @@ namespace DataService.Controllers
                 // Set content headers
                 message.Content.Headers.ContentLength = result.BlobLength;
                 message.Content.Headers.ContentType = new MediaTypeHeaderValue(result.BlobContentType);
+                message.Content.Headers.Add("Access-Control-Expose-Headers", "content-disposition");
                 message.Content.Headers.ContentDisposition = new ContentDispositionHeaderValue("attachment")
                 {
                     FileName = HttpUtility.UrlDecode(result.BlobFileName),

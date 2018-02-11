@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sbAdminApp')
-  .controller('propertyController', ['$scope', 'clientDataService', 'propertyDataService', 'Notification', '$state', 'ModalService','$stateParams',
-function ($scope, clientDataService, propertyDataService, Notification, $state, ModalService, $stateParams) {
+  .controller('propertyController', ['$scope', 'clientDataService', 'propertyDataService', 'Notification', '$state', 'ModalService','$stateParams','authService',
+function ($scope, clientDataService, propertyDataService, Notification, $state, ModalService, $stateParams, authService) {
 
     $scope.filterTextModel = {
         searchText: undefined,
@@ -11,12 +11,15 @@ function ($scope, clientDataService, propertyDataService, Notification, $state, 
     $scope.clientName = undefined;
     $scope.client = undefined;
     $scope.clientId = $stateParams.param;
+    $scope.isAdmin = authService.authentication.userRole == 'Admin';
+    $scope.isClient = authService.authentication.userRole == 'Client';
+    $scope.isContractor = authService.authentication.userRole == 'Contractor';
 
     $scope.search = function (item) {
         if (!$scope.filterTextModel.searchText
             || (item.name && (item.name.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
             || (item.description && (item.description.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
-            || (item.address && (item.address.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
+            || (item.addressDisplay && (item.addressDisplay.toLowerCase().indexOf($scope.filterTextModel.searchText.toLowerCase()) != -1))
             ) {
             return true;
         }
@@ -162,7 +165,7 @@ angular.module('sbAdminApp').controller('propertyReportsModalController', functi
                 propertyDataService.getPropertyReportItems($scope.propertyId).then(function (result) {
 
                     if (!result) return;
-                    $scope.reportItems = result;
+                    $scope.reportItems = result.reportGroupitem;
 
                     $scope.reportItemsFlatten = [];
 
@@ -172,6 +175,10 @@ angular.module('sbAdminApp').controller('propertyReportsModalController', functi
                             $scope.reportItemsFlatten.push(aItem);
                         });
                     });
+
+                    $scope.propertyInfo = result.propertyInfo;
+                    $scope.companyInfo = result.companyInfo;
+
                 }, function (error) { Notification.error({ message: error, delay: 2000 }); });
 
                

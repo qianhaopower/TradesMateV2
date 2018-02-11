@@ -33,7 +33,8 @@ angular.module('sbAdminApp')
             });
         } 
 
-        $interval(checkCount, 60000*60);
+        $scope.checkEverySecond = 60 *60;
+        $interval(checkCount, 1000 * $scope.checkEverySecond);
 
 
         $scope.checkCount = function(x){

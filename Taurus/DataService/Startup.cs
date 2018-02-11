@@ -12,28 +12,20 @@ namespace DataService
     public partial class Startup
     {
         public static OAuthBearerAuthenticationOptions OAuthBearerOptions { get; private set; }
-        public static GoogleOAuth2AuthenticationOptions googleAuthOptions { get; private set; }
-        public static FacebookAuthenticationOptions facebookAuthOptions { get; private set; }
+        public static GoogleOAuth2AuthenticationOptions GoogleAuthOptions { get; private set; }
+        public static FacebookAuthenticationOptions FacebookAuthOptions { get; private set; }
 
         public void Configuration(IAppBuilder app)
         {
+            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
             // Configure the db context and user manager to use a single instance per request
             app.CreatePerOwinContext(EFDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             // app.CreatePerOwinContext<ApplicationRoleManager>(ApplicationRoleManager.Create);
-            app.UseOAuthBearerAuthentication(new OAuthBearerAuthenticationOptions());
-
-            var kernel = ConfigureNinject(app);
-            ConfigureOAuth(app, kernel);
-
-            app.UseCors(Microsoft.Owin.Cors.CorsOptions.AllowAll);
-            
+            ConfigureAuth(app);
+            ConfigureNinject(app);//note both ninject and web api are configured here. Challange results will not work if this is before configure Oauth.
             AutoMapperConfig.RegisterMappings();
-           
         }
-
-
-      
     }
 }
 

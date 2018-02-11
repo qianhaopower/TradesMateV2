@@ -7,8 +7,8 @@
                 <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
             </a>
         </div>
-        <div class="col-lg-6 col-sm-6 ">
-            <span class="btn btn-default pull-right" title="View message" ng-click="toggle()">
+        <div class="col-lg-6 col-sm-6 "  >
+            <span class="btn btn-default pull-right" title="View message" ng-click="toggle()" ng-show="!isClient">
                 <i class="fa fa-envelope" aria-hidden="true"></i>
             </span>
         </div>
@@ -22,7 +22,6 @@
     <div class="row">
         <div class="col-lg-12 col-sm-12 ">
             <div class="well">
-                Client: {{clientName}}<br/>
                 Property : {{propertyName}} - {{propertyAddress}}<br />
                 Section : {{sectionName}}
             </div>
@@ -33,6 +32,8 @@
 
             <button type="button" title="Add new workItem"
                     id="loading-example-btn"
+                    ng-show="allowAddWorkItem && !isClient"
+                    
                     class="btn btn-default btn-sm" ng-click="addNewWorkItem()">
                 <i class="fa fa-plus"></i> Add Work Item
             </button>
@@ -103,16 +104,16 @@
                         {{workItem.quantity}}
                     </td>
                     <td class="col-md-1 col-xs-1">
-                        <a class="" title="Manage Attachments" ng-click="viewWorkItemAttachments(workItem)"><i class="fa fa-paperclip"></i></a>
+                        <a class="" title="Manage Attachments" ng-show="!isClient" ng-click="viewWorkItemAttachments(workItem)"><i class="fa fa-paperclip"></i></a>
                     </td>
                     <td class="col-md-1 col-xs-1">
-                        <button ng-class="getWorkItemStatusClass(workItem.status)" title="{{workItem.status}}">{{getWorkItemStatusDisplay(workItem.status)}}</button>
+                        <button ng-class="getWorkItemStatusClass(workItem.status)"  title="{{workItem.status}}">{{getWorkItemStatusDisplay(workItem.status)}}</button>
                     </td>
                     <td class="col-md-1 col-xs-2">
-                        <a class="btn btn-primary btn-sm" title="Edit Work Item" ng-click="openWorkItemDetail(workItem,false)">Edit</a>
+                        <a class="btn btn-primary btn-sm"  ng-show="!isClient" title="Edit Work Item" ng-click="openWorkItemDetail(workItem,false)">Edit</a>
                     </td>
                     <td class="col-md-1 col-xs-2">
-                        <a class="btn btn-danger btn-sm" title="Delete Work Item" ng-click="deleteWorkItem(workItem)">Delete</a>
+                        <a class="btn btn-danger btn-sm" ng-show="!isClient" title="Delete Work Item" ng-click="deleteWorkItem(workItem)">Delete</a>
                     </td>
 
                 </tr>
