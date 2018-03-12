@@ -100,35 +100,30 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
     }
 
 
+
+    //below allow inviting new clients
     $scope.sendingRequestStatus = undefined;
    
     $scope.proceedAddClient = function () {
         if ($scope.selected.clientId) {
             $scope.sendingRequestStatus = 'existedClient';
             //we are adding existing client
-           
         } else {
-            // we are adding via a email
-
+            // we are adding a new client via a email
             $scope.newClient = {
-                userName: undefined,
+                userName: $scope.selected,
                 firstName: undefined,
                 lastName: undefined,
                 email: $scope.selected,
-                isContractor : true,
-                userType:1,//trade
-                
-
+                userType:0,//client
             };
-
-
             $scope.sendingRequestStatus = 'newClient';
             // we are adding new client
         }
     }
      
     $scope.sendExistedClient = function () {
-        addExistingClientToCompany();
+        inviteExistingClientToCompany();
        
     }
     $scope.sendNewClient = function () {
@@ -142,9 +137,12 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
     }
     
 
-    var addExistingClientToCompany = function () {
+    var inviteExistingClientToCompany = function () {
         if($scope.selected.clientId){
-            var data = {clientId:$scope.selected.clientId, text:$scope.inviteText};
+            var data = {
+                clientId:$scope.selected.clientId, 
+                text:$scope.inviteText
+            };
             companyService.addExistingClientToCompany(data).then(function () {
                 $scope.sendingRequestStatus = undefined;
                 Notification.success({ message: 'Request sent', delay: 2000 });
@@ -162,7 +160,7 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
             && /\S+@\S+\.\S+/.test($scope.selected)) {
             companyService.addNewClientToCompany($scope.newClient).then(function () {
                 $scope.sendingRequestStatus = undefined;
-                Notification.success({ message: 'Client created', delay: 2000 });
+                Notification.success({ message: 'Client registered', delay: 2000 });
                 getClientsInCompany();
             },
             function (response) {

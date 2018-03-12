@@ -81,6 +81,16 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
         return deferred.promise;
 
     };
+    var _searchClientForCompanyInvite = function (searchText) {
+        var deferred = $q.defer();
+        $http.get(serviceBase + 'api/companies/client/search?searchText=' + searchText).then(function (response) {
+            deferred.resolve(response.data);
+        },function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+    };
+
 
 
 
@@ -140,6 +150,30 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
         return deferred.promise;
 
     };
+    var _addNewClientToCompany = function (userInfo) {
+        var deferred = $q.defer();
+        userInfo.userType =0;//client
+        $http.post(serviceBase + 'api/account/register/company/whereshoulbehere', userInfo).then(function (response) {
+            deferred.resolve(response.data);
+        },function (err, status) {
+            deferred.reject(err);
+        });
+         return deferred.promise;
+
+    };
+
+
+
+    var _addExistingClientToCompany = function (addMemberModel) {
+        var deferred = $q.defer();
+        $http.post(serviceBase + 'api/companies/client/add', addMemberModel).then(function (response) {
+            deferred.resolve(response.data);
+        },function (err, status) {
+            deferred.reject(err);
+        });
+        return deferred.promise;
+
+    };
     // public  enum TradeType
     //{
     //    Electrician,
@@ -186,12 +220,10 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     companyServiceFactory.getDefaultServices = _getDefaultServices;
     companyServiceFactory.getCompanies = _getCompanies;
     companyServiceFactory.updateMemberServiceTypes = _updateMemberServiceTypes;
-    
 
-    
-  
- 
-    
+    companyServiceFactory.searchClientForCompanyInvite = _searchClientForCompanyInvite;
+    companyServiceFactory.addExistingClientToCompany = _addExistingClientToCompany;
+    companyServiceFactory.addNewClientToCompany = _addNewClientToCompany;
 
     return companyServiceFactory;
 }]);

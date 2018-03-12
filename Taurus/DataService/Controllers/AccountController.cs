@@ -1,17 +1,13 @@
-﻿
-using AutoMapper;
-using DataService.Infrastructure;
+﻿using DataService.Infrastructure;
 using DataService.Models;
 using DataService.Results;
 using EF.Data;
 using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.OAuth;
 using Newtonsoft.Json.Linq;
 using System;
-using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Net;
@@ -19,7 +15,6 @@ using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 
 namespace DataService.Controllers
@@ -28,14 +23,14 @@ namespace DataService.Controllers
     [RoutePrefix("api/account")]
     public class AccountController : ApiController
     {
-        private ApplicationUserManager _AppUserManager = null;
+        private readonly ApplicationUserManager _AppUserManager = null;
         protected ApplicationUserManager AppUserManager => _AppUserManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
 
 
         private ModelFactory _modelFactory;
         protected ModelFactory TheModelFactory => _modelFactory ?? (_modelFactory = new ModelFactory(this.Request));
-        private IAuthRepository _authRepo;
-        private ICompanyRepository _companyRepo;
+        private readonly IAuthRepository _authRepo;
+        private readonly ICompanyRepository _companyRepo;
 
         private IAuthenticationManager Authentication => Request.GetOwinContext().Authentication;
 
@@ -58,7 +53,7 @@ namespace DataService.Controllers
                 return BadRequest(ModelState);
             }
 
-            IdentityResult result = await this.AppUserManager.ConfirmEmailAsync(userId, code);
+            var result = await this.AppUserManager.ConfirmEmailAsync(userId, code);
 
             if (result.Succeeded)
             {
@@ -86,12 +81,7 @@ namespace DataService.Controllers
 
             var errorResult = GetErrorResult(result);
 
-            if (errorResult != null)
-            {
-                return errorResult;
-            }
-
-            return Ok();
+            return errorResult ?? Ok();
         }
 
         [AllowAnonymous]
@@ -242,12 +232,7 @@ namespace DataService.Controllers
 
             IdentityResult result = await this._authRepo.UpdateUser(model.UserName, model);
 
-            if (!result.Succeeded)
-            {
-                return GetErrorResult(result);
-            }
-
-            return Ok();
+            return !result.Succeeded ? GetErrorResult(result) : Ok();
         }
 
        
@@ -290,16 +275,12 @@ namespace DataService.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            ApplicationUser user = await _authRepo.FindAsync(new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
+            var user = await _authRepo.FindAsync(new UserLoginInfo(externalLogin.LoginProvider, externalLogin.ProviderKey));
 
-            bool hasRegistered = user != null;
+            var hasRegistered = user != null;
 
-            redirectUri = string.Format("{0}#external_access_token={1}&provider={2}&haslocalaccount={3}&external_user_name={4}",
-                                            redirectUri,
-                                            externalLogin.ExternalAccessToken,
-                                            externalLogin.LoginProvider,
-                                            hasRegistered.ToString(),
-                                            externalLogin.UserName);
+            redirectUri =
+                $"{redirectUri}#external_access_token={externalLogin.ExternalAccessToken}&provider={externalLogin.LoginProvider}&haslocalaccount={hasRegistered.ToString()}&external_user_name={externalLogin.UserName}";
 
             return Redirect(redirectUri);
 
@@ -324,7 +305,7 @@ namespace DataService.Controllers
 
             ApplicationUser user = await _authRepo.FindAsync(new UserLoginInfo(model.Provider, verifiedAccessToken.user_id));
 
-            bool hasRegistered = user != null;
+            var hasRegistered = user != null;
 
             if (hasRegistered)
             {
@@ -464,7 +445,7 @@ namespace DataService.Controllers
                 return "redirect_uri is required";
             }
 
-            bool validUri = Uri.TryCreate(redirectUriString, UriKind.Absolute, out var redirectUri);
+            var validUri = Uri.TryCreate(redirectUriString, UriKind.Absolute, out var redirectUri);
 
             if (!validUri)
             {
@@ -504,67 +485,62 @@ namespace DataService.Controllers
 
             var match = queryStrings.FirstOrDefault(keyValue => string.Compare(keyValue.Key, key, true) == 0);
 
-            if (string.IsNullOrEmpty(match.Value)) return null;
-
-            return match.Value;
+            return string.IsNullOrEmpty(match.Value) ? null : match.Value;
         }
 
         private async Task<ParsedExternalAccessToken> VerifyExternalAccessToken(string provider, string accessToken)
         {
-            ParsedExternalAccessToken parsedToken = null;
-
             var verifyTokenEndPoint = "";
 
-            if (provider == "Facebook")
+            switch (provider)
             {
-                //You can get it from here: https://developers.facebook.com/tools/accesstoken/
-                //More about debug_tokn here: http://stackoverflow.com/questions/16641083/how-does-one-get-the-app-access-token-for-debug-token-inspection-on-facebook
-                var appToken = ConfigurationManager.AppSettings["FacebookAppToken"];
-                verifyTokenEndPoint = string.Format("https://graph.facebook.com/debug_token?input_token={0}&access_token={1}", accessToken, appToken);
-            }
-            else if (provider == "Google")
-            {
-                verifyTokenEndPoint = string.Format("https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={0}", accessToken);
-            }
-            else
-            {
-                return null;
+                case "Facebook":
+                    //You can get it from here: https://developers.facebook.com/tools/accesstoken/
+                    //More about debug_tokn here: http://stackoverflow.com/questions/16641083/how-does-one-get-the-app-access-token-for-debug-token-inspection-on-facebook
+                    var appToken = ConfigurationManager.AppSettings["FacebookAppToken"];
+                    verifyTokenEndPoint =
+                        $"https://graph.facebook.com/debug_token?input_token={accessToken}&access_token={appToken}";
+                    break;
+                case "Google":
+                    verifyTokenEndPoint = $"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={accessToken}";
+                    break;
+                default:
+                    return null;
             }
 
             var client = new HttpClient();
             var uri = new Uri(verifyTokenEndPoint);
             var response = await client.GetAsync(uri);
 
-            if (response.IsSuccessStatusCode)
+            if (!response.IsSuccessStatusCode) return null;
+            var content = await response.Content.ReadAsStringAsync();
+
+            dynamic jObj = (JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(content);
+
+            var parsedToken = new ParsedExternalAccessToken();
+
+            switch (provider)
             {
-                var content = await response.Content.ReadAsStringAsync();
-
-                dynamic jObj = (JObject)Newtonsoft.Json.JsonConvert.DeserializeObject(content);
-
-                parsedToken = new ParsedExternalAccessToken();
-
-                if (provider == "Facebook")
-                {
+                case "Facebook":
                     parsedToken.user_id = jObj["data"]["user_id"];
                     parsedToken.app_id = jObj["data"]["app_id"];
 
-                    if (!string.Equals(Startup.FacebookAuthOptions.AppId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
+                    if (!string.Equals(Startup.FacebookAuthOptions.AppId, parsedToken.app_id,
+                        StringComparison.OrdinalIgnoreCase))
                     {
                         return null;
                     }
-                }
-                else if (provider == "Google")
-                {
+                    break;
+                case "Google":
                     parsedToken.user_id = jObj["user_id"];
                     parsedToken.app_id = jObj["audience"];
 
-                    if (!string.Equals(Startup.GoogleAuthOptions.ClientId, parsedToken.app_id, StringComparison.OrdinalIgnoreCase))
+                    if (!string.Equals(Startup.GoogleAuthOptions.ClientId, parsedToken.app_id,
+                        StringComparison.OrdinalIgnoreCase))
                     {
                         return null;
                     }
-
-                }
-
+                    break;
             }
 
             return parsedToken;
@@ -575,11 +551,11 @@ namespace DataService.Controllers
 
             var tokenExpiration = TimeSpan.FromDays(1);
 
-            ClaimsIdentity identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
+            var identity = new ClaimsIdentity(OAuthDefaults.AuthenticationType);
             var userRole = "user";
-            UserType userType = UserType.Client;
+            var userType = UserType.Client;
 
-            ApplicationUser user = _authRepo.FindUser(userName);
+            var user = _authRepo.FindUser(userName);
             if (user == null)
             {
                 throw new Exception("The user name is incorrect.");
@@ -615,21 +591,16 @@ namespace DataService.Controllers
 
         private class ExternalLoginData
         {
-            public string LoginProvider { get; set; }
-            public string ProviderKey { get; set; }
-            public string UserName { get; set; }
-            public string ExternalAccessToken { get; set; }
+            public string LoginProvider { get; private set; }
+            public string ProviderKey { get; private set; }
+            public string UserName { get; private set; }
+            public string ExternalAccessToken { get; private set; }
 
             public static ExternalLoginData FromIdentity(ClaimsIdentity identity)
             {
-                if (identity == null)
-                {
-                    return null;
-                }
+                var providerKeyClaim = identity?.FindFirst(ClaimTypes.NameIdentifier);
 
-                Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
-
-                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer) || String.IsNullOrEmpty(providerKeyClaim.Value))
+                if (string.IsNullOrEmpty(providerKeyClaim?.Issuer) || string.IsNullOrEmpty(providerKeyClaim.Value))
                 {
                     return null;
                 }
