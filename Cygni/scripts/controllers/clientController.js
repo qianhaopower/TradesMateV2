@@ -80,7 +80,7 @@ function ($scope, clientDataService, Notification, $state, ModalService) {
    
 
     $scope.searchClient = function (search) {
-       return companyService.searchClientForJoinCompany(search).then(function (clients) {
+       return companyService.searchClientForCompanyInvite(search).then(function (clients) {
            for(var i = 0; i< clients.length; i++){
                clients[i].label = clients[i].fullName + ' (' + clients[i].email + ')';
            }
