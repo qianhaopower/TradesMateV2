@@ -195,8 +195,16 @@ angular.module('sbAdminApp').controller('companyMemberController', ['$scope', '$
                 $scope.sendingRequestStatus = undefined;
                 Notification.success({ message: 'Member created', delay: 2000 });
                 getMembersInCompany();
-            }, function (error) {
-                Notification.error({ message: error.exceptionMessage ?error.exceptionMessage :error, delay: 2000 });
+            },
+            function (response) {
+                var errors = [];
+                for (var key in response.data.modelState) {
+                    for (var i = 0; i < response.data.modelState[key].length; i++) {
+                        errors.push(response.data.modelState[key][i]);
+                    }
+                }
+                let errorMessage =  errors.join(' ');
+                Notification.error({ message: errorMessage, delay: 2000 });
             });
 
         } else {
