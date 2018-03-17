@@ -61,7 +61,7 @@ angular.module('sbAdminApp')
                       scope.message = result;
                       scope.showRespond = result.messageResponse;
                       scope.respondText = result.messageResponse
-                          ? result.memberName + ' has ' + result.messageResponse.responseAction.toLocaleLowerCase() + ' this request.'
+                          ? result.name + ' has ' + result.messageResponse.responseAction.toLocaleLowerCase() + ' this request.'
                           : undefined;
                       scope.messageTitle = messageService.getMessageTitleForType(scope.message.messageType);
                       //if(!result.isRead)//mark as read
