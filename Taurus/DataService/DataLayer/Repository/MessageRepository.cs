@@ -33,10 +33,13 @@ namespace EF.Data
                 private const string AssignContractorRoleMessage = "Dear {0}, You are assigned contractor role in {1}. Now you can view {1}'s properties allocated to you.";
 
                 //XXX(Admin name) has invited you to join YYY(company name).
-                private const string InviteJoinCompanyRequestMessage = "Dear {0}, you are invited to join {1}. You can see {1}'s properties if  accept.";
+                private const string InviteJoinCompanyRequestMessage = "Dear {0}, you are invited to join {1}. You can see {1}'s properties if accept.";
 
-                //AAA(ClientName) has granted you access to property WWW(propertyName, address)
-                private const string AddPropertyCoOwnerMessage = "Dear {0}, you are granted access to {1., You can see {1}'s works now.";
+        //XXX(name) has invited you to join YYY(company name).
+        private const string InviteClientJoinCompanyRequestMessage = "Dear {0}, {1} wants to list you as client. {1} will be able to allocate work to your proeprty if accept.";
+
+        //AAA(ClientName) has granted you access to property WWW(propertyName, address)
+        private const string AddPropertyCoOwnerMessage = "Dear {0}, you are granted access to {1., You can see {1}'s works now.";
         #endregion
 
         public MessageRepository(EFDbContext ctx) : base(ctx)
@@ -239,6 +242,9 @@ namespace EF.Data
                 case MessageType.InviteJoinCompanyRequest:
                     HandleInviteJoinCompanyResponse(message, action);
                     break;
+                case MessageType.InviteClientToCompany:
+                    InviteClientToCompanyResponse(message, action);
+                    break;
 
             }
             message.IsWaitingForResponse = false;
@@ -274,11 +280,19 @@ namespace EF.Data
         private void HandleInviteJoinCompanyResponse(Message message, ResponseAction action)
         {
             message.IsWaitingForResponse = false;
-            if (action == ResponseAction.Accept)
-            {
+            if (action != ResponseAction.Accept) return;
+            if (message.CompanyId == null) return;
+            if (message.MemberId != null)
                 new CompanyRepository(_ctx).DoMemberJoinCompany(message.CompanyId.Value, message.MemberId.Value);
-            }
+        }
 
+        private void InviteClientToCompanyResponse(Message message, ResponseAction action)
+        {
+            message.IsWaitingForResponse = false;
+            if (action != ResponseAction.Accept) return;
+            if (message.CompanyId == null) return;
+            if (message.ClientId != null)
+                new CompanyRepository(_ctx).DoClientAddToCompany(message.CompanyId.Value, message.ClientId.Value);
         }
 
 
@@ -384,8 +398,43 @@ namespace EF.Data
             //_ctx.SaveChanges();
         }
 
-       
 
+
+
+        public void GenerateAddClientToCompany(int clientId, int companyId, string messageFromRequestor)
+        {
+            var companyName = _ctx.Companies.Find(companyId)?.Name;
+            var clientName = _ctx.Clients.Find(clientId)?.FirstName;
+
+            var memberUser = _ctx.Users.First(p => p.Client.Id == clientId);
+
+            var adminUser = new CompanyRepository(_ctx).GetCompanyAdminMember(companyId);
+
+            var systemMessage = string.Format(InviteClientJoinCompanyRequestMessage, clientName, companyName);
+            // var messageToSend = systemMessage + char(13) + CHAR(10) + messageFromRequestor;
+
+
+            var sb = new StringBuilder();
+            sb.AppendLine(systemMessage);
+            sb.AppendLine("<br/>");
+            sb.AppendLine(messageFromRequestor);
+            var message = new Message()
+            {
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+                CompanyId = companyId,
+                ClientId = clientId,
+                UserIdFrom = adminUser.Id,
+                UserIdTo = memberUser.Id,
+                MessageText = sb.ToString(),
+                MessageType = MessageType.InviteClientToCompany,
+                IsWaitingForResponse = true,
+                IsRead = false,
+            };
+
+            _ctx.Entry<Message>(message).State = EntityState.Added;
+            _ctx.SaveChanges();
+        }
 
         public void GenerateAddMemberToCompany(int memberId, int companyId, string messageFromRequestor,CompanyRole role)
         {

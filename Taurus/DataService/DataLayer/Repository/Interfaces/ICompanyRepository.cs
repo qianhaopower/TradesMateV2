@@ -32,5 +32,6 @@ namespace EF.Data
         IQueryable<ClientSearchModel> SearchClientForCompanyInvite(string userName, string searchText);
         void UpdateMemberServiceTypes(string userName, int memberId, List<TradeType> types);
         string GetCompanyLogoUrl(int companyId);
+        void CreateInviteToCompanyRequest(string identityName, InviteClientModel model);
     }
 }

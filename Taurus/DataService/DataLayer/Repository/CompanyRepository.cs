@@ -25,6 +25,28 @@ namespace EF.Data
         {
             return _ctx.Companies.Include(p => p.CompanyServices).AsQueryable();
         }
+        
+
+        public void CreateInviteToCompanyRequest(string userName, InviteClientModel model)
+        {
+            var companyId = GetCompanyForUser(userName).Id;
+            var alreadyClientIds = (
+                from client in _ctx.Clients
+                join cp in _ctx.ClientProperties on client.Id equals cp.ClientId
+                join pc in _ctx.PropertyCompanies on cp.PropertyId equals pc.PropertyId
+                where pc.CompanyId == companyId
+
+                select client.Id
+            );
+            if (alreadyClientIds.Contains(model.ClientId))
+            {
+                
+                throw new Exception("Already a client for company, cannot invite again");
+            }
+
+
+            new MessageRepository(_ctx).GenerateAddClientToCompany(model.ClientId, companyId, model.Text);
+        }
 
         public void CreateJoinCompanyRequest(string userName, InviteMemberModel model)
         {
@@ -390,6 +412,27 @@ namespace EF.Data
             _ctx.Entry(newCmRecord).State = EntityState.Added;
             _ctx.SaveChanges();
         }
+
+        public void DoClientAddToCompany(int companyId, int clientId)
+        {
+            var propertiesForClient =
+                _ctx.ClientProperties.Where(p => p.ClientId == clientId).Select(p => p.PropertyId).ToList();
+            foreach (var propertyId in propertiesForClient)
+            {
+                if (_ctx.PropertyCompanies.Any(p => p.CompanyId == companyId && p.PropertyId == propertyId)) continue;
+                var newCpRecord = new PropertyCompany()
+                {
+                    CompanyId = companyId,
+                    PropertyId = propertyId,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                       
+                };
+                _ctx.Entry(newCpRecord).State = EntityState.Added;
+            }
+            _ctx.SaveChanges();
+        }
+
 
         public Company GetCompanyFoAdminUser(string userName)
         {

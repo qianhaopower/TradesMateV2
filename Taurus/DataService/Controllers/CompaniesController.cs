@@ -101,10 +101,16 @@ namespace DataService.Controllers
         public IHttpActionResult AddExistingMemberToCompany(InviteMemberModel model)
         {
 
-            //todo 1) add text in to the message,
-            //2) validate email not exist. 
-            //3) validate this member is not admin for any other company. 
             _companyRepo.CreateJoinCompanyRequest(User.Identity.Name, model);
+            return (Ok());
+
+        }
+
+        [HttpPost]
+        [Route("client/add")]
+        public IHttpActionResult AddExistingClientToCompany(InviteClientModel model)
+        {
+            _companyRepo.CreateInviteToCompanyRequest(User.Identity.Name, model);
             return (Ok());
 
         }

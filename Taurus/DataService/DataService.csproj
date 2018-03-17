@@ -321,6 +321,7 @@
     <Compile Include="DTOs\AttachmentModel.cs" />
     <Compile Include="DTOs\AddressModel.cs" />
     <Compile Include="DTOs\ClientSearchModel.cs" />
+    <Compile Include="DTOs\InviteClientModel.cs" />
     <Compile Include="DTOs\UpdateMemberServiceTypeModel.cs" />
     <Compile Include="DTOs\SectionModel.cs" />
     <Compile Include="DTOs\WorkItemModel.cs" />
