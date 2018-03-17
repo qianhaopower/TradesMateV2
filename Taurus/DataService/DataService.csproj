@@ -26,6 +26,7 @@
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
     <TargetFrameworkProfile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -319,6 +320,7 @@
     <Compile Include="DTOs\ClientModel.cs" />
     <Compile Include="DTOs\AttachmentModel.cs" />
     <Compile Include="DTOs\AddressModel.cs" />
+    <Compile Include="DTOs\ClientSearchModel.cs" />
     <Compile Include="DTOs\UpdateMemberServiceTypeModel.cs" />
     <Compile Include="DTOs\SectionModel.cs" />
     <Compile Include="DTOs\WorkItemModel.cs" />

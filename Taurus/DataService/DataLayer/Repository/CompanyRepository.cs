@@ -473,8 +473,8 @@ namespace EF.Data
             var search = searchText.ToLower();
             var companyId = GetCompanyFoAdminUser(userName).Id;
             var result = ( from mem in _ctx.Members 
-                          where !mem.CompanyMembers.Any(p => p.CompanyId == companyId) //not in the company
-                           && !mem.CompanyMembers.Any(p => p.Role == CompanyRole.Admin)  //cannot be Admin in any other company
+                          where mem.CompanyMembers.All(p => p.CompanyId != companyId) //not in the company
+                           && mem.CompanyMembers.All(p => p.Role != CompanyRole.Admin)  //cannot be Admin in any other company
                            && (mem.FirstName.ToLower().Contains(search)
                            || mem.LastName.ToLower().Contains(search)
                            || mem.Email.ToLower().Contains(search))//search
@@ -484,6 +484,33 @@ namespace EF.Data
                                          Email = mem.Email,
                                          MemberId = mem.Id,
                                      }).Distinct().Take(10);// search result get maximum 10.             
+            return result;
+        }
+
+        public IQueryable<ClientSearchModel> SearchClientForCompanyInvite(string userName, string searchText)
+        {
+            var search = searchText.ToLower();
+            var companyId = GetCompanyForUser(userName).Id;
+            var alreadyClientIds = (
+                from client in _ctx.Clients
+                join cp in _ctx.ClientProperties on client.Id equals cp.ClientId
+                join pc in _ctx.PropertyCompanies on cp.PropertyId equals pc.PropertyId
+                where pc.CompanyId == companyId
+
+                select client.Id
+            );
+            var result = (from client in _ctx.Clients
+                //no property for that company
+                where (client.FirstName.ToLower().Contains(search)
+                       || client.LastName.ToLower().Contains(search)
+                       || client.Email.ToLower().Contains(search)) && !alreadyClientIds.Contains(client.Id)
+
+                select new ClientSearchModel
+                {
+                    FullName = client.FirstName + " " + client.LastName,
+                    Email = client.Email,
+                    ClientId = client.Id,
+                }).Distinct().Take(10); // search result get maximum 10.             
             return result;
         }
 

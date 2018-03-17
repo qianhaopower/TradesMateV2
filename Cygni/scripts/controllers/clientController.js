@@ -1,8 +1,8 @@
 'use strict';
 
 angular.module('sbAdminApp')
-  .controller('clientController', ['$scope', 'clientDataService', 'Notification', '$state', 'ModalService',
-function ($scope, clientDataService, Notification, $state, ModalService) {
+  .controller('clientController', ['$scope', 'clientDataService', 'Notification', '$state', 'ModalService','companyService',
+function ($scope, clientDataService, Notification, $state, ModalService, companyService) {
 
     $scope.filterTextModel = {
         searchText: undefined,

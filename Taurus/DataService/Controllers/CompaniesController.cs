@@ -72,6 +72,14 @@ namespace DataService.Controllers
 
             return (Ok(searchList));
         }
+        [HttpGet]
+        [Route("client/search")]
+        public IHttpActionResult SearchClientForCompanyInvite(string searchText)
+        {
+            var searchList = _companyRepo.SearchClientForCompanyInvite(User.Identity.Name, searchText);
+
+            return (Ok(searchList));
+        }
 
 
 
