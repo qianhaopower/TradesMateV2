@@ -588,7 +588,7 @@ namespace EF.Data
             var companyName = _ctx.Companies.Find(companyId)?.Name;
             var clientName = _ctx.Clients.Find(clientId)?.FirstName;
 
-            var memberUser = _ctx.Users.First(p => p.Client.Id == clientId);
+            var memberUser = _ctx.Users.FirstOrDefault(p => p.Client.Id == clientId);
 
             var adminUser = GetCompanyAdminMember(companyId);
 

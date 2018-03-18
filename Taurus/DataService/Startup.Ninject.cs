@@ -62,7 +62,7 @@ namespace DataService
             this.Bind<IWorkItemTemplateRepository>().To<WorkItemTemplateRepository>();
             this.Bind<IEmailRepository>().To<EmailRepository>();
 
-            this.Bind<EFDbContext>().ToSelf().InRequestScope();
+            //this.Bind<>().ToSelf().InRequestScope();
             //this.Bind<DbContext>().To<EFDbContext>().InRequestScope();
             //throw new System.Exception("My test exception");
             // this.Bind<ApplicationUserManager>().ToSelf();
@@ -70,6 +70,9 @@ namespace DataService
             this.Bind<ApplicationUserManager>().ToMethod(
                 c =>
                     HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>()).InRequestScope();
+            this.Bind<EFDbContext>().ToMethod(
+                c =>
+                    HttpContext.Current.GetOwinContext().Get<EFDbContext>()).InRequestScope();
             this.Bind<IOAuthAuthorizationServerOptions>()
                 .To<MyOAuthAuthorizationServerOptions>();
             this.Bind<IOAuthAuthorizationServerProvider>()
