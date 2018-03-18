@@ -13,53 +13,19 @@ namespace EF.Data
 
     public class ClientRepository : BaseRepository, IClientRepository
     {
-        public ClientRepository(EFDbContext ctx) :base(ctx)
-        {
-            
-        }
-        
-        public Client GetClientForUser (string userId)
-        {
-            var user = _userManager.FindById(userId);
-            if(user.UserType == UserType.Client)
-            {
-                _ctx.Entry(user).Reference(s => s.Client).Load();
-                return _ctx.Clients.First(p => p.Id == user.Client.Id);
-            }else
-            {
-                throw new Exception("User is not a client");
-            }
-           
-        }
-        public Client GetClientByUserName(string userName)
-        {
-            var user = _userManager.FindByName(userName);
-            if (user.UserType == UserType.Client)
-            {
-                _ctx.Entry(user).Reference(s => s.Client).Load();
-                return _ctx.Clients.First(p => p.Id == user.Client.Id);
-            }
-            else
-            {
-                throw new Exception("User is not a client");
-            }
+        private readonly IAuthRepository _authRepo;
+        private readonly IPropertyRepository _propertyRepo;
+        private readonly IMessageRepository _messageRepository;
+        private readonly ICompanyRepository _companyRepository;
 
-        }
-
-        public Member GetMemberForUser(string userId)
+        public ClientRepository(EFDbContext ctx, ApplicationUserManager manager, IAuthRepository authRepo,IPropertyRepository propertyRepo, IMessageRepository messageRepository, ICompanyRepository companyRepository) :base(ctx, manager)
         {
-            var user = _userManager.FindById(userId);
-            if (user.UserType == UserType.Trade)
-            {
-                _ctx.Entry(user).Reference(s => s.Member).Load();
-                return _ctx.Members.First(p => p.Id == user.Member.Id);
-            }
-            else
-            {
-                throw new Exception("User is not a member");
-            }
-
+            _authRepo = authRepo;
+            _propertyRepo = propertyRepo;
+            _messageRepository = messageRepository;
+            _companyRepository = companyRepository;
         }
+       
         public IQueryable<Client> GetAccessibleClientForUser(string userName)
         {
             if (string.IsNullOrEmpty(userName))
@@ -85,12 +51,12 @@ namespace EF.Data
                 }
                 else if (user.UserType == UserType.Trade)
                 {
-                    var properties = new PropertyRepository(_ctx).GetPropertyForUser(userName);
+                    var properties = _propertyRepo.GetPropertyForUser(userName);
 
                     clients = GetClientsForProperty(properties);
 
                     //need get all the client that has a work request. 
-                    var clientHasRequest = new MessageRepository(_ctx).GetClientThatHasMessageForUser(userName);
+                    var clientHasRequest = _messageRepository.GetClientThatHasMessageForUser(userName);
                     clients = clients.Union(clientHasRequest);
                 }
                 else
@@ -135,9 +101,8 @@ namespace EF.Data
 
         public void RemoveClient(string userName, int clientId)
         {
-            var _repo = new AuthRepository(_ctx);
-            var company = new CompanyRepository(_ctx).GetCompanyFoAdminUser(userName);
-            var isUserAdmin = _repo.isUserAdmin(userName);
+            var company = _companyRepository.GetCompanyFoAdminUser(userName);
+            var isUserAdmin = _authRepo.isUserAdmin(userName);
             if (!isUserAdmin)
             {
                 throw new Exception("Only Admin user can delete client");
@@ -157,7 +122,7 @@ namespace EF.Data
         {
             var clients = from p in list
                           join cp in _ctx.ClientProperties on p.Id equals cp.PropertyId
-                          join c in _ctx.Clients on cp.Id equals c.Id
+                          join c in _ctx.Clients on cp.ClientId equals c.Id
                           select c;
             return clients;
 
@@ -207,15 +172,14 @@ namespace EF.Data
                 throw new Exception("New client must have a last name");
             }
 
-            if (model.Client.MobileNumber == null)
-            {
-                throw new Exception("New client must have a mobile number");
-            }
+            //if (model.Client.MobileNumber == null)
+            //{
+            //    throw new Exception("New client must have a mobile number");
+            //}
 
             //1 create client
-            var authRepo = new AuthRepository(_ctx);
             var userName = $"{model.Client.FirstName.ToLower()}.{model.Client.LastName.ToLower()}";
-            var result = await authRepo.RegisterUser(new UserModel
+            var result = await _authRepo.RegisterUser(new UserModel
             {
                 Email = model.Client.Email,
                 FirstName = model.Client.FirstName,
@@ -226,16 +190,17 @@ namespace EF.Data
             if (result.Succeeded)
             {
                 //2 create property
-                var newClient = new ClientRepository(_ctx).GetClientByUserName(userName);
-                var propertyRepo = new PropertyRepository(_ctx);
-                var newProperty = propertyRepo.CreatePropertyForClient(adminUserName, new PropertyModel
+                var newClient = _authRepo.GetClientByUserName(userName);
+                var newProperty = _propertyRepo.CreatePropertyForClient(adminUserName, new PropertyModel
                 {
                     Address = model.Address,
                     ClientId = newClient.Id,
                     Name = $"{model.Client.FirstName}'s property"
                 });
+                return "New client created";
             }
-            return "New client created";
+            
+                throw new Exception( $"Failed to register client due to {result.Errors.First()}");
         }
 
         bool IsValidEmail(string email)
@@ -250,5 +215,6 @@ namespace EF.Data
                 return false;
             }
         }
+
     }
 }

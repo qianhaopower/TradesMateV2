@@ -15,10 +15,12 @@ namespace DataService.Controllers
     {
         private readonly IAuthRepository _authRepo;
         private readonly IMessageRepository _messageRepo;
-        public MessagesController(IAuthRepository authRepo, IMessageRepository messageRepo)
+        private readonly IPropertyRepository _propertyRepository;
+        public MessagesController(IAuthRepository authRepo, IMessageRepository messageRepo, IPropertyRepository propertyRepository)
         {
             _authRepo = authRepo;
             _messageRepo = messageRepo;
+            _propertyRepository = propertyRepository;
         }
 
         [HttpGet]
@@ -108,7 +110,7 @@ namespace DataService.Controllers
         public IHttpActionResult CreatePropertyForWorkRequest(int messageId, PropertyModel property)
         {
             var userId = _authRepo.GetUserByUserName(User.Identity.Name).Id;
-            _messageRepo.CreatePropertyForWorkRequest(messageId, property);
+            _propertyRepository.CreatePropertyForWorkRequest(messageId, property);
             return (Ok());
 
         }

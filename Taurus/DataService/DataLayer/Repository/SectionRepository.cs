@@ -15,9 +15,11 @@ namespace EF.Data
 
     public class SectionRepository : BaseRepository, ISectionRepository
     {
-        public SectionRepository(EFDbContext ctx) : base(ctx)
+
+        private readonly IPropertyRepository _propertyRepo;
+        public SectionRepository(EFDbContext ctx, ApplicationUserManager manager,  IPropertyRepository propertyRepo) : base(ctx, manager)
         {
-           
+            _propertyRepo = propertyRepo;
         }
         public List<WorkItem> GetSectionWorkItemList(string userName, int sectionId)
         {
@@ -100,12 +102,12 @@ namespace EF.Data
         }
         public bool HasPermissionForSection(string userName, int sectionId)
         {
-            var allowedPropertySections = new PropertyRepository(_ctx).GetPropertyForUser(userName).SelectMany(p => p.SectionList).Select(s => s.Id);
+            var allowedPropertySections = _propertyRepo.GetPropertyForUser(userName).SelectMany(p => p.SectionList).Select(s => s.Id);
             return (allowedPropertySections.Any(p => p == sectionId));
         }
         public bool HasPermissionForProperty(string userName, int propertyId)
         {
-            var allowedProperty = new PropertyRepository(_ctx).GetPropertyForUser(userName);
+            var allowedProperty = _propertyRepo.GetPropertyForUser(userName);
             return (allowedProperty.Any(p => p.Id == propertyId));
         }
     }

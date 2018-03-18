@@ -23,8 +23,9 @@ namespace EF.Data
     public class AuthRepository : BaseRepository, IAuthRepository
     {
       
-        public AuthRepository(EFDbContext ctx):base(ctx)
+        public AuthRepository(EFDbContext ctx, ApplicationUserManager manager):base(ctx, manager)
         {
+           
         }
 
         public async Task<ApplicationUser> GetUserById(string userId)
@@ -265,20 +266,25 @@ namespace EF.Data
             {
                 if (userModel.PasswordAllocated)
                 {
-                    await SendNotifyPasswordEmail(appUserManager, user, userModel.Password);
+                     SendNotifyPasswordEmail(appUserManager, user, userModel.Password);
                 }
                 else
                 {
-                    await SendConfirmEmail(appUserManager, user);
+                     SendConfirmEmail(appUserManager, user);
                 }
                
             }
             return result;
         }
+      
 
         private async Task<IdentityResult> RegisterClient(UserModel userModel, ApplicationUserManager appUserManager, ApplicationUser user)
         {
-            var result = await _userManager.CreateAsync(user, userModel.Password);
+            if (userModel.Password != null)
+                userModel.Password += 'A';
+             var createResult =  appUserManager.Create(user, userModel.Password);
+             if(!createResult.Succeeded)
+                throw new Exception($"Failed to create new user due to {createResult.Errors.First()}");
 
             //need create client entity here
             Client newClient = new Client
@@ -295,9 +301,11 @@ namespace EF.Data
             _ctx.Entry(newClient).State = EntityState.Added;
             _ctx.Clients.Add(newClient);
             _ctx.SaveChanges();
+            var userReload = appUserManager.FindById(user.Id);
+            userReload.Client = newClient;
+           var result =  appUserManager.Update(userReload);
+           
 
-            user.Client = newClient;
-            result = await _userManager.UpdateAsync(user);
             return result;
         }
         private async Task<IdentityResult> RegisterMembner(UserModel userModel, ApplicationUserManager appUserManager, ApplicationUser user, int? companyId = null, bool isContractor = false)
@@ -406,28 +414,28 @@ namespace EF.Data
             return await RegisterUser(convertedUserModel, appUserManager, companyId);
         }
 
-        private async Task SendConfirmEmail(ApplicationUserManager appUserManager, ApplicationUser user)
+        private void SendConfirmEmail(ApplicationUserManager appUserManager, ApplicationUser user)
         {
-            string code = await appUserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+            string code =  appUserManager.GenerateEmailConfirmationToken(user.Id);
             code = HttpUtility.UrlEncode(code);
             var serviceUrl = ConfigurationManager.AppSettings["DataServiceBaseUrl"];
             // var callbackUrl = new Uri(Url.Link("ConfirmEmailRoute", new { userId = user.Id, code = code }));
             var callbackUrl = string.Format("{2}/api/account/ConfirmEmail?userId={0}&code={1}", user.Id, code, serviceUrl);
 
 
-            await appUserManager.SendEmailAsync(user.Id,
+             appUserManager.SendEmail(user.Id,
                                                     "Confirm your account",
                                                     "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a> <br/> <br/>"
                                                     + "If the link cannot be open, please copy and past the following url to you browser.Thanks. <br/> <br/>"
                                                     + callbackUrl);
         }
 
-        private async Task SendNotifyPasswordEmail(ApplicationUserManager appUserManager, ApplicationUser user, string password)
+        private  void SendNotifyPasswordEmail(ApplicationUserManager appUserManager, ApplicationUser user, string password)
         {
             string subject = "New account created";
             var serviceUrl = ConfigurationManager.AppSettings["UIBaseUrl"];
             string body = $"New account has been created <br/> username: {user.UserName} <br/> password: {password} <br/> Please login by clicking <a href=\"" + serviceUrl + "\">here</a> <br/> <br/>";
-            await appUserManager.SendEmailAsync(user.Id, subject, body);
+             appUserManager.SendEmail(user.Id, subject, body);
         }
 
         public async Task SendResetPasswordCode(ApplicationUserManager appUserManager, string email)
@@ -549,7 +557,50 @@ namespace EF.Data
             return result;
         }
 
-     
+        public Client GetClientForUser(string userId)
+        {
+            var user = _userManager.FindById(userId);
+            if (user.UserType == UserType.Client)
+            {
+                _ctx.Entry(user).Reference(s => s.Client).Load();
+                return _ctx.Clients.First(p => p.Id == user.Client.Id);
+            }
+            else
+            {
+                throw new Exception("User is not a client");
+            }
+
+        }
+        public Client GetClientByUserName(string userName)
+        {
+            var user = _userManager.FindByName(userName);
+            if (user.UserType == UserType.Client)
+            {
+
+                //_ctx.Entry(user).Reference(s => s.Client).Load();
+                return _ctx.Clients.First(p => p.Id == user.Client.Id);
+            }
+            else
+            {
+                throw new Exception("User is not a client");
+            }
+
+        }
+        public Member GetMemberForUser(string userId)
+        {
+            var user = _userManager.FindById(userId);
+            if (user.UserType == UserType.Trade)
+            {
+                _ctx.Entry(user).Reference(s => s.Member).Load();
+                return _ctx.Members.First(p => p.Id == user.Member.Id);
+            }
+            else
+            {
+                throw new Exception("User is not a member");
+            }
+
+        }
+
         //public static string GetLocalIPAddress()
         //{
         //    var host = Dns.GetHostEntry(Dns.GetHostName());

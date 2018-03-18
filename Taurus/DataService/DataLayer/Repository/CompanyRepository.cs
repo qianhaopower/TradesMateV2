@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using Z.EntityFramework.Plus;
 
@@ -15,15 +16,55 @@ namespace EF.Data
 
     public class CompanyRepository : BaseRepository, ICompanyRepository
     {
-       
-        public CompanyRepository(EFDbContext ctx) :base(ctx)
+        #region messages
+        private const string AssignDefaultRoleMessage = "Dear {0}, You are assigned default role in {1}. Now you can view all {1}'s properties and related works.";
+
+        //XXX(Admin name) want to assign you defaut role in YYY(company name), if you accept you will become contractor in ZZZ,WWW and XXX(other company name).
+        private const string AssignDefaultRoleRequestMessage = "Dear {0}, {1} want to assign you defaut role, if you accept your role in {2} will become contractor.";
+
+
+
+        //XXX(Admin name) has assigned you contractor role in YYY(company name), now you can view YYY's properties and related works allocated to you.
+        private const string AssignContractorRoleMessage = "Dear {0}, You are assigned contractor role in {1}. Now you can view {1}'s properties allocated to you.";
+
+        //XXX(Admin name) has invited you to join YYY(company name).
+        private const string InviteJoinCompanyRequestMessage = "Dear {0}, you are invited to join {1}. You can see {1}'s properties if accept.";
+
+        //XXX(name) has invited you to join YYY(company name).
+        private const string InviteClientJoinCompanyRequestMessage = "Dear {0}, {1} wants to list you as client. {1} will be able to allocate work to your proeprty if accept.";
+
+        #endregion
+        private readonly IAuthRepository _authRepo;
+        public CompanyRepository(EFDbContext ctx, ApplicationUserManager manager, IAuthRepository authRepo) :base(ctx, manager)
         {
-          
+            _authRepo = authRepo;
         }
 
         public IQueryable<Company> GetAllCompanies()
         {
             return _ctx.Companies.Include(p => p.CompanyServices).AsQueryable();
+        }
+        
+
+        public void CreateInviteToCompanyRequest(string userName, InviteClientModel model)
+        {
+            var companyId = GetCompanyForUser(userName).Id;
+            var alreadyClientIds = (
+                from client in _ctx.Clients
+                join cp in _ctx.ClientProperties on client.Id equals cp.ClientId
+                join pc in _ctx.PropertyCompanies on cp.PropertyId equals pc.PropertyId
+                where pc.CompanyId == companyId
+
+                select client.Id
+            );
+            if (alreadyClientIds.Contains(model.ClientId))
+            {
+                
+                throw new Exception("Already a client for company, cannot invite again");
+            }
+
+
+             GenerateAddClientToCompany(model.ClientId, companyId, model.Text);
         }
 
         public void CreateJoinCompanyRequest(string userName, InviteMemberModel model)
@@ -37,9 +78,7 @@ namespace EF.Data
                 // throw new Exception("Member is the admin of other company, cannot assign default role in this company.");
                 throw new Exception( "Member is the admin of other company, cannot invite.");
             }
-            
-
-            new MessageRepository(_ctx).GenerateAddMemberToCompany(model.MemberId, companyId, model.Text, CompanyRole.Contractor);//for now by default contractor.
+            GenerateAddMemberToCompany(model.MemberId, companyId, model.Text, CompanyRole.Contractor);//for now by default contractor.
         }
 
         public IEnumerable<MemberModel> GetMemberByUserName(string userName, int? memberId = null)
@@ -144,8 +183,8 @@ namespace EF.Data
 
         private async Task<string> RemoveMemberValidation(string userName, int companyId, int memberId)
         {
-            var _repo = new AuthRepository(_ctx);
-            var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
+            
+            var isUserAdminTask = await _authRepo.IsUserAdminAsync(userName);
 
             // For Task (not Task<T>): will block until the task is completed...
             //isUserAdminTask.RunSynchronously();
@@ -173,7 +212,7 @@ namespace EF.Data
 
             if (string.IsNullOrEmpty(error))
             {
-                var repo = new MessageRepository(_ctx);
+                
                 var companyId = GetCompanyFoAdminUser(userName).Id;
                 CompanyRole roleParsed;
                 bool roleValid = Enum.TryParse<CompanyRole>(role, out roleParsed);
@@ -181,17 +220,17 @@ namespace EF.Data
                 {
                     //here we generate message to user. 
                     case MessageType.AssignDefaultRole:
-                        repo.GenerateAssignDefaultRoleMessage(memberId, companyId);
+                        GenerateAssignDefaultRoleMessage(memberId, companyId);
                         //let it happen, no need to wait
                         DoUpdateCompanyMemberRole( companyId,memberId, roleParsed);
                         break;
                     case MessageType.AssignContractorRole:
-                        repo.GenerateAssignContractorRoleMessage(memberId, companyId);
+                        GenerateAssignContractorRoleMessage(memberId, companyId);
                         DoUpdateCompanyMemberRole( companyId, memberId, roleParsed);
                         //let it happen, no need to wait
                         break;
                     case MessageType.AssignDefaultRoleRequest:// need wait for the request's response
-                        repo.GenerateAssignDefaultRoleRequestMessage(memberId, companyId);
+                        GenerateAssignDefaultRoleRequestMessage(memberId, companyId);
                         break;               
                 }
                 return messageType;
@@ -219,8 +258,7 @@ namespace EF.Data
         private  string UpdateRoleValidation(string userName, int memberId, string role, out MessageType? messageType)
         {
             messageType = null;
-            var _repo = new AuthRepository(_ctx);
-            var isUserAdminTask =  _repo.isUserAdmin(userName);
+            var isUserAdminTask =  _authRepo.isUserAdmin(userName);
 
             // For Task (not Task<T>): will block until the task is completed...
             //isUserAdminTask.RunSynchronously();
@@ -280,8 +318,7 @@ namespace EF.Data
 
                     //request/response 
                     messageType = MessageType.AssignDefaultRoleRequest;
-                    var repo = new MessageRepository(_ctx);
-                    if (repo.CheckIfThereIsWaitingDefaultRoleRequestMessage(memberId, companyId))
+                    if (CheckIfThereIsWaitingDefaultRoleRequestMessage(memberId, companyId))
                     {
                         return string.Format("There is already a same pending request, Please wait for member's response");
                     }
@@ -391,6 +428,27 @@ namespace EF.Data
             _ctx.SaveChanges();
         }
 
+        public void DoClientAddToCompany(int companyId, int clientId)
+        {
+            var propertiesForClient =
+                _ctx.ClientProperties.Where(p => p.ClientId == clientId).Select(p => p.PropertyId).ToList();
+            foreach (var propertyId in propertiesForClient)
+            {
+                if (_ctx.PropertyCompanies.Any(p => p.CompanyId == companyId && p.PropertyId == propertyId)) continue;
+                var newCpRecord = new PropertyCompany()
+                {
+                    CompanyId = companyId,
+                    PropertyId = propertyId,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                       
+                };
+                _ctx.Entry(newCpRecord).State = EntityState.Added;
+            }
+            _ctx.SaveChanges();
+        }
+
+
         public Company GetCompanyFoAdminUser(string userName)
         {
             return GetCompanyForUser(userName, new List<CompanyRole> { CompanyRole.Admin });
@@ -407,10 +465,8 @@ namespace EF.Data
 
         private Company GetCompanyForUser(string userName, List<CompanyRole> roles)
         {
-            var _repo = new AuthRepository(_ctx);
-
             //user must be admin.
-            var user = _repo.GetUserByUserName(userName);
+            var user = _authRepo.GetUserByUserName(userName);
 
             if (user.UserType != UserType.Trade)
                 throw new Exception("Only member can view company members");
@@ -440,7 +496,7 @@ namespace EF.Data
                           join cm in _ctx.CompanyMembers on com.Id equals cm.CompanyId
                           join mem in _ctx.Members on cm.MemberId equals mem.Id
                           join user in _ctx.Users on mem equals user.Member
-                          where com.Id == companyId && (memberId.HasValue ? mem.Id == memberId : true)
+                          where com.Id == companyId && (!memberId.HasValue || mem.Id == memberId)
                           select new MemberInfo
                           {
                               Member = mem,//member record
@@ -473,8 +529,8 @@ namespace EF.Data
             var search = searchText.ToLower();
             var companyId = GetCompanyFoAdminUser(userName).Id;
             var result = ( from mem in _ctx.Members 
-                          where !mem.CompanyMembers.Any(p => p.CompanyId == companyId) //not in the company
-                           && !mem.CompanyMembers.Any(p => p.Role == CompanyRole.Admin)  //cannot be Admin in any other company
+                          where mem.CompanyMembers.All(p => p.CompanyId != companyId) //not in the company
+                           && mem.CompanyMembers.All(p => p.Role != CompanyRole.Admin)  //cannot be Admin in any other company
                            && (mem.FirstName.ToLower().Contains(search)
                            || mem.LastName.ToLower().Contains(search)
                            || mem.Email.ToLower().Contains(search))//search
@@ -484,6 +540,33 @@ namespace EF.Data
                                          Email = mem.Email,
                                          MemberId = mem.Id,
                                      }).Distinct().Take(10);// search result get maximum 10.             
+            return result;
+        }
+
+        public IQueryable<ClientSearchModel> SearchClientForCompanyInvite(string userName, string searchText)
+        {
+            var search = searchText.ToLower();
+            var companyId = GetCompanyForUser(userName).Id;
+            var alreadyClientIds = (
+                from client in _ctx.Clients
+                join cp in _ctx.ClientProperties on client.Id equals cp.ClientId
+                join pc in _ctx.PropertyCompanies on cp.PropertyId equals pc.PropertyId
+                where pc.CompanyId == companyId
+
+                select client.Id
+            );
+            var result = (from client in _ctx.Clients
+                //no property for that company
+                where (client.FirstName.ToLower().Contains(search)
+                       || client.LastName.ToLower().Contains(search)
+                       || client.Email.ToLower().Contains(search)) && !alreadyClientIds.Contains(client.Id)
+
+                select new ClientSearchModel
+                {
+                    FullName = client.FirstName + " " + client.LastName,
+                    Email = client.Email,
+                    ClientId = client.Id,
+                }).Distinct().Take(10); // search result get maximum 10.             
             return result;
         }
 
@@ -500,6 +583,182 @@ namespace EF.Data
             _ctx.Entry(record).State = EntityState.Modified;
             _ctx.SaveChanges();
         }
-      
+        public void GenerateAddClientToCompany(int clientId, int companyId, string messageFromRequestor)
+        {
+            var companyName = _ctx.Companies.Find(companyId)?.Name;
+            var clientName = _ctx.Clients.Find(clientId)?.FirstName;
+
+            var memberUser = _ctx.Users.FirstOrDefault(p => p.Client.Id == clientId);
+
+            var adminUser = GetCompanyAdminMember(companyId);
+
+            var systemMessage = string.Format(InviteClientJoinCompanyRequestMessage, clientName, companyName);
+            // var messageToSend = systemMessage + char(13) + CHAR(10) + messageFromRequestor;
+
+
+            var sb = new StringBuilder();
+            sb.AppendLine(systemMessage);
+            sb.AppendLine("<br/>");
+            sb.AppendLine(messageFromRequestor);
+            var message = new Message()
+            {
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+                CompanyId = companyId,
+                ClientId = clientId,
+                UserIdFrom = adminUser.Id,
+                UserIdTo = memberUser.Id,
+                MessageText = sb.ToString(),
+                MessageType = MessageType.InviteClientToCompany,
+                IsWaitingForResponse = true,
+                IsRead = false,
+            };
+
+            _ctx.Entry<Message>(message).State = EntityState.Added;
+            _ctx.SaveChanges();
+        }
+
+        public void GenerateAddMemberToCompany(int memberId, int companyId, string messageFromRequestor, CompanyRole role)
+        {
+            var companyName = _ctx.Companies.Find(companyId).Name;
+            var memberName = _ctx.Members.Find(memberId).FirstName;
+
+            var memberUser = _ctx.Users.First(p => p.Member.Id == memberId);
+
+            var adminUser = GetCompanyAdminMember(companyId);
+
+            var systemMessage = string.Format(InviteJoinCompanyRequestMessage, memberName, companyName);
+            // var messageToSend = systemMessage + char(13) + CHAR(10) + messageFromRequestor;
+
+
+            var sb = new StringBuilder();
+            sb.AppendLine(systemMessage);
+            sb.AppendLine("<br/>");
+            sb.AppendLine(messageFromRequestor);
+            var message = new Message()
+            {
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+                CompanyId = companyId,
+                MemberId = memberId,
+                Role = role,
+                UserIdFrom = adminUser.Id,
+                UserIdTo = memberUser.Id,
+                MessageText = sb.ToString(),
+                MessageType = MessageType.InviteJoinCompanyRequest,
+                IsWaitingForResponse = true,
+                IsRead = false,
+            };
+
+            _ctx.Entry<Message>(message).State = EntityState.Added;
+            _ctx.SaveChanges();
+        }
+
+
+        public void GenerateAssignDefaultRoleMessage(int memberId, int companyId)
+        {
+            var companyName = _ctx.Companies.Find(companyId).Name;
+            var member = _ctx.Members.Find(memberId);
+            var memberName = member.FirstName;
+            var memberUser = _ctx.Users.First(p => p.Member.Id == memberId);
+
+            var adminUser = GetCompanyAdminMember(companyId);
+
+            var message = new Message()
+            {
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+                CompanyId = companyId,
+                MemberId = memberId,
+                UserIdFrom = adminUser.Id,
+                UserIdTo = memberUser.Id,
+                MessageText = string.Format(AssignDefaultRoleMessage, memberName, companyName),
+                MessageType = MessageType.AssignDefaultRole,
+                IsWaitingForResponse = false,
+                IsRead = false,
+            };
+
+            _ctx.Entry<Message>(message).State = EntityState.Added;
+            //_ctx.SaveChanges();
+        }
+
+        public void GenerateAssignDefaultRoleRequestMessage(int memberId, int companyId)
+        {
+
+
+            var companyName = _ctx.Companies.Find(companyId).Name;
+            var memberName = _ctx.Members.Find(memberId).FirstName;
+
+            var memberUser = _ctx.Users.First(p => p.Member.Id == memberId);
+
+            var adminUser = GetCompanyAdminMember(companyId);
+
+            var otherCompanyNames = GetMemberInfoOutsideCompany(companyId, memberId)
+                .Where(p => p.CompanyMember.Role == CompanyRole.Default)
+                .Select(p => p.Company)
+                .ToList()
+                .Select(p => p.Name)
+                .Aggregate((x, y) => x + ", " + y);
+            var message = new Message()
+            {
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+                CompanyId = companyId,
+                MemberId = memberId,
+                UserIdFrom = adminUser.Id,
+                UserIdTo = memberUser.Id,
+                MessageText = string.Format(AssignDefaultRoleRequestMessage, memberName, companyName, otherCompanyNames),
+                MessageType = MessageType.AssignDefaultRoleRequest,
+                IsWaitingForResponse = true,
+                IsRead = false,
+            };
+
+            _ctx.Entry<Message>(message).State = EntityState.Added;
+            _ctx.SaveChanges();
+        }
+
+
+
+        public bool CheckIfThereIsWaitingDefaultRoleRequestMessage(int memberId, int companyId)
+        {
+            var any = _ctx.Messages.Any(p => p.MemberId == memberId
+            && p.CompanyId == companyId
+            && p.MessageType == MessageType.AssignDefaultRoleRequest
+            && p.IsWaitingForResponse == true);
+            return any;
+
+        }
+
+        public void GenerateAssignContractorRoleMessage(int memberId, int companyId)
+        {
+            var memberUser = _ctx.Users.First(p => p.Member.Id == memberId);
+
+            var adminUser = GetCompanyAdminMember(companyId);
+            var companyName = _ctx.Companies.Find(companyId).Name;
+            var memberName = _ctx.Members.Find(memberId).FirstName;
+
+            var message = new Message()
+            {
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+                CompanyId = companyId,
+                MemberId = memberId,
+                UserIdFrom = adminUser.Id,
+                UserIdTo = memberUser.Id,
+                MessageText = string.Format(AssignContractorRoleMessage, memberName, companyName),
+                MessageType = MessageType.AssignContractorRole,
+                IsWaitingForResponse = false,
+                IsRead = false,
+            };
+
+            _ctx.Entry<Message>(message).State = EntityState.Added;
+            //_ctx.SaveChanges();
+        }
+
+
+
+
+
+
     }
 }

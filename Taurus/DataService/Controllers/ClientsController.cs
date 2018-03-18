@@ -27,6 +27,7 @@ namespace DataService.Controllers
             _propertyRepo = propertyRepo;
         }
 
+
         [HttpGet]
         [Route("")]
         public IHttpActionResult Clients()
@@ -56,7 +57,7 @@ namespace DataService.Controllers
         [Route("")]
         public IHttpActionResult CreateClient(CreateNewClientRequestModel model)
         {
-            var result = _clientRepo.CreateClient(User.Identity.Name, model, _AppUserManager);
+            var result = _clientRepo.CreateClient(User.Identity.Name, model, AppUserManager);
             return Ok(result);
         }
 

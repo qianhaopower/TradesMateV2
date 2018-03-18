@@ -65,7 +65,7 @@ namespace DataService
             .ForMember(dest => dest.ClientName, opts => opts.MapFrom(src => src.Client != null ? src.Client.FullName : null))
             .ForMember(dest => dest.CompanyName, opts => opts.MapFrom(src => src.Company != null ? src.Company.Name : null))
             .ForMember(dest => dest.PropertyName, opts => opts.MapFrom(src => src.Property != null ? src.Property.Name : null))
-            .ForMember(dest => dest.MemberName, opts => opts.MapFrom(src => src.Member != null ? src.Member.FullName : null))
+            .ForMember(dest => dest.Name, opts => opts.MapFrom(src => src.Member != null ? src.Member.FullName : src.Client != null ? src.Client.FullName : null))
 
             .ForMember(dest => dest.PropertyAddress, opts => opts.MapFrom(src => src.PropertyAddress))
             .ForMember(dest => dest.Section, opts => opts.MapFrom(src => src.Section))

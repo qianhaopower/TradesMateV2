@@ -42,7 +42,7 @@ namespace EF.Data
 
 
 
-        // public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+         //public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         public EFDbContext()
            : base("name=DbConnectionString")

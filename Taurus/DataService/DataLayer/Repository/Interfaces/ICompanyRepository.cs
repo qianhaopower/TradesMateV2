@@ -13,7 +13,7 @@ using Z.EntityFramework.Plus;
 namespace EF.Data
 {
 
-    public interface ICompanyRepository 
+    public interface ICompanyRepository : IBaseRepository
     {
         IQueryable<Company> GetAllCompanies();
         void CreateJoinCompanyRequest(string userName, InviteMemberModel model);
@@ -29,7 +29,11 @@ namespace EF.Data
         Company GetCompanyForUser(string userName);
         ApplicationUser GetCompanyAdminMember(int companyId);
         IQueryable<MemberSearchModel> SearchMemberForJoinCompany(string userName, string searchText);
+        IQueryable<ClientSearchModel> SearchClientForCompanyInvite(string userName, string searchText);
         void UpdateMemberServiceTypes(string userName, int memberId, List<TradeType> types);
         string GetCompanyLogoUrl(int companyId);
+        void CreateInviteToCompanyRequest(string identityName, InviteClientModel model);
+
+        void DoClientAddToCompany(int companyId, int clientId);
     }
 }

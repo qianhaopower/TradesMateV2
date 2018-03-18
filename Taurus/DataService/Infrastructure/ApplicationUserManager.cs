@@ -39,7 +39,7 @@ namespace DataService.Infrastructure
                 RequireUppercase = true,
             };
             
-            appUserManager.EmailService = new DataService.Services.EmailService(new EmailRepository( new EFDbContext()));
+            appUserManager.EmailService = new DataService.Services.EmailService(new EmailRepository( new EFDbContext(),null));
 
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)

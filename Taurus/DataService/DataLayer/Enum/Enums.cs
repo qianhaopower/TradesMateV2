@@ -72,6 +72,7 @@ namespace EF.Data
         InviteJoinCompanyRequest = 3,
         WorkRequest = 4,
         AddPropertyCoOwner = 5,
+        InviteClientToCompany =6,
     }
 
     public enum ResponseAction

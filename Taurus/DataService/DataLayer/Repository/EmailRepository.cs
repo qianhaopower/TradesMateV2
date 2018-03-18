@@ -12,7 +12,7 @@ namespace EF.Data
 
     public class EmailRepository : BaseRepository, IEmailRepository
     {
-        public EmailRepository(EFDbContext ctx) :base(ctx)
+        public EmailRepository(EFDbContext ctx,ApplicationUserManager manager) :base(ctx,manager)
         {
             
         }

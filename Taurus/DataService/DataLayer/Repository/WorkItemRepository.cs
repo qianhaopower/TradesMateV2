@@ -13,17 +13,19 @@ namespace EF.Data
 
     public class WorkItemRepository : BaseRepository, IWorkItemRepository
     {
-        public WorkItemRepository(EFDbContext ctx) : base(ctx)
+        private readonly ISectionRepository _sectionRepository;
+        private readonly IPropertyRepository _propertyRepo;
+        public WorkItemRepository(EFDbContext ctx, ApplicationUserManager manager, ISectionRepository sectionRepository, IPropertyRepository propertyRepo) : base(ctx, manager)
         {
-
+            _sectionRepository = sectionRepository;
+            _propertyRepo = propertyRepo;
         }
         public IEnumerable<WorkItem> GetSectionWorkItems(string userName, int sectionId)
         {
             var propertyId = _ctx.Sections.Single(p => p.Id == sectionId).PropertyId;
-            var propertyRepo = new PropertyRepository(_ctx);
-            var hasPermission = propertyRepo.GetPropertyForUser(userName).Any(p => p.Id == propertyId);
+            var hasPermission = _propertyRepo.GetPropertyForUser(userName).Any(p => p.Id == propertyId);
             if (!hasPermission)
-                throw new Exception(string.Format("No permission to view work items for section with Id {0}", sectionId));
+                throw new Exception($"No permission to view work items for section with Id {sectionId}");
             var user = this._userManager.FindByName(userName);
             _ctx.Entry(user).Reference(s => s.Member).Load();
             if (user.Client != null)
@@ -77,8 +79,7 @@ namespace EF.Data
         public WorkItem GetWorkItemById(string userName, int workItemId)
         {
             var workItem = _ctx.WorkItems.FirstOrDefault(w => w.Id == workItemId);
-            var sectionRepo = new SectionRepository(_ctx);
-            if (workItem != null && sectionRepo.HasPermissionForSection(userName, workItem.SectionId))
+            if (workItem != null && _sectionRepository.HasPermissionForSection(userName, workItem.SectionId))
             {
                 return workItem;
             }
@@ -89,8 +90,7 @@ namespace EF.Data
         }
         public WorkItem CreateWorkItem(string userName, WorkItemModel model)
         {
-            var sectionRepo = new SectionRepository(_ctx);
-            if (sectionRepo.HasPermissionForSection(userName, model.SectionId))
+            if (_sectionRepository.HasPermissionForSection(userName, model.SectionId))
             {
                 var newWorkItem = Mapper.Map<WorkItemModel, WorkItem>(model);//AutoMapper should have done it all
                 newWorkItem.AddedDateTime = DateTime.Now;
@@ -115,8 +115,7 @@ namespace EF.Data
         }
         public WorkItem UpdateWorkItem(string userName, WorkItemModel model)
         {
-            var sectionRepo = new SectionRepository(_ctx);
-            if (sectionRepo.HasPermissionForSection(userName, model.SectionId))
+            if (_sectionRepository.HasPermissionForSection(userName, model.SectionId))
             {
                 var toEdidWorkItem = _ctx.WorkItems.FirstOrDefault(w => w.Id == model.Id);
                 if (toEdidWorkItem != null)
@@ -142,8 +141,7 @@ namespace EF.Data
         public void DeleteWorkItemById(string userName, int workItemId)
         {
             var workItem = _ctx.WorkItems.FirstOrDefault(w => w.Id == workItemId);
-            var sectionRepo = new SectionRepository(_ctx);
-            if (workItem != null && sectionRepo.HasPermissionForSection(userName, workItem.SectionId))
+            if (workItem != null && _sectionRepository.HasPermissionForSection(userName, workItem.SectionId))
             {
                 _ctx.WorkItems.Remove(workItem);
                 _ctx.SaveChanges();

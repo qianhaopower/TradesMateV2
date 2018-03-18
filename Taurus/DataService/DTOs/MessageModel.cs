@@ -23,7 +23,7 @@ namespace DataService.Models
         public string Role { get; set; }
 
         public string CompanyName { get; set; }
-        public string MemberName { get; set; }
+        public string Name { get; set; }
 
         public string PropertyAddress { get; set; } 
         public TradeType ServiceType { get; set; }
