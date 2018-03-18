@@ -296,6 +296,7 @@
     <Compile Include="DataLayer\Mapping\WorkItemMap.cs" />
     <Compile Include="DataLayer\Mapping\WorkItemTemplateMap.cs" />
     <Compile Include="DataLayer\Repository\EmailRepository.cs" />
+    <Compile Include="DataLayer\Repository\IBaseRepository.cs" />
     <Compile Include="DataLayer\Repository\Interfaces\IEmailRepository.cs" />
     <Compile Include="DataLayer\Repository\Interfaces\ICompanyRepository.cs" />
     <Compile Include="DataLayer\Repository\Interfaces\IAuthRepository.cs" />
@@ -316,10 +317,10 @@
     <Compile Include="DataLayer\Repository\StorageRepository.cs" />
     <Compile Include="DataLayer\Repository\PropertyRepository.cs" />
     <Compile Include="App_Start\DiModule.cs" />
-    <Compile Include="DTOs\AddressModel - Copy.cs" />
+    <Compile Include="DTOs\AddressModel.cs" />
     <Compile Include="DTOs\ClientModel.cs" />
     <Compile Include="DTOs\AttachmentModel.cs" />
-    <Compile Include="DTOs\AddressModel.cs" />
+    <Compile Include="DTOs\ResetPasswordDTO.cs" />
     <Compile Include="DTOs\ClientSearchModel.cs" />
     <Compile Include="DTOs\InviteClientModel.cs" />
     <Compile Include="DTOs\UpdateMemberServiceTypeModel.cs" />

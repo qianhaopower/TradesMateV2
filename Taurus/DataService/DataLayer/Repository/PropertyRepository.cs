@@ -20,15 +20,18 @@ namespace EF.Data
 
     public class PropertyRepository : BaseRepository, IPropertyRepository
     {
-      
-        public PropertyRepository(EFDbContext ctx) : base(ctx)
+        private readonly IAuthRepository _authRepository;
+        private readonly ICompanyRepository _companyRepository;
+        public PropertyRepository(EFDbContext ctx, ApplicationUserManager manager, IAuthRepository authRepo, ICompanyRepository companyRepository) : base(ctx, manager)
         {
-           
+            
+            _companyRepository = companyRepository;
+            _authRepository = authRepo;
         }
 
         public Property CreatePropertyForClient(string userName, PropertyModel model)
         {
-            var companyId = new CompanyRepository(_ctx).GetCompanyFoAdminUser(userName).Id;
+            var companyId = _companyRepository.GetCompanyFoAdminUser(userName).Id;
             if (model.Address == null)
             {
                 throw new Exception("Address cannot be null");
@@ -121,8 +124,7 @@ namespace EF.Data
 
         public void DeleteProperty(string username, int key)
         {
-            var _repo = new AuthRepository(_ctx);
-            var isUserAdmin = _repo.isUserAdmin(username);
+            var isUserAdmin = _authRepository.isUserAdmin(username);
             if (!isUserAdmin)
             {
                 throw new Exception("Only Admin user can delete property");
@@ -283,7 +285,7 @@ namespace EF.Data
 
         public async Task<PropertyReport> GetPropertyReportData(int propertyId, string userName)
         {
-            var isContractor = await new AuthRepository(_ctx).IsUserContractorAsync(userName);
+            var isContractor = await _authRepository.IsUserContractorAsync(userName);
             var hasPermission = GetPropertyForUser(userName).Any(p => p.Id == propertyId);
             if (!hasPermission || isContractor)
                 throw new Exception("No permission to get report for property with id " + propertyId);
@@ -292,10 +294,9 @@ namespace EF.Data
             var propertyInfo = this.GetProperty(userName, propertyId);
             propertyInfo.PropertyLogoUrl = this.GetPropertyLogoUrl(propertyId);
 
-            var companyRepo = new CompanyRepository(_ctx);
-            var company = companyRepo.GetCompanyForUser(userName);
+            var company = _companyRepository.GetCompanyForUser(userName);
             var companyModel = Mapper.Map<Company, CompanyModel>(company);
-            companyModel.CompanyLogoUrl = companyRepo.GetCompanyLogoUrl(company.Id);
+            companyModel.CompanyLogoUrl = _companyRepository.GetCompanyLogoUrl(company.Id);
             return new PropertyReport()
             {
                 CompanyInfo = companyModel,
@@ -344,8 +345,7 @@ namespace EF.Data
             //get attachments URL
             //set up task number
             int i = 1;
-            var repo = new StorageRepository(_ctx);
-            var images = repo.GetPropertyWorkItemsAttachments(propertyId, userName).Where(p => p.Type == AttachmentType.Image);
+            var images = GetPropertyWorkItemsAttachments(propertyId, userName).Where(p => p.Type == AttachmentType.Image);
             result.ForEach(p => p.workItems.ForEach(x => {
                 x.TaskNumber = i++;
                 if (images.Any(w => w.EntityId == x.Id))
@@ -368,7 +368,7 @@ namespace EF.Data
 
         public AllocationModel UpdateMemberAllocation(string userName, int propertyId, int memberId, bool allocate)
         {
-            var companyId = new CompanyRepository(_ctx).GetCompanyFoAdminUser(userName).Id;
+            var companyId = _companyRepository.GetCompanyFoAdminUser(userName).Id;
             AllocationModel result = null;
 
             if (allocate)
@@ -403,7 +403,7 @@ namespace EF.Data
 
         public IQueryable<AllocationModel> GetMemberAllocation(string userName, int memberId)
         {
-            var companyId = new CompanyRepository(_ctx).GetCompanyFoAdminUser(userName).Id;
+            var companyId = _companyRepository.GetCompanyFoAdminUser(userName).Id;
             return GetMemberPropertyAllocationInfo(companyId,memberId);
 
         }
@@ -523,6 +523,110 @@ namespace EF.Data
 
         }
 
-     
+        public void CreatePropertyForWorkRequest(int messageId, PropertyModel model)
+        {
+            var message = _ctx.Messages.Find(messageId);
+            if (message == null)
+            {
+                throw new Exception("Cannot find message with Id " + messageId);
+            }
+            if (!message.IsWaitingForResponse)
+            {
+                throw new Exception("Message already handled ");
+            }
+
+            if (message.PropertyId != null)
+            {
+                throw new Exception("Property already attached for this message");
+            }
+
+            if (model.Address == null)
+            {
+                throw new Exception("Address cannot be null");
+            }
+
+            Property newProperty = new Property
+            {
+                Name = model.Name,
+                Address = new Address()
+                {
+                    City = model.Address.City,
+                    Line1 = model.Address.Line1,
+                    Line2 = model.Address.Line2,
+                    Line3 = model.Address.Line3,
+                    PostCode = model.Address.PostCode,
+                    State = model.Address.State,
+                    Suburb = model.Address.Suburb,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                },
+                Description = model.Description,
+                Condition = model.Condition,
+                Narrative = model.Narrative,
+                Comment = model.Comment,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+
+            };
+            _ctx.Entry(newProperty).State = EntityState.Added;
+            message.Property = newProperty;
+            message.PropertyAddress = message.PropertyAddress + " (Address record created)";
+            _ctx.Entry(message).State = EntityState.Modified;
+
+
+            //add this property to the company
+            PropertyCompany propertyCompanyNew = new PropertyCompany
+            {
+                Property = newProperty,
+                CompanyId = message.CompanyId.Value,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+            };
+            _ctx.Entry(propertyCompanyNew).State = EntityState.Added;
+
+
+
+            ClientProperty clientPropertyNew = new ClientProperty
+            {
+                ClientId = message.ClientId.Value,
+                Property = newProperty,
+                Confirmed = true,
+                Role = ClientRole.Owner,
+                AddedDateTime = DateTime.Now,
+                ModifiedDateTime = DateTime.Now,
+            };
+
+            _ctx.Entry(clientPropertyNew).State = EntityState.Added;
+
+            CreateDefaultSections(model.DefaultSections, newProperty, _ctx);
+
+            _ctx.SaveChanges();
+
+        }
+        private List<Attachment> GetPropertyWorkItemsAttachments(int propertyId, string userName)
+        {
+            if (!CheckUserPermissionForProperty(propertyId, AttachmentEntityType.Property, userName))
+                throw new Exception(
+                    $"User {userName} has no permission to download attachment on {AttachmentEntityType.Property} with id {propertyId}");
+
+            var workItemIdsForProperty = GetAllPropertyWorkItems(propertyId).Select(p => p.Id).ToList();
+
+            if (workItemIdsForProperty.Any())
+            {
+                var allBlobs = _ctx.Attchments.Where(p =>  //add the type and entityId here just to make sure right attachment has been fetched.
+                    p.EntityType == AttachmentEntityType.WorkItem
+                    && workItemIdsForProperty.Contains(p.EntityId)
+                ).ToList();
+                return allBlobs;
+            }
+            return new List<Attachment>();
+
+
+        }
+        private bool CheckUserPermissionForProperty(int propertyId, AttachmentEntityType type, string userName)
+        {
+            var allowedProperties = GetPropertyForUser(userName).ToList().Select(p => p.Id);
+            return  allowedProperties.Count(p => p == propertyId) == 1;//found
+        }
     }
 }

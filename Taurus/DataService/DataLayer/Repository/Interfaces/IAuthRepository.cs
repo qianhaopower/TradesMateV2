@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 namespace EF.Data
 {
 
-     public  interface IAuthRepository 
+     public  interface IAuthRepository : IBaseRepository
     {
 
 
@@ -55,8 +55,12 @@ namespace EF.Data
 
         Task SendResetPasswordCode(ApplicationUserManager appUserManager, string email);
         Task<IdentityResult> ResetPassword(ApplicationUserManager appUserManager,ResetPasswordDTO request);
-        
 
+        Client GetClientForUser(string userId);
+
+        Member GetMemberForUser(string userId);
+
+        Client GetClientByUserName(string userName);
 
 
     }

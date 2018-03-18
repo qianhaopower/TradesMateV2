@@ -13,7 +13,7 @@ using System.Linq;
 namespace EF.Data
 {
 
-    public interface ISectionRepository 
+    public interface ISectionRepository : IBaseRepository
     {
         List<WorkItem> GetSectionWorkItemList(string userName, int sectionId);
         Section GetSectionById(string userName, int sectionId);

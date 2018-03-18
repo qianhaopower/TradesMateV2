@@ -17,7 +17,7 @@ using System.Web;
 namespace EF.Data
 {
 
-    public interface IWorkItemTemplateRepository 
+    public interface IWorkItemTemplateRepository : IBaseRepository
     {
         List<WorkItemTemplate> GetWorkItemTemplateForUser(string userName);
 

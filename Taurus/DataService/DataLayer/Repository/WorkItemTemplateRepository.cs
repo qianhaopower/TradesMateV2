@@ -20,18 +20,18 @@ namespace EF.Data
     public class WorkItemTemplateRepository : BaseRepository, IWorkItemTemplateRepository
     {
 
-        public WorkItemTemplateRepository(EFDbContext ctx) : base(ctx)
+        private readonly IAuthRepository _authRepo;
+        private readonly ICompanyRepository _companyRepository;
+        public WorkItemTemplateRepository(EFDbContext ctx, ApplicationUserManager manager, IAuthRepository authRepo,  ICompanyRepository companyRepository) : base(ctx, manager)
         {
-
+            _authRepo = authRepo;
+            _companyRepository = companyRepository;
         }
 
         public List<WorkItemTemplate> GetWorkItemTemplateForUser(string userName)
         {
-            var _repo = new AuthRepository(_ctx);
-            
-            var _companyRepo = new CompanyRepository(_ctx);
             // get all the workItemTemplate for that company
-            var companyId = _companyRepo.GetCompanyForUser(userName).Id;
+            var companyId = _companyRepository.GetCompanyForUser(userName).Id;
 
             var list = _ctx.WorkItemTemplates.Where(p => p.CompanyId == companyId).ToList();
             // only return type that current company has, like electrician
@@ -44,33 +44,27 @@ namespace EF.Data
 
         public WorkItemTemplate GetWorkItemTemplateByIdForUser(string userName, int id)
         {
-            var _repo = new AuthRepository(_ctx);
-
-            var _companyRepo = new CompanyRepository(_ctx);
             // get all the workItemTemplate for that company
-            var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
+            var companyId = _companyRepository.GetCompanyFoAdminUser(userName).Id;
             var allowService = _ctx.CompanyServices.Where(p => p.CompanyId == companyId).Select(p => p.Type).ToList();
 
-            var oneItem = _ctx.WorkItemTemplates.Where(p =>
-            p.CompanyId == companyId
+            var oneItem = _ctx.WorkItemTemplates.Single(p => p.CompanyId == companyId
             && p.Id == id
-            && allowService.Contains(p.TradeWorkType)).Single();
+            && allowService.Contains(p.TradeWorkType));
             return oneItem;
         }
 
         public async Task CreateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
 		{
-			var _repo = new AuthRepository(_ctx);
-			var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
+			var isUserAdminTask = await _authRepo.IsUserAdminAsync(userName);
 
 
 			if (isUserAdminTask == false)
 			{
 				throw new Exception("Only admin can create work item templates");
 			}
-			var _companyRepo = new CompanyRepository(_ctx);
 			// get all the workItemTemplate for that company
-			var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
+			var companyId = _companyRepository.GetCompanyFoAdminUser(userName).Id;
 
 			WorkItemTemplate newItem = new WorkItemTemplate
 			{
@@ -90,16 +84,14 @@ namespace EF.Data
 
         public async Task UpdateWorkItemTemplateForUserAsync(string userName, WorkItemTemplateModel model)
 		{
-			var _repo = new AuthRepository(_ctx);
-			var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
+			var isUserAdminTask = await _authRepo.IsUserAdminAsync(userName);
 
 			if (isUserAdminTask == false)
 			{
 				throw new Exception("Only admin can update work item templates");
 			}
-			var _companyRepo = new CompanyRepository(_ctx);
 			// get all the workItemTemplate for that company
-			var companyId = _companyRepo.GetCompanyFoAdminUser(userName).Id;
+			var companyId = _companyRepository.GetCompanyFoAdminUser(userName).Id;
 
 			var workItemTemplate = _ctx.WorkItemTemplates.Single(p => p.Id == model.Id && p.CompanyId == companyId);
 
@@ -120,16 +112,14 @@ namespace EF.Data
 
         public async Task DeleteWorkItemTemplateForUserAsync(string userName, int wormItemTemplateId)
 		{
-			var _repo = new AuthRepository(_ctx);
-			var isUserAdminTask = await _repo.IsUserAdminAsync(userName);
+			var isUserAdminTask = await _authRepo.IsUserAdminAsync(userName);
 
 			if (isUserAdminTask == false)
 			{
 				throw new Exception("Only admin can delete work item templates");
 			}
-			var companyRepo = new CompanyRepository(_ctx);
 			// get all the workItemTemplate for that company
-			var companyId = companyRepo.GetCompanyFoAdminUser(userName).Id;
+			var companyId = _companyRepository.GetCompanyFoAdminUser(userName).Id;
 
 			var workItemTemplate = _ctx.WorkItemTemplates.Single(p => p.Id == wormItemTemplateId && p.CompanyId== companyId);
 

@@ -1,8 +1,13 @@
 ﻿using System.Reflection;
+using System.Web;
 using System.Web.Http;
 using DataService.AuthProviders;
+using DataService.Infrastructure;
 using DataService.Providers;
 using EF.Data;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
 using Microsoft.Owin.Security.Infrastructure;
 using Microsoft.Owin.Security.OAuth;
 using Ninject;
@@ -60,7 +65,11 @@ namespace DataService
             this.Bind<EFDbContext>().ToSelf().InRequestScope();
             //this.Bind<DbContext>().To<EFDbContext>().InRequestScope();
             //throw new System.Exception("My test exception");
-
+            // this.Bind<ApplicationUserManager>().ToSelf();
+            //this.Bind<IUserStore<ApplicationUser>>().To<ApplicationUserStore>();
+            this.Bind<ApplicationUserManager>().ToMethod(
+                c =>
+                    HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>()).InRequestScope();
             this.Bind<IOAuthAuthorizationServerOptions>()
                 .To<MyOAuthAuthorizationServerOptions>();
             this.Bind<IOAuthAuthorizationServerProvider>()

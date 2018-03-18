@@ -22,22 +22,24 @@ namespace EF.Data
 
     public class StorageRepository : BaseRepository, IStorageRepository
     {
-
+        private readonly IPropertyRepository _propertyRepo;
+        private readonly ICompanyRepository _companyRepository;
         // Interface in place so you can resolve with IoC container of your choice
         private readonly IBlobService _service = new BlobService();
 
         private  readonly string[] _validExtensions = { "jpg", "bmp", "gif", "png", "jpeg" }; //  etc
 
-        public StorageRepository(EFDbContext ctx) : base(ctx)
+        public StorageRepository(EFDbContext ctx, ApplicationUserManager manager, IPropertyRepository propertyRepo,  ICompanyRepository companyRepository) : base(ctx, manager)
         {
-           
+            _propertyRepo = propertyRepo;
+            _companyRepository = companyRepository;
         }
 
 		public async Task<List<BlobUploadModel>> UploadBlobs(HttpContent content, int entityId, AttachmentEntityType type, string userName)
 		{
 
 			if (!CheckUserPermissionForEntity(entityId, type, userName))
-				throw new Exception(string.Format("User {0} has no permission to add attachment on {1} with id {2}", userName, type, entityId));
+				throw new Exception($"User {userName} has no permission to add attachment on {type} with id {entityId}");
 
 			var result = await _service.UploadBlobs(content);
 
@@ -119,25 +121,7 @@ namespace EF.Data
 			return allBlobs;
 		}
 
-        public List<Attachment> GetPropertyWorkItemsAttachments(int propertyId, string userName)
-        {
-            if (!CheckUserPermissionForEntity(propertyId, AttachmentEntityType.Property, userName))
-                throw new Exception(string.Format("User {0} has no permission to download attachment on {1} with id {2}", userName, AttachmentEntityType.Property, propertyId));
-
-            var workItemIdsForProperty = new PropertyRepository(_ctx).GetAllPropertyWorkItems(propertyId).Select(p => p.Id).ToList();
-
-            if (workItemIdsForProperty.Any())
-            {
-                var allBlobs = _ctx.Attchments.Where(p =>  //add the type and entityId here just to make sure right attachment has been fetched.
-          p.EntityType == AttachmentEntityType.WorkItem
-          && workItemIdsForProperty.Contains(p.EntityId)
-          ).ToList();
-                return allBlobs;
-            }
-            return new List<Attachment>();
-
-
-        }
+      
 
         public bool IsImageExtension(string fileName)
         {
@@ -154,7 +138,7 @@ namespace EF.Data
             var propertyId = 0;
             if (type == AttachmentEntityType.CompanyLogo)
             {
-                var company = new CompanyRepository(_ctx).GetCompanyFoAdminUser(userName);
+                var company = _companyRepository.GetCompanyFoAdminUser(userName);
                 if (company != null && company.Id == entityId)
                     valid = true;
                 return valid;
@@ -174,8 +158,8 @@ namespace EF.Data
                 }
             }
             
-            var allowedProperties = new PropertyRepository(_ctx).GetPropertyForUser(userName).ToList().Select(p => p.Id);
-            valid = allowedProperties.Where(p => p == propertyId).Count() == 1;//found
+            var allowedProperties = _propertyRepo.GetPropertyForUser(userName).ToList().Select(p => p.Id);
+            valid = allowedProperties.Count(p => p == propertyId) == 1;//found
             return valid;
 
         }

@@ -17,7 +17,7 @@ using System.Web;
 namespace EF.Data
 {
 
-    public interface IPropertyRepository
+    public interface IPropertyRepository : IBaseRepository
     {
 
 
@@ -48,5 +48,7 @@ namespace EF.Data
 
         Property UpdatePropertyForClient(string username, PropertyModel model);
         PropertyModel GetProperty(string userName, int propertyId);
+
+        void CreatePropertyForWorkRequest(int messageId, PropertyModel model);
     }
 }

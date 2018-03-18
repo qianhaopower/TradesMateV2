@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace EF.Data
 {
-    public interface IEmailRepository
+    public interface IEmailRepository : IBaseRepository
     {
         void Save(EmailHistory record);
     }

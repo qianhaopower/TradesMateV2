@@ -18,7 +18,7 @@ using System.Web;
 namespace EF.Data
 {
 
-     public interface IMessageRepository 
+     public interface IMessageRepository : IBaseRepository
     {
         IQueryable<Message> GetMessageForUser(string username);
 
@@ -26,24 +26,17 @@ namespace EF.Data
 
         int GetUnReadMessageCountForUser(string username);
 
-        void CreatePropertyForWorkRequest(int messageId, PropertyModel model);
+       
 
         void MarkMessageAsRead(int messageId, string userId);
 
         void HandleMessageResponse(int messageId, ResponseAction action);
 
-        void GenerateAssignDefaultRoleMessage(int memberId, int companyId);
-
-        void GenerateAssignDefaultRoleRequestMessage(int memberId, int companyId);
-
-        bool CheckIfThereIsWaitingDefaultRoleRequestMessage(int memberId, int companyId);
-
-        void GenerateAssignContractorRoleMessage(int memberId, int companyId);
-        void GenerateAddMemberToCompany(int memberId, int companyId, string messageFromRequestor, CompanyRole role);
-
         void GenerateClientWorkRequest(MessageDetailModel model, string userId);
 
         void GenerateAddPropertyCoClient(int propetyId, int clientId);
-       
+
+
+
     }
 }

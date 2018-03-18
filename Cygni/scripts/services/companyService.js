@@ -153,7 +153,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     var _addNewClientToCompany = function (userInfo) {
         var deferred = $q.defer();
         userInfo.userType =0;//client
-        $http.post(serviceBase + 'api/account/register/company/whereshoulbehere', userInfo).then(function (response) {
+        $http.post(serviceBase + 'api/clients', userInfo).then(function (response) {
             deferred.resolve(response.data);
         },function (err, status) {
             deferred.reject(err);

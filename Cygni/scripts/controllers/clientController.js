@@ -110,13 +110,17 @@ function ($scope, clientDataService, Notification, $state, ModalService, company
             //we are adding existing client
         } else {
             // we are adding a new client via a email
-            $scope.newClient = {
+            $scope.newClient ={client: {
                 userName: $scope.selected,
                 firstName: undefined,
                 lastName: undefined,
                 email: $scope.selected,
-                userType:0,//client
-            };
+                //userType:0,//client
+            },
+            address:{}
+        }
+            
+           
             $scope.sendingRequestStatus = 'newClient';
             // we are adding new client
         }
@@ -124,10 +128,12 @@ function ($scope, clientDataService, Notification, $state, ModalService, company
      
     $scope.sendExistedClient = function () {
         inviteExistingClientToCompany();
+        //init();
        
     }
     $scope.sendNewClient = function () {
         addNewClientToCompany();
+       
     }
 
 
@@ -145,6 +151,7 @@ function ($scope, clientDataService, Notification, $state, ModalService, company
             };
             companyService.addExistingClientToCompany(data).then(function () {
                 $scope.sendingRequestStatus = undefined;
+                
                 Notification.success({ message: 'Request sent', delay: 2000 });
                 //getClientsInCompany();
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
@@ -160,8 +167,8 @@ function ($scope, clientDataService, Notification, $state, ModalService, company
             && /\S+@\S+\.\S+/.test($scope.selected)) {
             companyService.addNewClientToCompany($scope.newClient).then(function () {
                 $scope.sendingRequestStatus = undefined;
+                init();
                 Notification.success({ message: 'Client registered', delay: 2000 });
-                getClientsInCompany();
             },
             function (response) {
                 var errors = [];

@@ -29,7 +29,7 @@ namespace DataService
                 TokenEndpointPath = new PathString("/token"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(1),
                 Provider = new SimpleAuthorizationServerProvider(),
-                RefreshTokenProvider = new SimpleRefreshTokenProvider( new AuthRepository(new EFDbContext())),
+                RefreshTokenProvider = new SimpleRefreshTokenProvider( new AuthRepository(new EFDbContext(),null)),
             });
 
             //Configure Google External Login

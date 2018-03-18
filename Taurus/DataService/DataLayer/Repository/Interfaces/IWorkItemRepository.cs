@@ -11,7 +11,7 @@ using System.Linq;
 namespace EF.Data
 {
 
-    public interface IWorkItemRepository
+    public interface IWorkItemRepository : IBaseRepository
     {
         IEnumerable<WorkItem> GetSectionWorkItems(string UserName, int sectionId);
         WorkItem GetWorkItemById(string userName, int workItemId);

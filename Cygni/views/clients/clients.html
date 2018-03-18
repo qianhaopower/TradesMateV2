@@ -55,11 +55,11 @@
             <div class="col-xs-12">
                 <form name="clientForm" class="form-horizontal">
                     <fieldset >
-                        <legend>Invite {{selected}} to join company</legend>
+                        <legend>Invite {{selected}} to be your company's client</legend>
                         <div class="form-group required">
                             <label class="col-sm-3 control-label">First Name</label>
                             <div class="col-sm-9">
-                                <input type="text" name="clientFirstName" class="form-control" placeholder="first name" ng-model="newClient.firstName" required>
+                                <input type="text" name="clientFirstName" class="form-control" placeholder="first name" ng-model="newClient.client.firstName" required>
                                 <div ng-messages="clientForm.clientFirstName.$error">
                                     <div class="text-danger" ng-message="required">First Name is required</div>
                                 </div>
@@ -68,7 +68,7 @@
                         <div class="form-group required">
                             <label class="col-sm-3 control-label">Last Name</label>
                             <div class="col-sm-9">
-                                <input type="text" name="clientLastName" class="form-control" placeholder="last name" ng-model="newClient.lastName" required>
+                                <input type="text" name="clientLastName" class="form-control" placeholder="last name" ng-model="newClient.client.lastName" required>
                                 <div ng-messages="clientForm.clientLastName.$error">
                                     <div class="text-danger" ng-message="required">Last Name is required</div>
                                 </div>
@@ -77,18 +77,82 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">Email</label>
                             <div class="col-sm-9">
-                                <input type="email" name="clientEmail" placeholder="email" class="form-control" ng-model="newClient.email">
+                                <input type="email" name="clientEmail" placeholder="email" class="form-control" ng-model="newClient.client.email">
                                 <div ng-messages="clientForm.clientEmail.$error">
                                     <div class="text-danger" ng-message="email">Email address is invalid</div>
                                 </div>
                             </div>
                         </div>
+
                         <div class="form-group">
+                            <label class="col-sm-3 control-label">Address for this client's property</label>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Line 1</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="addressLine1" class="form-control" placeholder="" ng-model="newClient.address.line1" required>
+                                <div ng-messages="clientForm.addressLine1.$error">
+                                    <div class="text-danger" ng-message="required"> Address line 1 is required</div>
+                                </div>
+                            </div>
+                            
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Line 2</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="addressLine2" class="form-control" placeholder="" ng-model="newClient.address.line2">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Line 3</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="addressLine3" class="form-control" placeholder="" ng-model="newClient.address.line3">
+                            </div>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Suburb</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="addressSuburb" class="form-control" placeholder="" ng-model="newClient.address.suburb" required>
+                                <div ng-messages="clientForm.addressSuburb.$error">
+                                    <div class="text-danger" ng-message="required">Suburb is required</div>
+                                </div>
+                            </div>
+                          
+                        </div>
+
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">State</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="addressState" class="form-control" placeholder="" ng-model="newClient.address.state" required>
+                                <div ng-messages="clientForm.addressState.$error">
+                                    <div class="text-danger" ng-message="required">State is required</div>
+                                </div>
+                            </div>
+                          
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">Post Code</label>
+                            <div class="col-sm-9">
+                                <input type="text" name="addressPostCode" class="form-control" placeholder="" ng-model="newClient.address.postCode" required>
+                                <div ng-messages="clientForm.addressPostCode.$error">
+                                    <div class="text-danger" ng-message="required">Post code is required</div>
+                                </div>
+                            </div>
+                           
+                        </div>
+                        <!-- <div class="form-group">
                             <label class="col-sm-3 control-label">Message</label>
                             <div class="col-sm-9">
                                 <input type="text" name="clientText" placeholder="e.g. Hello..." class="form-control" ng-model="newClient.inviteText">
                             </div>
-                        </div>
+                        </div> -->
                     </fieldset>
                 </form>
                 <div class="btn btn-default accept pull-right" ng-click="sendNewClient()"   ng-disabled="clientForm.$invalid" ng-show="true">

@@ -55,7 +55,7 @@ namespace DataService.Providers
                 return Task.FromResult<object>(null);
             }
 
-            using (AuthRepository _repo = new AuthRepository(new EFDbContext()))
+            using (AuthRepository _repo = new AuthRepository(new EFDbContext(),null))
             {
                 client = _repo.FindClient(context.ClientId);
             }
@@ -107,7 +107,7 @@ namespace DataService.Providers
 
             var userRole = "user";
             UserType userType = UserType.Client;
-            using (AuthRepository _repo = new AuthRepository(new EFDbContext()))
+            using (AuthRepository _repo = new AuthRepository(new EFDbContext(),null))
             {
                 ApplicationUser user = _repo.FindUser(context.UserName, context.Password);
                 if (user == null)
