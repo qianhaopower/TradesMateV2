@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Trades Mate dashboard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/style.css">
+<script src="scripts/jquery.min.js"></script>
+<script src="scripts/popper.min.js"></script>
+<script src="scripts/bootstrap.min.js"></script>
+<link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
+</head>
+<body>
+
+<!--header start here-->
+<header id="main_header">
+  <div class="container">
+    <div class="row hedr_tp">
+      <div class="col-md-8">
+        <h1 class="logo_main"><img src="images/logo.svg"></h1>
+      </div>
+      <!--top right notifications start here-->
+      <div class="col-md-4 mob_ntf">
+        <div class="profile_dt">
+          <div class="profile_dp"> <img src="images/jn00001dp2x.png"> </div>
+          <a href="#" class="profile_name"> John Smith </a> </div>
+        <div class="notification">
+          <div class="notif_ic"> <span class="msg_icon"><img src="images/msges.svg"></span> <span class="nb_noti"> 2 </span> </div>
+          <a href="#" class="txt_noti"> Notifications </a> </div>
+      </div>
+      <!--top right notifications end here--> 
+      
+    </div>
+  </div>
+  <!--menu with search bar start here-->
+  <div id="nav_main">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <nav class="navbar-expand-md">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"> <span class="navbar-toggler-icon"></span> </button>
+            <div class="nav_display collapse" id="collapsibleNavbar">
+              <ul class="nav_ul navbar-nav">
+                <li> <a href="#" title="Dashboard"><span class="icon"><img src="images/dashboard.svg"></span> <span class="li_text">Dashboard</span> </a></li>
+                <li class="active"> <a href="#" title="Clients"><span class="icon"><img src="images/client.svg"></span> <span class="li_text">Clients</span> </a></li>
+                <li> <a href="#" title="Members"><span class="icon"><img src="images/member.svg"></span> <span class="li_text">Members</span> </a></li>
+                <li> <a href="#" title="Manage Company"><span class="icon"><img src="images/manage_comp.svg"></span> <span class="li_text">Manage Company</span> </a></li>
+              </ul>
+              <div class="searchbar">
+                <input type="text" placeholder="Search Clients">
+              </div>
+            </div>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--menu with search bar end here--> 
+  
+</header>
+<!--header finish here-->
+
+<div id="main_body">
+  <div class="container">
+    <div class="row"> 
+      
+      <!--    filter menu start here-->
+      <div class="col-sm-12 filter_main">
+        <div class="fltr_txt">Filters:</div>
+        <ul class="filtr_ul">
+          <li>
+            <div class="dropdown"> <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sort by alphabet <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Name</a></li>
+                <li><a href="#">City</a></li>
+                <li><a href="#">Country</a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="active"> <a href="#" title="#"> Recently Uploaded </a></li>
+          <li> <a href="#" title="#"> New Request </a></li>
+          <li> <a href="#" title="#"> Minimum Property Client </a></li>
+        </ul>
+      </div>
+      <!--    filter menu end here--> 
+      <!--  common dynamic list start from here-->
+      <div class="col-lg-3 common_list">
+        <div class="list_in">
+          <div class="list_header">
+            <h2> <a href="#"> Lee Pinder </a></h2>
+            <span class="mail_id"> raviendra@test.com </span> </div>
+          <div class="pp_list">
+            <h4> 3 Properties</h4>
+            <ul class="list_ul">
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's Second House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+            </ul>
+          </div>
+          <div class="down_footr">
+            <div class="notification">
+              <div class="notif_ic"> <span class="msg_icon"><img src="images/msges.svg"></span> <span class="nb_noti"> 2 </span> </div>
+              <a href="#" class="txt_noti">New Request</a> </div>
+            <div class="icon_fltr"> <a href="#" title="edit" class="edit_icon"><img src="images/edit.svg"></a> <a href="#" title="delete" class="delete_icon"> <img src="images/trash.svg"></a> </div>
+          </div>
+        </div>
+      </div>
+      
+      <!--  common dynamic list end from here -->
+      
+      <div class="col-lg-3 common_list">
+        <div class="list_in">
+          <div class="list_header">
+            <h2> <a href="#"> Nora Wong </a></h2>
+            <span class="mail_id"> raviendra@test.com </span> </div>
+          <div class="pp_list">
+            <h4> 3 Properties</h4>
+            <ul class="list_ul">
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's Second House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+            </ul>
+          </div>
+          <div class="down_footr">
+            <div class="icon_fltr"> <a href="#" title="edit" class="edit_icon"><img src="images/edit.svg"></a> <a href="#" title="delete" class="delete_icon"><img src="images/trash.svg"></a> </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 common_list">
+        <div class="list_in">
+          <div class="list_header">
+            <h2> <a href="#"> Viola Carson </a></h2>
+            <span class="mail_id"> raviendra@test.com </span> </div>
+          <div class="pp_list">
+            <h4> 3 Properties</h4>
+            <ul class="list_ul">
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's Second House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+            </ul>
+          </div>
+          <div class="down_footr"> </div>
+        </div>
+      </div>
+      <div class="col-lg-3 common_list">
+        <div class="list_in">
+          <div class="list_header">
+            <h2> <a href="#"> Isabel Spencer </a></h2>
+            <span class="mail_id"> raviendra@test.com </span> </div>
+          <div class="pp_list">
+            <h4> 3 Properties</h4>
+            <ul class="list_ul">
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's Second House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+            </ul>
+          </div>
+          <div class="down_footr">
+            <div class="notification">
+              <div class="notif_ic"> <span class="msg_icon"><img src="images/msges.svg"></span> <span class="nb_noti"> 3 </span> </div>
+              <a href="#" class="txt_noti">New Request</a> </div>
+            <div class="icon_fltr"> <a href="#" title="edit" class="edit_icon"><img src="images/edit.svg"></a> <a href="#" title="delete" class="delete_icon"><img src="images/trash.svg"></a> </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 common_list">
+        <div class="list_in">
+          <div class="list_header">
+            <h2> <a href="#"> Jimmy Collier</a></h2>
+            <span class="mail_id"> raviendra@test.com </span> </div>
+          <div class="pp_list">
+            <h4> 3 Properties</h4>
+            <ul class="list_ul">
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's Second House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+            </ul>
+          </div>
+          <div class="down_footr">
+            <div class="notification">
+              <div class="notif_ic"> <span class="msg_icon"><img src="images/msges.svg"></span> <span class="nb_noti"> 3 </span> </div>
+              <a href="#" class="txt_noti">New Request</a> </div>
+            <div class="icon_fltr"> <a href="#" title="edit" class="edit_icon"><img src="images/edit.svg"></a> <a href="#" title="delete" class="delete_icon"><img src="images/trash.svg"></a> </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 common_list">
+        <div class="list_in">
+          <div class="list_header">
+            <h2> <a href="#"> Dollie Howard </a></h2>
+            <span class="mail_id"> raviendra@test.com </span> </div>
+          <div class="pp_list">
+            <h4> 3 Properties</h4>
+            <ul class="list_ul">
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's Second House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+            </ul>
+          </div>
+          <div class="down_footr">
+            <div class="notification">
+              <div class="notif_ic"> <span class="msg_icon"><img src="images/msges.svg"></span> <span class="nb_noti"> 3 </span> </div>
+              <a href="#" class="txt_noti">New Request</a> </div>
+            <div class="icon_fltr"> <a href="#" title="edit" class="edit_icon"><img src="images/edit.svg"></a> <a href="#" title="delete" class="delete_icon"><img src="images/trash.svg"></a> </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 common_list">
+        <div class="list_in">
+          <div class="list_header">
+            <h2> <a href="#"> Gerald Ortiz </a></h2>
+            <span class="mail_id"> raviendra@test.com </span> </div>
+          <div class="pp_list">
+            <h4> 3 Properties</h4>
+            <ul class="list_ul">
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's Second House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+            </ul>
+          </div>
+          <div class="down_footr">
+            <div class="notification">
+              <div class="notif_ic"> <span class="msg_icon"><img src="images/msges.svg"></span> <span class="nb_noti"> 3 </span> </div>
+              <a href="#" class="txt_noti">New Request</a> </div>
+            <div class="icon_fltr"> <a href="#" title="edit" class="edit_icon"><img src="images/edit.svg"></a> <a href="#" title="delete" class="delete_icon"><img src="images/trash.svg"></a> </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 common_list">
+        <div class="list_in">
+          <div class="list_header">
+            <h2> <a href="#"> Mina Payne </a></h2>
+            <span class="mail_id"> raviendra@test.com </span> </div>
+          <div class="pp_list">
+            <h4> 3 Properties</h4>
+            <ul class="list_ul">
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's Second House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+              <li>
+                <address>
+                <span class="hd_bold">Lee's House</span><br>
+                7562 Raoul Points<br>
+                Laurelmouth<br>
+                AL  02661
+                </address>
+                <a href="#" class="arow"> <img src="images/arrow.svg"> </a> </li>
+            </ul>
+          </div>
+          <div class="down_footr">
+            <div class="notification">
+              <div class="notif_ic"> <span class="msg_icon"><img src="images/msges.svg"></span> <span class="nb_noti"> 3 </span> </div>
+              <a href="#" class="txt_noti">New Request</a> </div>
+            <div class="icon_fltr"> <a href="#" title="edit" class="edit_icon"><img src="images/edit.svg"></a> <a href="#" title="delete" class="delete_icon"><img src="images/trash.svg"></a> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--footer start here-->
+<footer id="main_footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8">
+        <h1 class="logo_main"><img src="images/logo.svg"></h1>
+        <div class="copy_rt"> © 2018 TrackJS LLC </div>
+      </div>
+      <div class="col-lg-4">
+        <ul class="footer_ul">
+          <li> <a href="#" title="Terms">Terms</a></li>
+          <li> <a href="#" title="Privacy">Privacy</a></li>
+          <li> <a href="#" title="Feedback">Feedback</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!--footer finish here-->
+
+</body>
+</html>
