@@ -11,12 +11,13 @@ angular
   .module('sbAdminApp', [
     'oc.lazyLoad',
     'ui.router',
-    'ui.bootstrap',
+     'ui.bootstrap',
     'angular-loading-bar',
+    'ngSanitize',
     'ui-notification',
     'ngMessages',
     'angularModalService',
-      'bootstrapLightbox',
+     'bootstrapLightbox',
     'LocalStorageModule',
     'isteven-multi-select',
     'pageslide-directive',
@@ -158,41 +159,6 @@ angular
                     }
                 }
             })
-            .state('base.table', {
-                templateUrl: 'views/table.html',
-                url: '/table'
-            })
-            .state('base.panels-wells', {
-                templateUrl: 'views/ui-elements/panels-wells.html',
-                url: '/panels-wells'
-            })
-            .state('base.buttons', {
-                templateUrl: 'views/ui-elements/buttons.html',
-                url: '/buttons'
-            })
-            .state('base.notifications', {
-                templateUrl: 'views/ui-elements/notifications.html',
-                url: '/notifications'
-            })
-            .state('base.typography', {
-                templateUrl: 'views/ui-elements/typography.html',
-                url: '/typography'
-            })
-            .state('base.icons', {
-                templateUrl: 'views/ui-elements/icons.html',
-                url: '/icons'
-            })
-            .state('base.grid', {
-                templateUrl: 'views/ui-elements/grid.html',
-                url: '/grid'
-            })
-
-           //authetication
-          //$routeProvider.when("/home", {
-          //    controller: "homeController",
-          //    templateUrl: "/views/home.html"
-          //});
-
           .state('noAccess', {
               controller: "noAccessController",
               templateUrl: "views/authentication/noAccess.html",
@@ -221,13 +187,6 @@ angular
               templateUrl: "views/authentication/signup.html",
               url: '/signup'
           })
-
-          //.state("orders", {
-          //    controller: "ordersController",
-          //    templateUrl: "views/orders.html",
-          //    url: '/orders'
-          //})
-
           .state("refresh", {
               controller: "refreshController",
               templateUrl: "views/authentication/refresh.html",

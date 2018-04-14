@@ -1,0 +1,16 @@
+{
+  "name": "cygni",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "angular1-ui-bootstrap4": "^2.4.22",
+    "popper.js": "^1.14.3"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

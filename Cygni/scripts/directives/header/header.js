@@ -7,7 +7,7 @@
  * # adminPosHeader
  */
 angular.module('sbAdminApp')
-	.directive('header',function(){
+	.directive('customHeader',function(){
 		return {
         templateUrl:'scripts/directives/header/header.html',
         restrict: 'E',
