@@ -30,10 +30,10 @@ angular
         
     })
     .constant("ngAuthSettings", {
-        apiServiceBaseUri: 'http://taurus.com/',
+        apiServiceBaseUri: 'http://dataservice20180415094328.azurewebsites.net/',
         clientId: 'ngAuthApp'
     })
-  .service('urls', function (domain, api) { this.apiUrl = 'http://taurus.com/api'; })
+    .service('urls', function (domain, api) { this.apiUrl = 'http://dataservice20180415094328.azurewebsites.net/api'; })
 
     .config(['$stateProvider', '$urlRouterProvider', '$ocLazyLoadProvider', '$httpProvider',
       function ($stateProvider, $urlRouterProvider, $ocLazyLoadProvider, $httpProvider) {

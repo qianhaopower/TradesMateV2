@@ -1,0 +1,24 @@
+1) Drop all remote sql table
+
+DECLARE @sql NVARCHAR(max)=''
+
+SELECT @sql += ' Drop table ' + QUOTENAME(TABLE_SCHEMA) + '.'+ QUOTENAME(TABLE_NAME) + '; '
+FROM   INFORMATION_SCHEMA.TABLES
+WHERE  TABLE_TYPE = 'BASE TABLE'
+
+Exec Sp_executesql @sql
+
+
+2) Get local db generate script 
+
+3) Run on remote db (From create first table, _MigrationHistory) (Remove all using statement)
+
+4) Checkout the branch of Data Service you want to publish, right click Solution, then publish. 
+
+   include <customErrors mode="Off"/> to check errors.
+
+5) Checkout the branch of Cygni, include missing file in solution, change dataservice url,publish. 
+I excluded the obj/Release folder (and everything under it) from the project, and then the build started working again.
+delete obj folder
+remove missing files (make sure they are not referenced in javascript application)
+If still not working, create another app service
