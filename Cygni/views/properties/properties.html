@@ -1,5 +1,4 @@
-
-<form class="form-horizontal">
+<form>
     <!--<div class="row">
         <div class="col-lg-12 col-sm-12">
             <a class="btn btn-default" ng-click="goBack()">
@@ -8,74 +7,117 @@
         </div>
     </div>-->
     <div class="row">
-        <div class="col-lg-12" >
+        <div class="col-lg-12">
             <h2 class="page-header"> Properties</h2>
         </div>
     </div>
-    <div class="row" ng-show="clientId">
+    <div class="row pb-2" ng-show="clientId">
         <div class="col-lg-12 col-sm-12 ">
             <div class="well">
-                Client: {{clientName}} 
+                Client: {{clientName}}
             </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-6 col-md-9">
-            <button type="button" title="Add new property" ng-show="clientId && !isClient"
-                    class="btn btn-default btn-sm" ng-click="addNewProperty()">
-                <i class="fa fa-plus "></i> Add Property
-            </button>
+    <div class="row pb-4">
+        <div class="col-xs-6 col-md-9 pb-2">
+            <span title="Add new property" ng-show="clientId && !isClient" class="btn btn-default btn-sm" ng-click="addNewProperty()">
+                <span class='clickable'>
+                    <i class="fa fa-plus-circle fa-2x"></i>
+                </span>
+            </span>
         </div>
         <div class="col-xs-6  col-md-3 pull-right">
             <input type="text" placeholder="Search properties..." class="input-sm form-control" ng-model="filterTextModel.searchText">
         </div>
     </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="property in propertyList | filter:search">
-                <!--<td >
-                    <i class="fa fa-home"></i>
-                </td>-->
-                <td class="col-md-3 col-xs-2" ng-click="openPropertyDetail(property, true)">
-                    <a>{{property.name}}</a>
-                    <br />
-                    <small>{{property.condition}}</small>
-                </td>
-                <td class="col-md-4 col-xs-4">
-                   {{property.addressDisplay}}
 
-                </td>
-                <td class="col-md-1 col-xs-1">
-                    <a class="" title="Manage Attachments" ng-show="!isClient"  ng-click="viewPropertyAttachments(property)"><i class="fa fa-paperclip"></i></a>
-                </td>
-                <td class="col-md-1 col-xs-1">
-                    <button class="btn btn-default btn-sm"  ng-show="!isClient && !isContractor" value="Reports" title="View Reports" type="button" ng-click="viewPropertyReports(property)">Reports</button>
-                </td>
-                <td class="col-md-1 col-xs-2">
-                    <button class="btn btn-default btn-sm" value="View Sections" title="Manage Sections" type="button" ng-click="viewPropertySections(property)">Sections</button>
-                </td>
-              
-                <td class="col-md-1 col-xs-2">
-                    <button class="btn btn-primary btn-sm" ng-show="!isClient" type="button" value="Edit" title="Edit Property" ng-click="openPropertyDetail(property,false)">Edit </button>
-                </td>
-                <td class="col-md-1 col-xs-2" ng-show="isAdmin">
-                    <button class="btn btn-danger btn-sm" ng-show="!isClient" value="Delete" title="Delete Property" type="button" ng-click="deleteProperty(property)">Delete</button>
-                </td>
+    <div class="row"  ng-repeat="property in propertyList | filter:search">
+        <!--  common dynamic list end from here -->
+        <div class="col-lg-12 list_view">
+            <div class="list_in">
+                <div class="rt_icon rt_abbslt">
+                    <div class="icon_fltr">
+                        <a title="edit" class="edit_icon" ng-show="!isClient"  title="Edit Property" ng-click="openPropertyDetail(property,false)">
+                            <span class='clickable'>
+                                <i class="fa fa-pencil"></i>
+                            </span>
+                        </a>
+                        <a title="delete" class="delete_icon" ng-show="!isClient"  title="Delete Property"  ng-click="deleteProperty(property)">
+                            <span class='clickable'>
+                                <i class="fa fa-trash-o"></i>
+                            </span>
+                        </a>
+                    </div>
+                </div>
+                <div class="lv_common">
+                        <div class="lv1" ng-click="openPropertyDetail(property, true)">
+                            <h2 class="hd_lv"> {{property.name}} </h2>
+                        </div>
+                    </div>
+                <div class="lv_common">
+                    <div class="lv2 pl-3">
+                        <div class="notification" ng-show="!isClient && !isContractor"  title="View Reports" 
+                        ng-click="viewPropertyReports(property)">
+                            <div class="notif_ic">
+                                <span class="msg_icon">
+                                    <img src="content/images/pdf.svg">
+                                </span>
 
-            </tr>
-        </tbody>
-    </table>
+                            </div>
+                            <a class="txt_noti"> Reports</a>
+                        </div>
+                        <div class="notification pl-3" title="Manage Sections"  ng-click="viewPropertySections(property)">
+                            <div class="notif_ic">
+                                <span class="msg_icon">
+                                    <img src="content/images/sections.svg">
+                                </span>
 
+                            </div>
+                            <a class="txt_noti"> Sections </a>
+                        </div>
+                        <div class="notification pl-3" title="Manage Attachments" ng-show="!isClient" ng-click="viewPropertyAttachments(property)">
+                                <div class="notif_ic">
+                                    <span class="msg_icon">
+                                            <i class="fa fa-paperclip"></i>
+                                    </span>
+    
+                                </div>
+                                <a class="txt_noti"> Attachments </a>
+                            </div>
+                    </div>
+                </div>
+                <div class="lv_common">
+                    <div class="lv1">
+                        <span class="lt_DS"> Condition: </span>
+                    </div>
+                    <div class="lv2">
+                        <p class="rt_PH"> {{property.condition}} </p>
+                    </div>
+                </div>
+                <div class="lv_common">
+                    <div class="lv1">
+                        <span class="lt_DS"> Description: </span>
+                    </div>
+                    <div class="lv2">
+                        <p class="rt_PH">  {{property.description}} </p>
+                    </div>
+                </div>
+                <div class="lv_common">
+                    <div class="lv1">
+                        <span class="lt_DS"> Address: </span>
+                    </div>
+                    <div class="lv2">
+                        <p class="rt_PH">  {{property.addressDisplay}}
+                            <a class="g_map">
+                                <img src="content/images/google map.svg">
+                            </a>
+                        </p>
+                    </div>
+                </div>
 
+            </div>
+        </div>
+    </div>
 </form>
 
 

@@ -56,7 +56,7 @@ h1.logo_main {
 	margin-left:10px;
 }
 .notif_ic {
-	background-color:#e06363;
+	/* background-color:#e06363; */
 	width:35px;
 	height:35px;
 	border-radius:100%;
@@ -115,7 +115,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dde2ea', end
 .nav_ul li a {
 	font-size: 16px;
 	color: #4c6183;
-	font-weight:600;
+	font-weight:6 00;
 }
 .nav_ul li a .icon {
 	background-color:#99a4b8;
@@ -198,7 +198,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddddd', end
 	display: flow-root;
 }
 .common_list .list_in:hover {
-	background-color:#ffe6e6;
+	background-color: #e9ecef;
 }
 .list_header {
 	width:100%;
@@ -275,8 +275,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddddd', end
 	border-bottom:none;
 }
 .list_in .txt_noti {
-	font-size: 12px;
-	color: #5191ff;
+	font-size: 15px;
+	/* color: #5191ff; */
 	margin-left: 10px;
 }
 .list_in .txt_noti:hover {
@@ -295,7 +295,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddddd', end
 	width:22px;
 	height:22px;
 	display:block;
-	background-color:#ffe7df;
+	/* background-color:#ffe7df; */
 	text-align:center;
 	border-radius:5px;
 	line-height:22px;
@@ -306,7 +306,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddddd', end
 	width:22px;
 	height:22px;
 	display:block;
-	background-color:#cff7d5;
+	/* background-color:#cff7d5; */
 	text-align:center;
 	border-radius:5px;
 	line-height:22px;
@@ -367,14 +367,14 @@ top: 2px;
 	padding:20px 0 10px 0;
 }
 .list_view .list_in:hover {
-	background-color:#ffe6e6;
+	background-color:rgb(211, 211, 211);
 }
 .name_hd {
 	padding-left:30px;
 	line-height:20px;
 }
 .name_hd a {
-	font-size: 20px;
+	/* font-size: 20px; */
 	margin: 0px;
 	font-weight: 600;
 	color: #5191ff;
@@ -385,16 +385,16 @@ top: 2px;
 }
 .mail_id {
 	font-size: 14px;
-	margin:10px 0 0 0;
+	/* margin:10px 0 0 0; */
 	font-weight: 600;
 	display:block;
 	color: #4c6183;
 }
 a.proprt_a {
-	font-size: 14px;
+	/* font-size: 14px; */
 	font-weight: 600;
 	color: #99a4b8;
-	margin:10px 0 0 0;
+	/* margin:10px 0 0 0; */
 	display:block;
 }
 a.proprt_a:hover {
@@ -523,13 +523,15 @@ a.proprt_a .arow {
 }
 .lv_common .lv1 {
 	float:left;
-	width:18%;
+	width:25%;
 	padding-left:25px;
 }
+
 .lv_common .lv2 {
 	float:left;
 	width:75%;
 }
+
 .hd_lv {
 	font-size: 20px;
 	font-weight: bold;
@@ -543,7 +545,7 @@ a.proprt_a .arow {
 }
 .lv_common .lv1 .lt_DS {
 	font-size: 14px;
-	color: #99a4b8;
+	/* color: #99a4b8; */
 	padding-left:29px;
 }
 .lv_common .lv2 .rt_PH {
@@ -943,6 +945,10 @@ width:49%;
 float:right;
 font-size:16px;
 }
+}
+
+.clickable {
+	cursor: pointer
 }
 
 /*responsive css end from here*/

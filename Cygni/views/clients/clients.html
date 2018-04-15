@@ -1,9 +1,8 @@
-<div class="form-horizontal">
+<div class="container">
     <div class="row">
         <div class="col-lg-12">
             <h2 class="page-header">Clients</h2>
         </div>
-
     </div>
     <div id="invitingNewClient">
         <div class="row " ng-show="!sendingRequestStatus">
@@ -11,18 +10,14 @@
                 <div class="inner-addon left-addon">
                     <i ng-show="loading" class="glyphicon glyphicon-refresh"></i>
                     <i ng-show="!loading" class="glyphicon glyphicon-user"></i>
-                    <input type="text" ng-model="selected" placeholder="Type email to invite new client"
-                           uib-typeahead="item as item.label for item in searchClient($viewValue) "
-                           typeahead-loading="loading"
-                           typeahead-no-results="noResults"
-                           typeahead-wait-ms="200"
-                           class="form-control">
+                    <input type="text" ng-model="selected" placeholder="Type email to invite new client" uib-typeahead="item as item.label for item in searchClient($viewValue) "
+                        typeahead-loading="loading" typeahead-no-results="noResults" typeahead-wait-ms="200" class="form-control">
                 </div>
                 <span class="hint">Search for client's email, or type in full email address to invite new client.</span>
             </div>
             <div class="col-xs-3 col-md-3" ng-disabled="!inputValid">
                 <div ng-click="proceedAddClient()" ng-disabled="!inputValid">
-                    <i class="fa fa-arrow-circle-o-right fa-2x" ng-class="{'disable-icon':!inputValid}" aria-hidden="true"></i>
+                        <span class='clickable'><i class="fa fa-arrow-circle-o-right fa-2x" ng-class="{'disable-icon':!inputValid}" aria-hidden="true"></i></span>
                 </div>
 
             </div>
@@ -33,18 +28,18 @@
             <div class="col-xs-12">
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <span class="control-label">Invite {{selected.fullName}} as client of your company. After {{selected.fullName}} accepts the invitation, all his/her property will be listed here </span>
+                        <span class="control-label">Invite {{selected.fullName}} as client of your company. After {{selected.fullName}} accepts the invitation,
+                            all his/her property will be listed here </span>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="col-xs-12">
-                        <input type="text" placeholder="Message to be sent. e.g. Hello..." ng-model="inviteText"
-                               class="form-control">
+                        <input type="text" placeholder="Message to be sent. e.g. Hello..." ng-model="inviteText" class="form-control">
                     </div>
                 </div>
                 <div class="btn btn-default accept pull-right" ng-click="sendExistedClient()" ng-show="true">
-                    <i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp;Send
+                        <span class='clickable'><i class="fa fa-check-circle" aria-hidden="true"></i></span> &nbsp;Send
                 </div>
                 <div class="btn btn-default reject pull-right" ng-click="cancel()" ng-show="true">
                     <i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Cancel
@@ -54,12 +49,13 @@
         <div class="row add-new " ng-show="sendingRequestStatus =='newClient'">
             <div class="col-xs-12">
                 <form name="clientForm" class="form-horizontal">
-                    <fieldset >
+                    <fieldset>
                         <legend>Invite {{selected}} to be your company's client</legend>
                         <div class="form-group required">
                             <label class="col-sm-3 control-label">First Name</label>
                             <div class="col-sm-9">
-                                <input type="text" name="clientFirstName" class="form-control" placeholder="first name" ng-model="newClient.client.firstName" required>
+                                <input type="text" name="clientFirstName" class="form-control" placeholder="first name" ng-model="newClient.client.firstName"
+                                    required>
                                 <div ng-messages="clientForm.clientFirstName.$error">
                                     <div class="text-danger" ng-message="required">First Name is required</div>
                                 </div>
@@ -68,7 +64,8 @@
                         <div class="form-group required">
                             <label class="col-sm-3 control-label">Last Name</label>
                             <div class="col-sm-9">
-                                <input type="text" name="clientLastName" class="form-control" placeholder="last name" ng-model="newClient.client.lastName" required>
+                                <input type="text" name="clientLastName" class="form-control" placeholder="last name" ng-model="newClient.client.lastName"
+                                    required>
                                 <div ng-messages="clientForm.clientLastName.$error">
                                     <div class="text-danger" ng-message="required">Last Name is required</div>
                                 </div>
@@ -95,7 +92,7 @@
                                     <div class="text-danger" ng-message="required"> Address line 1 is required</div>
                                 </div>
                             </div>
-                            
+
                         </div>
 
                         <div class="form-group">
@@ -122,7 +119,7 @@
                                     <div class="text-danger" ng-message="required">Suburb is required</div>
                                 </div>
                             </div>
-                          
+
                         </div>
 
 
@@ -134,7 +131,7 @@
                                     <div class="text-danger" ng-message="required">State is required</div>
                                 </div>
                             </div>
-                          
+
                         </div>
 
                         <div class="form-group">
@@ -145,7 +142,7 @@
                                     <div class="text-danger" ng-message="required">Post code is required</div>
                                 </div>
                             </div>
-                           
+
                         </div>
                         <!-- <div class="form-group">
                             <label class="col-sm-3 control-label">Message</label>
@@ -155,8 +152,8 @@
                         </div> -->
                     </fieldset>
                 </form>
-                <div class="btn btn-default accept pull-right" ng-click="sendNewClient()"   ng-disabled="clientForm.$invalid" ng-show="true">
-                    <i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp;Send
+                <div class="btn btn-default accept pull-right" ng-click="sendNewClient()" ng-disabled="clientForm.$invalid" ng-show="true">
+                        <span class='clickable'><i class="fa fa-check-circle" aria-hidden="true"></i></span> &nbsp;Send
                 </div>
                 <div class="btn btn-default reject pull-right" ng-click="cancel()" ng-show="true">
                     <i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Cancel
@@ -165,54 +162,47 @@
         </div>
     </div>
     <hr/>
-    <div class="row ">
-        <!-- <div class="col-xs-6 col-md-9">
-
-            <div title="Invite new client" class="btn btn-default btn-sm" ng-click="inviteNewClient()">
-                <i class="fa fa-plus"></i> Invite new client
-            </div>
-        </div> -->
+    <div class="row pb-4">
+            <div class="col-xs-6 col-md-9 pb-2">
+                </div>
         <div class="col-xs-6  col-md-3 pull-right">
             <input type="text" placeholder="Search clients..." class="input-sm form-control" ng-model="filterTextModel.searchText">
         </div>
     </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Address</th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
 
-            <tr ng-repeat="client in clientlist | filter:search">
-
-                <td class="col-md-3 col-xs-2" ng-click="openClientDetail(client,true)">
-                    <a>{{client.firstName}} {{client.lastName}}</a>
-                    <br />
-                    <small>{{client.email}}</small>
-                </td>
-                <td class="col-md-6 col-xs-4">
-                    {{client.address.line1}}&nbsp;{{client.address.line2}}&nbsp;{{client.address.line3}}
-                </td>
-                <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-default btn-sm" title="Manage Properties" ng-click="viewClientProperties(client)">Properties</a>
-                </td>
-                <td class="col-md-1 col-xs-2">
-
-                    <a class="btn btn-primary btn-sm" title="Edit Client" ng-click="openClientDetail(client,false)">Edit</a>
-                </td>
-                <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-danger btn-sm" title="Remove Client" ng-click="deleteClient(client)">Remove</a>
-                </td>
-
-            </tr>
-        </tbody>
-    </table>
-
+    <div class=row ng-repeat="client in clientlist | filter:search">
+        <div class="col-lg-12 list_view">
+            <div class="list_in">
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="name_hd" ng-click="openClientDetail(client,true)">
+                            <a>{{client.firstName}} {{client.lastName}}</a>
+                        </div>
+                    </div>
+                    <div class="col-lg-2">
+                        <address class="list_adrs">
+                            {{client.address.line1}}&nbsp;{{client.address.line2}}&nbsp;{{client.address.line3}}
+                        </address>
+                    </div>
+                    <div class="col-lg-3">
+                        <span class="mail_id"> {{client.email}} </span>
+                    </div>
+                    <div class="col-lg-2" ng-click="viewClientProperties(client)">
+                        <a title="Properties" class="proprt_a"> Properties
+                            <span class="arow"></span>
+                        </a>
+                    </div>
+                    <div class="col-lg-1" title="Edit" ng-click="openClientDetail(client,false)">
+                            <span class='clickable'><i class="fa fa-pencil"></i></span>
+                    </div>
+                    <div class="col-lg-1" title="Remove" ng-click="deleteClient(client)">
+                            <span class='clickable'><i class="fa fa-trash-o"></i></span>
+                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
