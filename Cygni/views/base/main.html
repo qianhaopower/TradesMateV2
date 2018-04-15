@@ -1,17 +1,115 @@
-<div id="wrapper">
-
-        <!-- Navigation -->
-            
+<!-- <div id="wrapper">
         <header></header>
-        <!-- /.navbar-top-links -->
-        
-               
-        <!-- /.navbar-static-side -->
-
             <div id="page-wrapper" style="min-height: 561px;">
-
                 <div ui-view></div>
-                
             </div>
-            <!-- /#page-wrapper -->
+</div>
+
+
+
+ -->
+<!--header start here-->
+<header id="main_header">
+    <div class="container">
+      <div class="row hedr_tp">
+        <div class="col-md-8" ui-sref="base.home">
+          <h1 class="logo_main"><img src="content/images/logo.svg"></h1>
+        </div>
+        <!--top right notifications start here-->
+        <div class="col-md-4 mob_ntf">
+          <div class="profile_dt">
+            <div class="profile_dp"> <img src="content/images/jn00001dp2x.png"> </div>
+            <a  class="profile_name" popover-placement="bottom" uib-popover-template="'tpl.html'" > {{authentication.userName}} </a> </div>
+
+            
+          
+
+          <div class="notification">
+            <div class="notif_ic"> 
+                <span class="msg_icon"><img src="content/images/msges.svg">
+               </span> 
+            <span class="nb_noti" ng-show="unReadMessageCount"> {{unReadMessageCount}} 
+
+            </span> </div>
+            <a ui-sref="base.message" class="txt_noti"> Messages </a> </div>
+        </div>
+        <!--top right notifications end here--> 
+        
+      </div>
     </div>
+    <!--menu with search bar start here-->
+    <div id="nav_main">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <nav class="navbar-expand-md">
+              <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"> <span class="navbar-toggler-icon"></span> </button>
+              <div class="nav_display collapse" id="collapsibleNavbar">
+                <ul class="nav_ul navbar-nav">
+                  <li ui-sref-active="active"> <a ui-sref="base.home" title="Dashboard"><span class="icon"><img src="content/images/dashboard.svg"></span> <span class="li_text">Dashboard</span> </a></li>
+                  <li ui-sref-active="active"> <a ui-sref="base.clients" title="Clients"><span class="icon"><img src="content/images/client.svg"></span> <span class="li_text">Clients </span> </a></li>
+                  <li ui-sref-active="active"> <a ui-sref="base.properties" title="Members"><span class="icon"><img src="content/images/property.svg"></span> <span class="li_text">Properties</span> </a></li>
+                  <li ui-sref-active="active"> <a ui-sref="base.manageCompany" title="Manage Company"><span class="icon"><img src="content/images/manage_comp.svg"></span> <span class="li_text">Manage Company</span> </a></li>
+                </ul>
+               
+              </div>
+            </nav>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--menu with search bar end here--> 
+    
+  </header>
+  <!--header finish here-->
+
+
+  <div id="main_body">
+        <div class="container">
+          <div class="row p-4 bg-light rounded"> 
+                <div class="col-12" ui-view></div>
+          </div>
+        </div>
+  </div>
+
+  <!--footer start here-->
+  <footer id="main_footer">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6 col-sm-8" >
+          <div class="copy_rt"> © 2018 Tradesmate </div>
+        </div>
+        <div class="col-lg-6 col-sm-4">
+          <ul class="footer_ul">
+            <li> <a href="#" title="Terms">Terms</a></li>
+            <li> <a href="#" title="Feedback">Feedback</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+  <!--footer finish here-->
+  
+
+
+  <script type="text/ng-template" id="tpl.html">
+    
+    <div style="width:100px">
+            <a ui-sref-active="active">
+                <div ui-sref="base.profile">
+                     User Profile
+                </div>
+            </a>
+            <a ui-sref-active="active">
+                <div ui-sref="base.personalSetting">
+                   
+                    </i> Settings
+                </div>
+            </a>
+            <a ng-click="logOut()">
+                <div>  Logout</div>
+            </a>
+        </div>
+        
+  </script>

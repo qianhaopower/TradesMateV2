@@ -380,6 +380,10 @@
   <ItemGroup>
     <Compile Include="Startup.Ninject.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\PublishProfiles\DataService20170407072405 - Web Deploy.pubxml" />
+    <None Include="Properties\PublishProfiles\DataService20180415094328 - Web Deploy.pubxml" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
