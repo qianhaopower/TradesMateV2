@@ -86,21 +86,15 @@ h1.logo_main {
 	padding: 0 5px;
 }
 #nav_main {
-	background: #798c9c;
-
-	/*
-	background: #dde2ea; 
-	
-	background: -moz-linear-gradient(top, #dde2ea 0%, #e2e7ed 5%, #e9ecf1 100%); 
-	background: -webkit-linear-gradient(top, #dde2ea 0%, #e2e7ed 5%, #e9ecf1 100%); 
-	background: linear-gradient(to bottom, #dde2ea 0%, #e2e7ed 5%, #e9ecf1 100%); 
-
-	*/
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dde2ea', endColorstr='#e9ecf1', GradientType=0 ); /* IE6-9 */
+	background: #dde2ea;
+	background: -moz-linear-gradient(top, #dde2ea 0%, #e2e7ed 5%, #e9ecf1 100%);
+	background: -webkit-linear-gradient(top, #dde2ea 0%, #e2e7ed 5%, #e9ecf1 100%);
+	background: linear-gradient(to bottom, #dde2ea 0%, #e2e7ed 5%, #e9ecf1 100%);
+ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dde2ea', endColorstr='#e9ecf1', GradientType=0 ); /* IE6-9 */
 	width:100%;
 	float:left;
 	margin:15px 0 0 0;
-	padding:14px 0;
+	padding:14px 0 20px 0;
 }
 .nav_ul {
 	list-style:none;
@@ -114,8 +108,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dde2ea', end
 }
 .nav_ul li a {
 	font-size: 16px;
-	color: #4c6183;
-	font-weight:6 00;
+	color: #b3bdcd;
+	font-weight:600;
 }
 .nav_ul li a .icon {
 	background-color:#99a4b8;
@@ -136,17 +130,14 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dde2ea', end
 .searchbar {
 	height:35px;
 	float:right;
-	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#dddddd+0,ebebeb+5,ffffff+9,ffffff+100 */
-background: #dddddd; /* Old browsers */
-	background: -moz-linear-gradient(top, #dddddd 0%, #ebebeb 5%, #ffffff 9%, #ffffff 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(top, #dddddd 0%, #ebebeb 5%, #ffffff 9%, #ffffff 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to bottom, #dddddd 0%, #ebebeb 5%, #ffffff 9%, #ffffff 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddddd', endColorstr='#ffffff', GradientType=0 ); /* IE6-9 */
+	border-radius: 6px;
+	background-color: #ffffff;
+	box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.21);
 	padding:0 15px;
 	border-radius: 5px;
 }
 .searchbar:hover {
-	box-shadow: 0 3px 6px 0 #aebacb;
+	box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.51);
 }
 .searchbar input {
 	background:url(../images/search.svg) no-repeat left center;
@@ -295,7 +286,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddddd', end
 	width:22px;
 	height:22px;
 	display:block;
-	/* background-color:#ffe7df; */
+	background:url(../images/trash.svg) no-repeat;
 	text-align:center;
 	border-radius:5px;
 	line-height:22px;
@@ -306,7 +297,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#dddddd', end
 	width:22px;
 	height:22px;
 	display:block;
-	/* background-color:#cff7d5; */
+	background:url(../images/edit.svg) no-repeat;
 	text-align:center;
 	border-radius:5px;
 	line-height:22px;
@@ -356,7 +347,16 @@ top: 2px;
  position: relative;
 }
 .list_view {
-	margin-bottom:15px;
+	margin-bottom: 15px;
+	width: 100%;
+	float: left;
+	margin: 0px 0 20px 0;
+	padding: 0px;
+}
+.list_heading {
+	font-weight: 700;
+	font-size: 15px;
+	margin: 20px 0px 10px 0;
 }
 .list_view .list_in {
 	width: 100%;
@@ -374,7 +374,7 @@ top: 2px;
 	line-height:20px;
 }
 .name_hd a {
-	/* font-size: 20px; */
+	font-size: 20px;
 	margin: 0px;
 	font-weight: 600;
 	color: #5191ff;
@@ -419,7 +419,7 @@ a.proprt_a .arow {
 }
 .list_view .icon_fltr {
 	position: relative;
-	left: -20px;
+	left: 0px;
 }
 .page_dis {
 	padding-bottom:10px;
@@ -526,12 +526,10 @@ a.proprt_a .arow {
 	width:25%;
 	padding-left:25px;
 }
-
 .lv_common .lv2 {
 	float:left;
 	width:75%;
 }
-
 .hd_lv {
 	font-size: 20px;
 	font-weight: bold;
@@ -619,10 +617,7 @@ a.proprt_a .arow {
 #main_footer {
 	width:100%;
 	float:left;
-    padding:15px 0;
-    position:fixed;
-    bottom:0;
-    left:0;
+	padding:15px 0;
 }
 .copy_rt {
 	font-size: 14px;
@@ -648,8 +643,78 @@ a.proprt_a .arow {
 .footer_ul li a:hover {
 	color:#000;
 }
-
 /*footer css end from here*/
+
+.status_btn {
+	max-width: 14%;
+}
+.edit_btn {
+	max-width: 8%;
+}
+
+
+.work_items {
+	font-size: 16px;
+	font-weight: normal;
+	color: #7e8a9d;
+	margin: 20px 0 0 0;
+}
+.work_items .page-header {
+	font-size:30px;
+	font-weight: bold;
+	color:#4c6183;
+}
+.buttn_addwork .btn-sm {
+	font-size: 16px;
+	font-weight: 500;
+	color: #79869e;
+	border-radius: 6px;
+	background-color:#dde3ec;
+	border: solid 1px #ffffff;
+	padding: 5px 16px;
+}
+.work_items .col-work {
+	max-width: 19%;
+	padding-left: 0px;
+}
+.buttn_addwork {
+	float:right;
+}
+.back_btn {
+	background: url(../images/back.svg) no-repeat left center;
+	padding-left: 30px;
+}
+.mesg_icon {
+	max-width:5%;
+}
+.filter {
+	margin:20px 0 25px 0;
+}
+.filter .select1 {
+	margin-bottom:10px;
+	float:left;
+	margin-right: 10px;
+}
+.filter .select1 .multiSelect > button {
+	margin-bottom:10px;
+	border-radius: 6px;
+	background-color:#f1f1f1;
+	border: solid 1px #dde3ec;
+}
+.filter .select2 .multiSelect > button {
+	border-radius: 6px;
+	background-color:#f1f1f1;
+	border: solid 1px #dde3ec;
+}
+.name_col {
+	padding-left:30px;
+}
+.mesg_icon i.i_mesg {
+    width: 28px;
+    height: 20px;
+    background: url(../images/group_14.svg) no-repeat left center;
+    display: block;
+}
 
 /*responsive css start from here*/
 
@@ -688,12 +753,17 @@ padding: 14px 0 4px 0;
 }
 .list_view .icon_fltr {
  position: relative;
- left: -20px;
+ left: 16px;
  width: 53px;
 }
 .list_hd .delete_icon {
  margin-left: 5px;
 }
+
+.work_items .col-work {
+    max-width: 15%;
+ }
+
 }
  @media only screen and (max-width: 900px) {
 #main_body {
@@ -753,6 +823,37 @@ padding:0 20px;
  .list_hd .icon_fltr {
  top: 0px;
 }
+.table_overflow{ width:100%; overflow:auto;}
+.list_heading, .list_view{ min-width:800px;}
+.work_items .col-work {
+    max-width: 100%;
+}
+.work_items > div{ padding:0px;}
+.buttn_addwork {
+    float: left;
+}
+.buttn_addwork {
+    margin: 15px 0 0 0;
+}
+.filter .select1 .multiSelect > button {
+    text-align: left;
+}
+.mesg_icon .pull-right {
+    left: 15px;
+    position: relative;
+}
+.name_hd a {
+    font-size: 16px;
+}
+
+.namelist {
+    max-width: 38%;
+}
+.edit_btn {
+    max-width: 100%;
+}
+
+
 }
  @media only screen and (max-width: 700px) {
  .hedr_tp .col-md-8 {
@@ -843,6 +944,15 @@ border:none;
 .list_hdul .hd_list {
 top:0px;
 }
+.back_btn {
+      padding-left: 25px;
+    font-size: 14px;
+}
+.name_col {
+    padding-left: 15px;
+}
+
+
 }
 @media only screen and (max-width: 590px) {
  .common_list {
@@ -876,6 +986,11 @@ width:100%;
  .notification, .profile_dt {
  margin-left:0;
 }
+.work_items {
+      margin: 10px 0 0 0;
+}
+
+
 }
 @media only screen and (max-width: 420px) {
  .atchm_ul li {
@@ -897,6 +1012,7 @@ width:48%;
 float:right;
 font-size:18px;
 }
+
 }
  @media only screen and (max-width: 355px) {
  .notification {
@@ -946,9 +1062,10 @@ float:right;
 font-size:16px;
 }
 }
-
 .clickable {
 	cursor: pointer
 }
-
 /*responsive css end from here*/
+
+
+
