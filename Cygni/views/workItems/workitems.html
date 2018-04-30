@@ -1,147 +1,110 @@
 
 <form class="form-horizontal">
-    <br />
-    <div class="row">
-        <div class="col-lg-6 col-sm-6">
-            <a class="btn btn-default" ng-click="goBack()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
-            </a>
+       
+        <div class="row">
+          <div class="col-lg-6 col-sm-6"> <a class="btn btn-default back_btn" ng-click="goBack()"> &nbsp;Back to Property Section </a> </div>
+          <div class="col">
+          <div class="searchbar">
+                <input type="text" placeholder="Search work items..." ng-model="filterTextModel.searchText">
+              </div></div>
+       
+          <div class="col-lg-1 mesg_icon"> <span class="btn btn-default pull-right" title="View message" ng-click="toggle()" ng-show="!isClient"> <i class="i_mesg" aria-hidden="true"></i> </span> </div>
         </div>
-        <div class="col-lg-6 col-sm-6 "  >
-            <span class="btn btn-default pull-right" title="View message" ng-click="toggle()" ng-show="!isClient">
-                <i class="fa fa-envelope" aria-hidden="true"></i>
-            </span>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12 col-sm-12">
-            <h2 class="page-header">Work Items </h2>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-lg-12 col-sm-12 ">
-            <div class="well">
-                Property : {{propertyName}} - {{propertyAddress}}<br />
-                Section : {{sectionName}}
-            </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-xs-6 col-md-6">
-
-            <button type="button" title="Add new workItem"
-                    id="loading-example-btn"
-                    ng-show="allowAddWorkItem && !isClient"
-                    
-                    class="btn btn-default btn-sm" ng-click="addNewWorkItem()">
-                <i class="fa fa-plus"></i> Add Work Item
-            </button>
-
-        </div>
-        <div class="col-xs-6  col-md-6 pull-right">
-          
-            <input type="text" placeholder="Search work items..." class="input-sm form-control" ng-model="filterTextModel.searchText">
-        </div> 
-    </div>
-    <div class="row">
-
-        <div class="col-xs-6  col-md-6 pull-right">
-
-            <div isteven-multi-select
-                 input-model="availableStatus"
-                 output-model="outputSelectedStatus"
-                 button-label="icon name"
-                 item-label="icon name"
-                 tick-property="ticked"
-                 helper-elements=""
-                 is-disabled="false"
-                 orientation="horizontal">
-            </div>
-
-        </div>
-    </div>
-    <div class="row">
-
-        <div class="col-xs-6  col-md-6 pull-right">
-
-            <div isteven-multi-select
-                 input-model="availableServiceTypes"
-                 output-model="outputSelectedServiceTypes"
-                 button-label="icon name"
-                 item-label="icon name"
-                 tick-property="ticked"
-                 helper-elements=""
-                 is-disabled="false"
-                 orientation="horizontal">
-            </div>
-
-        </div>
-    </div>
-        <table class="table table-hover">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Quantity</th>
-                    <th></th>
-                    <th></th>
-                </tr>
-            </thead>
-
-
-            <tbody>
-
-                <tr ng-repeat="workItem in workItemList | filter:search">
-
-                    <td class="col-md-2 col-xs-2" ng-click="openWorkItemDetail(workItem, true)">
-                        <a>{{workItem.name}}</a>
-                    </td>
-                    <td class="col-md-5 col-xs-3">
-                        {{workItem.description}}
-                    </td>
-                    <td class="col-md-2 col-xs-1">
-                        {{workItem.quantity}}
-                    </td>
-                    <td class="col-md-1 col-xs-1">
-                        <a class="" title="Manage Attachments" ng-show="!isClient" ng-click="viewWorkItemAttachments(workItem)"><i class="fa fa-paperclip"></i></a>
-                    </td>
-                    <td class="col-md-1 col-xs-1">
-                        <button ng-class="getWorkItemStatusClass(workItem.status)"  title="{{workItem.status}}">{{getWorkItemStatusDisplay(workItem.status)}}</button>
-                    </td>
-                    <td class="col-md-1 col-xs-2">
-                        <a class="btn btn-primary btn-sm"  ng-show="!isClient" title="Edit Work Item" ng-click="openWorkItemDetail(workItem,false)">Edit</a>
-                    </td>
-                    <td class="col-md-1 col-xs-2">
-                        <a class="btn btn-danger btn-sm" ng-show="!isClient" title="Delete Work Item" ng-click="deleteWorkItem(workItem)">Delete</a>
-                    </td>
-
-                </tr>
-            </tbody>
-        </table>
-
-</form>
-
-
-<message-panel property-id="{{propertyId}}"></message-panel>
-
-<!-- The actual modal template, just a bit o bootstrap -->
-<script type="text/ng-template" id="deleteWorkItemmodal.html">
-    <div class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title danger">Delete Work Item</h4>
+        <div class="row work_items">
+          <div class="col-lg-3 col-work">
+            <h2 class="page-header">Work Items</h2>
+          </div>
+          <div class="col-lg-4">
+            <div class="well"> <b>Property </b>: {{propertyName}} - {{propertyAddress}} </div>
+          </div>
+          <div class="col-lg-3 sect_brdr"><div class="sect_name"> <b>Section</b> : {{sectionName}} </div></div>
+          <div class="col">
+                <div class="buttn_addwork">
+                <button type="button" title="Add new workItem"
+                id="loading-example-btn"
+                ng-show="allowAddWorkItem && !isClient" class="btn btn-default btn-sm" ng-click="addNewWorkItem()"> <i class="fa fa-plus"></i> 
+                Add Work Item </button>
                 </div>
-                <div class="modal-body">
-                    <p>Delete action can not be undone. Proceed?</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>
-                    <button type="button" ng-click="close(true)" class="btn btn-primary" data-dismiss="modal">Yes</button>
-                </div>
-            </div>
+          </div>
         </div>
-    </div>
-</script>
+    
+<div class="filter">
+        <div class="select1" isteven-multi-select
+        input-model="availableStatus"
+        output-model="outputSelectedStatus"
+        button-label="icon name"
+        item-label="icon name"
+        tick-property="ticked"
+        helper-elements=""
+        is-disabled="false"
+        orientation="horizontal"> </div>
+
+
+        <div class="select2" isteven-multi-select
+        input-model="availableServiceTypes"
+        output-model="outputSelectedServiceTypes"
+        button-label="icon name"
+        item-label="icon name"
+        tick-property="ticked"
+        helper-elements=""
+        is-disabled="false"
+        orientation="horizontal"> </div>
+
+
+</div>
+
+<div class="table_overflow"><div class="table_1000">
+   <div class="col-12 list_heading">
+          <div class="list_in">
+            <div class="row">
+              <div class="col-5 name_col namelist"> Name </div>
+              <div class="col-2"> Description </div>
+              <div class="col-1"> Quantity </div>
+              <div class="col-2"> </div>
+              <div class="col-1"> </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        <div class="col-12 list_view" ng-repeat="workItem in workItemList | filter:search">
+          <div class="list_in">
+            <div class="row">
+              <div class="col-5 namelist" ng-click="openWorkItemDetail(workItem, true)">
+                <h2 class="name_hd"> <a href="#"> {{workItem.name}}</a></h2>
+              </div>
+              <div class="col-2"> {{workItem.description}} </div>
+              <div class="col-1 text-center"> {{workItem.quantity}} </div>
+              <div class="col-1 text-center"> <a class="" title="Manage Attachments" ng-show="!isClient" ng-click="viewWorkItemAttachments(workItem)"><i class="fa fa-paperclip"></i></a> </div>
+              <div class="col-1 status_btn">
+                <button ng-class="getWorkItemStatusClass(workItem.status)"  title="{{workItem.status}}">{{getWorkItemStatusDisplay(workItem.status)}}</button>
+              </div>
+              <div class="col edit_btn">
+                <div class="icon_fltr"> <a class="edit_icon" ng-show="!isClient" title="Edit Work Item" ng-click="openWorkItemDetail(workItem,false)"></a> <a class="delete_icon" ng-show="!isClient" title="Delete Work Item" ng-click="deleteWorkItem(workItem)"> </a> </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>   </div>
+      </form>
+      <message-panel property-id="{{propertyId}}"></message-panel>
+      
+      <!-- The actual modal template, just a bit o bootstrap --> 
+      <script type="text/ng-template" id="deleteWorkItemmodal.html">
+          <div class="modal fade">
+              <div class="modal-dialog">
+                  <div class="modal-content">
+                      <div class="modal-header">
+                          <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                          <h4 class="modal-title danger">Delete Work Item</h4>
+                      </div>
+                      <div class="modal-body">
+                          <p>Delete action can not be undone. Proceed?</p>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>
+                          <button type="button" ng-click="close(true)" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </script>
