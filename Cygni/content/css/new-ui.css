@@ -54,6 +54,10 @@ h1.logo_main {
 	height:auto;
 	border-radius:100%;
 }
+.no-padding-x {
+	padding-left: 0px !important;
+	padding-right: 0px !important;
+}
 .profile_name {
 	float:left;
 	font-size: 16px;
@@ -364,8 +368,7 @@ top: 2px;
 	margin-bottom: 15px;
 	width: 100%;
 	float: left;
-	margin: 0px 0 20px 0;
-	padding: 0px;
+	margin: 0px 0 20px 0;/*padding: 0px;*/
 }
 .list_heading {
 	font-weight: 700;
@@ -381,7 +384,7 @@ top: 2px;
 	padding:20px 0 10px 0;
 }
 .list_view .list_in:hover {
-	background-color:rgb(211, 211, 211);
+	background-color:#ffe6e6;
 }
 .name_hd {
 	padding-left:30px;
@@ -661,6 +664,7 @@ a.proprt_a .arow {
 
 .status_btn {
 	max-width: 14%;
+	min-width: 14%;
 }
 .edit_btn {
 	max-width: 8%;
@@ -756,6 +760,7 @@ body {
 .heading_login {
 	width:100%;
 	float:left;
+	    text-align: center;
 }
 .heading_login h3 {
 	font-size: 18px;
@@ -766,7 +771,9 @@ body {
 	margin: 10px 0 10px 0;
 }
 .heading_login h1.logo_main {
-	width:274px;
+    width: 274px;
+    margin: 0px auto 10px auto;
+    float: none;
 }
 .heading_login h1.logo_main img {
 	width:100%;
@@ -783,7 +790,7 @@ body {
 .fm_outer {
 	width:100%;
 	float:left;
-	margin-top: 20px;
+	margin-top:50px;
 	margin-bottom: 50px;
 }
 .form_main .form-control {
@@ -882,8 +889,31 @@ a.sign_up:hover {
 .alert-danger {
 	margin:10px 0 10px 0;
 }
-
 /*180508 css end from here*/
+
+
+.clickable {
+	cursor: pointer
+}
+.short_descip {
+	max-width:40%;
+}
+.work_items .col-work.ps_hd {
+	max-width:30%;
+}
+.table_overflow {
+	width:100%;
+	float:left;
+}
+.edit_section {
+	max-width:600px;
+}
+.save_btn {
+	max-width:150px;
+}
+.list_view.properties .icon_fltr {
+	left: -20px;
+}
 
 
 
@@ -939,7 +969,7 @@ padding: 14px 0 4px 0;
 }
  @media only screen and (max-width: 900px) {
 #main_body {
- padding: 20px 0 40px 0;
+ padding: 20px 0 20px 0;
 }
 .footer_ul {
  float: left;
@@ -1045,6 +1075,24 @@ padding:20px;
  max-width:100%;
  padding-left: 0px;
 }
+.short_descip {
+ max-width: 36%;
+}
+.list_view.properties {
+width:100%;
+overflow:auto;
+min-width:100px;
+}
+.list_view.properties .list_in {
+width:100%;
+}
+.status_btn .btn {
+font-size:14px;
+ padding:4px 8px;
+}
+.list_in {
+padding-bottom:10px;
+}
 }
  @media only screen and (max-width: 700px) {
  .hedr_tp .col-md-8 {
@@ -1080,6 +1128,7 @@ text-align:center;
 .footer_ul li {
 display:inline-block;
 float:none;
+ margin: 0px 10px;
 }
 .fltr_txt {
  font-size: 14px;
@@ -1177,15 +1226,70 @@ margin: -18px 0 0 -20px;
 .login_action .login_row {
  width: 90%;
 }
+.fm_outer .col-md-6, .fm_outer .login_with {
+padding:0px;
+}
+.col-lg-12 {
+padding-left:0px;
+padding-right:0px;
+}
+.page-header {
+text-align:center;
+}
+.col-work .page-header{ text-align:left; }
+
+
+
+ .no-padding-x {
+margin: 0px;
+}
+.list_view.no-padding-x {
+margin-bottom: 15px;
+}
+ .container {
+ max-width:640px;
+}
+.work_items .col-work.ps_hd {
+ max-width: 100%;
+}
+ .work_items .col-work.ps_hd .page-header {
+text-align: left;
+}
+.copy_rt {
+ text-align: left;
+}
+.no-padding-x .col-12 {
+padding-left:0px;
+padding-right:0px;
+}
+.row {
+margin-left:0px;
+margin-right:0px;
+}
+.list_view.properties .icon_fltr {
+ left: 0px;
+}
+ .col-lg-6, .col {
+padding-left:0px;
+padding-right:0px;
+}
+.searchbar.wi_searchbar {
+ width:97.4%;
+ margin-bottom: 0px;
+ margin-right: 10px;
+}
 }
 @media only screen and (max-width: 590px) {
  .common_list {
 width:100%;
 }
+.copy_rt {
+ text-align:center;
+}
 }
  @media only screen and (max-width: 500px) {
  #main_body {
- padding: 20px 0 20px 0;
+ padding:0px 0 20px 0;
 }
 .profile_name, .txt_noti {
  font-size: 12px;
@@ -1289,7 +1393,5 @@ float:right;
 font-size:16px;
 }
 }
-.clickable {
-	cursor: pointer
-}
+
 /*responsive css end from here*/
