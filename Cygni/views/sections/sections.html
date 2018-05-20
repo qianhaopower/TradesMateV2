@@ -1,79 +1,63 @@
 
 <form class="form-horizontal">
-    <br />
-    <div class="row">
-        <div class="col-lg-6 col-sm-6">
-            <a class="btn btn-default" ng-click="goBack()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
-            </a>
-        </div>
-        <div class="col-lg-6 col-sm-6 " >
-            <span class="btn btn-default pull-right" title="View message" ng-click="toggle()"  ng-show="!isClient">
-                <i class="fa fa-envelope" aria-hidden="true"></i> 
-            </span>
-        </div>
-
-     
+  <div class="row">
+    <div class="col-lg-6 col-sm-6"> <a class="btn btn-default back_btn" ng-click="goBack()"> &nbsp;Back </a> </div>
+    <div class="col">
+      <div class="searchbar wi_searchbar">
+        <input type="text" placeholder="Search sections..." ng-model="filterTextModel.searchText">
+      </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12" >
-            <h2 class="page-header">Property Sections</h2>
-        </div>
+    <div class="col-lg-1 mesg_icon"> <span class="btn btn-default pull-right" title="View message" ng-click="toggle()"  ng-show="!isClient"> <i class="i_mesg" aria-hidden="true"></i> </span> </div>
+  </div>
+  <div class="row work_items">
+    <div class="col-lg-3 col-work ps_hd">
+      <h2 class="page-header">Property Sections</h2>
     </div>
-    <div class="row">
-        <div class="col-lg-12 col-sm-12 ">
-            <div class="well">
-                Property : {{propertyName}} - {{propertyAddress}}
-            </div>
-        </div>
+    <div class="col-lg-4">
+      <div class="well"> <b>Property </b>: {{propertyName}} - {{propertyAddress}} </div>
     </div>
-    <div class="row">
-        <div class="col-xs-6 col-md-9">
-            <button type="button" title="Add new section" ng-show="!isClient"  id="loading-example-btn" class="btn btn-default btn-sm" ng-click="addNewSection()">
-                <i class="fa fa-plus "></i> Add Section
-            </button>
-        </div>
-        <div class="col-xs-6  col-md-3 pull-right">
-            <input type="text" placeholder="Search sections..." class="input-sm form-control" ng-model="filterTextModel.searchText">
-        </div>
+    <div class="col">
+      <div class="buttn_addwork">
+        <button type="button" title="Add new section" 
+                ng-show="!isClient"  id="loading-example-btn"
+                 class="btn btn-default btn-sm" ng-click="addNewSection()"> <i class="fa fa-plus "></i> Add Section </button>
+      </div>
     </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-
-            <tr ng-repeat="section in sectionlist | filter:search">
-                <td class="col-md-3 col-xs-2" ng-click="openSectionDetail(section,true)">
-                    <a>{{section.name}} </a>
-                </td>
-                <td class="col-md-6 col-xs-4">
-                    {{section.description}}
-                </td>
-                <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-default btn-sm pull-right" title="Manage Work Items" ng-click="viewWorkItems(section)">Work Items</a>
-                </td>
-                <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-primary btn-sm pull-right" title="Edit Section" ng-show="!isClient"  ng-click="openSectionDetail(section,false)">Edit</a>
-                </td>
-                <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-danger btn-sm" title="Delete Section" ng-show="!isClient"  ng-click="deleteSection(section)">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
+  </div>
+  <div class="table_overflow">
+    <div class="table_1000">
+      <div class="col-12 list_heading no-padding-x">
+        <div class="list_in">
+          <div class="row">
+            <div class="col-4 name_col namelist"> Name </div>
+            <div class="col-5"> Description </div>
+            <div class="col-1"> </div>
+            <div class="col"> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 list_view no-padding-x" ng-repeat="section in sectionlist | filter:search">
+      <div class="list_in">
+        <div class="row">
+          <div class="col-4 namelist" ng-click="openSectionDetail(section,true)">
+            <h2 class="name_hd"> <a>{{section.name}} </a> </h2>
+          </div>
+          <div class="col-5 short_descip"> {{section.description}} </div>
+          <div class="col-2 text-center"> <a class="btn btn-default btn-sm pull-right" title="Manage Work Items" ng-click="viewWorkItems(section)">Work Items</a> </div>
+          <div class="col-1 edit_btn">
+            <div class="icon_fltr"> 
+            <a class="edit_icon" title="Edit Section" ng-show="!isClient"  ng-click="openSectionDetail(section,false)"></a> 
+            <a class="delete_icon" title="Delete Section" ng-show="!isClient"  ng-click="deleteSection(section)"> </a> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>
-
-
 <message-panel property-id="{{propertyId}}"></message-panel>
 
-<!-- The actual modal template, just a bit o bootstrap -->
+<!-- The actual modal template, just a bit o bootstrap --> 
 <script type="text/ng-template" id="deleteSectionmodal.html">
     <div class="modal fade">
         <div class="modal-dialog">
