@@ -26,46 +26,51 @@
   </div>
   <div class="row"  ng-repeat="property in propertyList | filter:search"> 
     <!--  common dynamic list end from here -->
-    <div class="col-lg-12 list_view properties">
-      <div class="list_in">
-        <div class="rt_icon rt_abbslt">
-          <div class="icon_fltr"> <a class="edit_icon" title="Edit Property" ng-show="!isClient"  ng-click="openPropertyDetail(property,false)"></a> <a class="delete_icon" title="Delete Property" ng-show="!isClient"  ng-click="deleteProperty(property)"> </a> </div>
-        </div>
-        <div class="lv_common">
-          <div class="lv1" ng-click="openPropertyDetail(property, true)">
-            <h2 class="hd_lv"> {{property.name}} </h2>
-          </div>
-        </div>
-        <div class="lv_common">
-          <div class="lv2 pl-3">
-            <div class="notification" ng-show="!isClient && !isContractor"  title="View Reports" 
+    
+    <div class="table_overflow">
+      <div class="table_1000">
+        <div class="col-lg-12 list_view properties">
+          <div class="list_in">
+            <div class="rt_icon rt_abbslt">
+              <div class="icon_fltr"> <a class="edit_icon" title="Edit Property" ng-show="!isClient"  ng-click="openPropertyDetail(property,false)"></a> <a class="delete_icon" title="Delete Property" ng-show="!isClient"  ng-click="deleteProperty(property)"> </a> </div>
+            </div>
+            <div class="lv_common">
+              <div class="lv1" ng-click="openPropertyDetail(property, true)">
+                <h2 class="hd_lv"> {{property.name}} </h2>
+              </div>
+            </div>
+            <div class="lv_common">
+              <div class="lv2 pl-3">
+                <div class="notification" ng-show="!isClient && !isContractor"  title="View Reports" 
                         ng-click="viewPropertyReports(property)">
-              <div class="notif_ic"> <span class="msg_icon"> <img src="content/images/pdf.svg"> </span> </div>
-              <a class="txt_noti"> Reports</a> </div>
-            <div class="notification pl-3" title="Manage Sections"  ng-click="viewPropertySections(property)">
-              <div class="notif_ic"> <span class="msg_icon"> <img src="content/images/sections.svg"> </span> </div>
-              <a class="txt_noti"> Sections </a> </div>
-            <div class="notification pl-3" title="Manage Attachments" ng-show="!isClient" ng-click="viewPropertyAttachments(property)">
-              <div class="notif_ic"> <span class="msg_icon"> <i class="fa fa-paperclip"></i> </span> </div>
-              <a class="txt_noti"> Attachments </a> </div>
-          </div>
-        </div>
-        <div class="lv_common">
-          <div class="lv1"> <span class="lt_DS"> Condition: </span> </div>
-          <div class="lv2">
-            <p class="rt_PH"> {{property.condition}} </p>
-          </div>
-        </div>
-        <div class="lv_common">
-          <div class="lv1"> <span class="lt_DS"> Description: </span> </div>
-          <div class="lv2">
-            <p class="rt_PH"> {{property.description}} </p>
-          </div>
-        </div>
-        <div class="lv_common">
-          <div class="lv1"> <span class="lt_DS"> Address: </span> </div>
-          <div class="lv2">
-            <p class="rt_PH"> {{property.addressDisplay}} <a class="g_map"> <img src="content/images/google map.svg"> </a> </p>
+                  <div class="notif_ic"> <span class="msg_icon"> <img src="content/images/pdf.svg"> </span> </div>
+                  <a class="txt_noti"> Reports</a> </div>
+                <div class="notification pl-3" title="Manage Sections"  ng-click="viewPropertySections(property)">
+                  <div class="notif_ic"> <span class="msg_icon"> <img src="content/images/sections.svg"> </span> </div>
+                  <a class="txt_noti"> Sections </a> </div>
+                <div class="notification pl-3" title="Manage Attachments" ng-show="!isClient" ng-click="viewPropertyAttachments(property)">
+                  <div class="notif_ic"> <span class="msg_icon"> <i class="fa fa-paperclip"></i> </span> </div>
+                  <a class="txt_noti"> Attachments </a> </div>
+              </div>
+            </div>
+            <div class="lv_common">
+              <div class="lv1"> <span class="lt_DS"> Condition: </span> </div>
+              <div class="lv2">
+                <p class="rt_PH"> {{property.condition}} </p>
+              </div>
+            </div>
+            <div class="lv_common">
+              <div class="lv1"> <span class="lt_DS"> Description: </span> </div>
+              <div class="lv2">
+                <p class="rt_PH"> {{property.description}} </p>
+              </div>
+            </div>
+            <div class="lv_common">
+              <div class="lv1"> <span class="lt_DS"> Address: </span> </div>
+              <div class="lv2">
+                <p class="rt_PH"> {{property.addressDisplay}} <a class="g_map"> <img src="content/images/google map.svg"> </a> </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>

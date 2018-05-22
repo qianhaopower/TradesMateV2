@@ -1,14 +1,14 @@
 ﻿<form name="clientForm" class="form-horizontal">
 
-    <br />
+   
     <div class="form-group">
-        <div class="col-lg-12 col-sm-12">
-            <a class="btn btn-default" ng-click="goBack()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
+        <div class="col-lg-12 col-sm-12 no-padding-x">
+            <a class="btn btn-default back_btn" ng-click="goBack()">
+                &nbsp;Back
             </a>
         </div>
     </div>
-    <br/>
+  
     <fieldset ng-disabled="readOnly">
         <legend>{{clientId ? 'Client Details' : 'Add Client'}}</legend>
         <div class="form-group required">

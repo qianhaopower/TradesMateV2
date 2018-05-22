@@ -36,15 +36,15 @@
         <tbody>
             <tr ng-repeat="property in allocations | filter:search">
                
-                <td class="" >
+                <td class="col-md-3 col-xs-2" >
                   {{property.propertyName}}
                   
                 </td>
-                <td class=" ">
+                <td class="col-md-6 col-xs-4">
                    {{property.description}}
 
                 </td>
-                <td class=" ">
+                <td class="col-md-1 col-xs-2">
                    <input type="checkbox" ng-model="property.allocated" ng-change="updateAllocation(property)"/>
                 </td>
                 
