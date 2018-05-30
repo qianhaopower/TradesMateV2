@@ -1,7 +1,7 @@
 ﻿
 <div class="form-horizontal">
   
-    <br />
+   
     <div class="row">
         <div class="col-lg-6 col-sm-6">
             <a class="btn btn-default back_btn" ng-click="goToWorkItemIndex()">
@@ -158,8 +158,8 @@
             </form>
             <div class="" ng-hide="readOnly">
 
-                <button class="btn btn-primary pull-right" type="button" ng-click="save()" ng-disabled="workItemForm.$invalid || (workItem && !workItem.workItemTemplateId)">Save</button>
-                <button class="btn btn-danger pull-left" type="button" ng-click="goToWorkItemIndex()">Cancel</button>
+                <button class="btn btn_blue" type="button" ng-click="save()" ng-disabled="workItemForm.$invalid || (workItem && !workItem.workItemTemplateId)">Save</button>
+                <button class="btn cancel_btn" type="button" ng-click="goToWorkItemIndex()">Cancel</button>
             </div>
 
         </div>

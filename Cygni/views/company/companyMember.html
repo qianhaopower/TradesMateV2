@@ -1,221 +1,149 @@
 ﻿<div class="form-horizontal">
-    <div class="row">
-        <div class="col-lg-12 col-sm-12">
-            <a class="btn btn-default" ng-click="goBack()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
-            </a>
-        </div>
+  <div class="row">
+    <div class="col-lg-6 col-sm-6"> <a class="btn btn-default back_btn" ng-click="goBack()"> &nbsp;Back </a> </div>
+    <div class="col">
+      <div class="searchbar wi_searchbar">
+        <input type="text" placeholder="Search members..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+      </div>
     </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <h2 class="page-header">Members in {{companyInfo.companyName}}</h2>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header">Members in {{companyInfo.companyName}}</h2>
     </div>
-
-    <div id="addingNewmember">
-        <div class="row " ng-show="!sendingRequestStatus">
-
-            <div class="col-xs-9 col-md-9">
-
-                <div class="inner-addon left-addon">
-                    <i ng-show="loading" class="glyphicon glyphicon-refresh"></i>
-                    <i ng-show="!loading" class="glyphicon glyphicon-user"></i>
-                    <input type="text" ng-model="selected" placeholder="Type in name or email to search"
+  </div>
+  <div id="addingNewmember">
+    <div class="row " ng-show="!sendingRequestStatus">
+      <div class="col-6 search_inpt">
+        <div class="inner-addon left-addon"> <i ng-show="loading" class="glyphicon glyphicon-refresh"></i> <i ng-show="!loading" class="glyphicon glyphicon-user"></i>
+          <input type="text" ng-model="selected" placeholder="Type in name or email to search"
                            uib-typeahead="item as item.label for item in searchMember($viewValue) "
                            typeahead-loading="loading"
                            typeahead-no-results="noResults"
                            typeahead-wait-ms="200"
                            class="form-control">
-                </div>
-                <span class="hint">Search for member name or email, or type in full email address to invite new member.</span>
-                <!--<div ng-show="noResults">
+        </div>
+        
+        
+        <span class="hint">Search for member name or email, or type in full email address to invite new member.</span> 
+        <!--<div ng-show="noResults">
                     <i class="glyphicon glyphicon-remove" ></i> No Results Found
-                </div>-->
-
-
-            </div>
-            <div class="col-xs-3 col-md-3" ng-disabled="!inputValid">
-                <div ng-click="proceedAddMember()" ng-disabled="!inputValid">
-                    <!--<i class="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>-->
-                    <i class="fa fa-arrow-circle-o-right fa-2x" ng-class="{'disable-icon':!inputValid}" aria-hidden="true"></i>
-                </div>
-
-            </div>
-
+                </div>--> 
+        
+      </div>
+      <div class="col-2 serch_mebr" ng-disabled="!inputValid">
+        <div ng-click="proceedAddMember()" ng-disabled="!inputValid"> 
+          <!--<i class="fa fa-arrow-circle-o-right fa-2x" aria-hidden="true"></i>--> 
+          <i class="search_btn" ng-class="{'disable-icon':!inputValid}" aria-hidden="true"></i> </div>
+      </div>
+    </div>
+    <div class="row add-new " ng-show="sendingRequestStatus =='existedMember'">
+      <div class="col-xs-12">
+        <div class="form-group">
+          <div class="col-xs-12"> <span class="control-label">Invite {{selected.fullName}} to join company </span> </div>
         </div>
-
-        <div class="row add-new " ng-show="sendingRequestStatus =='existedMember'">
-            <div class="col-xs-12">
-
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <span class="control-label">Invite {{selected.fullName}} to join company </span>
-                    </div>
-
-                </div>
-
-                <div class="form-group">
-                    <div class="col-xs-12">
-                        <input type="text" placeholder="Message to be sent. e.g. Hello..." ng-model="inviteText"
+        <div class="form-group">
+          <div class="col-xs-12">
+            <input type="text" placeholder="Message to be sent. e.g. Hello..." ng-model="inviteText"
                                class="form-control">
-                    </div>
-
-                </div>
-
-
-                <div class="btn btn-default accept pull-right" ng-click="sendExistedMember()" ng-show="true">
-                    <i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp;Send
-                </div>
-                <div class="btn btn-default reject pull-right" ng-click="cancel()" ng-show="true">
-                    <i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Cancel
-                </div>
-
-            </div>
-
+          </div>
         </div>
-
-
-        <div class="row add-new-member " ng-show="sendingRequestStatus =='newMember'">
-            <div class="col-xs-12">
-                <form name="memberForm" class="form-horizontal">
-                    <fieldset >
-                        <legend>Invite {{selected}} to join company</legend>
-
-                        <div class="form-group required">
-                            <label class="col-sm-3 control-label">Username</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="memberName" class="form-control" placeholder="username" ng-model="newMember.userName" required>
-                                <div ng-messages="memberForm.userName.$error">
-                                    <div class="text-danger" ng-message="required">Username is required</div>
-                                </div>
-                            </div>
-
-                        </div>
-
-                        <div class="form-group required">
-                            <label class="col-sm-3 control-label">First Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="memberFirstName" class="form-control" placeholder="first name" ng-model="newMember.firstName" required>
-                                <div ng-messages="memberForm.memberFirstName.$error">
-                                    <div class="text-danger" ng-message="required">First Name is required</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group required">
-                            <label class="col-sm-3 control-label">Last Name</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="memberLastName" class="form-control" placeholder="last name" ng-model="newMember.lastName" required>
-                                <div ng-messages="memberForm.memberLastName.$error">
-                                    <div class="text-danger" ng-message="required">Last Name is required</div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Email</label>
-                            <div class="col-sm-9">
-                                <input type="email" name="memberEmail" placeholder="email" class="form-control" ng-model="newMember.email">
-                                <div ng-messages="memberForm.memberEmail.$error">
-                                    <div class="text-danger" ng-message="email">Your email address is invalid</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label">Message</label>
-                            <div class="col-sm-9">
-                                <input type="text" name="memberText" placeholder="e.g. Hello..." class="form-control" ng-model="newMember.inviteText">
-                                
-                            </div>
-                        </div>
-                       
-                    </fieldset>
-                </form>
-
-
-
-                <div class="btn btn-default accept pull-right" ng-click="sendNewMember()"   ng-disabled="memberForm.$invalid" ng-show="true">
-                    <i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp;Send
-                </div>
-                <div class="btn btn-default reject pull-right" ng-click="cancel()" ng-show="true">
-                    <i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Cancel
-                </div>
-
-            </div>
-
-        </div>
-
+        <div class="btn btn-default accept pull-right" ng-click="sendExistedMember()" ng-show="true"> <i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp;Send </div>
+        <div class="btn btn-default reject pull-right" ng-click="cancel()" ng-show="true"> <i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Cancel </div>
+      </div>
     </div>
-
-    <hr />
-    <div class="row ">
-        <!--<div class="col-xs-6 col-md-9">
-
-            <button type="button" title="Add new member" class="btn btn-default btn-sm" ng-click="addNewMember()">
-                <i class="fa fa-plus"></i> Add Member
-            </button>
-        </div>-->
-
-
-
-        <div class="col-xs-6  col-md-3 pull-right">
-
-            <input type="text" placeholder="Search members..." class="input-sm form-control" ng-model="filterTextModel.searchText">
-
-
-        </div>
+    <div class="row add-new-member " ng-show="sendingRequestStatus =='newMember'">
+      <div class="col-md-12">
+        <form name="memberForm" class="form-horizontal">
+          <fieldset >
+            <legend>Invite {{selected}} to join company</legend>
+            <div class="form-group required">
+              <label class="col-sm-3 control-label">Username</label>
+              <div class="col-sm-9">
+                <input type="text" name="memberName" class="form-control" placeholder="username" ng-model="newMember.userName" required>
+                <div ng-messages="memberForm.userName.$error">
+                  <div class="text-danger" ng-message="required">Username is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group required">
+              <label class="col-sm-3 control-label">First Name</label>
+              <div class="col-sm-9">
+                <input type="text" name="memberFirstName" class="form-control" placeholder="first name" ng-model="newMember.firstName" required>
+                <div ng-messages="memberForm.memberFirstName.$error">
+                  <div class="text-danger" ng-message="required">First Name is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group required">
+              <label class="col-sm-3 control-label">Last Name</label>
+              <div class="col-sm-9">
+                <input type="text" name="memberLastName" class="form-control" placeholder="last name" ng-model="newMember.lastName" required>
+                <div ng-messages="memberForm.memberLastName.$error">
+                  <div class="text-danger" ng-message="required">Last Name is required</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Email</label>
+              <div class="col-sm-9">
+                <input type="email" name="memberEmail" placeholder="email" class="form-control" ng-model="newMember.email">
+                <div ng-messages="memberForm.memberEmail.$error">
+                  <div class="text-danger" ng-message="email">Your email address is invalid</div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-sm-3 control-label">Message</label>
+              <div class="col-sm-9">
+                <input type="text" name="memberText" placeholder="e.g. Hello..." class="form-control" ng-model="newMember.inviteText">
+              </div>
+            </div>
+          </fieldset>
+        </form>
+        <div class="btn btn-default accept pull-left btn_blue" ng-click="sendNewMember()"   ng-disabled="memberForm.$invalid" ng-show="true"> <i class="fa fa-check-circle" aria-hidden="true"></i> &nbsp;Send </div>
+        <div class="btn btn-default reject pull-left cancel_btn" ng-click="cancel()" ng-show="true"> <i class="fa fa-ban" aria-hidden="true"></i> &nbsp;Cancel </div>
+      </div>
     </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Role</th>
-                <th></th>
-                <th></th>
-
-            </tr>
-        </thead>
-        <tbody>
-
-            <tr ng-repeat="member in memberList | filter:search">
-
-                <td class="col-md-3 col-xs-2" ng-click="openMemberDetail(member)">
-                    <a>{{member.firstName}} {{member.lastName}}</a>
-                </td>
-                <td class="col-md-6 col-xs-2">
-                    <div ng-show="member.memberRole == 'Admin'">{{member.memberRole}}</div>
-
-                    <div ng-show="member.memberRole != 'Admin'">
-                        <select ng-options="role for role in roleOptions"
-                                ng-model="member.memberRole" ng-change="fireUpdateRole(member)"></select>
-                    </div>
-                </td>
-
-                <!--<td class="col-md-1 col-xs-2">
-                    <a class="btn btn-primary btn-sm" title="Edit member" ng-click="editMemberDetail(member)">Edit</a>
-                </td>-->
-
-                <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-primary btn-sm" title="Allocate property to contractor" ng-show="member.memberRole == 'Contractor'" ng-click="allocate(member)">Property</a>
-                </td>
-                <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-primary btn-sm" title="Manage service type"  ng-click="manageMemberServiceType(member)">Service</a>
-                </td>
-                <td class="col-md-1 col-xs-2">
-                    <a class="btn btn-danger btn-sm" title="Delete member" ng-show="member.memberRole != 'Admin'" ng-click="deleteMember(member)">Delete</a>
-                </td>
-
-            </tr>
-        </tbody>
-    </table>
-
+  </div>
+  <hr />
+  <div class="table_overflow company_member">
+    <div class="table_1000">
+      <div class="col-12 list_heading no-padding-x">
+        <div class="list_in">
+          <div class="row">
+            <div class="col-4 name_col namelist"> Name </div>
+            <div class="col-3"> Role </div>
+            <div class="col"> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 list_view no-padding-x" ng-repeat="member in memberList | filter:search">
+      <div class="list_in">
+        <div class="row">
+          <div class="col-4 namelist" >
+            <h2 class="name_hd" ng-click="openMemberDetail(member)"> <a>{{member.firstName}} {{member.lastName}}</a> </h2>
+          </div>
+          <div class="col-3">
+            <div ng-show="member.memberRole == 'Admin'">{{member.memberRole}}</div>
+            <div ng-show="member.memberRole != 'Admin'">
+              <select ng-options="role for role in roleOptions"
+                                ng-model="member.memberRole" ng-change="fireUpdateRole(member)">
+              </select>
+            </div>
+          </div>
+          <div class="col"> <a class="btn_common" title="Allocate property to contractor" ng-show="member.memberRole == 'Contractor'" ng-click="allocate(member)">Property</a> <a class="btn_common" title="Manage service type"  ng-click="manageMemberServiceType(member)">Service</a> <a class="delete_icon" title="Delete member" ng-show="member.memberRole != 'Admin'" ng-click="deleteMember(member)"></a> </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-
-<!-- The actual modal template, just a bit o bootstrap -->
+<!-- The actual modal template, just a bit o bootstrap --> 
 <script type="text/ng-template" id="deleteMembermodal.html">
     <div class="modal fade">
-        <div class="modal-dialog">
+        <div class="modal-dialog trade_modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -225,8 +153,9 @@
                     <p>This will also remove the member from current company. Proceed?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>
-                    <button type="button" ng-click="close(true)" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                   
+                    <button type="button" ng-click="close(true)" class="btn btn-primary btn_blue " data-dismiss="modal">Yes</button>
+					 <button type="button" ng-click="close(false)" class="btn btn-default cancel_btn" data-dismiss="modal">No</button>
                 </div>
             </div>
         </div>

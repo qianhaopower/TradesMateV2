@@ -1,12 +1,18 @@
 
 <form class="form-horizontal">
-    <br />
     <div class="row">
         <div class="col-lg-6 col-sm-6">
-            <a class="btn btn-default" ng-click="goBack()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
+            <a class="btn btn-default back_btn" ng-click="goBack()"> &nbsp;Back
             </a>
         </div>
+        
+        <div class="col">
+          <div class="searchbar wi_searchbar">
+              <input type="text" placeholder="Search..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+              </div></div>
+        
+        
+        
     </div>
     <div class="row">
         <div class="col-lg-12" >
@@ -19,48 +25,60 @@
                 <i class="fa fa-plus "></i> Add work item template
             </button>
         </div>
-        <div class="col-xs-6  col-md-3 pull-right">
-            <input type="text" placeholder="Search..." class="input-sm form-control" ng-model="filterTextModel.searchText">
-        </div>
+        
     </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Type</th>
-                <th>Created at</th>
-            </tr>
-        </thead>
+    
+    
+    
+    <div class="table_overflow">
+  <div class="table_1000">
+    <div class="col-12 list_heading no-padding-x">
+      <div class="list_in">
+        <div class="row">
+          <div class="col-5 name_col namelist"> Name </div>
+          <div class="col-2"> Type </div>
+         <div class="col-3">Created at </div>
+          <div class="col"> </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 list_view no-padding-x" ng-repeat="template in templateList | filter:search">
+    <div class="list_in">
+      <div class="row">
+        <div class="col-5 namelist">
+          <h2 class="name_hd"> <a ng-click="openTemplateDetail(template,true)"> {{template.name}} </a></h2>
+        </div>
+        <div class="col-2">       {{template.tradeWorkTypeDisplay}} </div>
+        <div class="col-3">  {{template.modifiedDateTime | date:'yyyy-MM-dd HH:mm:ss'}} </div>
+      
+    
+        <div class="col edit_btn">
+          <div class="icon_fltr">
+        <a class="edit_icon" title="Edit work item template " ng-click="openTemplateDetail(template,false)"></a>
+        
+        <a class="delete_icon" title="Delete work item template" ng-click="deleteTemplate(template)"></a>
+        </div>
+        
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-
-        <tbody>
-
-            <tr ng-repeat="template in templateList | filter:search">
-                <td class="col-md-2 col-xs-2" ng-click="openTemplateDetail(template,true)">
-                    <a>{{template.name}} </a>
-                </td>               
-                <td class="col-md-1 col-xs-1">
-                    {{template.tradeWorkTypeDisplay}}
-                </td>
-                <td class="col-md-1 col-xs-1">
-                    {{template.modifiedDateTime | date:'yyyy-MM-dd HH:mm:ss'}}
-                </td>
-                <td class="col-md-1 col-xs-1">
-                    <a class="btn btn-primary btn-sm pull-right" title="Edit work item template " ng-click="openTemplateDetail(template,false)">Edit</a>
-                </td>
-                <td class="col-md-1 col-xs-1">
-                    <a class="btn btn-danger btn-sm" title="Delete work item template" ng-click="deleteTemplate(template)">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+    
+    
+    
+    
+    
+    
 
 </form>
 
 <!-- The actual modal template, just a bit o bootstrap -->
 <script type="text/ng-template" id="deleteTemplateModal.html">
     <div class="modal fade">
-        <div class="modal-dialog">
+        <div class="modal-dialog trade_modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -70,8 +88,9 @@
                     <p>You will not be able to create work item against this tempalte after delete. Proceed?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>
-                    <button type="button" ng-click="close(true)" class="btn btn-primary" data-dismiss="modal">Yes</button>
+				<button type="button" ng-click="close(true)" class="btn btn-primary btn_blue" data-dismiss="modal">Yes</button>
+                    <button type="button" ng-click="close(false)" class="btn btn-default cancel_btn" data-dismiss="modal">No</button>
+                    
                 </div>
             </div>
         </div>

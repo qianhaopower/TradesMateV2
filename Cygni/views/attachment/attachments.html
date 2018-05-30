@@ -1,93 +1,74 @@
 
 <form class="form-horizontal">
-    <div class="row">
-        <div class="col-lg-12 col-sm-12">
-            <a class="btn btn-default" ng-click="goBack()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
-            </a>
-        </div>
+  <div class="row">
+    <div class="col-lg-6 col-sm-6"> <a class="btn btn-default back_btn" ng-click="goBack()"> &nbsp;Back </a> </div>
+    <div class="col">
+      <div class="searchbar wi_searchbar">
+        <input type="text" placeholder="Search attachments..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+      </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12" >
-            <h2 class="page-header"> Attachments</h2>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12" >
+      <h2 class="page-header"> Attachments</h2>
     </div>
-    <div class="row" ng-show="propertyId">
-        <div class="col-lg-12 col-sm-12 ">
-            <div class="well">
-                Property: {{property.name}} 
-            </div>
-        </div>
+  </div>
+  <div class="row" ng-show="propertyId">
+    <div class="col-lg-12 col-sm-12 ">
+      <div class="well"> Property: {{property.name}} </div>
     </div>
-    <div class="row" ng-show="workItemId">
-        <div class="col-lg-12 col-sm-12 ">
-            <div class="well">
-                WorkItem: {{workItem.name}}
-            </div>
-        </div>
+  </div>
+  <div class="row" ng-show="workItemId">
+    <div class="col-lg-12 col-sm-12 ">
+      <div class="well"> WorkItem: {{workItem.name}} </div>
     </div>
-    <div class="row">
-        <div class="col-xs-6 col-md-9">
-            <!--<button type="button" title="Add new attachment" ng-show="propertyId || workItemId"
+  </div>
+  <div class="row">
+    <div class="col-xs-6 col-md-9"> 
+      <!--<button type="button" title="Add new attachment" ng-show="propertyId || workItemId"
                     class="btn btn-default btn-sm" ng-click="addNewAttachment()">
                 <i class="fa fa-plus "></i> Add Attachment
             </button>-->
-            <label class="btn btn-default btn-file">
-                Add Attachment <input type="file" name="file"
+      <label class="btn btn-default btn-file no-padding-x"> <i class="fa fa-plus-circle fa-2x"></i> <span class="add_nwp"> Add Attachment </span>
+        <input type="file" name="file"
        onchange="angular.element(this).scope().uploadedFile(this)" hidden />
-            </label>
-            
-        </div>
-        <div class="col-xs-6  col-md-3 pull-right">
-            <input type="text" placeholder="Search attachments..." class="input-sm form-control" ng-model="filterTextModel.searchText">
-        </div>
+      </label>
     </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Created At</th>
-                <th>Type</th>
-                <th>Size (KB)</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="attachment in attachmentList | filter:search">
-              
-                <td class="col-md-3 col-xs-3">
-                    <a>{{attachment.nameDisplay}}</a>
-                </td>
-                <td class="col-md-3 col-xs-3">
-                    {{attachment.createdDateTime | date:'yyyy-MM-dd HH:mm:ss'}}
-                </td>
-                <td class="col-md-2 col-xs-2">
-                    {{attachment.typeDisplay}}
-                </td>
-                <td class="col-md-2 col-xs-2">
-                    {{trunc(attachment.sizeInBytes /1024)}}
-                </td>
-              
-                <td class="col-md-1 col-xs-1"  ng-click="openUrl(attachment)" title="Download">
-                    <i class="fa fa-download" aria-hidden="true"></i>
-                </td>
-                <td class="col-md-1 col-xs-1" ng-click="deleteFile(attachment)" title="Delete">
-                    <i class="fa fa-remove" aria-hidden="true"></i>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+  </div>
+  <div class="table_overflow">
+    <div class="table_1000">
+      <div class="col-12 list_heading no-padding-x">
+        <div class="list_in">
+          <div class="row">
+            <div class="col-4 name_col namelist"> Name </div>
+            <div class="col-3"> Created At </div>
+            <div class="col-2"> Type </div>
+            <div class="col-1"> Size (KB) </div>
+            <div class="col"> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 list_view no-padding-x" ng-repeat="attachment in attachmentList | filter:search">
+      <div class="list_in">
+        <div class="row">
+          <div class="col-4 namelist">
+            <h2 class="name_hd"> <a> {{attachment.nameDisplay}} </a></h2>
+          </div>
+          <div class="col-3"> {{attachment.createdDateTime | date:'yyyy-MM-dd HH:mm:ss'}} </div>
+          <div class="col-2"> {{attachment.typeDisplay}} </div>
+          <div class="col-1"> {{trunc(attachment.sizeInBytes /1024)}}</div>
+          <div class="col edit_btn">
+            <div class="icon_fltr"> <a href="#" ng-click="openUrl(attachment)" title="Download" class="download_btn"> <i class="fa fa-download" aria-hidden="true"></i> </a> <a class="delete_icon" ng-click="deleteFile(attachment)" title="Delete"> </a> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>
 
-<hr>
 <div>
-    <ul class="gallery gallery2">
-        <li ng-repeat="image in images">
-            <a ng-click="openLightboxModal($index)">
-                <img ng-src="{{image.thumbUrl}}" class="img-thumbnail">
-            </a>
-        </li>
-    </ul>
+  <ul class="gallery gallery2">
+    <li ng-repeat="image in images"> <a ng-click="openLightboxModal($index)"> <img ng-src="{{image.thumbUrl}}" class="img-thumbnail"> </a> </li>
+  </ul>
 </div>
-

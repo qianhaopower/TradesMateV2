@@ -1,57 +1,50 @@
 
 <form class="form-horizontal">
-    <div class="row">
-        <div class="col-lg-12 col-sm-12">
-            <a class="btn btn-default" ng-click="goBack()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
-            </a>
-        </div>
+  <div class="row">
+    <div class="col-lg-6 col-sm-6"> <a class="btn btn-default back_btn" ng-click="goBack()"> &nbsp;Back </a> </div>
+    <div class="col">
+      <div class="searchbar wi_searchbar">
+        <input type="text" placeholder="Search properties..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+      </div>
     </div>
-    <div class="row">
-        <div class="col-lg-12">
-            <h2 class="page-header"> Properties allocations for {{member.firstName}} {{member.lastName}}  </h2>
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-12">
+      <h2 class="page-header"> Properties allocations for {{member.firstName}} {{member.lastName}} </h2>
     </div>
-    <!--<div class="row" ng-show="member">
+  </div>
+  <!--<div class="row" ng-show="member">
         <div class="col-lg-12 col-sm-12 ">
             <div class="well">
                 Allocations for: {{member.firstName}} {{member.lastName}} 
             </div>
         </div>
     </div>-->
-    <div class="row">
-        <div class="col-xs-6  col-md-3 pull-right">
-            <input type="text" placeholder="Search properties..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+  
+  <div class="table_overflow company_member">
+    <div class="table_1000">
+      <div class="col-12 list_heading no-padding-x">
+        <div class="list_in">
+          <div class="row">
+            <div class="col-4 name_col namelist"> Name </div>
+            <div class="col-7"> Description </div>
+            <div class="col"> </div>
+          </div>
         </div>
+      </div>
     </div>
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Description</th>
-                <th></th>
-               
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="property in allocations | filter:search">
-               
-                <td class="col-md-3 col-xs-2" >
-                  {{property.propertyName}}
-                  
-                </td>
-                <td class="col-md-6 col-xs-4">
-                   {{property.description}}
-
-                </td>
-                <td class="col-md-1 col-xs-2">
-                   <input type="checkbox" ng-model="property.allocated" ng-change="updateAllocation(property)"/>
-                </td>
-                
-
-            </tr>
-        </tbody>
-    </table>
-
-
+    <div class="col-12 list_view no-padding-x" ng-repeat="property in allocations | filter:search">
+      <div class="list_in">
+        <div class="row">
+          <div class="col-4 namelist">
+            <h2 class="name_hd"> {{property.propertyName}} </h2>
+          </div>
+          <div class="col-7"> {{property.description}} </div>
+          <div class="col">
+            <input type="checkbox" ng-model="property.allocated" ng-change="updateAllocation(property)"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </form>

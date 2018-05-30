@@ -110,13 +110,15 @@
                 </div>
             </div>
         </div>
+        <div class="col-sm-9 no-padding-x">
         <property-default-section></property-default-section>
+        </div>
 </fieldset>
 </form>
 <div class="" ng-hide="readOnly">
 
-    <button class="btn btn-primary pull-right" type="button" ng-click="save()" ng-disabled="propertyForm.$invalid">Save</button>
-    <button class="btn btn-danger pull-left" type="button" ng-click="goToPropertyIndex()">Cancel</button>
+    <button class="btn btn_blue" type="button" ng-click="save()" ng-disabled="propertyForm.$invalid">Save</button>
+    <button class="btn cancel_btn" type="button" ng-click="goToPropertyIndex()">Cancel</button>
 </div>
 
      

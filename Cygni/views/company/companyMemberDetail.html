@@ -1,15 +1,12 @@
 ﻿<form name="memberForm" class="form-horizontal">
 
-    <br />
     <div class="form-group">
         <div class="col-lg-12 col-sm-12">
-            <a class="btn btn-default" ng-click="goBack()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
-            </a>
+        <a class="btn btn-default back_btn" ng-click="goBack()"> &nbsp;Back </a> 
+     
         </div>
     </div>
-    <br />
-    <fieldset ng-disabled="readOnly">
+       <fieldset ng-disabled="readOnly">
         <legend>{{memberId ? 'Member details' : 'Add member'}}</legend>
 
         <div class="form-group required"  >
