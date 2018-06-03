@@ -59,7 +59,8 @@
           <div class="col-2"> {{attachment.typeDisplay}} </div>
           <div class="col-1"> {{trunc(attachment.sizeInBytes /1024)}}</div>
           <div class="col edit_btn">
-            <div class="icon_fltr"> <a href="#" ng-click="openUrl(attachment)" title="Download" class="download_btn"> <i class="fa fa-download" aria-hidden="true"></i> </a> <a class="delete_icon" ng-click="deleteFile(attachment)" title="Delete"> </a> </div>
+            <div class="icon_fltr"> <a ng-click="openUrl(attachment)" title="Download" class="download_btn">
+               <i class="fa fa-download" aria-hidden="true"></i> </a> <a class="delete_icon" ng-click="deleteFile(attachment)" title="Delete"> </a> </div>
           </div>
         </div>
       </div>

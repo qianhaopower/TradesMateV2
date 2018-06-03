@@ -6,7 +6,7 @@
               <h3> Enter details below to login! </h3>
             </div>
             <div class="row fm_outer">
-              <div class="col-md-6">
+              <div class="col-md-12">
                 <div class="form_main">
                   <div class="form-group">
                     <input type="text" class="form-control" id="email" placeholder="username" data-ng-model="loginData.userName" required autofocus>
@@ -20,7 +20,7 @@
                   <div data-ng-hide="message == ''" class="alert alert-danger"> {{message}} </div>
                 </div>
               </div>
-              <div class="col login_with"> <span class="or_abslt">or</span>
+              <!-- <div class="col login_with"> <span class="or_abslt">or</span>
                 <div class="lw_align">
                   <h3>You can login with..</h3>
                   <ul class="loginwith_ul">
@@ -28,7 +28,7 @@
                     <li> <a data-ng-click="authExternalProvider('Google')"> <img src="content/images/google_icon2.png"> </a> </li>
                   </ul>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </form>
