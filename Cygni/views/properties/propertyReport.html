@@ -1,97 +1,127 @@
-
-
-
 <!-- The actual modal template, just a bit o bootstrap -->
 <script type="text/ng-template" id="propertyReportsModal.html">
     <div class="modal fade">
-        <div class="modal-dialog">
+        <div class="modal-dialog report_modal">
             <div class="modal-content">
                 <div class="modal-header">
 
                     <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title danger">Property report</h4>
-                    <button type="button" onclick="return xepOnline.Formatter.Format('toPrint',{pageWidth:'216mm', pageHeight:'279mm',render:'download'});">
+                    <div class="rm_modal">
+						<div class="col-6">
+					<h4 class="modal-title danger">Property Report</h4>
+					</div>
+					<div class="col-6 downld_btn">
+                    <button type="button" class="btn btn_blue" onclick="return xepOnline.Formatter.Format('toPrint',{pageWidth:'216mm', pageHeight:'279mm',render:'download'});">
                         <!--This is the A4 size-->
                         Save as PDF
                     </button>
-                </div>
+                </div></div></div>
                 <div class="modal-body" >
                     <div class="container" id="toPrint">
                         <div class="row" id="report-header">
-                            <div class="col report-header">                             
-                                <p>Scope	of	Work                      </p>
-                                <p>provided	by:                           </p>
-                                <div>
+						<div class="col-4 scope_col">
+						<h3> Scope	of	Work  </h3>
+						</div>
+						<div class="col-8 scope_blank"></div>
+						
+						
+						
+						<div class="col-4 lt_heading">  Provided by: </div>
+						<div class="col-8 provided_col"> 
+						
+						    <div class="provd_by">
                                         <img ng-src="{{companyInfo.companyLogoUrl}}" alt="CompanyLogo" height="200" width="200"/>
                                 </div>
-                                <h3>{{companyInfo.companyName}} </h3> 
-                                <p>ABN: {{companyInfo.abn}}         </p>
-                                <p> {{companyInfo.description}}                     </p>
-                                <p> {{companyInfo.address}}               </p>
-                                <p>{{companyInfo.website}}           </p>
-                            </div>
-                        </div>
-                        <hr/>
-                        <div class="row" id="property-address">
-                            <div class="col report-property-address">
-                                <p>Property	Address:                    </p>
-                                <h3>{{propertyInfo.addressDisplay}}</h3>
-                                 <div>
-                                   <img ng-src="{{propertyInfo.propertyLogoUrl}}" alt="Property Image" height="500" width="500"/>
+								<h3>{{companyInfo.companyName}} </h3> 
+						      <p>ABN: {{companyInfo.abn}}         </p>
+							                  <p> {{companyInfo.description}}                     </p>
+							  
+						</div>
+						
+						<div class="col-4 lt_heading">  Address:  </div>
+						
+						<div class="col-8 provided_col"> 
+						    <p> {{companyInfo.address}}               </p>
+						</div>
+						
+							<div class="col-4 lt_heading">  Website:   </div>
+						
+						<div class="col-8 provided_col"> 
+					 <p>{{companyInfo.website}}           </p>
+						</div>
+						
+						 <hr />
+						
+									<div class="col-4 lt_heading">  Property	Address:   </div>
+						
+						<div class="col-8 provided_col"> 
+					{{propertyInfo.addressDisplay}}
+					
+					       <div class="propty_logo">
+                                   <img ng-src="{{propertyInfo.propertyLogoUrl}}" alt="Property Image" height="auto" width="auto"/>
                                 </div>
-                            </div>
+					
+						</div>
+						
+						
+					
+						
+						
+			
                         </div>
-                        <hr />
+                      
                         <div class="row" id="report-menu">
-                            <div class="col">
-                                <div class="row text-centre">
+						
+						   <div class="col-12 scope_heading">
                                     SCOPE SUMMARY PAGE
                                 </div>
-                                <table class="table table-hover">
-                                    <thead>
-                                        <tr>
-                                            <th>Section</th>
-                                            <th>Task</th>
-                                            <th>Content</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr ng-repeat="item in reportItemsFlatten">                         
-                                            <td class="col-md-3">
-                                                {{item.sectionName}}
-                                            </td>
-                                            <td class="col-md-3">
-                                                {{item.taskNumber}}
-                                            </td>
-                                            <td class="col-md-6" >
-                                               <div ng-bind-html="item.description | to_trusted"></div>
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-
-                            </div>
+						<div class="col-12 list_heading no-padding-x popup">
+      <div class="list_in">
+        <div class="row">
+          <div class="col-4 name_col namelist"> Section </div>
+          <div class="col-4"> Task </div>
+          <div class="col-4">Content </div>
+         
+        </div>
+      </div>
+    </div>
+		<div class="col-12 list_view no-padding-x popup" ng-repeat="item in reportItemsFlatten">
+    <div class="popup_list">
+      <div class="row">
+        <div class="col-4 namelist">
+          <h2 class="name_hd">  {{item.sectionName}} </h2>
+        </div>
+        <div class="col-4">  {{item.taskNumber}} </div>
+           <div class="col-4"> <div ng-bind-html="item.description | to_trusted"></div> </div>
+        
+        
+      </div>
+    </div>
+  </div>				
+					
+						
+              
                         </div>
-                        <hr/>
+       
                         <div class="row" id="report-content">
                             <div class="col">
                                 <div class="row" ng-repeat="group in reportItems">
-                                    <div class="col">
-                                        <div class="row content-head">
-                                            <div class="col">
+                                    
+                                        <div class="col-12 scope_heading">
+                                        
                                                 <h3>{{group.sectionName}}</h3>
-                                            </div>
+                                    
                                         </div>
-                                        <div class="row">
-                                            <div class="col">
+                                        <div class="col-12 row">
+                                            <div class="col pr_table">
                                                 <div class="container">
                                                     <div class="row" ng-repeat="item in group.workItems">
-                                                        <div class="col">
+                                                        <div class="col no-padding-x">
                                                             <div class="row">
-                                                                <div class="col-md-4">
+                                                                <div class="col-6">
                                                                     {{item.taskNumber}}){{item.name}}
                                                                 </div>
-                                                                <div class="col-md-8">
+                                                                <div class="col-6">
                                                                     {{item.description}}
                                                                 </div>
                                                             </div>
@@ -132,7 +162,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                               
                                  </div>
                             </div>
                         </div>

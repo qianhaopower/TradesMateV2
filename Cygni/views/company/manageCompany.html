@@ -1,86 +1,73 @@
-﻿<div class="row col-12 ml-3">
-    <div class="row col-12">
-        <h2 class="page-header pb-4">Company Profile</h2>
+﻿<div class="row col-12 manage_compny">
+  <div class="row col-md-4">
+    <h2 class="page-header pb-4">Company Profile</h2>
+  </div>
+  <div class="row col"></div>
+  <div class="row col-md-6 btn_mgc">
+    <div class="btn_align">
+      <button type="button" title="Manage company users" class="btn btn_MU" ng-click="gotoManagerCompanyUser()"> <i class="fa fa-user"></i> Manage users </button>
+      <button type="button" title="Manage work item templates" class="btn btn_MWIT" ng-click="gotoManageWorkItemTemplate()"> <i class="fa fa-book"></i> Manage work item templates </button>
     </div>
-    <div class="row col-12 pb-3">
-        <button type="button" title="Manage company users" class="btn btn-outline-secondary btn-block" ng-click="gotoManagerCompanyUser()">
-            <i class="fa fa-user"></i> Manage users
-        </button>
-    </div>
-    <div class="row col-12">
-        <button type="button" title="Manage work item templates" class="btn btn-outline-secondary btn-block" ng-click="gotoManageWorkItemTemplate()">
-            <i class="fa fa-book"></i> Manage work item templates
-        </button>
-    </div>
-    <div class="row col-12">
-        <div class="w-100">
-            <form role="form" name="companyInfoForm">
-                <div class="form-group">
-                    <div class="pull-right"  ng-click="editMode = true" ng-show="!editMode" title="Edit"> <i class="fa fa-pencil" aria-hidden="true"></i></div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label">Company Name</label>
-                    <input type="text" class="form-control" placeholder="Companyname" data-ng-model="companyInfo.companyName" required ng-disabled="!editMode" 
+  </div>
+</div>
+<div class="row">
+  <div class="col">
+    <form role="form" name="companyInfoForm">
+      <div class="form-group">
+        <div class="pull-right"  ng-click="editMode = true" ng-show="!editMode" title="Edit"> <i class="fa fa-pencil" aria-hidden="true"></i></div>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Company Name</label>
+        <input type="text" class="form-control" placeholder="Companyname" data-ng-model="companyInfo.companyName" required ng-disabled="!editMode" 
                             autofocus>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label"> Description</label>
-                    <textarea type="text" class="form-control" placeholder="Description" data-ng-model="companyInfo.description" ng-disabled="!editMode" ></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label">Credit Card</label>
-                    <input type="text" class="form-control" placeholder="Credit card number" data-ng-model="companyInfo.creditCard" ng-disabled="!editMode" >
-                </div>
-
-                <div class="form-group" >
-                    <label class="control-label">Service Types</label>
-                    <div isteven-multi-select
+      </div>
+      <div class="form-group">
+        <label class="control-label"> Description</label>
+        <textarea type="text" class="form-control" placeholder="Description" data-ng-model="companyInfo.description" ng-disabled="!editMode" ></textarea>
+      </div>
+      <div class="form-group">
+        <label class="control-label">Credit Card</label>
+        <input type="text" class="form-control" placeholder="Credit card number" data-ng-model="companyInfo.creditCard" ng-disabled="!editMode" >
+      </div>
+      <div class="form-group" >
+        <label class="control-label">Service Types</label>
+        <div isteven-multi-select
                             input-model="companyInfo.tradeTypes"
                             output-model="outputServiceTypes"
                             button-label="icon name"
                             item-label="icon name"
                             tick-property="ticked"
                             helper-elements=""
-                            is-disabled="!editMode">
-                    </div>
-
-                </div>
-                
-                <div class="form-group">
-                    <label class="control-label"> ABN</label>
-                    <input type="text" class="form-control" placeholder="ABN" data-ng-model="companyInfo.abn" ng-disabled="!editMode" >
-                </div>
-                    
-                <div class="form-group">
-                    <label class="control-label"> Address</label>
-                    <input type="text" class="form-control" placeholder="Address" data-ng-model="companyInfo.address" ng-disabled="!editMode" >
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label"> Website</label>
-                    <input type="text" class="form-control" placeholder="Website" data-ng-model="companyInfo.website" ng-disabled="!editMode" >
-                </div>
-                <div class="form-group" ng-show="companyInfo.companyLogoUrl">
-                        <div  title="Upload company logo">
-                                Company Logo (Suggest 200 *200 px)
-                                <label class="btn btn-default btn-file">
-                                        <i class="fa fa-upload"></i>
-                                            <input type="file" name="file" onchange="angular.element(this).scope().uploadedFile(this)" hidden />
-                                </label>
-                        </div>
-                        <div><img ng-src="{{companyInfo.companyLogoUrl}}" alt="CompanyLogo" height="200" width="200"/></div>
-                        
-                </div>
-                <div class="form-group">
-                    <button class="btn btn-md btn-primary btn-block" type="submit" data-ng-click="updateCompany()" ng-disabled="companyInfoForm.$invalid"
+                            is-disabled="!editMode"> </div>
+      </div>
+      <div class="form-group">
+        <label class="control-label"> ABN</label>
+        <input type="text" class="form-control" placeholder="ABN" data-ng-model="companyInfo.abn" ng-disabled="!editMode" >
+      </div>
+      <div class="form-group">
+        <label class="control-label"> Address</label>
+        <input type="text" class="form-control" placeholder="Address" data-ng-model="companyInfo.address" ng-disabled="!editMode" >
+      </div>
+      <div class="form-group">
+        <label class="control-label"> Website</label>
+        <input type="text" class="form-control" placeholder="Website" data-ng-model="companyInfo.website" ng-disabled="!editMode" >
+      </div>
+      <div class="form-group">
+        <button class="btn btn_blue" type="submit" data-ng-click="updateCompany()" ng-disabled="companyInfoForm.$invalid"
                                 ng-show="editMode">Save</button>
-                    <button class="btn btn-md btn-light btn-block" ng-click="cancelEdit()" ng-show="editMode">Cancel</button>
-                </div> 
-            </form>
-        </div>
+        <button class="btn cancel_btn" ng-click="cancelEdit()" ng-show="editMode">Cancel</button>
+      </div>
+    </form>
+  </div>
+  <div class="col-md-4 img_download">
+    <div class="form-group" ng-show="companyInfo.companyLogoUrl">
+      <div class="img_dwd"><img ng-src="{{companyInfo.companyLogoUrl}}" alt="CompanyLogo" height="200" width="200"/></div>
+      <div class="sugst_txt"  title="Upload company logo"> Company Logo (Suggest 200 *200 px)
+        <label class="btn btn-default btn-file"> <i class="fa fa-upload"></i>
+          <input type="file" name="file" onchange="angular.element(this).scope().uploadedFile(this)" hidden />
+        </label>
+      </div>
     </div>
+  </div>
 </div>
-
+</div>

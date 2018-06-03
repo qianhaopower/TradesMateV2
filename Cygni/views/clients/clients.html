@@ -6,7 +6,7 @@
   </div>
   <div id="invitingNewClient">
     <div class="row " ng-show="!sendingRequestStatus">
-      <div class="col-md-6">
+      <div class="col-6 search_inpt">
         <div class="inner-addon left-addon"> <i ng-show="loading" class="glyphicon glyphicon-refresh"></i> <i ng-show="!loading" class="glyphicon glyphicon-user"></i>
           <input type="text" ng-model="selected" placeholder="Type email to invite new client" uib-typeahead="item as item.label for item in searchClient($viewValue) "
                         typeahead-loading="loading" typeahead-no-results="noResults" typeahead-wait-ms="200" class="form-control">
@@ -14,8 +14,8 @@
         <span class="hint">Search for client's email, or type in full email address to invite new client.</span>
         
          </div>
-      <div class="col-md-2" ng-disabled="!inputValid">
-        <div ng-click="proceedAddClient()" ng-disabled="!inputValid"> <span class='clickable'><i class="fa fa-arrow-circle-o-right fa-2x" ng-class="{'disable-icon':!inputValid}" aria-hidden="true"></i></span> </div>
+      <div class="col-2 serch_mebr" ng-disabled="!inputValid">
+        <div ng-click="proceedAddClient()" ng-disabled="!inputValid"> <span class='clickable'><i class="search_btn" ng-class="{'disable-icon':!inputValid}" aria-hidden="true"></i></span> </div>
       </div>
       
       <div class="col"> <div class="searchbar wi_searchbar">
@@ -167,7 +167,7 @@
 <!-- The actual modal template, just a bit o bootstrap --> 
 <script type="text/ng-template" id="deleteClientmodal.html">
     <div class="modal fade">
-        <div class="modal-dialog">
+        <div class="modal-dialog trade_modal">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -177,8 +177,9 @@
                     <p>This will also remove all the related properties. Proceed?</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" ng-click="close(false)" class="btn btn-default" data-dismiss="modal">No</button>
-                    <button type="button" ng-click="close(true)" class="btn btn-primary" data-dismiss="modal">Yes</button>
+                   
+                    <button type="button" ng-click="close(true)" class="btn btn-primary btn_blue" data-dismiss="modal">Yes</button>
+					 <button type="button" ng-click="close(false)" class="btn btn-default cancel_btn" data-dismiss="modal">No</button>
                 </div>
             </div>
         </div>

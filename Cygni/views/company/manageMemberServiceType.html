@@ -1,48 +1,53 @@
 
 <form class="form-horizontal">
     <div class="row">
-        <div class="col-lg-12 col-sm-12">
-            <a class="btn btn-default" ng-click="goBack()">
-                <i class="fa fa-chevron-circle-left" aria-hidden="true"></i> &nbsp;Back
-            </a>
-        </div>
+    
+    
+     <div class="col-lg-6 col-sm-6"> <a class="btn btn-default back_btn" ng-click="goBack()"> &nbsp;Back </a> </div>
+    <div class="col">
+      <div class="searchbar wi_searchbar">
+        <input type="text" placeholder="Search properties..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+      </div>
+    </div>
+    
+    
+    
+        
     </div>
     <div class="row">
         <div class="col-lg-12">
             <h2 class="page-header"> Service permission for {{member.firstName}} {{member.lastName}}  </h2>
         </div>
     </div>
-    <div class="row">
-        <div class="col-xs-6  col-md-3 pull-right">
-            <input type="text" placeholder="Search properties..." class="input-sm form-control" ng-model="filterTextModel.searchText">
-        </div>
-    </div>
+    
   
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th>Service</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="serviceType in serviceTypes | filter:search" ng-if="serviceType.visible">
-
-                <td class="col-md-3 col-xs-2">
-                    {{serviceType.name}}
-
-                </td>
-                <td class="col-md-6 col-xs-4">
-                    <!--{{serviceType.name}}-->
-
-                </td>
-                <td class="col-md-1 col-xs-2" >
-                    <input type="checkbox" ng-model="serviceType.ticked" ng-change="updateServiceType(serviceType)" ng-disabled="member.memberRole == 'Admin'"/>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+  
+  <div class="table_overflow company_member">
+    <div class="table_1000">
+      <div class="col-12 list_heading no-padding-x">
+        <div class="list_in">
+          <div class="row">
+            <div class="col-5 name_col namelist"> Service </div>
+            <div class="col-6"> </div>
+            <div class="col"> </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-12 list_view no-padding-x" ng-repeat="serviceType in serviceTypes | filter:search" ng-if="serviceType.visible">
+      <div class="list_in">
+        <div class="row">
+          <div class="col-5 namelist">
+            <h2 class="name_hd">      {{serviceType.name}} </h2>
+          </div>
+          <div class="col-6">   <!--{{serviceType.name}}--> </div>
+          <div class="col">
+         <input type="checkbox" ng-model="serviceType.ticked" ng-change="updateServiceType(serviceType)" ng-disabled="member.memberRole == 'Admin'"/>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 
 </form>
