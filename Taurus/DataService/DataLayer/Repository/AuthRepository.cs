@@ -280,8 +280,8 @@ namespace EF.Data
 
         private async Task<IdentityResult> RegisterClient(UserModel userModel, ApplicationUserManager appUserManager, ApplicationUser user)
         {
-            if (userModel.Password != null)
-                userModel.Password += 'A';
+            //if (userModel.Password != null)
+                //userModel.Password += 'A';
              var createResult =  appUserManager.Create(user, userModel.Password);
              if(!createResult.Succeeded)
                 throw new Exception($"Failed to create new user due to {createResult.Errors.First()}");
