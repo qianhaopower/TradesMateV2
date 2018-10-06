@@ -21,6 +21,7 @@
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
     <UseGlobalApplicationHostFile />
+    <Use64BitIISExpress />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -83,87 +84,6 @@
     <Content Include="bower_components\isteven-angular-multiselect\isteven-multi-select.css" />
     <Content Include="bower_components\isteven-angular-multiselect\isteven-multi-select.js" />
     <Content Include="bower_components\isteven-angular-multiselect\LICENSE.txt" />
-    <Content Include="bower_components\popper.js\packages\babel-config\index.js" />
-    <Content Include="bower_components\popper.js\packages\bundle\index.js" />
-    <Content Include="bower_components\popper.js\packages\eslint-config-popper\index.js" />
-    <Content Include="bower_components\popper.js\packages\popper\bundle.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\index.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\methods\defaults.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\methods\destroy.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\methods\disableEventListeners.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\methods\enableEventListeners.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\methods\placements.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\methods\update.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\modifiers\applyStyle.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\modifiers\arrow.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\modifiers\computeStyle.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\modifiers\flip.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\modifiers\hide.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\modifiers\index.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\modifiers\inner.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\modifiers\keepTogether.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\modifiers\offset.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\modifiers\preventOverflow.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\modifiers\shift.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\clockwise.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\computeAutoPlacement.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\debounce.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\find.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\findCommonOffsetParent.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\findIndex.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getBordersSize.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getBoundaries.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getBoundingClientRect.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getClientRect.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getFixedPositionOffsetParent.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getOffsetParent.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getOffsetRect.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getOffsetRectRelativeToArbitraryNode.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getOppositePlacement.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getOppositeVariation.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getOuterSizes.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getParentNode.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getPopperOffsets.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getReferenceOffsets.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getRoot.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getScroll.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getScrollParent.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getStyleComputedProperty.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getSupportedPropertyName.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getViewportOffsetRectRelativeToArtbitraryNode.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getWindow.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\getWindowSizes.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\includeScroll.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\index.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\isBrowser.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\isFixed.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\isFunction.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\isIE.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\isModifierEnabled.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\isModifierRequired.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\isNumeric.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\isOffsetContainer.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\removeEventListeners.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\runModifiers.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\setAttributes.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\setStyles.js" />
-    <Content Include="bower_components\popper.js\packages\popper\src\utils\setupEventListeners.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\setup.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\utils\appendNewPopper.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\utils\appendNewRef.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\utils\customEventPolyfill.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\utils\getRect.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\utils\isMSBrowser.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\utils\makeConnectedElement.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\utils\makeConnectedScrollElement.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\utils\makeElement.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\utils\prepend.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\utils\simulateScroll.js" />
-    <Content Include="bower_components\popper.js\packages\test-utils\utils\then.js" />
-    <Content Include="bower_components\popper.js\packages\test\bin\karma.js" />
-    <Content Include="bower_components\popper.js\packages\test\karma.conf.js" />
-    <Content Include="bower_components\popper.js\packages\tooltip\bundle.js" />
-    <Content Include="bower_components\popper.js\packages\tooltip\src\index.js" />
     <Content Include="bower_components\underscore\underscore-min.js" />
     <Content Include="bower_components\underscore\underscore.js" />
     <Content Include="content\css\new-ui.css" />
@@ -783,22 +703,6 @@
     <Content Include="bower_components\angular-bootstrap-lightbox\api.md" />
     <Content Include="bower_components\angular-bootstrap-lightbox\bower.json" />
     <Content Include="bower_components\angular-bootstrap-lightbox\README.md" />
-    <Content Include="bower_components\popper.js\packages\babel-config\package.json" />
-    <Content Include="bower_components\popper.js\packages\babel-config\yarn.lock" />
-    <Content Include="bower_components\popper.js\packages\bundle\package.json" />
-    <Content Include="bower_components\popper.js\packages\bundle\yarn.lock" />
-    <Content Include="bower_components\popper.js\packages\eslint-config-popper\package.json" />
-    <Content Include="bower_components\popper.js\packages\eslint-config-popper\yarn.lock" />
-    <Content Include="bower_components\popper.js\packages\popper\bower-publish.sh" />
-    <Content Include="bower_components\popper.js\packages\popper\bower.json" />
-    <Content Include="bower_components\popper.js\packages\popper\package.json" />
-    <Content Include="bower_components\popper.js\packages\popper\README.md" />
-    <Content Include="bower_components\popper.js\packages\test-utils\package.json" />
-    <Content Include="bower_components\popper.js\packages\test-utils\yarn.lock" />
-    <Content Include="bower_components\popper.js\packages\test\package.json" />
-    <Content Include="bower_components\popper.js\packages\test\README.md" />
-    <Content Include="bower_components\popper.js\packages\tooltip\package.json" />
-    <Content Include="bower_components\popper.js\packages\tooltip\yarn.lock" />
     <Content Include="node_modules\angular1-ui-bootstrap4\CHANGELOG.md" />
     <Content Include="node_modules\angular1-ui-bootstrap4\dist\assets\module-mapping.json" />
     <Content Include="node_modules\angular1-ui-bootstrap4\dist\assets\raw-files.json" />
@@ -984,24 +888,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Include="bower_components\popper.js\packages\popper\index.d.ts" />
-    <TypeScriptCompile Include="bower_components\popper.js\packages\tooltip\index.d.ts" />
     <TypeScriptCompile Include="node_modules\popper.js\index.d.ts" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="bower_components\popper.js\dist\esm\" />
-    <Folder Include="bower_components\popper.js\dist\umd\" />
-    <Folder Include="bower_components\popper.js\docs\css\images\" />
-    <Folder Include="bower_components\popper.js\docs\fonts\" />
-    <Folder Include="bower_components\popper.js\docs\images\" />
-    <Folder Include="bower_components\popper.js\docs\js\ie\" />
-    <Folder Include="bower_components\popper.js\docs\_includes\" />
-    <Folder Include="bower_components\popper.js\docs\_layouts\" />
-    <Folder Include="bower_components\popper.js\docs\_sass\libs\" />
-  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -1014,11 +906,11 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>32176</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/TradesMateUI</IISUrl>
+          <IISUrl>http://localhost/Cygni</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "angular1-ui-bootstrap4": "^2.4.22",
+    "bower": "^1.8.4",
     "popper.js": "^1.14.3"
   },
   "devDependencies": {},
