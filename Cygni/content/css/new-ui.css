@@ -1099,6 +1099,11 @@ a.sign_up:hover {
 	padding-bottom: 10px;
 	margin:30px 0 0 0;
 }
+.report_heading {
+	font-size: 20px;
+	font-weight: bold;
+	color: #2d3237;
+}
 .popup_list {
 }
 .popup_list .name_hd {

@@ -1,182 +1,140 @@
 <!-- The actual modal template, just a bit o bootstrap -->
 <script type="text/ng-template" id="propertyReportsModal.html">
     <div class="modal fade">
-        <div class="modal-dialog report_modal">
-            <div class="modal-content">
-                <div class="modal-header">
-
-                    <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <div class="rm_modal">
-						<div class="col-6">
-					<h4 class="modal-title danger">Property Report</h4>
-					</div>
-					<div class="col-6 downld_btn">
-                    <button type="button" class="btn btn_blue" onclick="return xepOnline.Formatter.Format('toPrint',{pageWidth:'216mm', pageHeight:'279mm',render:'download'});">
-                        <!--This is the A4 size-->
-                        Save as PDF
-                    </button>
-                </div></div></div>
-                <div class="modal-body" >
-                    <div class="container" id="toPrint">
-                        <div class="row" id="report-header">
-						<div class="col-4 scope_col">
-						<h3> Scope	of	Work  </h3>
-						</div>
-						<div class="col-8 scope_blank"></div>
-						
-						
-						
-						<div class="col-4 lt_heading">  Provided by: </div>
-						<div class="col-8 provided_col"> 
-						
-						    <div class="provd_by">
-                                        <img ng-src="{{companyInfo.companyLogoUrl}}" alt="CompanyLogo" height="200" width="200"/>
-                                </div>
-								<h3>{{companyInfo.companyName}} </h3> 
-						      <p>ABN: {{companyInfo.abn}}         </p>
-							                  <p> {{companyInfo.description}}                     </p>
-							  
-						</div>
-						
-						<div class="col-4 lt_heading">  Address:  </div>
-						
-						<div class="col-8 provided_col"> 
-						    <p> {{companyInfo.address}}               </p>
-						</div>
-						
-							<div class="col-4 lt_heading">  Website:   </div>
-						
-						<div class="col-8 provided_col"> 
-					 <p>{{companyInfo.website}}           </p>
-						</div>
-						
-						 <hr />
-						
-									<div class="col-4 lt_heading">  Property	Address:   </div>
-						
-						<div class="col-8 provided_col"> 
-					{{propertyInfo.addressDisplay}}
-					
-					       <div class="propty_logo">
-                                   <img ng-src="{{propertyInfo.propertyLogoUrl}}" alt="Property Image" height="auto" width="auto"/>
-                                </div>
-					
-						</div>
-						
-						
-					
-						
-						
-			
-                        </div>
-                      
-                        <div class="row" id="report-menu">
-						
-						   <div class="col-12 scope_heading">
-                                    SCOPE SUMMARY PAGE
-                                </div>
-						<div class="col-12 list_heading no-padding-x popup">
-      <div class="list_in">
-        <div class="row">
-          <div class="col-4 name_col namelist"> Section </div>
-          <div class="col-4"> Task </div>
-          <div class="col-4">Content </div>
-         
-        </div>
-      </div>
-    </div>
-		<div class="col-12 list_view no-padding-x popup" ng-repeat="item in reportItemsFlatten">
-    <div class="popup_list">
-      <div class="row">
-        <div class="col-4 namelist">
-          <h2 class="name_hd">  {{item.sectionName}} </h2>
-        </div>
-        <div class="col-4">  {{item.taskNumber}} </div>
-           <div class="col-4"> <div ng-bind-html="item.description | to_trusted"></div> </div>
+            <div class="modal-dialog report_modal">
+                <div class="modal-content">
+                    <div class="modal-header">
         
-        
-      </div>
-    </div>
-  </div>				
-					
-						
-              
-                        </div>
-       
-                        <div class="row" id="report-content">
-                            <div class="col">
-                                <div class="row" ng-repeat="group in reportItems">
-                                    
-                                        <div class="col-12 scope_heading">
-                                        
-                                                <h3>{{group.sectionName}}</h3>
-                                    
-                                        </div>
-                                        <div class="col-12 row">
-                                            <div class="col pr_table">
-                                                <div class="container">
-                                                    <div class="row" ng-repeat="item in group.workItems">
-                                                        <div class="col no-padding-x">
-                                                            <div class="row">
-                                                                <div class="col-6">
-                                                                    {{item.taskNumber}}){{item.name}}
-                                                                </div>
-                                                                <div class="col-6">
-                                                                    {{item.description}}
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-                                                                <!--<div class="col-md-6 col-sm-6">
-                                                                    <div class="row"><img src="http://via.placeholder.com/10x10"></div>
-                                                                    <div class="row"><img src="http://via.placeholder.com/10x10"></div>
-                                                                </div>
-                                                                <div class="col-md-6 col-sm-6">
-                                                                    <div class="row"><img src="http://via.placeholder.com/10x10"></div>
-                                                                    <div class="row"><img src="http://via.placeholder.com/10x10"></div>
-                                                                </div>-->
-                                                                <table class="table table-hover" ng-if="hasImage(item)">
-                                                                   
-                                                                    <tbody>
-                                                                        <tr>
-                                                                            <td class="col-md-6" ng-if="hasImage(item,1)">
-                                                                                <img ng-src="{{item.imageUrls[0]}}" height="200" width="300" >
-                                                                            </td>
-                                                                            <td class="col-md-6" ng-if="hasImage(item,2)">
-                                                                                <img ng-src="{{item.imageUrls[1]}}"  height="200" width="300" >
-                                                                            </td>
-                                                                        </tr>
-                                                                        <tr ng-if="hasImage(item,3)">
-                                                                            <td class="col-md-6" ng-if="hasImage(item,3)">
-                                                                                <img ng-src="{{item.imageUrls[2]}}"  height="200" width="300" >
-                                                                            </td>
-                                                                            <td class="col-md-6" ng-if="hasImage(item,4)">
-                                                                                <img ng-src="{{item.imageUrls[3]}}"  height="200" width="300" >
-                                                                            </td>
-                                                                        </tr>
-                                                                    </tbody>
-                                                                </table>
-                                                            </div>
-                                                        </div>
-                                                        <br/>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                               
-                                 </div>
+                        <button type="button" class="close" ng-click="close(false)" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <div class="rm_modal">
+                            <div class="col-6">
+                                <h4 class="modal-title danger">Property Report</h4>
+                            </div>
+                            <div class="col-6 downld_btn">
+                                <button type="button" class="btn btn_blue" onclick="return xepOnline.Formatter.Format('toPrint',{pageWidth:'216mm', pageHeight:'279mm',render:'download'});">
+                                    <!--This is the A4 size-->
+                                    Save as PDF
+                                </button>
                             </div>
                         </div>
                     </div>
-
-
-
-
-
-
-
-
+                    <div class="modal-body">
+                        <div class="container" id="toPrint">
+                            <div class="row" id="report-header">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-4 report_heading">
+                                            <p> Scope of Work </p>
+                                        </div>
+                                        <div class="col-8"></div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 report_heading">
+                                            <p> Provided by: </p>
+                                        </div>
+                                        <div class="col-8">
+                                            <div class="provd_by">
+                                                <img ng-src="{{companyInfo.companyLogoUrl}}" alt="CompanyLogo" height="200"
+                                                    width="200" />
+                                            </div>
+                                            <h3>{{companyInfo.companyName}} </h3>
+                                            <p>ABN: {{companyInfo.abn}} </p>
+                                            <p> {{companyInfo.description}} </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 report_heading">
+                                            <p> Address </p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p> {{companyInfo.address}} </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 report_heading">
+                                            <p> Website </p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p> {{companyInfo.website}} </p>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 report_heading">
+                                            <p> Property Address </p>
+                                        </div>
+                                        <div class="col-8">
+                                            <p> {{propertyInfo.addressDisplay}} </p>
+                                            <div class="propty_logo">
+                                                <img ng-src="{{propertyInfo.propertyLogoUrl}}" alt="Property Image" height="auto"
+                                                    width="auto" />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="report-menu">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-12 scope_heading">
+                                            SCOPE SUMMARY
+                                        </div>
+                                    </div>
+                                    <div class="row lt_heading">
+                                        <div class="col-4"> Section </div>
+                                        <div class="col-4"> Task </div>
+                                        <div class="col-4">Content </div>
+                                    </div>
+                                    <div class="row" ng-repeat="item in reportItemsFlatten">
+                                        <div class="col-4">
+                                            <p> {{item.sectionName}} </p>
+                                        </div>
+                                        <div class="col-4"> {{item.taskNumber}} </div>
+                                        <div class="col-4">
+                                            <div ng-bind-html="item.description | to_trusted"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row" id="report-content">
+                                <div class="container">
+                                    <div class="row" ng-repeat="group in reportItems">
+                                        <div class="container">
+                                            <div class="row scope_heading">
+                                                <h3>{{group.sectionName}}</h3>
+                                            </div>
+                                            <div class="row" ng-repeat="item in group.workItems">
+                                                <div class="container">
+                                                    <div class="row">
+                                                        <div class="col-6">{{item.taskNumber}}) {{item.name}}</div>
+                                                        <div class="col-6"> {{item.description}}></div>
+                                                    </div>
+                                                    <div class="row" ng-if="hasImage(item)">
+                                                        <div class="container">
+                                                            <div class="row" ng-if="hasImage(item,1) || hasImage(item,2)">
+                                                                <div class="col-6" ng-if="hasImage(item,1)"><img ng-src="{{item.imageUrls[0]}}" height="300"
+                                                                        width="300"></div>
+                                                                <div class="col-6" ng-if="hasImage(item,2)"><img ng-src="{{item.imageUrls[1]}}" height="300"
+                                                                        width="300"></div>
+        
+                                                            </div>
+                                                            <div class="row"  ng-if="hasImage(item,3) || hasImage(item,4)">
+                                                                <div class="col-6" ng-if="hasImage(item,3)"><img ng-src="{{item.imageUrls[2]}}" height="300"
+                                                                        width="300"></div>
+                                                                <div class="col-6" ng-if="hasImage(item,4)"><img ng-src="{{item.imageUrls[3]}}" height="300"
+                                                                        width="300"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+        
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 </script>
