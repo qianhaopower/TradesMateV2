@@ -116,6 +116,7 @@
     <Content Include="content\images\sections.svg" />
     <Content Include="content\images\trash.svg" />
     <Content Include="content\images\user.svg" />
+    <Content Include="js\html2pdf.bundle.min.js" />
     <Content Include="js\xepOnline.jqPlugin.js" />
     <Content Include="node_modules\angular1-ui-bootstrap4\dist\ui-bootstrap-csp.css" />
     <Content Include="node_modules\angular1-ui-bootstrap4\dist\ui-bootstrap-tpls.js" />
