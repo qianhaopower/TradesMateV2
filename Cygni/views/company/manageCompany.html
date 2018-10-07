@@ -60,8 +60,8 @@
     </form>
   </div>
   <div class="col-md-4 img_download">
-    <div class="form-group" ng-show="companyInfo.companyLogoUrl">
-      <div class="img_dwd"><img ng-src="{{companyInfo.companyLogoUrl}}" alt="CompanyLogo" height="200" width="200"/></div>
+    <div class="form-group" >
+      <div class="img_dwd" ng-show="companyInfo.companyLogoUrl"><img ng-src="{{companyInfo.companyLogoUrl}}" alt="CompanyLogo" height="200" width="200"/></div>
       <div class="sugst_txt"  title="Upload company logo"> Company Logo (Suggest 200 *200 px)
         <label class="btn btn-default btn-file"> <i class="fa fa-upload"></i>
           <input type="file" name="file" onchange="angular.element(this).scope().uploadedFile(this)" hidden />
