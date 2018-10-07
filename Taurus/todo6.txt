@@ -1,0 +1,5 @@
+1) Max section number 40
+2) Fix reports picture
+3) Picture and document for the workitem template (can have many), when creating new work item from the template, au
+4) Cliet csv upload, client can have address different to the properties. Client can have no property
+5) Under company profile, allow input license text for each type of selected service type. (Later, admin of trademate will approve. )
