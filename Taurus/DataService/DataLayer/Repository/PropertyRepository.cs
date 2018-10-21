@@ -336,6 +336,7 @@ namespace EF.Data
                     TaskNumber = 0,
                     TradeWorkType = x.TradeWorkType,
                     Id = x.Id,
+                    WorkItemTemplateId = x.WorkItemTemplateId
 
                 }).ToList(),
             }));
@@ -345,12 +346,25 @@ namespace EF.Data
             //get attachments URL
             //set up task number
             int i = 1;
-            var images = GetPropertyWorkItemsAttachments(propertyId, userName).Where(p => p.Type == AttachmentType.Image);
-            result.ForEach(p => p.workItems.ForEach(x => {
-                x.TaskNumber = i++;
-                if (images.Any(w => w.EntityId == x.Id))
+            var images = GetPropertyWorkItemsAttachments(propertyId, userName).Where(p => p.Type == AttachmentType.Image).ToList();
+
+            var workItemForProperty = GetAllPropertyWorkItems(propertyId).ToList();
+            var allWorkItemTemplateIds = workItemForProperty.Select(w => w.WorkItemTemplateId);
+            var allTemplateImages = _ctx.Attchments.Where(p =>  
+                p.EntityType == AttachmentEntityType.WorkItemTemplate
+                && allWorkItemTemplateIds.Contains(p.EntityId)
+                && p.Type == AttachmentType.Image
+            ).ToList();
+
+            result.ForEach(p => p.workItems.ForEach(workItem => {
+                workItem.TaskNumber = i++;
+                var templateImage = allTemplateImages.Where(tem => tem.EntityId == workItem.WorkItemTemplateId).ToList();
+                if (images.Any(w => w.EntityId == workItem.Id)
+                || templateImage.Any())
                 {
-                    x.ImageUrls = images.Where(w => w.EntityId == x.Id).Select(w => w.Url).ToList();
+                    workItem.ImageUrls = images.Where(w => w.EntityId == workItem.Id).Select(w => w.Url).ToList();
+                    workItem.ImageUrls.AddRange(templateImage.Select(t => t.Url));
+                    
                 }
             }));
             return result.ToList();

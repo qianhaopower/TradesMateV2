@@ -33,6 +33,7 @@ angular.module('sbAdminApp')
                             delay: 2000
                         });
                         storageService.downloadAttachmentForEntity($scope.entityId, $scope.attachmentType).then(function (result) {
+                            markAttachmentsAsReadOnly(result)
                             $scope.attachmentList = result;
                             updateGallary($scope.attachmentList);
                         }, function (error) {
@@ -64,6 +65,7 @@ angular.module('sbAdminApp')
                             });
 
                             storageService.downloadAttachmentForEntity($scope.entityId, $scope.attachmentType).then(function (result) {
+                                 markAttachmentsAsReadOnly(result)
                                 $scope.attachmentList = result;
                                 updateGallary($scope.attachmentList);
                             }, function (error) {
@@ -152,7 +154,7 @@ angular.module('sbAdminApp')
                     });
                 } 
                 else if ($stateParams.workItemTemplateId) {
-                    $scope.attachmentType = "WorkItemTemplate";
+                    $scope.attachmentType = 'WorkItemTemplate';
                     $scope.workItemTemplateId = $stateParams.workItemTemplateId;
                     workItemTemplateService.getTemplateById($scope.workItemTemplateId).then(function (result) {
                         $scope.workItemTemplate = result;
@@ -166,6 +168,7 @@ angular.module('sbAdminApp')
 
                 $scope.entityId = $stateParams.propertyId || $stateParams.workItemId || $stateParams.workItemTemplateId;
                 storageService.downloadAttachmentForEntity($scope.entityId, $scope.attachmentType).then(function (result) {
+                    markAttachmentsAsReadOnly(result)
                     $scope.attachmentList = result;
                     updateGallary($scope.attachmentList);
                 }, function (error) {
@@ -176,6 +179,18 @@ angular.module('sbAdminApp')
                 });
 
 
+            }
+            
+            var markAttachmentsAsReadOnly  = function(attachments){
+                if($scope.attachmentType == 'WorkItem')
+                _.each(attachments, function (item) {
+                    //mark all workitem templates as not deletable
+                   if(item.entityType == 3)//workItemTemplate
+                   {
+                       item.fromTemplate = true;
+                   }
+
+                });
             }
 
 

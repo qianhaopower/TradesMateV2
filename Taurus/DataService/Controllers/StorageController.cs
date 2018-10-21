@@ -1,30 +1,26 @@
-﻿
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
+using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
-using System.Linq;
-using System.Web;
-using EF.Data;
 using AutoMapper;
 using DataService.Models;
+using EF.Data;
 
 namespace DataService.Controllers
 {
-	[Authorize]
-	[RoutePrefix("api/storage")]
+    [Authorize]
+    [RoutePrefix("api/storage")]
     public class StorageController : ApiController
     {
-        private IAuthRepository _authRepo;
         private readonly IStorageRepository _storageRepo;
+        private IAuthRepository _authRepo;
+
         public StorageController(IAuthRepository authRepo, IStorageRepository storageRepo)
         {
             _authRepo = authRepo;
@@ -40,23 +36,15 @@ namespace DataService.Controllers
             {
                 // This endpoint only supports multipart form data
                 if (!Request.Content.IsMimeMultipartContent("form-data"))
-                {
                     return StatusCode(HttpStatusCode.UnsupportedMediaType);
-                }
 
-                bool typeValid = Enum.TryParse<AttachmentEntityType>(type, out var typeParsed);
-                if (typeValid == false)
-                {
-                    return BadRequest($"{type} is not a valid entity type for upload") ;
-                }
+                var typeValid = Enum.TryParse<AttachmentEntityType>(type, out var typeParsed);
+                if (typeValid == false) return BadRequest($"{type} is not a valid entity type for upload");
 
-                
+
                 // Call service to perform upload, then check result to return as content
-                var result = await _storageRepo.UploadBlobs(Request.Content,  entityId, typeParsed, User.Identity.Name);
-                if (result != null && result.Count > 0)
-                {
-                    return Ok(result);
-                }
+                var result = await _storageRepo.UploadBlobs(Request.Content, entityId, typeParsed, User.Identity.Name);
+                if (result != null && result.Count > 0) return Ok(result);
 
                 // Otherwise
                 return BadRequest("Upload failed");
@@ -68,74 +56,58 @@ namespace DataService.Controllers
         }
 
 
-		[HttpGet]
-		[Route("")]
+        [HttpGet]
+        [Route("")]
         public IHttpActionResult GetBlobModels(int entityId, string entityType)
-		{
-			AttachmentEntityType typeParsed;
-			bool typeValid = Enum.TryParse<AttachmentEntityType>(entityType, out typeParsed);
-			if (typeValid == false)
-			{
-				return BadRequest(string.Format("{0} is not a valid entity type for attachments", entityType));
-			}
-			
-			var result = _storageRepo.GetEntityAttachments(entityId, typeParsed,User.Identity.Name);
+        {
+            AttachmentEntityType typeParsed;
+            var typeValid = Enum.TryParse(entityType, out typeParsed);
+            if (typeValid == false)
+                return BadRequest($"{entityType} is not a valid entity type for attachments");
 
-			var returnList = result.Select(Mapper.Map<Attachment, AttachmentModel>).ToList();
-			return Ok(returnList);
-		}
+            var result = _storageRepo.GetEntityAttachments(entityId, typeParsed, User.Identity.Name);
 
-		[HttpDelete]
-		[Route("")]
+            var returnList = result.Select(Mapper.Map<Attachment, AttachmentModel>).ToList();
+            return Ok(returnList);
+        }
+
+        [HttpDelete]
+        [Route("")]
         public async Task<IHttpActionResult> DeleteBlob(int entityId, string entityType, int attachmentId)
-		{
-			AttachmentEntityType typeParsed;
-			bool typeValid = Enum.TryParse<AttachmentEntityType>(entityType, out typeParsed);
-			if (typeValid == false)
-			{
-				return BadRequest(string.Format("{0} is not a valid entity type for attachments", entityType));
-			}
-			
-			var result = await _storageRepo.DeleteBlob(attachmentId, entityId, typeParsed, User.Identity.Name);
-			if (result)
-			{
-				return StatusCode(HttpStatusCode.NoContent);
-			}
-			else
-			{
-				return BadRequest();
-			}
-		}
+        {
+            AttachmentEntityType typeParsed;
+            var typeValid = Enum.TryParse(entityType, out typeParsed);
+            if (typeValid == false)
+                return BadRequest(string.Format("{0} is not a valid entity type for attachments", entityType));
+
+            var result = await _storageRepo.DeleteBlob(attachmentId, entityId, typeParsed, User.Identity.Name);
+            if (result)
+                return StatusCode(HttpStatusCode.NoContent);
+            return BadRequest();
+        }
 
 
-
-
-		/// <summary>
-		/// Downloads a blob file.
-		/// </summary>
-		/// <param name="blobId">The ID of the blob.</param>
-		/// <returns></returns>
-		[HttpGet]
-		[Route("download")]
+        /// <summary>
+        ///     Downloads a blob file.
+        /// </summary>
+        /// <param name="blobId">The ID of the blob.</param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("download")]
         public async Task<HttpResponseMessage> GetBlobDownload(int entityId, string type, int attachmentId)
         {
             // IMPORTANT: This must return HttpResponseMessage instead of IHttpActionResult
 
             try
             {
-
                 AttachmentEntityType typeParsed;
-                bool typeValid = Enum.TryParse<AttachmentEntityType>(type, out typeParsed);
+                var typeValid = Enum.TryParse(type, out typeParsed);
                 if (typeValid == false)
-                {
-                    return Request.CreateResponse(HttpStatusCode.BadRequest, string.Format("{0} is not a valid entity type for attachments", type));
-                }
-                
+                    return Request.CreateResponse(HttpStatusCode.BadRequest,
+                        $"{type} is not a valid entity type for attachments");
+
                 var result = await _storageRepo.DownloadBlob(entityId, typeParsed, attachmentId, User.Identity.Name);
-                if (result == null)
-                {
-                    return new HttpResponseMessage(HttpStatusCode.NotFound);
-                }
+                if (result == null) return new HttpResponseMessage(HttpStatusCode.NotFound);
 
                 // Reset the stream position; otherwise, download will not work
                 result.BlobStream.Position = 0;
@@ -167,8 +139,5 @@ namespace DataService.Controllers
                 };
             }
         }
-}
-
-
-
+    }
 }

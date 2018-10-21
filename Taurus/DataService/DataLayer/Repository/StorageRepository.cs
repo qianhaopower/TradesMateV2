@@ -112,12 +112,21 @@ namespace EF.Data
 		public List<Attachment> GetEntityAttachments(int entityId, AttachmentEntityType type, string userName )
 		{
 			if (!CheckUserPermissionForEntity(entityId, type, userName))
-				throw new Exception(string.Format("User {0} has no permission to download attachment on {1} with id {2}", userName, type, entityId));
+				throw new Exception(
+				        $"User {userName} has no permission to download attachment on {type} with id {entityId}");
 
 			var allBlobs = _ctx.Attchments.Where(p =>  //add the type and entityId here just to make sure right attachment has been fetched.
 			p.EntityType == type
 			&& p.EntityId == entityId
 			).ToList();
+
+            //if we are getting attachments for workitem, include work item template attachments as well.
+		    if (type == AttachmentEntityType.WorkItem)
+		    {
+		        var workItemTempalteId = _ctx.WorkItems.FirstOrDefault(w => w.Id == entityId)?.WorkItemTemplateId;
+                if(workItemTempalteId.HasValue)
+                allBlobs.AddRange(_ctx.Attchments.Where(a => a.EntityType == AttachmentEntityType.WorkItemTemplate && a.EntityId == workItemTempalteId.Value));
+		    }
 			return allBlobs;
 		}
 
