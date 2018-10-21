@@ -209,11 +209,14 @@ angular.module('sbAdminApp').controller('propertyReportsModalController', functi
                 // unit: 'in',
                 // format: 'letter',
                 // orientation: 'portrait'
-            }
+            },
+            pagebreak: { mode: 'avoid-all' }
         };
 
         // New Promise-based usage:
         html2pdf().from(element).set(opt).save();
+
+      
 
         // Old monolithic-style usage:
         //html2pdf(element, opt);
