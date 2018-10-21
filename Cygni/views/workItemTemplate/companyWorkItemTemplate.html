@@ -1,77 +1,73 @@
-
 <form class="form-horizontal">
     <div class="row">
         <div class="col-lg-6 col-sm-6">
             <a class="btn btn-default back_btn" ng-click="goBack()"> &nbsp;Back
             </a>
         </div>
-        
+
         <div class="col">
-          <div class="searchbar wi_searchbar">
-              <input type="text" placeholder="Search..." class="input-sm form-control" ng-model="filterTextModel.searchText">
-              </div></div>
-        
-        
-        
+            <div class="searchbar wi_searchbar">
+                <input type="text" placeholder="Search..." class="input-sm form-control" ng-model="filterTextModel.searchText">
+            </div>
+        </div>
+
+
+
     </div>
     <div class="row">
-        <div class="col-lg-12" >
+        <div class="col-lg-12">
             <h2 class="page-header">Work item templates</h2>
         </div>
     </div>
     <div class="row">
         <div class="col-xs-6 col-md-9">
-            <button type="button" title="Add new work item template" id="loading-example-btn" class="btn btn-default btn-sm" ng-click="addNewTemplate()">
+            <button type="button" title="Add new work item template" id="loading-example-btn" class="btn btn-default btn-sm"
+                ng-click="addNewTemplate()">
                 <i class="fa fa-plus "></i> Add work item template
             </button>
         </div>
-        
     </div>
-    
-    
-    
     <div class="table_overflow">
-  <div class="table_1000">
-    <div class="col-12 list_heading no-padding-x">
-      <div class="list_in">
-        <div class="row">
-          <div class="col-5 name_col namelist"> Name </div>
-          <div class="col-2"> Type </div>
-         <div class="col-3">Created at </div>
-          <div class="col"> </div>
+        <div class="table_1000">
+            <div class="col-12 list_heading no-padding-x">
+                <div class="list_in">
+                    <div class="row">
+                        <div class="col-5 name_col namelist"> Name </div>
+                        <div class="col-2"> Type </div>
+                        <div class="col-2">Created at </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-12 list_view no-padding-x" ng-repeat="template in templateList | filter:search">
-    <div class="list_in">
-      <div class="row">
-        <div class="col-5 namelist">
-          <h2 class="name_hd"> <a ng-click="openTemplateDetail(template,true)"> {{template.name}} </a></h2>
-        </div>
-        <div class="col-2">       {{template.tradeWorkTypeDisplay}} </div>
-        <div class="col-3">  {{template.modifiedDateTime | date:'yyyy-MM-dd HH:mm:ss'}} </div>
-      
-    
-        <div class="col edit_btn">
-          <div class="icon_fltr">
-        <a class="edit_icon" title="Edit work item template " ng-click="openTemplateDetail(template,false)"></a>
-        
-        <a class="delete_icon" title="Delete work item template" ng-click="deleteTemplate(template)"></a>
-        </div>
-        
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+        <div class="col-12 list_view no-padding-x" ng-repeat="template in templateList | filter:search">
+            <div class="list_in">
+                <div class="row">
+                    <div class="col-5 namelist">
+                        <h2 class="name_hd"> <a ng-click="openTemplateDetail(template,true)"> {{template.name}} </a></h2>
+                    </div>
+                    <div class="col-2"> {{template.tradeWorkTypeDisplay}} </div>
+                    <div class="col-2"> {{template.modifiedDateTime | date:'yyyy-MM-dd HH:mm:ss'}} </div>
+                    <div class="col-1 text-center"> <a class="" title="Manage Attachments" ng-show="true" ng-click="viewWorkItemTemplateAttachments(template)"><i
+                                class="fa fa-paperclip"></i></a> </div>
+                    <div class="col edit_btn">
+                        <div class="icon_fltr">
+                            <a class="edit_icon" title="Edit work item template " ng-click="openTemplateDetail(template,false)"></a>
 
-    
-    
-    
-    
-    
-    
+                            <a class="delete_icon" title="Delete work item template" ng-click="deleteTemplate(template)"></a>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
 
 </form>
 

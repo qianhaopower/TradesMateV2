@@ -59,6 +59,11 @@ angular.module('sbAdminApp')
         }, function (error) { Notification.error({ message: error, delay: 2000 }); });
     };
 
+    $scope.viewWorkItemTemplateAttachments = function (workItemTemplate) {
+        $state.go('base.workItemTemplateAttachments', {
+            workItemTemplateId: workItemTemplate.id });
+    }
+
 
     var init = function () {
         workItemTemplateService.getAllTemplates().then(function (result) {

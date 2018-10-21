@@ -136,34 +136,42 @@ namespace EF.Data
         {
             var valid = false;
             var propertyId = 0;
-            if (type == AttachmentEntityType.CompanyLogo)
+            switch (type)
             {
-                var company = _companyRepository.GetCompanyFoAdminUser(userName);
-                if (company != null && company.Id == entityId)
-                    valid = true;
-                return valid;
-            }else if (type == AttachmentEntityType.Property)
-            {
-                propertyId = entityId;
+                case AttachmentEntityType.CompanyLogo:
+                    var company = _companyRepository.GetCompanyFoAdminUser(userName);
+                    if (company != null && company.Id == entityId)
+                        valid = true;
+                    return valid;
+                case AttachmentEntityType.WorkItemTemplate:
+                    var workItemTemplate = _ctx.WorkItemTemplates.First(p => p.Id == entityId);
+                    var companyLocal = _companyRepository.GetCompanyFoAdminUser(userName);
+                    if (workItemTemplate != null && companyLocal != null && companyLocal.Id == workItemTemplate.CompanyId)
+                        valid = true;
+                    return valid;
+                case AttachmentEntityType.Property:
+                    propertyId = entityId;
+                    break;
+                case AttachmentEntityType.WorkItem:
+                    var workItem = _ctx.WorkItems.First(p => p.Id == entityId);
+
+                    if (workItem != null)
+                    {
+                        var section = _ctx.Sections.First(p => p.Id == workItem.SectionId);
+                        if (section != null)
+                            propertyId = section.PropertyId;
+                    }
+
+                    break;
+               
             }
-            else if(type == AttachmentEntityType.WorkItem)
-            {
-                var workItem = _ctx.WorkItems.Where(p => p.Id == entityId).First();
-                
-                if(workItem != null)
-                {
-                    var section = _ctx.Sections.Where(p => p.Id == workItem.SectionId).First();
-                    if (section != null)
-                        propertyId = section.PropertyId;
-                }
-            }
-            
+
             var allowedProperties = _propertyRepo.GetPropertyForUser(userName).ToList().Select(p => p.Id);
             valid = allowedProperties.Count(p => p == propertyId) == 1;//found
             return valid;
 
         }
-    
+
     }
 
     public interface IBlobService
