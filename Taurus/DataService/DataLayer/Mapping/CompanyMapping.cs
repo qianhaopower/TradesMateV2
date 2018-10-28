@@ -21,6 +21,13 @@ namespace EF.Data.Mapping
             Property(t => t.ABN).HasMaxLength(50);
             Property(t => t.Website).HasMaxLength(500);
 
+            Property(t => t.AirconditioningLicense).HasMaxLength(500);
+            Property(t => t.BuilderLicense).HasMaxLength(500);
+            Property(t => t.ElectricianLicense).HasMaxLength(500);
+            Property(t => t.PlumberLicense).HasMaxLength(500);
+            Property(t => t.HandymanLicense).HasMaxLength(500);
+
+
 
 
             Property(t => t.AddedDateTime).IsRequired();
@@ -59,7 +66,7 @@ namespace EF.Data.Mapping
 
 
             //table
-            ToTable("Compnany");
+            ToTable("Company");
         }
     }
 }

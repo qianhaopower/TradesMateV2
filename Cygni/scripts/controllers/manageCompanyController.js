@@ -49,6 +49,9 @@ angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$
             }, function (error) { Notification.error({ message: error, delay: 2000 }); });
         });
     }
+    $scope.hasType = function(enumNumber){
+        return _.any($scope.companyInfo.tradeTypes, function(item){return item.enumValue == enumNumber && item.ticked})
+    }
     var getCompanyDetail = function () {
         companyService.getCurrentCompany().then(function (company) {
             $scope.companyInfo.companyName = company.companyName;
@@ -59,6 +62,12 @@ angular.module('sbAdminApp').controller('manageCompanyController', ['$scope', '$
             $scope.companyInfo.address = company.address;
             $scope.companyInfo.website = company.website;
             $scope.companyInfo.companyLogoUrl = company.companyLogoUrl;
+            $scope.companyInfo.electricianLicense = company.electricianLicense;
+            $scope.companyInfo.plumberLicense = company.plumberLicense;
+            $scope.companyInfo.handymanLicense = company.handymanLicense;
+            $scope.companyInfo.builderLicense = company.builderLicense;
+            $scope.companyInfo.airconditioningLicense = company.airconditioningLicense;
+
 
             //grab all of the default
             $scope.companyInfo.tradeTypes = $scope.serviceTypes;

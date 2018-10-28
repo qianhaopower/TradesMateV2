@@ -35,11 +35,6 @@
           ng-disabled="!editMode">
       </div>
       <div class="form-group">
-        <label class="control-label">Service Types</label>
-        <div isteven-multi-select input-model="companyInfo.tradeTypes" output-model="outputServiceTypes" button-label="icon name"
-          item-label="icon name" tick-property="ticked" helper-elements="" is-disabled="!editMode"> </div>
-      </div>
-      <div class="form-group">
         <label class="control-label"> ABN</label>
         <input type="text" class="form-control" placeholder="ABN" data-ng-model="companyInfo.abn" ng-disabled="!editMode">
       </div>
@@ -52,10 +47,36 @@
         <input type="text" class="form-control" placeholder="Website" data-ng-model="companyInfo.website" ng-disabled="!editMode">
       </div>
       <div class="form-group">
+        <label class="control-label">Service Types</label>
+        <div isteven-multi-select input-model="companyInfo.tradeTypes" output-model="outputServiceTypes" button-label="icon name"
+          item-label="icon name" tick-property="ticked" helper-elements="" is-disabled="!editMode"> </div>
+      </div>
+      <div class="form-group" ng-show="hasType(0)">
+        <label class="control-label"> Electrician License</label>
+        <input type="text" class="form-control"  placeholder="Electrician License" data-ng-model="companyInfo.electricianLicense" ng-disabled="!editMode">
+      </div>
+      <div class="form-group" ng-show="hasType(1)">
+        <label class="control-label"> Handyman License</label>
+        <input type="text" class="form-control " placeholder="Handyman License" data-ng-model="companyInfo.handymanLicense" ng-disabled="!editMode">
+      </div>
+      <div class="form-group" ng-show="hasType(2)">
+        <label class="control-label"> Plumber License</label>
+        <input type="text" class="form-control"  placeholder="Plumber License" data-ng-model="companyInfo.plumberLicense" ng-disabled="!editMode">
+      </div>
+      <div class="form-group" ng-show="hasType(3)">
+        <label class="control-label"> Builder License</label>
+        <input type="text" class="form-control" placeholder="Builder License" data-ng-model="companyInfo.builderLicense" ng-disabled="!editMode">
+      </div>
+      <div class="form-group" ng-show="hasType(4)">
+        <label class="control-label"> Air Conditioning License</label>
+        <input type="text" class="form-control" placeholder="Air Conditioning License" data-ng-model="companyInfo.airconditioningLicense" ng-disabled="!editMode">
+      </div>
+      <div class="form-group">
         <button class="btn btn_blue" type="submit" data-ng-click="updateCompany()" ng-disabled="companyInfoForm.$invalid"
           ng-show="editMode">Save</button>
         <button class="btn cancel_btn" ng-click="cancelEdit()" ng-show="editMode">Cancel</button>
       </div>
+      
     </form>
   </div>
   <div class="col-md-4 img_download">

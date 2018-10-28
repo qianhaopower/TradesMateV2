@@ -20,7 +20,7 @@ namespace EF.Data
         IEnumerable<MemberModel> GetMemberByUserName(string userName, int? memberId = null);
         IQueryable<Property> GetCompanyProperties(int companyId);
         void UpdateCompany(CompanyModel companyModel);
-        Task RemoveMemberFromCompnay(string userName, int memberId);
+        Task RemoveMemberFromCompany(string userName, int memberId);
         MessageType? UpdateCompanyMemberRole(string userName, int memberId, string role);
         IQueryable<MemberInfo> GetMemberInfoOutsideCompany(int companyId, int memberId);
         CompanyRole DoUpdateCompanyMemberRole(int companyId, int memberId, CompanyRole role);

@@ -111,7 +111,7 @@ namespace EF.Data
             var clientToDelete = GetAccessibleClientForUser(userName).FirstOrDefault(c => c.Id == clientId);
             if(clientToDelete != null)
             {
-                //need remove all propertyCompnay records for that company, for that client's property
+                //need remove all propertyCompany records for that company, for that client's property
                 var propertyIdsForClient = _ctx.ClientProperties.Where(p => p.ClientId == clientId).Select(p=> p.PropertyId);
                 _ctx.PropertyCompanies.Where(c => propertyIdsForClient.Contains(c.PropertyId) && c.CompanyId == company.Id).Delete();
                 _ctx.SaveChanges();

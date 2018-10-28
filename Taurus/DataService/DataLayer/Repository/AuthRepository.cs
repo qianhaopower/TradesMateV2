@@ -392,7 +392,7 @@ namespace EF.Data
             }
             else
             {
-                throw new Exception("Compnay need at least have one type of service");
+                throw new Exception("Company need at least have one type of service");
             }
 
             _ctx.Entry(company).State = EntityState.Added;

@@ -127,7 +127,7 @@ namespace DataService.Controllers
         [Route("member/{id:int}")]
         public async Task<IHttpActionResult> RemoveMember(int id)
         {
-            await _companyRepo.RemoveMemberFromCompnay(User.Identity.Name, id);
+            await _companyRepo.RemoveMemberFromCompany(User.Identity.Name, id);
             return (Ok());
 
         }

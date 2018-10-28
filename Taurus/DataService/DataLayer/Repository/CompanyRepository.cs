@@ -124,6 +124,11 @@ namespace EF.Data
             company.AddressString = companyModel.Address;
             company.ABN = companyModel.ABN;
             company.Website = companyModel.Website;
+            company.AirconditioningLicense = companyModel.AirconditioningLicense;
+            company.BuilderLicense = companyModel.BuilderLicense;
+            company.PlumberLicense = companyModel.PlumberLicense;
+            company.HandymanLicense = companyModel.HandymanLicense;
+            company.ElectricianLicense = companyModel.ElectricianLicense;
 
             if (!companyModel.TradeTypes.Any())
             {
@@ -151,7 +156,7 @@ namespace EF.Data
         }
 
 
-        public async Task RemoveMemberFromCompnay(string userName, int memberId)
+        public async Task RemoveMemberFromCompany(string userName, int memberId)
         {
             var companyId = this.GetCompanyFoAdminUser(userName).Id;
             var error = await RemoveMemberValidation(userName, companyId, memberId);

@@ -54,7 +54,7 @@ namespace EF.Data
             if (companyMembers.Any(p => p.Role == CompanyRole.Admin || p.Role == CompanyRole.Default))
             {
                 var companyId = companyMembers.First(p => p.Role == CompanyRole.Admin || p.Role == CompanyRole.Default).CompanyId;
-                //this member is an admin for one company, cannot work for other compnays, just give all service types for that compnay
+                //this member is an admin for one company, cannot work for other companys, just give all service types for that compnay
                 userAllowedServiceType = _ctx.CompanyServices.Where(p => p.CompanyId == companyId).Select(p => p.Type).ToList();
             }
             else

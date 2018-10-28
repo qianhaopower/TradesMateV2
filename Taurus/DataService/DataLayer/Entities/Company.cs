@@ -25,6 +25,11 @@ namespace EF.Data
         public string ABN { get; set; }
         public string Website { get; set; }
         public string AddressString { get; set; }
+        public string ElectricianLicense { get; set; }
+        public string PlumberLicense { get; set; }
+        public string HandymanLicense { get; set; }
+        public string AirconditioningLicense { get; set; }
+        public string BuilderLicense { get; set; }
 
         public ICollection<WorkItemTemplate> WorkItemTemplateList {get;set;}
 
