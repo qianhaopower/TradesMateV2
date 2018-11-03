@@ -161,6 +161,15 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
          return deferred.promise;
 
     };
+    var _addBulkClientToCompany = function (userInfos) {
+        var deferred = $q.defer();
+        $http.post(serviceBase + 'api/clients/bulk', userInfos).then(function (response) {
+            deferred.resolve(response.data);
+        },function (err, status) {
+            deferred.reject(err);
+        });
+         return deferred.promise;
+    };
 
 
 
@@ -224,6 +233,7 @@ app.factory('companyService', ['$http', '$q', 'localStorageService', 'ngAuthSett
     companyServiceFactory.searchClientForCompanyInvite = _searchClientForCompanyInvite;
     companyServiceFactory.addExistingClientToCompany = _addExistingClientToCompany;
     companyServiceFactory.addNewClientToCompany = _addNewClientToCompany;
+    companyServiceFactory.addBulkClientToCompany = _addBulkClientToCompany;
 
     return companyServiceFactory;
 }]);

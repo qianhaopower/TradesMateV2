@@ -36,7 +36,7 @@ namespace DataService.Infrastructure
                 RequireNonLetterOrDigit = false,
                 RequireDigit = false,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = false,
             };
             
             appUserManager.EmailService = new DataService.Services.EmailService(new EmailRepository( new EFDbContext(),null));

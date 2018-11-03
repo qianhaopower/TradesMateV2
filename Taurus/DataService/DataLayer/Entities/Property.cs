@@ -24,6 +24,8 @@ namespace EF.Data
 
 
         public int? AddressId { get; set; }
+
+        public int? SystemPropertyCompanyId { get; set; }
         public virtual Address Address { get; set; }
 
         //public int ClientId { get; set; }

@@ -19,6 +19,7 @@ namespace EF.Data.Mapping
             Property(t => t.Condition).HasMaxLength(3000);
             Property(t => t.Comment).HasMaxLength(3000);
             Property(t => t.AddressId).IsOptional();
+            Property(t => t.SystemPropertyCompanyId).IsOptional();
 
 
             Property(t => t.AddedDateTime).IsRequired();

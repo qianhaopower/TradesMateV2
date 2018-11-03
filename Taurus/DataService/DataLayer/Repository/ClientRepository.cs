@@ -3,6 +3,7 @@ using DataService.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System;
+using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Threading.Tasks;
@@ -127,6 +128,72 @@ namespace EF.Data
             return clients;
 
         }
+        public string BulkCreateClient(string adminUserName, List<CreateNewClientBulkModel> models, ApplicationUserManager appUserManager)
+        {
+            var company = _companyRepository.GetCompanyFoAdminUser(adminUserName);
+            //check if system property for this company existed, if not create
+            var systemProperty = _ctx.Properties.FirstOrDefault(p => p.SystemPropertyCompanyId.HasValue && p.SystemPropertyCompanyId.Value == company.Id);
+            if (systemProperty == null)
+            {
+
+                Property propertySystem = new Property
+                {
+                    Name = "SystemProperty",
+                    Description = $"This is the system property for {company.Name}",
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now,
+                    SystemPropertyCompanyId = company.Id,
+                };
+                _ctx.Entry(propertySystem).State = EntityState.Added;
+                _ctx.SaveChanges();
+                systemProperty = _ctx.Properties.First(p => p.SystemPropertyCompanyId.HasValue && p.SystemPropertyCompanyId.Value == company.Id);
+            }
+
+            //add this property to current company
+            var systemPropertyCompany =
+                _ctx.PropertyCompanies.FirstOrDefault(p =>
+                    p.PropertyId == systemProperty.Id && p.CompanyId == company.Id);
+            if (systemPropertyCompany == null)
+            {
+                var newPropertyCompany = new PropertyCompany()
+                {
+                    CompanyId =  company.Id,
+                    PropertyId = systemProperty.Id,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now
+                };
+                _ctx.PropertyCompanies.Add(newPropertyCompany);
+            }
+            foreach (var client in models.Where(c=> !string.IsNullOrEmpty(c.FirstName) && !string.IsNullOrEmpty(c.LastName) && !string.IsNullOrEmpty(c.EmailAddress)))
+            {
+                var singleClientModel = new CreateNewClientRequestModel()
+                {
+                    Address = new AddressModel()
+                    {
+                        Line1 = client.HomeStreet,
+                        City =  client.HomeCity,
+                        State = client.HomeState,
+                        PostCode = client.HomePostalCode,
+                        Suburb = client.HomePostalCode,
+                    },
+                    Client = new ClientModel()
+                    {
+                        MobileNumber = client.HomePhone,
+                        Email = client.EmailAddress,
+                        FirstName = client.FirstName,
+                        LastName = client.LastName,
+                        Description = $"{client.Company} {company.Website}"
+                    },
+                    PropertyId = systemProperty.Id
+                };
+                CreateClient(adminUserName, singleClientModel, appUserManager);
+            }
+
+            _ctx.SaveChanges();
+
+            return "Successfull";
+
+        }
 
         public string CreateClient(string adminUserName, CreateNewClientRequestModel model, ApplicationUserManager manager)
         {
@@ -138,6 +205,10 @@ namespace EF.Data
             var existingClient = _ctx.Clients.FirstOrDefault(c => c.Email == model.Client.Email);
             if (existingClient != null)
             {
+                if (_ctx.ClientProperties.Any(p=> p.PropertyId == model.PropertyId && p.ClientId == existingClient.Id))
+                {
+                    return "No need to create";
+                }
                 if (model.PropertyId  == 0)
                 {
                     throw new Exception("Must request for a property");
@@ -146,7 +217,9 @@ namespace EF.Data
                 var propertyClient = new ClientProperty()
                 {
                     PropertyId = model.PropertyId,
-                    ClientId = existingClient.Id
+                    ClientId = existingClient.Id,
+                    AddedDateTime = DateTime.Now,
+                    ModifiedDateTime = DateTime.Now
                 };
                 _ctx.ClientProperties.Add(propertyClient);
                 _ctx.SaveChanges();
@@ -157,6 +230,9 @@ namespace EF.Data
                 return CreateNewClient(model, manager, adminUserName).Result;
             }
         }
+
+      
+
         private async Task<string> CreateNewClient(CreateNewClientRequestModel model, ApplicationUserManager manger, string adminUserName)
         {
             if (model.Address == null)

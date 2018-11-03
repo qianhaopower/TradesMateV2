@@ -26,7 +26,7 @@ namespace DataService.Controllers
         public IHttpActionResult GetProperties()
         {
             var repo = _propRepo;
-            var properties = repo.GetPropertyForUser(User.Identity.Name).Include(p => p.Address);
+            var properties = repo.GetPropertyForUser(User.Identity.Name).Where(p=> !p.SystemPropertyCompanyId.HasValue).Include(p => p.Address);
             return Ok(properties.AsEnumerable().Select(Mapper.Map<Property, PropertyModel>).ToList());
         }
 

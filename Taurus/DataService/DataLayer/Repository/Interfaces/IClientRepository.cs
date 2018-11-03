@@ -1,4 +1,5 @@
-﻿using DataService.Infrastructure;
+﻿using System.Collections.Generic;
+using DataService.Infrastructure;
 using DataService.Models;
 using System.Linq;
 
@@ -12,6 +13,6 @@ namespace EF.Data
         Client UpdateClient(string userName, ClientModel model);
         void RemoveClient(string userName, int clientId);
         string CreateClient(string name, CreateNewClientRequestModel model, ApplicationUserManager appUserManager);
-
+        string BulkCreateClient(string identityName, List<CreateNewClientBulkModel> models, ApplicationUserManager appUserManager);
     }
 }

@@ -1,4 +1,5 @@
-﻿using System.Data;
+﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Http;
@@ -61,6 +62,14 @@ namespace DataService.Controllers
             return Ok(result);
         }
 
+        [HttpPost]
+        [Route("bulk")]
+        public IHttpActionResult CreateClient(List<CreateNewClientBulkModel> models)
+        {
+            var result = _clientRepo.BulkCreateClient(User.Identity.Name, models, AppUserManager);
+            return Ok(result);
+        }
+
         [HttpDelete]
         [Route("{id:int}")]
         public IHttpActionResult RemoveClient(int id)
@@ -77,7 +86,7 @@ namespace DataService.Controllers
             var properties = _propertyRepo.GetPropertyForUser(User.Identity.Name)
                 .Include(p => p.Address)
                 .Include(p=> p.ClientProperties)
-                .Where(p=>p.ClientProperties.Any(z=> z.ClientId == id));
+                .Where(p=>p.ClientProperties.Any(z=> z.ClientId == id) && !p.SystemPropertyCompanyId.HasValue);
             return Ok(properties.AsEnumerable().Select(Mapper.Map<Property, PropertyModel>).ToList());
         }
     }
