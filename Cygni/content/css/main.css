@@ -243,3 +243,17 @@ margin-left:20px;
 .gallery5 img {
     width: 120px;
 }
+
+.hidden{
+    display: none;
+}
+
+.button-label {
+    text-decoration: underline,
+    
+}
+.button-label:hover{
+    color: lightblue;
+  background-color: transparent;
+  text-decoration: underline;
+}

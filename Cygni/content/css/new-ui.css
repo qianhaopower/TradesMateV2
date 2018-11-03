@@ -1775,3 +1775,20 @@ font-size:16px;
 	font-weight:normal;
 	color: #4c6183;
 }
+
+
+.hidden{
+    display: none;
+}
+
+.button-label {
+	text-decoration: underline;
+	cursor: pointer;
+    
+}
+.button-label:hover{
+    color: lightblue;
+  background-color: transparent;
+  text-decoration: underline;
+}
+
