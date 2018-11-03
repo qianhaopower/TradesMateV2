@@ -803,6 +803,7 @@
     <Content Include="scripts\directives\chat\chat.js" />
     <Content Include="scripts\directives\base\stats\stats.html" />
     <Content Include="scripts\directives\base\stats\stats.js" />
+    <Content Include="scripts\directives\fileReader.js" />
     <Content Include="scripts\directives\messageDetail\createPropertyFromRequestModal.html" />
     <Content Include="scripts\directives\messageDetail\messageDetailDirective.html" />
     <Content Include="scripts\directives\messageDetail\messageDetailDirective.js" />
@@ -894,7 +895,57 @@
   <ItemGroup>
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="bower_components\bootstrap\.github\ISSUE_TEMPLATE\" />
+    <Folder Include="bower_components\bootstrap\build\" />
+    <Folder Include="bower_components\bootstrap\dist\css\" />
+    <Folder Include="bower_components\bootstrap\dist\js\" />
+    <Folder Include="bower_components\bootstrap\js\dist\" />
+    <Folder Include="bower_components\bootstrap\js\src\" />
+    <Folder Include="bower_components\bootstrap\js\tests\unit\" />
+    <Folder Include="bower_components\bootstrap\js\tests\visual\" />
+    <Folder Include="bower_components\bootstrap\nuget\" />
+    <Folder Include="bower_components\bootstrap\scss\mixins\" />
+    <Folder Include="bower_components\bootstrap\scss\utilities\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\about\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\assets\brand\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\assets\css\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\assets\img\favicons\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\assets\js\src\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\assets\js\vendor\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\assets\scss\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\components\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\content\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\album\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\blog\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\carousel\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\checkout\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\cover\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\dashboard\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\floating-labels\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\grid\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\jumbotron\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\navbar-bottom\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\navbar-fixed\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\navbar-static\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\navbars\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\offcanvas\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\pricing\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\product\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\screenshots\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\sign-in\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\starter-template\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\sticky-footer-navbar\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\sticky-footer\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\examples\tooltip-viewport\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\extend\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\getting-started\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\layout\" />
+    <Folder Include="bower_components\bootstrap\site\docs\4.1\utilities\" />
+    <Folder Include="bower_components\bootstrap\site\_data\" />
+    <Folder Include="bower_components\bootstrap\site\_includes\icons\" />
+    <Folder Include="bower_components\bootstrap\site\_layouts\" />
+  </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
@@ -919,6 +970,7 @@
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
+      <UserProperties node_3modules_4popper_1js_4dist_4popper_1js_1map__JSONSchema="" />
     </VisualStudio>
   </ProjectExtensions>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
