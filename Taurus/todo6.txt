@@ -3,3 +3,11 @@
 3) Picture and document for the workitem template (can have many), when creating new work item from the template, au
 4) Cliet csv upload, client can have address different to the properties. Client can have no property
 5) Under company profile, allow input license text for each type of selected service type. (Later, admin of trademate will approve. )
+
+
+
+4/11/2018
+1) Hide items in reports if no workitem is in that section. 
+2) Report image rotation. 
+3) Fix request view. CSS
+4) Set password to be 123456 for CSV uploaded client. 
