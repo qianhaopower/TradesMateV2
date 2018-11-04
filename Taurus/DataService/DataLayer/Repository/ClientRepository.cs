@@ -114,7 +114,21 @@ namespace EF.Data
             {
                 //need remove all propertyCompany records for that company, for that client's property
                 var propertyIdsForClient = _ctx.ClientProperties.Where(p => p.ClientId == clientId).Select(p=> p.PropertyId);
-                _ctx.PropertyCompanies.Where(c => propertyIdsForClient.Contains(c.PropertyId) && c.CompanyId == company.Id).Delete();
+                //do not delete system property
+                var propertyIdsNotSystem = _ctx.Properties
+                    .Where(p => propertyIdsForClient.Contains(p.Id) && !p.SystemPropertyCompanyId.HasValue)
+                    .Select(p => p.Id).ToList();
+                if (propertyIdsNotSystem.Any())
+                {
+                    _ctx.PropertyCompanies.Where(c => propertyIdsNotSystem.Contains(c.PropertyId) && c.CompanyId == company.Id).Delete();
+                }
+
+                //also need remove client and the system property relation
+                var systemProperty = _ctx.Properties.FirstOrDefault(p => p.SystemPropertyCompanyId == company.Id);
+                if(systemProperty != null)
+                _ctx.ClientProperties.Where(c => c.ClientId == clientId && c.PropertyId == systemProperty.Id).Delete();
+
+
                 _ctx.SaveChanges();
             }
         }
