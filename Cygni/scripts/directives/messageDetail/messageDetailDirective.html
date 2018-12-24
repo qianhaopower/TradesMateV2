@@ -24,7 +24,7 @@
 
 
     <div class="row top-buffer">
-        <uib-accordion close-others="false">
+        <uib-accordion close-others="false" class="full-width" >
             <div uib-accordion-group class="panel-default" heading="Respond" is-open="status.isRespondOpen" ng-show="showRespond">
                 {{respondText}} <br />
                 {{message.messageResponse.createTime | date:'yyyy-MM-dd HH:mm:ss'}}

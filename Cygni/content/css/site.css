@@ -106,3 +106,6 @@ a:focus {
     padding-bottom: 2px;
     padding-right:2px;
 }
+.full-width {
+    width: 100%;
+}
