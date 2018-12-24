@@ -323,8 +323,7 @@ namespace EF.Data
         {
             var result = new List<PropertyReportGroupItem>();
             var rawData = _ctx.Properties.Include(p => p.SectionList.Select(z => z.WorkItemList)).Single(p => p.Id == propertyId);
-
-            rawData.SectionList.ToList().ForEach(p => result.Add(new PropertyReportGroupItem()
+            rawData.SectionList.Where(s => s.WorkItemList.Any()).ToList().ForEach(p => result.Add(new PropertyReportGroupItem()
             {
                 SectionName = p.Name,
                 workItems = p.WorkItemList.Select(x => new WorkItemModel()
