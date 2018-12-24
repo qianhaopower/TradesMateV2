@@ -245,7 +245,9 @@ namespace EF.Data
                 //1)User is using social login then associating a new account, In this case we do need set a new Guid password, then instead and the confirm email, we need send an email telling the new username and password.
                 //2) User is being created when Company Admin inviting new company member. In this case we do need set a new Guid password, then instead and the confirm email, we need send an email telling the new username and password. 
                 //3) User is being created when Company Admin is inviting a new client, same email as above. 
-                userModel.Password = Guid.NewGuid().ToString();
+
+                var defaultPassword = ConfigurationManager.AppSettings["DefaultPassword"];
+                userModel.Password = string.IsNullOrEmpty(defaultPassword) ? Guid.NewGuid().ToString() : defaultPassword;
                 userModel.PasswordAllocated = true;
 
             }
