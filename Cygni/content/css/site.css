@@ -109,3 +109,6 @@ a:focus {
 .full-width {
     width: 100%;
 }
+.image-upright{
+    image-orientation: from-image;
+}

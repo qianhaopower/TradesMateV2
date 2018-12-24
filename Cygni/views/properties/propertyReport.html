@@ -36,7 +36,7 @@
                                         </div>
                                         <div class="col-8">
                                             <div class="provd_by">
-                                                <img ng-src="{{companyInfo.companyLogoUrl}}" alt="CompanyLogo" height="200"
+                                                <img class="image-upright" ng-src="{{companyInfo.companyLogoUrl}}" alt="CompanyLogo" height="200"
                                                     width="200" />
                                             </div>
                                             <h3>{{companyInfo.companyName}} </h3>
@@ -67,7 +67,7 @@
                                         <div class="col-8">
                                             <p> {{propertyInfo.addressDisplay}} </p>
                                             <div class="propty_logo">
-                                                <img ng-src="{{propertyInfo.propertyLogoUrl}}" alt="Property Image" height="auto"
+                                                <img class="image-upright" class="image-upright" ng-src="{{propertyInfo.propertyLogoUrl}}" alt="Property Image" height="auto"
                                                     width="auto" />
                                             </div>
                                         </div>
@@ -113,16 +113,16 @@
                                                     <div class="row" ng-if="hasImage(item)">
                                                         <div class="container">
                                                             <div class="row" ng-if="hasImage(item,1) || hasImage(item,2)">
-                                                                <div class="col-6" ng-if="hasImage(item,1)"><img ng-src="{{item.imageUrls[0]}}" height="300"
+                                                                <div class="col-6" ng-if="hasImage(item,1)"><img class="image-upright" ng-src="{{item.imageUrls[0]}}" height="300"
                                                                         width="300"></div>
-                                                                <div class="col-6" ng-if="hasImage(item,2)"><img ng-src="{{item.imageUrls[1]}}" height="300"
+                                                                <div class="col-6" ng-if="hasImage(item,2)"><img class="image-upright" ng-src="{{item.imageUrls[1]}}" height="300"
                                                                         width="300"></div>
         
                                                             </div>
                                                             <div class="row"  ng-if="hasImage(item,3) || hasImage(item,4)">
-                                                                <div class="col-6" ng-if="hasImage(item,3)"><img ng-src="{{item.imageUrls[2]}}" height="300"
+                                                                <div class="col-6" ng-if="hasImage(item,3)"><img class="image-upright" ng-src="{{item.imageUrls[2]}}" height="300"
                                                                         width="300"></div>
-                                                                <div class="col-6" ng-if="hasImage(item,4)"><img ng-src="{{item.imageUrls[3]}}" height="300"
+                                                                <div class="col-6" ng-if="hasImage(item,4)"><img class="image-upright" ng-src="{{item.imageUrls[3]}}" height="300"
                                                                         width="300"></div>
                                                             </div>
                                                         </div>
