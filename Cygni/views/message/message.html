@@ -15,35 +15,37 @@
 
         </div>
     </div>-->
+
+   
     <table class="table table-hover">
         <thead>
             <tr>
-                <th></th>
-                <th>Content</th>
-                <th></th>
-                <th>Created on</th>
+                <th scope="col"></th>
+                <th scope="col">Content</th>
+                <th scope="col"></th>
+                <th scope="col">Created on</th>
          
             </tr>
         </thead>
         <tbody>
 
             <tr ng-class="{'unread-message':message.shouldDisplayUnread}" ng-repeat="message in messageList | orderBy:'-createTime'| filter:search" ng-click="openMessageDetail(message)">
-
-                <td class="col-md-1 col-xs-2">
+                <th scope="row"></th>
+                <td>
                     <i class="fa fa-envelope-open-o" aria-hidden="true" ng-show="!message.shouldDisplayUnread"></i>
                     <i class="fa fa-envelope-o" aria-hidden="true" ng-show="message.shouldDisplayUnread"></i>
                 </td>
-                <td class="col-md-8 col-xs-6">
+                <td >
                    <!--{{message.messageText}}-->
                     <div ng-bind="getMessageTitleForType(message)"></div>
 
                 </td>
                
-                <td class="col-md-1 col-xs-2" >
+                <td >
 
                     <a ng-show="message.isWaitingForResponse" class="" title="Action required" ng-click="">Pending</a>
                 </td>
-                <td class="col-md-2 col-xs-2">
+                <td >
                     {{message.createTime | date:'yyyy-MM-dd HH:mm:ss'}}
                 </td>
 
